@@ -1,0 +1,170 @@
+<div class="workplace">
+  <?php
+	if ($this->type) {
+	?>
+   
+  <div class="row-fluid">
+		
+               <div class="span12 block-fluid">                 
+                    <div class="head clearfix">
+                     <!-- <div class="isw-cloud"></div> -->    
+                        <h3>Re-Order Level</h3>
+                    </div>
+				<div class="span12">
+                        <div class="row-form clearfix">
+
+										<input type="checkbox" value=""/>Machine Spares 
+
+										<input type="checkbox" value=""/>VehicleSpares
+
+										<input type="checkbox" value=""/>Material
+
+						 </div>                  
+
+                        <div class="row-form clearfix">
+                            <div class="span3">Project Name</div>
+                            <div class="span6">
+									<select name="select">
+											 <option value="0">Select Any Item</option>
+											 <option value="1">Arjun</option>
+											 <option value="0">Abdul</option>
+											 <option value="1">Arnold</option>
+									</select>
+
+							</div>
+                        </div>                         
+                        
+                         <div class="row-form clearfix">
+                            <div class="span3">Material Name</div>
+                            <div class="span6">
+									<select name="select">
+											 <option value="0">Select Any Item</option>
+											 <option value="1">Arjun</option>
+											 <option value="0">Abdul</option>
+											 <option value="1">Arnold</option>
+									</select>
+
+							</div>
+                        </div>                                   
+
+                        <div class="row-form clearfix">
+                            <div class="span3">Re-Order Level</div>
+                            <div class="span6"><input type="text" placeholder="Enter the Tender Number"/> </div>
+                        </div> 
+						<div class="row-form clearfix">
+                            <div class="span3">Re-Order Quantity	</div>
+                            <div class="span6"><input type="text" placeholder="Enter the Tender Number"/> </div>
+                        </div> 
+						<div class="row-form clearfix">
+                            <div class="span3">notes</div>
+                            <div class="span6"><textarea></textarea> </div>
+                        </div> 
+
+						
+                   
+                </div>         
+               
+                                                    
+                </div>
+				
+				<div class="block-fluid" style="padding-top:1%;">
+							
+							<button type="submit" class="btn btn-default" style="margin-left:45%;">Save</button>
+							
+				</div>
+				
+		</div>
+					
+		
+		</div>
+					
+					
+                
+	<div class="dr"><span></span></div>
+  
+  <?php } else { ?>
+  <?php if (count($this->messages))   { 
+
+    foreach ($this->messages as $message) {?>
+  <div class="alert alert-success">
+    <a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+    <?php echo $this->escape($message); ?> </div>
+  <?php } } ?>             
+	
+	<div class="row-fluid">
+		
+		<div class="span12"> 
+				
+			
+			<div class="head clearfix">
+				<div class="isw-grid"></div>
+				<h1>Re-Order Level Summary</h1>
+				<ul class="buttons">
+					<!-- <li><a href="#" class="isw-download"></a></li>                                                        
+					<li><a href="#" class="isw-attachment"></a></li> -->
+					<li>
+						
+						<!-- <a href="#" class="isw-settings"></a> -->
+						<ul class="dd-list">
+							<li><a href="<?php echo $this->mainconfig['host'];?>inventory/stockandledger/reorder-level/type/add"><span class="isw-plus"></span>Add New </a></li>
+							<!-- <li><a href="#"><span class="isw-edit"></span> Edit</a></li>
+							<li><a href="#"><span class="isw-delete"></span> Delete</a></li> -->
+						</ul>
+					</li>
+				</ul>    
+			</div>
+			<div class="block-fluid" style="padding:1%;">
+				<a  href="<?php echo $this->mainconfig['host'];?>index"><u>Home</u></a> &nbsp >> &nbsp  Inventory Management	  &nbsp >> &nbsp Reorder Level
+			</div>
+		<div class="block-fluid" style="padding-top:2%; margin-bottom:0px;">
+					<div class="row-fluid">
+					 <div class="span12 ">                 
+							
+						<div class="span12">
+							<div class="row-form clearfix">
+									<div class="span2">Project Name</div>
+									<div class="span3">
+											<select name="select">
+											 <option value="0">Select Any Item </option>
+											 <option value="1">SMS</option>
+											 <option value="0">Public School</option>
+											 <option value="1">Civil Work</option>
+									</select>
+									</div>
+										 <div class="span3">
+											 <button class="btn link_navPopMessages" type="button">Search</button>
+									
+										</div> 
+									
+							</div>
+
+						</div> 
+					
+					</div>
+			
+				</div>
+
+		</div>  
+		<div class="block-fluid table-sorting clearfix">
+						<table cellpadding="0" cellspacing="0" width="100%" class="table">
+							<thead>
+								<tr>
+									<th>SNo</th>
+									<th>Tender No</th>
+									<th>Tender Name</th>
+									
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+								  <td>1</td>
+									<td>3256</td>
+									<td>Green Homes</td>
+							</tbody>
+						</table>
+		</div>		
+		
+	
+	<div class="dr"><span></span></div> 	
+  <?php } ?>
+</div>

@@ -1,0 +1,319 @@
+ 
+<?php /* if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+     <div class="alert alert-success ">
+<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+<?php echo $this->escape($message); ?>
+</div>
+ <?php } } */ ?> 
+<!-- widget grid -->	
+<div class="padding-md">
+	<div class="panel panel-default table-responsive">
+		<div class="panel-heading" style=" margin-left:7px;">
+			 Employee List
+			 
+		</div>
+		
+		<?php $type = $this->type;
+		if($type == 'search'){ ?>
+		<form class="no-margin" id="formValidate1" action="<?php echo $this->mainconfig['host']; ?>master/employee-search-result/type/search" method="post" data-validate="parsley" novalidate>
+		
+			<div class="panel-body">
+				<div class="row" style=" margin-left:-7px;">
+					<div class="col-sm-3">	
+						<div class="form-group">
+							<label class="control-label">Country</label>
+							<?php echo $this->form->country_id; ?>
+						</div>										
+					</div>
+					<div class="col-sm-3">	
+						<div class="form-group">
+							<label class="control-label">State</label>
+							<?php echo $this->form->state_id; ?>
+						</div>										
+					</div>
+					<div class="col-sm-3">	
+						<div class="form-group">
+							<label class="control-label">City</label>
+							<?php echo $this->form->city_id; ?>
+						</div>										
+					</div>
+					<div class="col-sm-3" style="height: 100px;overflow-y: scroll;margin-top:20px">
+							<label  class="control-label">Location</label>
+							<?php foreach($this->location as $k=>$val){ //print_r($val); die; ?>
+							<label class="label-checkbox" style="padding-left:0px; margin:8px;" >
+							<input type="checkbox" name="location[]" id="location"class="checkbox" <?php
+										/*  if(!empty($this->result['subprogram_id'])){ 
+												$data = explode(',',$this->result['subprogram_id']);
+												foreach($data as $key=>$Val){
+													$checked = '';
+													if($k == $Val)
+												
+											echo $checked = 'checked';
+													} } */ ?> value="<?php echo $k;?>" />
+							<span class="custom-checkbox" style="float:left;"></span> </label> <?php echo $val; ?>
+							<?php } ?>
+							</div> 
+					</div>		
+					<div class="row">
+							<div class="col-sm-3" style="height: 100px;overflow-y: scroll;margin-top:20px">
+							<label  class="control-label">Branch</label>
+							<?php foreach($this->branch as $k1=>$val1){ //print_r($val); die; ?>
+							<label class="label-checkbox" style="padding-left:0px; margin:8px;" >
+							<input type="checkbox" name="branch[]" id="branch"class="checkbox" <?php
+									/*	if(!empty($this->result['subprogram_id'])){ 
+												$data = explode(',',$this->result['subprogram_id']);
+												foreach($data as $key=>$Val){
+													$checked = '';
+													if($k == $Val)
+													echo $checked = 'checked';
+													} } */ ?> value="<?php echo $k1;?>" />
+							<span class="custom-checkbox" style="float:left;"></span> </label> <?php echo $val1; ?>
+							<?php } ?>
+							</div> 
+							
+					 <div class="col-sm-3" >
+							<div class="form-group" >
+							<label  class="control-label">Departments</label>
+								<?php echo $this->form->departments; ?>
+								</div>
+							</div> 
+					
+					<div class="col-sm-3">	
+							<div class="form-group" style="margin-top:20px;">
+								<?php echo $this->form->from_date; ?>
+							</div>
+					</div>
+					<div class="col-sm-3">	
+							<div class="form-group" style="margin-top:20px;">
+								<?php echo $this->form->to_date; ?>
+							</div>
+					</div>
+					<input type="submit" style="margin-top: 20px;" class="btn btn-primary submit" name="search" value="Submit">
+					<input type="submit" style="margin-top: 20px;" class="btn btn-primary" name="export" value="Export Excel" onclick="this.form.target='';return true;">
+					
+					</div>	
+				</div>
+		</form>
+		
+		<a class="btn btn-primary pull-right" style="float:right;margin-right: 30px;" href="<?php echo $this->mainconfig['host']; ?>master/employee-search-result">Back </a>
+			<div class="padding-md clearfix">
+			<table class="table table-striped" id="dataTable">
+				<thead>
+					<tr>
+						<th>S. No.</th>
+						<th>Department</th>
+						<th>Employee Name</th>
+						<th>Employee Mobile Number</th>
+						<th>Employee Email</th>	
+						
+											
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+
+						$i = 1;
+						//$pagination_tr = '';
+						//print_r($this->result);die;
+						if (count($this->result) > 0) {
+
+						foreach ($this->result as $results) {
+
+					?>
+					<tr>
+						<td><?php echo $i;
+
+							$i++; ?>
+						</td>
+						<td><?php echo $results['department_name']; ?></td>
+						<?php if(($results['resignation_without_notice'] == 1)  || ($results['sacked'] == 1)) { ?>
+						<td style="color:#ff0000";><?php echo $results['employee_name']; ?></td>
+						<?php } else {?>
+						<td ><?php echo $results['employee_name']; ?></td>
+						<?php } ?>
+						<td><?php if(!empty($results['employee_mobile_no'])) { $mobile = unserialize($results['employee_mobile_no']);
+						foreach($mobile as $val){ echo $val.','; } }?></td>
+						<td><?php if(!empty($results[''])) $email = unserialize($results['employee_email']);
+						foreach($email as $val){ echo $val.','; }  ?></td>
+
+					</tr>            
+
+								<?php }
+								//$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+								} ?>
+
+				</tbody>
+			</table>
+			 <?php //echo $pagination_tr; ?>
+		</div><!-- /.padding-md -->
+	<?php	}else{
+		?>
+		
+		<form class="no-margin" id="formValidate1" action="<?php echo $this->mainconfig['host']; ?>master/employee-search-result/type/search" method="post" data-validate="parsley" novalidate>
+		
+			<div class="panel-body">
+				<div class="row" style=" margin-left:-7px;">
+					<div class="col-sm-3">	
+						<div class="form-group">
+							<label class="control-label">Country</label>
+							<?php echo $this->form->country_id; ?>
+						</div>										
+					</div>
+					<div class="col-sm-3">	
+						<div class="form-group">
+							<label class="control-label">State</label>
+							<?php echo $this->form->state_id; ?>
+						</div>										
+					</div>
+					<div class="col-sm-3">	
+						<div class="form-group">
+							<label class="control-label">City</label>
+							<?php echo $this->form->city_id; ?>
+						</div>										
+					</div>
+					<div class="col-sm-3" style="height: 100px;overflow-y: scroll;margin-top:20px">
+							<label  class="control-label">Location</label>
+							<?php foreach($this->location as $k=>$val){ //print_r($val); die; ?>
+							<label class="label-checkbox" style="padding-left:0px; margin:8px;" >
+							<input type="checkbox" name="location[]" id="location"class="checkbox" <?php
+										/*  if(!empty($this->result['subprogram_id'])){ 
+												$data = explode(',',$this->result['subprogram_id']);
+												foreach($data as $key=>$Val){
+													$checked = '';
+													if($k == $Val)
+													echo $checked = 'checked';
+													} } */ ?> value="<?php echo $k;?>" />
+							<span class="custom-checkbox" style="float:left;"></span> </label> <?php echo $val; ?>
+							<?php } ?>
+							</div> 
+				</div>
+						<div class="row">	
+							<div class="col-sm-3" style="height: 100px;overflow-y: scroll;margin-top:20px">
+							<label  class="control-label">Branch</label>
+							<?php foreach($this->branch as $k1=>$val1){ //print_r($val); die; ?>
+							<label class="label-checkbox" style="padding-left:0px; margin:8px;" >
+							<input type="checkbox" name="branch[]" id="branch"class="checkbox" <?php
+									/*	if(!empty($this->result['subprogram_id'])){ 
+												$data = explode(',',$this->result['subprogram_id']);
+												foreach($data as $key=>$Val){
+													$checked = '';
+													if($k == $Val)
+													echo $checked = 'checked';
+													} } */ ?> value="<?php echo $k1;?>" />
+							<span class="custom-checkbox" style="float:left;"></span> </label> <?php echo $val1; ?>
+							<?php } ?>
+							</div> 
+							<div class="col-sm-3" >
+							<div class="form-group" >
+							<label  class="control-label">Departments</label>
+								<?php echo $this->form->departments; ?>
+								</div>
+							</div> 
+					 </div>
+					 <div class="row">
+						
+							<div class="col-sm-3">	
+									<div class="form-group" style="margin-top:20px;">
+									<label  class="control-label">From Date</label>
+										<?php echo $this->form->from_date; ?>
+									</div>
+							</div>
+							<div class="col-sm-3">	
+									<div class="form-group" style="margin-top:20px;" >
+									<label  class="control-label">To Date</label>
+										<?php echo $this->form->to_date; ?>
+									</div>
+							</div>
+							<div class="col-sm-3">
+							<input type="submit" style="margin-top: 40px;padding-left:10px;" class="btn btn-primary submit" name="search" value="Submit">
+								<input type="submit" style="margin-top: 40px;" class="btn btn-primary" name="export" value="Export Excel" onclick="this.form.target='';return true;">
+					 </div>
+					 </div>
+						
+				</div>
+		</form>
+		
+		<div class="row">
+		<?php
+		/* if($type == ''){ ?>
+		<a class="btn btn-primary" style="margin-left: 80%;" href="<?php echo $this->mainconfig['host']; ?>admission/studentlist/type/export">Export Excel</a>
+	<a class="btn btn-primary " style="" href="<?php echo $this->mainconfig['host']; ?>admission/studentlist-pdf">Print PDF</a>
+		<?php } */?>
+		</div>
+		<div class="padding-md clearfix" style="height: 1000px;overflow-y: scroll;margin-top:20px">
+			<table class="table table-striped" id="dataTable">
+				<thead>
+					<tr>
+						<th>S. No.</th>
+						<th>Department</th>
+						<th>Employee Name</th>
+						<th>Employee Mobile Number</th>
+						<th>Employee Email</th>	
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+
+						$i = 1;
+						$pagination_tr = '';
+						if (count($this->paginator) != 0) {
+
+						foreach ($this->paginator as $results) { //print_r($results); 
+
+					?>
+					<tr>
+						<td><?php echo $i;
+
+							$i++; ?>
+						</td>
+						<td><?php echo $results['department_name']; ?></td>
+						<?php if(($results['resignation_without_notice'] == 1) || ($results['sacked'] == 1)) { ?>
+						<td style="color:#ff0000";><?php echo $results['employee_name']; ?></td>
+						<?php } else {?>
+						<td ><?php echo $results['employee_name']; ?></td>
+						<?php } ?>
+						<td><?php if(!empty($results['employee_mobile_no'])) { $mobile = unserialize($results['employee_mobile_no']);
+						foreach($mobile as $val){ echo $val.','; } }?></td>
+						<td><?php if(!empty($results['employee_email'])) { $email = unserialize($results['employee_email']);
+						foreach($email as $val){ echo $val.','; } }  ?></td>
+							
+						
+						
+					</tr>            
+
+					<?php }
+					$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+					} ?>
+
+				</tbody>
+			</table>
+			 <?php echo $pagination_tr; ?>
+		</div><!-- /.padding-md -->
+	<?php }  ?>
+	</div><!-- /panel -->
+</div><!-- /.padding-md -->	
+<script>
+	$('#from_date').datepicker({format: 'yyyy-mm-dd'});
+	$('#to_date').datepicker({format: 'yyyy-mm-dd'});
+	$('body').on('change', '#country_id', function() {
+	var id = $(this).val();		
+		$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-state';?>',
+			data: {id:id}
+		}).done(function( data ) {
+			$( "#state_id").html( data );
+		 });
+	});
+	$('body').on('change', '#state_id', function() {
+	var id = $(this).val();		
+		$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-city';?>',
+			data: {id:id}
+		}).done(function( data ) { 
+			$( "#city_id").html( data );
+		 });
+	});
+</script>	

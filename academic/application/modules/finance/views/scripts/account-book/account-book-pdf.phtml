@@ -1,0 +1,186 @@
+<style type="text/css">
+* {
+	margin: 0px;
+	padding: 0px;
+	font-family: Arial, sans-serif;
+	font-weight: 300;
+	
+}
+.credit table {
+	border-collapse: collapse;
+	width: 100%;
+}
+.credit table, th {
+	border: 1px solid black;
+	padding: 2px;
+	
+	
+}
+.credit {
+	width: 100%;
+	height: auto;
+	margin: 0px auto;
+	float: left;
+	border: 1px solid #000;
+}
+table {
+	border-collapse: collapse;
+	width: 100%;
+	border: 1px solid #000;
+}
+table, th, td {
+	border: 1px solid black;
+	padding: 5px;
+	font-size: 15px !important;
+	
+}
+</style>
+
+<!-- widget grid -->
+<section id="widget-grid" class="">	
+	<!-- row -->
+	<div class="row">
+		
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2></h2>
+
+				</header>
+
+				<!-- widget div-->
+				<div>		
+					<!-- widget content -->
+						<div class="widget-body">
+							<div class="table-responsive">								
+								<table style="margin-bottom:0px !important;" class="table table-bordered ">
+									<thead>										
+										
+									</thead>
+									<tbody>										
+									<?php 
+										$days_count = 0;										
+										$account_statement = $this->account_statement;
+										if ( count($account_statement) > 0 ) {											
+											$total_items = 0;	
+											$total_items = count($account_statement);
+											foreach($account_statement as $key=>$party_trdata){											
+											?>
+												<tr>											
+													<th colspan="6" align="left" style="text-align:left;"><?php echo $key; ?></th>				
+												</tr>
+												<tr>
+													<th style="text-align:center; border-right:none;">Vou No.</th>
+													<th style="text-align:center;border-right:none;">Date</th>
+													<!-- <th style="text-align:center;">Payment Type</th> -->
+													<th style="text-align:center;border-right:none;">Party Name</th>
+													<th style="text-align:center;border-right:none;">Debit</th>
+													<th style="text-align:center;border-right:none;">Credit</th>	
+													<th style="text-align:center;border-left:none;">Balance</th>
+												</tr>
+												<?php
+												$total_credit = 0;
+												$total_debit = 0;
+												$total_credit_balance = 0;
+												$total_debit_balance = 0;
+												$i = 0;
+												foreach ($party_trdata as $val) {	
+													$i++;												
+													?>												
+													<tr class="paymentid<?php echo $val['payment_type'].$val['sales_invoice_id'];?>">
+														<!-- <td><?php //echo $i; ?></td> -->
+														<td style="width:6%;">													
+														<?php 
+														echo $val['payment_type']; 													
+														?>													
+														</td>
+														<td style="width:8%;"><?php echo date("d-m-Y ", strtotime($val['date'])); ?></td>
+														
+														<td style="width:30%;">													
+														<?php echo $val['invoice_increment_id']; ?>													
+														</td>
+														<?php /* <td style="width:30%;">
+															<?php														
+																echo $val['payment_by'];															
+															?>														
+														</td> */ ?>
+														<td style="text-align:right;width:10%;">
+														<?php
+															if( $val['payment_status'] == 5){
+																echo number_format($val['paid_amount'], 2);
+																$total_credit += ($val['paid_amount']);
+															}
+															?>
+														</td>
+														<td style="text-align:right;width:10%;">
+														<?php
+															if( $val['payment_status'] == 4){
+																echo number_format($val['paid_amount'], 2);
+																$total_debit += ($val['paid_amount']);
+															}
+															?>
+														</td>
+														<td style="text-align:right;width:10%;">
+														<?php 
+															if( $total_credit > $total_debit){															
+																//$total_credit_balance += $total_credit - $total_debit;
+																echo number_format($total_credit - $total_debit, 2);
+															}														
+														  ?>
+															<?php 
+															if( $total_debit > $total_credit){
+																//$total_debit_balance += $total_debit - $total_credit;
+																echo number_format($total_debit - $total_credit, 2);
+															}														
+														  ?>
+														</td>													
+													</tr>
+													<?php
+													
+												}
+												
+												if( $total_debit > $total_credit){
+													$total_debit_balance = $total_debit - $total_credit;
+												}														
+											
+												if( $total_credit > $total_debit){															
+													$total_credit_balance = $total_credit - $total_debit;
+												}
+												 /*
+												?>
+												<tr>
+													<td colspan="3" style=" border-right:0px !important;"><b>Total<b/></td>
+													<td style="text-align:right; border-left:0px !important;"><b><?php echo number_format(($total_credit), 2); ?><b/></td>
+													<td style="text-align:right; border-left:0px !important;"><b><?php echo number_format(($total_debit),2); ?><b/></td>
+													<td style="text-align:right; border-left:0px !important;"><b><?php if(!empty($total_credit_balance)) echo number_format(($total_credit_balance), 2); ?><?php if(!empty($total_debit_balance)) echo number_format(($total_debit_balance),2); ?><b/></td>											
+												</tr>
+												<?php */
+												
+												}
+												
+											}
+											?>
+										
+										
+									</tbody>
+								</table>
+								
+							</div>
+						</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- WIDGET END -->
+	</div>
+	
+	<!-- end row -->
+</section>
+<!-- end widget grid -->

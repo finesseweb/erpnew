@@ -1,0 +1,90 @@
+<style>
+a{cursor:pointer;}
+</style>
+
+<?php if ($this->last>1): ?>
+
+<div class="row">
+
+    <div class="span5">
+
+        <div class="dataTables_info" id="dt_gal_info">
+
+            Page <?= $this->current; ?> of <?= $this->last; ?>
+
+        </div>
+		
+    </div>
+
+    <div class="col-xs-12 col-sm-6">
+	<div class="dataTables_paginate paging_simple_numbers" id="dt_basic_paginate">
+		<ul class="pagination pagination-sm">
+        <!-- First page link -->
+
+        <?php if (isset($this->previous)): ?>
+			<li class="paginate_button active" aria-controls="dt_basic" tabindex="0">
+				<a href="<?= $this->url(array('page' => $this->first)); ?>">Start</a>
+        <?php else: ?>
+               <!-- <span class="disabled">Start</span>-->
+			</li>	
+        <?php endif; ?>
+
+        <!-- Previous page link -->
+
+        <?php if (isset($this->previous)): ?>
+			<li class="paginate_button " aria-controls="dt_basic" tabindex="0" id="dt_basic_previous">
+              <a href="<?= $this->url(array('page' => $this->previous)); ?>"> Previous</a>
+			
+        <?php else: ?>
+			
+				<!--<span class="disabled">&lt; Previous</span> -->
+			</li>
+        <?php endif; ?>
+
+        <!-- Numbered page links -->
+
+        <?php foreach ($this->pagesInRange as $page): ?>
+
+            <?php if ($page != $this->current): ?>
+			<li class="paginate_button " aria-controls="dt_basic" tabindex="0">
+                <a href="<?= $this->url(array('page' => $page)); ?>"><?= $page; ?></a>
+			</li>
+            <?php else: ?>
+
+                <?//= $page; ?>
+
+            <?php endif; ?>
+
+        <?php endforeach; ?>
+
+        <!-- Next page link -->
+
+        <?php if (isset($this->next)): ?>
+			<li class="paginate_button " aria-controls="dt_basic" tabindex="0">
+               <a href="<?= $this->url(array('page' => $this->next)); ?>">Next</a> 
+			
+        <?php else: ?>
+			
+             <span class="disabled">Next &gt;</span> 
+			</li>
+        <?php endif; ?>
+
+        <!-- Last page link -->
+
+        <?php if (isset($this->next)): ?>
+			<li class="paginate_button active" aria-controls="dt_basic" tabindex="0">
+              <a href="<?= $this->url(array('page' => $this->last)); ?>">End</a>
+			
+        <?php else: ?>
+			
+            <span class="disabled">End</span>
+			</li>
+        <?php endif; ?>
+
+			</ul>
+		</div>
+	</div>
+
+</div>
+
+ <?php endif; ?>

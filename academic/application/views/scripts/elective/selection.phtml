@@ -1,0 +1,514 @@
+<style>
+    @media print {
+                    table td:nth-child(5)
+                     {
+                         display:none;
+                     }
+                     table th:nth-child(5)
+                     {
+                         display:none;
+                     }
+                      *{
+                        visibility:hidden;
+                     }
+                     table,th,td 
+                     {
+                         visibility:visible;                    
+                     } 
+                     .title1
+                     {
+                        visibility:visible; 
+                     }
+                }
+</style>
+<div class="right_col">
+<?php if ($this->type) { ?>
+<div class="padding-md">
+	<div class="row">
+		<div class="col-md-12">
+		<h3 class="page-title txt-color-blueDark" >
+			<div><i class="fa fa-eye"> Electives Selection</i></div>
+		</h3>
+			<div class="panel panel-default">
+				<form class="no-margin" id="formValidate1" action="<?php echo $this->form->getAction() ?>" method="post" data-validate="parsley" >
+					
+					<div class="panel-body">
+					<div class="row">
+						<div class="col-sm-3">
+                            <div class="form-group">
+                              <label class="control-label">Batch<span class="asterisk">*</span></label>
+                                <?php echo $this->form->academic_year_id; ?>
+                            </div>
+							</div>	
+							<div class="col-sm-3">
+							<div class="form-group">
+							<label class="control-label">Student<span class="asterisk">*</span></label>
+							<?php echo $this->form->student_id; ?>
+							</div>
+							</div>
+							<div class="col-sm-3">
+							<div class="form-group">
+							<label class="control-label">Term<span class="asterisk">*</span></label>
+							<?php echo $this->form->term_id; ?>
+							</div>
+							</div>
+							
+							</div>
+							<div class="row">
+							<div class="col-sm-3">
+							<div class="form-group">
+                              <label class="control-label">&nbsp;</label>
+							<input type="text" id="batch" class="form-control" style="background-color:#fdf59a;" readonly />
+							</div>
+							</div>
+					</div>
+					
+					 <?php if(count($this->itemresult) >0){ 
+               			 $i=1;  ?>
+						 <input type="hidden" name="count_val" id="count_val" value="<?php echo (count($this->itemresult) +1 ); ?>" class="count_val">
+						 
+					 <?php foreach($this->itemresult as $val){ ?>
+					<div class="row">
+					 <div class="col-sm-3">
+					<div class="form-group">
+						<label class="control-label" id="elective_label_<?php echo $i;?>">Elective Courses</label>
+						<select type="text" name="electives[elective_course_id][]"   id="elective_course_id_<?php echo $i;?>" class="form-control ele_courses" onchange="checkelectiveCredits(this.value,<?php echo $i;?>)">
+						<option value="">Select</option>
+						<?php foreach($this->eles_ids as $k => $ele_courses) { 
+						$selected = '';
+						if($k == $val['electives']) { 
+						$selected = "selected"; 
+						}?>
+						<option value="<?php echo $k;?>" <?php echo $selected;?>><?php echo $ele_courses; ?></option>
+						<?php } ?>
+						</select>
+				
+						</div>
+					</div>
+					<input type="hidden" name="electives[credit_val][]" id="credit_val_<?php echo $i;?>" class="elc_credits" value="<?php echo $val['credit_value']; ?>" />
+					<input type="hidden" name="credit_val" id="credit_val_<?php echo $i;?>" class="elc_credits" />
+					<a href="#" class="removeclass btn btn-primary remove_class" id="remove_id_<?php echo $i;?>" style="padding:7px 15px;margin:24px 15px;" onchange="selectRemove(this.value,<?php echo $i;?>">-</a>
+					  </div>
+					 <?php $i++; } ?>
+					 
+					
+		
+                  <?php	} else { ?>
+					
+	
+	<input type="hidden" name="count_val" id="count_val" value="1" class="count_val" />
+	
+	<div class="row">
+	<div class="col-sm-3">
+	<div class="form-group">
+	<label class="control-label" id="elective_label_0">Elective Courses</label>
+	<select type="text" name="electives[elective_course_id][]" id="elective_course_id_0" class="form-control ele_courses" onchange="checkelectiveCredits(this.value,0)">
+	<option value="">Select</option>
+	<?php foreach($this->elective_courses as $k => $ele_courses) { ?>
+	<option value="<?php echo $k;?>"><?php echo $ele_courses; ?></option>
+	<?php } ?>
+	</select>
+	</div>
+	</div>
+	<input type="hidden" name="electives[credit_val][]" id="credit_val_0" class="elc_credits" />
+	</div>
+	
+					 <?php } ?>
+	<div id="addmore_items"></div>
+	<span class="copy_append" style="display:none">
+	<option value="">Select</option>
+	<?php foreach($this->elective_courses as $k => $ele_courses) { ?>
+	<option value="<?php echo $k;?>"><?php echo $ele_courses;?></option>
+	<?php } ?>
+    </span>	
+				<br>
+	 
+			<div class="col-sm-3"></div><input type="button" value="+" id="AddButton" style="padding:7px 15px;margin:20px 8px;" class="btn btn-primary" >
+					<div class="" id="electives">
+					</div>
+				<input type="hidden" name="students_name" id="students_name" value="<?php echo $this->students_name;?>"/> 
+				<input type="hidden" name="elective_increment_id" id="elective_increment_id" value="<?php echo $this->result['elective_id'];?>" />
+				<input type="hidden" name="tot_term_credits" id="tot_term_credits"  />
+			</div>
+
+			<div class="panel-footer">									
+							<div class="row">
+								<div class="col-sm-7 col-sm-offset-5">
+									<?php if ($this->type == 'add') { ?> 
+										<div style="float:left;margin-right:2px;">
+										<button class="btn btn-primary submit">Submit</button>
+										</div>
+										<div style="float:left;padding:0px 10px;">
+										<button type="reset" class="btn btn-danger btn-default">Reset</button>
+										</div>
+									<?php } else { ?>
+										<div style="float:left;">
+										<button class="btn btn-primary submit">Update</button>
+										</div>
+										<div style="float:left;">
+										<a class="btn btn-primary" href="<?php echo $this->mainconfig['host']; ?>elective/selection">Back</a>
+										</div>
+									<?php } ?>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+	
+			</div><!-- /panel -->
+		</div><!-- /.col-->				
+	</div><!-- /.row -->
+	
+<!-- /.padding-md -->	
+<?php } else { ?>
+  
+<?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+     <div class="alert alert-success ">
+<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+<?php echo $this->escape($message); ?>
+</div>
+ <?php } } ?>
+ <!-- widget grid -->
+<div class="">
+	<div class="">
+		<div class="row">
+			
+			<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+		<h3 class="page-title txt-color-blueDark">
+			<i class="fa fa-bars"> Electives Selection</i>
+				
+		</h3>
+	</div>
+			
+		<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">	 
+			
+			<a class="btn btn-primary pull-right" style="margin-top: 25px;" href="<?php echo $this->mainconfig['host']; ?>elective/selection/type/add">Add </a>
+		</div>
+		</div>
+		
+		<div class="x_panel">
+               
+                    <div class="x_title">
+                        <h2 class="title1">Electives Details</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                       </li>
+                      <li><a class=""><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+<div class="x_content">
+		
+		<div class="padding-md clearfix">
+                    <div class="col-sm-0" style="float:right;">
+                                   <!-- <a class="btn btn-primary" target="_blank" href="#<?php //echo $this->mainconfig['host']; ?>fee-structure/structure-pdf/id/<?php //echo $this->structure_id; ?>">Print</a>--><a class="btn btn-link" role="button" href="#" id="print"><span class='glyphicon glyphicon-print'></span></a></div>
+			<table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+				<thead>
+					<tr>
+						<th>S.  No.</th>
+						<th>Batch</th>
+						<th>Term</th>
+						<th>Student Name</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+
+						$i = 1;
+						$pagination_tr = '';
+						if (count($this->paginator) != 0) {
+
+						foreach ($this->paginator as $results) {
+						//print_r($results);die;
+
+					?>
+							<tr>
+								<td><?php echo $i;
+
+									$i++; ?>
+								</td>						
+								
+								<td><?php echo $results['academic_year']; ?></td>
+								<td><?php echo $results['term_name']; ?></td>
+								<td><?php echo $results['stu_name']; ?></td>
+								
+								<td><a href="<?php echo $this->mainconfig['host']; ?>elective/selection/type/edit/id/<?php echo $results['elective_id']; ?>" class="edit" title="Edit"><span class="fa fa-edit fa-lg"></span></a>&nbsp; | &nbsp;  <a href="<?php echo $this->mainconfig['host']; ?>elective/selection/type/delete/id/<?php echo $results['elective_id']; ?>" onclick="return ConfirmDelete();" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a></td>
+
+							</tr>            
+
+						<?php }
+						$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+						} ?>
+
+				</tbody>
+			</table>
+			 <?php echo $pagination_tr; ?>
+		</div><!-- /.padding-md -->
+	</div><!-- /panel -->
+	</div>
+	</div>
+</div><!-- /.padding-md -->		
+<?php } ?>
+</div>
+<script>
+$(document).ready(function() {		
+	//$("#stu_dob").datepicker({ dateFormat: 'dd-mm-yy' });  
+	$('#stu_dob').datepicker( {format: 'dd-mm-yyyy'} );
+}); 
+
+
+	function ConfirmDelete()
+	{
+	var x = confirm("Are you sure you want to delete?");
+	if(x)
+		return true;
+	else
+		return false;
+	}
+	
+	
+ 
+$('body').on('change', '#academic_year_id', function() {		
+var academic_id=$('#academic_year_id').val();
+   if(academic_id){
+   $('#batch').show();
+	$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-batch-code';?>',
+			data: {academic_id:academic_id}
+		}).done(function( data ) {
+			var result = $.parseJSON(data);
+			if((data!='')){
+				$('#batch').val(result['short_code']);
+			}
+	  });
+	 }
+	 
+ }); 
+ 
+var academic_id=$('#academic_year_id option:selected').val();
+   if(academic_id){
+   $('#batch').show();
+	$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-batch-code';?>',
+			data: {academic_id:academic_id}
+		}).done(function( data ) {
+			var result = $.parseJSON(data);
+			if((data!='')){
+				$('#batch').val(result['short_code']);
+			}
+	  });
+	 }
+	else{
+$('#batch').hide();
+}
+
+$('body').on('change','#academic_year_id',function () { 
+var academic_year_id = $('#academic_year_id').val();
+	$.ajax({ 
+			type: "POST",
+			url: '<?php echo $this->mainconfig['host'].'elective/ajax-get-students';?>',
+			data: {academic_year_id:academic_year_id} 
+		}).done(function( data ) {
+		   $('#student_id').html(data);
+
+		})
+     $.ajax({
+            type: "POST",
+		url: '<?php echo $this->mainconfig['host'].'elective/ajax-get-academic-terms';?>',
+			data: {academic_year_id:academic_year_id}
+	 }).done(function( data ){
+           $('#term_id').html(data);
+				   $('body').on('change','#term_id',function() {
+							var academic_id = $('#academic_year_id').val();
+							var term_id  = $('#term_id').val();
+					$.ajax({  
+						type: "POST",
+						url: '<?php echo $this->mainconfig['host'].'elective/ajax-get-term-wise-elective-courses';?>',
+						data: {academic_year_id:academic_year_id,term_id:term_id}
+						}).done(function( data ) {
+							$('.ele_courses').html(data);
+					})	
+					});
+			 })	 
+	
+});
+var count = $('#count_val').val(); //Addmore script code
+
+		$("body").on("click","#AddButton",function(event)
+		{
+			var academic_year_id = $('#academic_year_id').val();
+			var term_id = $('#term_id').val();
+		var count_value = count++;
+		//alert(count_value);
+		append_html = '<div class="row" style="">';
+		append_html += '<div class="col-sm-3"><div class="form-group"><label class="control-label" id="elective_label_'+count_value+'">Elective Courses</label><select type="text" name="electives[elective_course_id][]" id="elective_course_id_'+count_value+'" class="form-control ele_courses" onchange="checkelectiveCredits(this.value,'+count_value+')">'+$('.copy_append').html()+'</select></div></div>';
+		append_html += '<input type="hidden" name="electives[credit_val][]" id="credit_val_'+count_value+'" class="elc_credits" /><a href="#" class="removeclass btn btn-primary remove_class" style="padding:7px 15px;margin:24px 15px;" id="remove_id_'+count_value+'" onchange="selectRemove(this.value,'+count_value+'">-</a>';
+		append_html += '</div>';
+		$('#addmore_items').append(append_html);
+		
+		$.ajax({  
+						type: "POST",
+						url: '<?php echo $this->mainconfig['host'].'elective/ajax-get-term-wise-elective-courses';?>',
+						data: {academic_year_id:academic_year_id,term_id:term_id}
+						}).done(function( data ) {
+							$('#elective_course_id_'+count_value+'').html(data);
+					});	
+		});
+
+
+$("body").on("click",".removeclass", function(e){
+		
+		var academic_year_id = $('#academic_year_id option:selected').val();
+		var term_id = $('#term_id option:selected').val();
+		
+            $(this).parent('div').remove(); 
+			$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'elective/ajax-get-term-elective-credits';?>',
+			data: {academic_year_id:academic_year_id,term_id:term_id}
+			}).done(function( data ) {
+			var result1 = $.parseJSON(data);
+			var term_elcredit = result1['electives_credits'];
+			
+			var elective_credit_val = 0;
+			$('.elc_credits').each(function() {	
+				el_credits = parseFloat($(this).val());	
+               // alert(el_credits);				
+				if (!isNaN(el_credits))
+				elective_credit_val += el_credits;	
+			});		
+			//alert(elective_credit_val);
+			//alert(result1['electives_credits']);
+			if(elective_credit_val < term_elcredit){
+				$('#AddButton').attr('disabled',false);
+			}else{
+				$('#AddButton').attr('disabled','disabled');
+			}	
+			})
+        return false;
+
+    });  
+	
+$('body').on('change', '#term_id', function() {	
+var academic_year_id = $('#academic_year_id').val();
+var term_id=$('#term_id').val();
+var student_id=$('#student_id').val();
+   if((academic_year_id) && (term_id) && (student_id)){
+   $('#batch').show();
+	$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'elective/ajax-get-check-stuterms';?>',
+			data: {academic_year_id:academic_year_id,student_id:student_id,term_id : term_id}
+		}).done(function( data ) {
+			var result = $.parseJSON(data);
+			if((result)){
+				alert("Selected Student and Term is already existed");
+				//$('#academic_year_id option:selected').remove();
+					//$('#term_id option:selected').remove();
+					//$('#student_id option:selected').remove();
+				// $('#batch').hide();
+			}
+	  });
+	  $.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'elective/ajax-get-term-elective-credits';?>',
+			data: {academic_year_id:academic_year_id,term_id:term_id}
+			}).done(function( data ) {
+			var result1 = $.parseJSON(data);
+			var term_elcredit = result1['electives_credits'];
+			$('#tot_term_credits').val(term_elcredit);
+	}); 
+   }
+ }); 
+
+ 
+function checkelectiveCredits(val,num){
+
+ var elective_id = val;
+ //alert(elective_id);
+ var count_val = num;
+ var academic_year_id = $('#academic_year_id').val();
+ var term_id=$('#term_id').val();
+ //alert(term_id);
+
+var elective_credit_val=0;
+
+  $.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'elective/ajax-get-elective-credits-record';?>',
+			data: {academic_year_id:academic_year_id,elective_id:elective_id,term_id:term_id}
+		}).done(function( data ) {
+			var result = $.parseJSON(data);
+		    //alert(result['credit_value']);
+			$('#credit_val_'+num+'').val(result['credit_value']);
+				
+			$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'elective/ajax-get-term-elective-credits';?>',
+			data: {academic_year_id:academic_year_id,term_id:term_id}
+			}).done(function( data ) {
+			var result1 = $.parseJSON(data);
+			var term_elcredit = result1['electives_credits'];
+			
+			$('.elc_credits').each(function() {	
+				el_credits = parseFloat($(this).val());	
+               // alert(el_credits);				
+				if (!isNaN(el_credits))
+				elective_credit_val += el_credits;	
+			});	
+			
+			// alert(elective_credit_val);
+			//alert(term_elcredit);
+			 if(elective_credit_val > term_elcredit){
+			   alert('Exceed Term Elective Limit');
+				$('#AddButton').attr('disabled','disabled');
+				$('#elective_course_id_'+num+'').hide();
+				$('#elective_course_id_'+num+'').remove();
+				$('#credit_val_'+num+'').hide();
+				$('#credit_val_'+num+'').val('0');
+				$('#remove_id_'+num+'').hide();
+				$('#elective_label_'+num+'').hide();
+			 }
+			 else{
+				$('#AddButton').attr('disabled',false);
+			 }
+			});
+			
+	   });
+		
+ }
+ 
+ $('#print').click(function(){
+window.print('#grade_data');
+});
+ 
+ /* $(document).ready(function() { 
+var eles_count = $('#count_val').val();
+var academic_year_id = $('#academic_year_id').val();
+var term_id = $('#term_id').val();
+var elective_increment_id = $('#elective_increment_id').val();
+for(var el_count = 1;el_count < eles_count;el_count++){
+	
+					$.ajax({  
+						type: "POST",
+						url: '<?php echo $this->mainconfig['host'].'elective/ajax-get-term-wise-elective-courses-edit';?>',
+						data: {academic_year_id:academic_year_id,term_id:term_id,elective_increment_id:elective_increment_id}
+						}).done(function( data ) {
+                                							
+							$('#elective_course_id_'+el_count+'').html(data);
+							
+					})	
+					 
+			
+					
+}
+ }) */
+</script>

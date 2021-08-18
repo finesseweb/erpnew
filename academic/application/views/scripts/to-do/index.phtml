@@ -1,0 +1,798 @@
+<style>
+    .link{text-decoration:underline; color:purple;}
+    .link :hover{
+        text-decoration: none;
+        color:initial;
+    }
+    
+    #by_me:hover,#my_task:hover{
+        background:lightslategray;
+    }
+    
+    
+    dt{
+        display:none;
+    }
+    footer{
+        position:relative;
+        top:-29px;
+    }
+</style>
+
+<?php if ($this->type != 'add' && $this->type != 'edit') { ?>
+    //
+
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<?php } ?>
+<div class="right_col">
+    <?php if ($this->type) { ?>
+        <div class="padding-md">
+            <div class="row">
+                <div class="col-md-12 " >
+                    <h3 class="page-title txt-color-blueDark" >
+                        <div><i class="fa fa-eye">To Do List</i></div>
+                    </h3>
+                    <div class="panel panel-default">
+                        <form class="no-margin" id="formValidate1" action="<?php echo $this->form->getAction() ?>" method="post" data-validate="parsley" enctype="multipart/form-data" >
+
+                            <div class="panel-body">
+
+
+
+
+                                <div class="panel panel-default">
+
+
+                                    <div class="panel-body">
+
+                                        <div class="row">
+                                            <div class="col-sm-3"><h4><span style="color:#777;">Assignment Details</span></h4></div>
+                                        </div>
+                                        <div class="row masterbox">
+                                            <div class="row">
+                                                <div class="col-sm-3 employee_class">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Category<span class="asterisk">*</span></label>
+                                                        <?php echo $this->form->toDo_category; ?>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3 employee_class">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Activity Date<span class="asterisk">*</span></label>
+                                                        <div class='input-group'>
+
+                                                            <?php echo $this->form->toDo_activity_date; ?>
+                                                            <span id='from_date' class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3 employee_class">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Task Description<span class="asterisk">*</span></label>
+                                                        <?php echo $this->form->toDo_task_description; ?>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Assigned to<span class="asterisk"></span></label>
+                                                        <?php echo $this->form->toDo_assigned_to; ?> 
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="row">
+
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Name<span class="asterisk"></span></label>
+                                                        <?php echo $this->form->toDo_assigned_to_id; ?> 
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Due Date<span class="asterisk"></span></label>
+                                                        <div class='input-group'>
+                                                            <?php echo $this->form->toDo_due_date; ?> 
+                                                            <span id='to_date' class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Priority<span class="asterisk"></span></label>
+                                                        <?php echo $this->form->toDo_priority; ?> 
+                                                    </div>
+
+                                                </div>
+
+
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Status<span class="asterisk"></span></label>
+                                                        <?php echo $this->form->toDo_status; ?> 
+                                                    </div>
+
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="row">	
+                                                <div class="col-sm-3"><h4><span style="color:#777;">File Upload</span></h4></div>
+                                            </div>
+                                            <div class="row masterbox">
+                                                <div class="row">
+                                                    <div class="col-sm-3 employee_class">
+                                                        <input name="file[]" id="	toDo_files" type="file"   size="50"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+
+
+
+                                        <!--	 <?php /* if(count($this->item_result)>0){
+                                                      //		print_r($this->item_result);die;
+                                                      $i=0;
+                                                      foreach($this->item_result as $val){
+                                                      $i++; */
+                                                        ?>
+                                        <div class="row" id="" style="">
+                                        
+                                                        <div class="col-sm-3">
+                                                        <label>Fee Head Name<span class="asterisk">*</span></label>
+                                                        <input type="text"  label="feehead_name_<?php // echo $i;  ?>"  class="form-control feehead_name" name="Fee[feehead_name][]" placeholder="" value="<?php echo $val['feehead_name']; ?>"/> 
+                                                        </div>				  
+                                                                                                        
+                                                <a href="#" class="removeclass btn btn-primary remove_class" style="padding:7px 15px;margin:24px 15px; ">-</a>
+                                                </div>   
+                                        <?php // } ?>
+                                         <div class="col-sm-3"></div>    
+                                        <input type="button" value="+" id="AddButton" class="btn btn-primary adjust-size" style="padding:7px 15px;margin-left:9px;">
+                                        
+                                        <?php // }  else {    ?>
+                                         
+                <input type="hidden" name="count_val" id="count_val" value="1" class="count_val" />  
+                <div class="row" style="">
+        
+                <div class="col-sm-3"><label> Fee Head Name <span class="asterisk">*</span></label> <input type="text"  label="feehead_name_0"  class="form-control" name="Fee[feehead_name][]" style="" placeholder="Name" value="" /> 
+                </div>
+            <input type="button" value="+" id="AddButton" class="btn btn-primary adjust-size" style="padding:7px 15px;margin:24px 15px;"> 
+        
+                
+        </div>
+                                        <?php // } ?>
+       <div id="fields">
+         <div class="padding-top"></div>
+        </div>   -->
+                                    </div>
+                                    <div>
+                                        <div class="panel-footer">									
+                                            <div class="row">
+                                                <div class="col-sm-7 col-sm-offset-5">
+                                                    <?php if ($this->type == 'add') { ?> 
+                                                        <div style="float:left;margin-right:2px;">
+                                                            <button class="btn btn-primary submit">Submit</button>
+                                                        </div>
+                                                        <div style="float:left;padding:0px 10px;">
+                                                            <button type="reset" class="btn btn-danger btn-default">Reset</button>
+                                                        </div>
+                                                    <?php } else { ?>
+                                                        <div style="float:left;">
+                                                            <button class="btn btn-primary submit">Update</button>
+                                                        </div>
+                                                        <div style="float:left;">
+                                                            <a class="btn btn-primary" href="<?php echo $this->mainconfig['host']; ?>to-do/index/">Back</a>
+                                                        </div>
+                                                    <?php } ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </form>
+                                </div><!-- /panel -->
+                            </div><!-- /.col-->				
+                    </div><!-- /.row -->
+
+                </div><!-- /.padding-md -->	
+            <?php } else { ?>
+
+                <?php
+                if (count($this->messages)) {
+                    foreach ($this->messages as $message) {
+                        ?>
+                        <div class="alert alert-success ">
+                            <a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+                        <?php echo $this->escape($message); ?>
+                        </div>
+                    <?php }
+                }
+                ?>
+                <!-- widget grid -->
+                <div class="">
+                    <div class="">
+                        <div class="row">
+
+                            <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+                                <h3 class="page-title txt-color-blueDark">
+                                    <i class="fa fa-bars">To Do List</i>
+
+                                </h3>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">	 
+    <?php if ($_SESSION['admin_login']['admin_login']->id != 1) { ?>
+                                    <a class="btn btn-primary pull-right" style="margin-top: 25px;" href="<?php echo $this->mainconfig['host']; ?>To-do/index/type/add">Add </a> <?php } ?>
+                            </div>
+                        </div>
+
+                        <div class="x_panel">
+
+                            <div class="x_title">
+                                <ul class="nav navbar-left panel_toolbox">
+                                    <li><a href='#' id='my_task' data-id='1' class="btn btn-primary" style="color:#fff; margin:5px;" role="button">My Task</a>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="#" id='by_me' data-id='0' style="color:#fff; margin:5px;" class="btn btn-primary" role="button" aria-expanded="false">Assigned By Me</a>
+                                    </li>
+                                    <li><a class=""><select id='new_status' class='form-control'>
+                                                <option value=''>Select</option>
+                                                <option value='1'> Not Started</option>
+                                                <option value='2'> In Progress</option>
+                                                <option value='3'>Completed</option>
+                                            </select></a>
+                                    </li>
+
+                                    </li>
+                                    <li><a class=""><select id="name" style="width:219px;" class='form-control'>
+                                                <option value=''>Select</option>
+
+                                            </select></a>
+                                    </li>
+
+                                    </li>
+                                    <li><a class=""><input type="text" class="form-control" name="daterange" value="" />
+
+                                            <script>
+                                                $(function () {
+                                                    $('input[name="daterange"]').daterangepicker({
+                                                        locale: {
+                                                            format: 'DD/MM/YYYY'
+                                                        }
+
+                                                    }, function (start, end, label) {
+                                                        var new_status = $('#new_status').val();
+                                                        var date_range = $('input[name="daterange"]').val();
+                                                        var from_date = start.format('DD/MM/YYYY');
+                                                        var to_date = end.format('DD/MM/YYYY');
+
+
+                                                        var my = $('#my_task').attr('data-id');
+                                                        var by_me = $('#by_me').attr('data-id');
+                                                        if (my == 1) {
+                                                            var from_date = start.format('DD/MM/YYYY');
+                                                            var to_date = end.format('DD/MM/YYYY');
+                                                            $.ajax({
+                                                                type: "POST",
+                                                                url: '<?php echo $this->mainconfig['host'] . 'to-do/ajax-get-task'; ?>',
+                                                                data: {mytask: '<?= $_SESSION['admin_login']['admin_login']->empl_id; ?>', from_date: from_date, to_date: to_date, status: $('#new_status').val(), empl_id: $('#name').val(), check: 'my', category: $('#category').val()}
+                                                            }).done(function (data) {
+                                                                $('#dataTable').empty('');
+                                                                $('#dataTable').html(data);
+                                                            });
+                                                        } else
+                                                        {
+                                                            var from_date = start.format('DD/MM/YYYY');
+                                                            var to_date = end.format('DD/MM/YYYY');
+                                                            $.ajax({
+                                                                type: "POST",
+                                                                url: '<?php echo $this->mainconfig['host'] . 'to-do/ajax-get-mytask'; ?>',
+                                                                data: {mytask: '<?= $_SESSION['admin_login']['admin_login']->id; ?>', from_date: from_date, to_date: to_date, status: $('#new_status').val(), empl_id: $('#name').val(), check: 'by_me', category: $('#category').val()}
+                                                            }).done(function (data) {
+
+                                                                $('#dataTable').empty('');
+                                                                $('#dataTable').html(data);
+                                                            });
+                                                        }
+
+                                                    });
+                                                });</script></a>
+                                    </li>
+                                    <li><select class='form-control' style='margin-top:5px;' id='category' name='category'>
+                                            <option value='1'>Academic</option>
+                                            <option value='2'> Admission</option>
+                                        </select>
+                                    </li>
+                                </ul>
+
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    </li>
+                                    <li><a class=""><i class="fa fa-close"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+
+                                <div class="padding-md clearfix">
+
+                                    <div  class='row'>
+<!--                                        <div class="col-sm-0" style="float:right;">
+                                    <a class="btn btn-primary" target="_blank" href="#<?php //echo $this->mainconfig['host']; ?>fee-structure/structure-pdf/id/<?php //echo $this->structure_id; ?>">Print</a><a class="btn btn-link " role="button" href="#" id="print"><span class='glyphicon glyphicon-print'></span></a></div>-->
+
+
+
+                                        <table  class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align:center;">S. No.</th>	
+                                                    <th style="text-align:center;">Category</th>
+                                                    <th style="text-align:center;">Task/Activity</th>
+                                                    <th style="text-align:center;">Assigned By</th>
+                                                    <th style="text-align:center">Assigned Date</th>
+                                                    <th style="text-align:center">Due Date</th>
+                                                    <th style="text-align:center">Priority</th>
+                                                    <th style="text-align:center">Status</th>
+                                                    <th style="text-align:center">Download Files</th>
+                                                    <th style="text-align:center">Cancel/Delete</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id='main_table' style="text-align:center;">
+                                                <?php
+                                                $i = 1;
+                                                $pagination_tr = '';
+                                                if (count($this->paginator) != 0) {
+
+                                                    foreach ($this->paginator as $results) {
+                                                        ?>
+                                                        <tr>
+                                                            <td><?php
+                                                                echo $i;
+
+                                                                $i++;
+                                                                ?>
+                                                            </td>						
+                                                            <td><?php echo $results['toDo_category']; ?></td>
+                                                            <td><?php echo $results['toDo_task_description']; ?></td>
+                                                            <td><?php echo $results['toDo_assigned_by_name']; ?></td>
+                                                            <td><?php echo $results['toDo_activity_date']; ?></td>
+                                                            <td><?php echo $results['toDo_due_date']; ?></td>
+                                                            <td><?php echo $results['toDo_priority']; ?></td>
+                                                            <td><?php echo $results['toDo_status']; ?></td>
+                                                            <td><a href='<?= $this->baseUrl($results['toDo_files']); ?>' class='link' download><?php echo $results['filename1']; ?></a></td>
+
+
+                                                            <td><a href="<?php echo $this->mainconfig['host']; ?>To-do/index/type/edit/id/<?php echo $results['toDo_id']; ?>" class="edit" title="Edit">View / Edit</a>&nbsp; 
+
+                                                        </tr>            
+
+                                                        <?php
+                                                    }
+                                                    $pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+                                                }
+                                                ?>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+    <?php echo $pagination_tr; ?>
+                                </div><!-- /.padding-md -->
+                            </div><!-- /panel -->
+                        </div>
+                    </div>
+                </div><!-- /.padding-md -->		
+<?php } ?>
+        </div>
+    </div>
+
+    <script>
+
+
+
+
+
+<?php if ($this->type !== add && $this->type != edit) { ?>
+            $(".user-profile").click(function () {
+                $(".dropdown-menu").show();
+                $("#menu1").css('display', 'none');
+            });
+
+            $(".right_col").click(function () {
+                $(".dropdown-menu").hide();
+            });
+            $(".right_col").css('position', 'relative');
+            $(".right_col").css('top', '-29px');
+<?php } ?>
+
+ $('#toDo_activity_date').attr('autocomplete','off');
+  $('#toDo_due_date').attr('autocomplete','off');
+        $(function () {
+            $('#toDo_activity_date').datetimepicker();
+        });
+        $(function () {
+
+            $('#toDo_due_date').datetimepicker();
+
+        });
+
+        if ($('#toDo_assigned_to').val()) {
+
+            var assigned_to = $('#toDo_assigned_to').val();
+            if (assigned_to) {
+                $.ajax({
+                    type: "POST",
+                    url: '<?php echo $this->mainconfig['host'] . 'To-do/ajax-get-employee'; ?>',
+                    data: {assigned_to: assigned_to}
+                }).done(function (data) {
+                    $('#toDo_assigned_to_id').empty('');
+                    $('#toDo_assigned_to_id').html(data);
+
+<?php if ($_SESSION['myVal']['toDo_assigned_to_id'] != '') { ?>
+                        $('#toDo_assigned_to_id').val('<?php echo $_SESSION['myVal']['toDo_assigned_to_id']; ?>');
+<?php } else { ?>
+                        $('#toDo_assigned_to_id').val('<?= $_SESSION['admin_login']['admin_login']->empl_id; ?>');
+<?php } ?>
+
+                })
+            }
+        }
+
+<?php if ($_SESSION['admin_login']['admin_login']->empl_id == '') { ?>
+            $('#toDo_assigned_to_id').val('admin');
+<?php } ?>
+
+
+
+        $("#toDo_assigned_to").change(function () {
+            var assigned_to = $(this).val();
+            if (assigned_to == '') {
+                $('#toDo_assigned_to_id').val('admin');
+            }
+            if (assigned_to) {
+                $.ajax({
+                    type: "POST",
+                    url: '<?php echo $this->mainconfig['host'] . 'To-do/ajax-get-employee'; ?>',
+                    data: {assigned_to: assigned_to}
+                }).done(function (data) {
+                    //alert(data);
+                    $('#toDo_assigned_to_id').empty('');
+                    $('#toDo_assigned_to_id').html(data);
+<?php if ($_SESSION['myVal']['toDo_assigned_to_id'] != '') { ?>
+                        $('#toDo_assigned_to_id').val('<?php echo $_SESSION['myVal']['toDo_assigned_to_id']; ?>');
+<?php } else { ?>
+                        $('#toDo_assigned_to_id').val('<?= $_SESSION['admin_login']['admin_login']->empl_id; ?>');
+<?php } ?>
+                })
+            }
+        })
+
+
+        //todo button color chnage dynamicaly
+        $('#my_task').click(function () {
+            $(this).attr('data-id', '1');
+            $(this).removeAttr('class');
+            $(this).attr('class', 'btn btn-success');
+            $(this).attr('style', 'background: #26B99A; margin-top:6px; color:#fff;');
+            $('#by_me').attr('data-id', '0');
+            $('#by_me').removeAttr('class');
+            $('#by_me').attr('class', 'btn btn-primary');
+            $('#by_me').attr('style', 'background: #337ab7; margin-top:6px; color:#fff;');
+
+            $('#new_status').val('1');
+            var check = 'my';
+            var by_me = $('#by_me').attr('data-id');
+            if (by_me == 1)
+                check = 'by_me';
+            $.ajax({
+                type: "POST",
+                url: '<?php echo $this->mainconfig['host'] . 'To-do/ajax-get-names-bymytask'; ?>',
+                data: {new_status: $('#new_status').val(), empl_id: '<?= $_SESSION['admin_login']['admin_login']->empl_id; ?>'}
+            }).done(function (data) {
+
+                $('#name').empty('');
+                $('#name').html(data);
+
+                $('#name').val('<?= $_SESSION['admin_login']['admin_login']->empl_id; ?>');
+            });
+
+
+
+            var date_range = $('input[name="daterange"]').val();
+            var date_arr = date_range.split('-');
+            var from_date = date_arr[0];
+            var to_date = date_arr[1];
+            $.ajax({
+                type: "POST",
+                url: '<?php echo $this->mainconfig['host'] . 'To-do/ajax-get-task'; ?>',
+                data: {mytask: '<?= $_SESSION['admin_login']['admin_login']->empl_id; ?>', status: $('#new_status').val(), check: check, category: $('#category').val()}
+            }).done(function (data) {
+
+                $('#dataTable').empty('');
+                $('#dataTable').html(data);
+            });
+
+        });
+
+
+
+<?php unset($_SESSION['myVal']); ?>
+
+
+        //todo burron assigned by me events 
+        $('#by_me').click(function () {
+            $(this).attr('data-id', '1');
+            $(this).removeAttr('class');
+            $(this).attr('class', 'btn btn-success');
+            $(this).attr('style', 'background: #26B99A; margin-top:6px; color:#fff;');
+            $('#my_task').attr('data-id', '0');
+            $('#my_task').removeAttr('class');
+            $('#my_task').attr('class', 'btn btn-primary');
+            $('#my_task').attr('style', 'background: #337ab7; margin-top:6px; color:#fff;');
+            $('#new_status').val("1");
+            var check = 'my';
+            var by_me = $('#by_me').attr('data-id');
+            if (by_me == 1)
+                check = 'by_me';
+            $.ajax({
+                type: "POST",
+                url: '<?php echo $this->mainconfig['host'] . 'To-do/ajax-get-names-byme'; ?>',
+                data: {new_status: $('#new_status').val(), id:<?= $_SESSION['admin_login']['admin_login']->id; ?>}
+            }).done(function (data) {
+                $('#name').empty('');
+                $('#name').html(data);
+
+            });
+
+            var date_range = $('input[name="daterange"]').val();
+            var date_arr = date_range.split('-');
+            var from_date = date_arr[0];
+            var to_date = date_arr[1];
+            $.ajax({
+                type: "POST",
+                url: '<?php echo $this->mainconfig['host'] . 'To-do/ajax-get-mytask'; ?>',
+                data: {mytask: '<?= $_SESSION['admin_login']['admin_login']->id; ?>', status: $('#new_status').val(), empl_id: $('#name').val(), check: check, category: $('#category').val()}
+            }).done(function (data) {
+
+                $('#dataTable').empty('');
+                $('#dataTable').html(data);
+            });
+
+
+        });
+
+
+
+
+
+
+        /*  $('#category').change(function () {
+         
+         var new_status = $('#new_status').val();
+         var date_range = $('input[name="daterange"]').val();
+         var date_arr = date_range.split('-');
+         var from_date = date_arr[0];
+         var to_date = date_arr[1];
+         var check = 'my';
+         var by_me = $('#by_me').attr('data-id');
+         if (by_me == 1)
+         check = 'by_me';
+         
+         if (new_status) {
+         
+         $.ajax({
+         type: "POST",
+         url: '<?php //echo $this->mainconfig['host'] . 'To-do/ajax-get-list';  ?>',
+         data: {new_status: new_status,  empl_name: $('#name').val(), check: check, category: $('#category').val()}
+         }).done(function (data) {
+         
+         $('#dataTable').empty('');
+         $('#dataTable').html(data);
+         
+         })
+         }
+         });
+         */
+
+
+
+
+
+
+
+
+
+
+
+
+        $('#category').change(function () {
+            var new_status = $('#new_status').val();
+            var date_range = $('input[name="daterange"]').val();
+            var date_arr = date_range.split('-');
+            var from_date = date_arr[0];
+            var to_date = date_arr[1];
+            var check = 'my';
+            var by_me = $('#by_me').attr('data-id');
+            if (by_me == 1)
+                check = 'by_me';
+
+            if (new_status) {
+
+                $.ajax({
+                    type: "POST",
+                    url: '<?php echo $this->mainconfig['host'] . 'To-do/ajax-get-list'; ?>',
+                    data: {check: check, category: $('#category').val()}
+                }).done(function (data) {
+                    $('#dataTable').empty('');
+                    $('#dataTable').html(data);
+
+                })
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+        $('#name').change(function () {
+
+            var new_status = $('#new_status').val();
+            var date_range = $('input[name="daterange"]').val();
+            var date_arr = date_range.split('-');
+            var from_date = date_arr[0];
+            var to_date = date_arr[1];
+            var check = 'my';
+            var by_me = $('#by_me').attr('data-id');
+            if (by_me == 1)
+                check = 'by_me';
+
+            if (new_status) {
+
+                $.ajax({
+                    type: "POST",
+                    url: '<?php echo $this->mainconfig['host'] . 'To-do/ajax-get-list'; ?>',
+                    data: {new_status: new_status, empl_name: $('#name').val(), check: check, category: $('#category').val()}
+                }).done(function (data) {
+
+                    $('#dataTable').empty('');
+                    $('#dataTable').html(data);
+
+                })
+
+
+
+            }
+        })
+
+
+
+        $('#new_status').change(function () {
+
+            var new_status = $('#new_status').val();
+            var date_range = $('input[name="daterange"]').val();
+            var date_arr = date_range.split('-');
+            var from_date = date_arr[0];
+            var to_date = date_arr[1];
+            var check = 'my';
+            var by_me = $('#by_me').attr('data-id');
+            if (by_me == 1)
+                check = 'by_me';
+            if (new_status) {
+                $.ajax({
+                    type: "POST",
+                    url: '<?php echo $this->mainconfig['host'] . 'To-do/ajax-get-names'; ?>',
+                    data: {new_status: new_status, check: check}
+                }).done(function (data) {
+                    $('#name').empty('');
+                    $('#name').html(data);
+
+                    $.ajax({
+                        type: "POST",
+                        url: '<?php echo $this->mainconfig['host'] . 'To-do/ajax-get-list'; ?>',
+                        data: {new_status: new_status, empl_name: $('#name').val(), check: check, category: $('#category').val()}
+                    }).done(function (data) {
+
+                        $('#dataTable').empty('');
+                        $('#dataTable').html(data);
+                    })
+
+
+                })
+            }
+        })
+
+    </script>
+
+    <script type='text/javascript'>
+        $(document).ready(function () {
+            $('.panel,.page-title,panel-footer,.row').click(function(){
+               
+              if($('#toDo_activity_date').val() !='' && $("#toDo_due_date").val() !=''){
+                  
+                  
+                var seprated_date_time = $('#toDo_activity_date').val().split(" ");
+                var seprated_date = seprated_date_time[0].split("-");
+                var first_date = ""+seprated_date[1]+"/"+seprated_date[2]+"/"+seprated_date[0] + " " + seprated_date_time[1]+":"+'00';
+               
+                  
+                    var seprated_date_time = $("#toDo_due_date").val().split(" ");
+                var seprated_date = seprated_date_time[0].split("-");
+                var second_date = ""+seprated_date[1]+"/"+seprated_date[2]+"/"+seprated_date[0] + " " + seprated_date_time[1]+":"+'00';
+                  
+            var nowDate = new Date();
+            var Time1 = new Date(first_date);
+
+
+// Change the year to a point in the future
+             var Time2 = new Date(second_date);
+            if(Time1 > Time2){
+                $('#toDo_due_date').attr('placeholder',$("#toDo_due_date").val());
+                $('#toDo_activity_date').attr('placeholder',$('#toDo_activity_date').val());
+                $('#toDo_activity_date').val('');
+                $('#toDo_due_date').val('');
+                 alert('Activity Date should not be greater than Due Date .');
+            }
+                
+        }   
+        }); 
+        
+        $('.panel,.page-title,panel-footer,.row').click(function(){
+               
+              if($('#toDo_due_date').val() !='' && $("#toDo_activity_date").val() !=''){
+                  
+                  
+                var seprated_date_time = $("#toDo_activity_date").val().split(" ");
+                var seprated_date = seprated_date_time[0].split("-");
+                var first_date = ""+seprated_date[1]+"/"+seprated_date[2]+"/"+seprated_date[0] + " " + seprated_date_time[1]+":"+'00';
+               
+                  
+                    var seprated_date_time = $('#toDo_due_date').val().split(" ");
+                var seprated_date = seprated_date_time[0].split("-");
+                var second_date = ""+seprated_date[1]+"/"+seprated_date[2]+"/"+seprated_date[0] + " " + seprated_date_time[1]+":"+'00';
+                  
+            var nowDate = new Date();
+            var Time1 = new Date(first_date);
+
+
+// Change the year to a point in the future
+            var Time2 = new Date(second_date);
+            if(Time1 > Time2){
+                $('#toDo_activity_date').attr('placeholder',$("#toDo_activity_date").val());
+                $('#toDo_due_date').attr('placeholder',$('#toDo_due_date').val());
+                $('#toDo_due_date').val('');
+                $('#toDo_activity_date').val('');
+                alert('Due Date should greater than Activity Date .');
+            }     
+        }   
+        });
+        
+        
+    });
+    
+    $('#dataTable').DataTable();
+    
+    $('#print').click(function(){
+window.print('#grade_data');
+});
+
+
+    </script>

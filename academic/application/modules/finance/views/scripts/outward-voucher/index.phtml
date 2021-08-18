@@ -1,0 +1,397 @@
+<style>
+table.table-bordered td:last-child, table.table-bordered th:last-child{ border:1px solid #ddd;}
+table>thead>tr>th {
+	text-align:center;
+}
+</style>
+<div id="content">
+<?php
+if($this->type == 'add' || $this->type == 'edit'){ ?>
+
+<section id="widget-grid" class="">
+					<!-- row -->
+					<div class="row">
+						<!-- NEW WIDGET START -->
+						<article class="col-sm-12 col-md-12 col-lg-6">
+							<!-- Widget ID (each widget will need unique ID)-->
+							<div class="jarviswidget" id="wid-id" data-widget-colorbutton="false" data-widget-editbutton="false">
+								<header>
+									<span class="widget-icon"> <i class="fa fa-eye"></i> </span>
+									<h2> Outward Voucher</h2>
+				
+								</header>
+				
+								<!-- widget div-->
+								<div>
+				
+									<!-- widget edit box -->
+									<div class="jarviswidget-editbox">
+										<!-- This area used as dropdown edit box -->
+				
+									</div>
+									<!-- end widget edit box -->
+				
+									<!-- widget content -->
+									<div class="widget-body">
+				
+										<form id="basicForm" action="<?php echo $this->Voucher_form->getAction() ?>" method="post" class="form">
+											<div class="panel panel-default">
+												<div class="panel-body">
+													<input type="hidden" name="operator" id="operator" value="0"/>													
+													<div class="row">
+														<div class="col-sm-3 employee_class">
+															<div class="form-group">
+																<label class="control-label">Select Customer<span class="asterisk">*</span></label>
+																<?php echo $this->Voucher_form->dealer_id; ?>
+															</div>
+														</div>
+														<!-- <div class="col-sm-3 employee_class">
+															<div class="form-group">
+																<label class="control-label">Closing Balance<span class="asterisk">*</span></label>
+																<span id="symbol" style="float: left;margin-top: 30px;"></span>
+																<?php //echo $this->Voucher_form->opening_balance1; ?>
+															</div>
+														</div> -->	
+														<div class="col-sm-3 employee_class">
+															<div class="form-group">
+																<label class="control-label">Transaction Amount<span class="asterisk">*</span></label>
+																<?php echo $this->Voucher_form->transaction_amount; ?>
+															</div>
+														</div>				
+														<div class="col-sm-3 employee_class">
+															<div class="form-group">
+																<label class="control-label">Total Amount<span class="asterisk">*</span></label>
+																<?php echo $this->Voucher_form->total_amount; ?>
+															</div>
+														</div>
+														<div class="col-sm-3 employee_class">
+															<div class="form-group">
+															  <label class="control-label">Payment by</label>
+															  <?php echo $this->Voucher_form->payment_by; ?> </div>
+														 </div>
+														<div class="col-sm-3 employee_class">
+															<div class="form-group">
+															  <label class="control-label">Payment</label>
+															  <?php echo $this->Voucher_form->paid_amount; ?> </div>
+														</div>
+														 <div class="col-sm-3 employee_class">
+															<div class="form-group">
+															  <label class="control-label">Date<span class="asterisk">*</span></label>
+															  <?php echo $this->Voucher_form->add_date; ?> </div>
+														 </div>
+														 <div class="col-sm-3 employee_class">
+															<div class="form-group">
+															  <label class="control-label">Balance</label>
+															  <?php echo $this->Voucher_form->balance; ?> </div>
+														</div>
+														<div class="col-sm-5 employee_class">
+															<div class="form-group">
+															  <label class="control-label">Remarks</label>
+															  <?php echo $this->Voucher_form->remarks; ?> </div>
+														</div>	
+													</div>	
+												</div>
+												
+												<div class="panel-footer">
+													<div class="row">
+														<div class="col-sm-9 col-sm-offset-3">
+															<div style="float:left">
+
+															<button class="btn btn-primary submit">Submit</button>&nbsp;&nbsp;&nbsp;
+															</div>
+															<div style="float:left">
+
+															<button type="reset" class="btn btn-danger btn-default">Reset</button>
+															</div>
+														</div>
+													</div>
+												</div>
+
+											</div>
+										</form>
+				
+									</div>
+									<!-- end widget content -->
+				
+								</div>
+								<!-- end widget div -->
+				
+							</div>
+							<!-- end widget -->
+				
+							
+						</div>	
+				</article>
+				
+				</section>
+
+
+
+<?php } else { ?>
+<?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+     <div class="alert alert-success">
+<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+<?php echo $this->escape($message); ?>
+</div>
+ <?php } } ?>
+
+ <div class="row">
+	<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+		<h1 class="page-title txt-color-blueDark">
+			<i class="fa fa-bars"> Outward Voucher</i> 
+				
+		</h1>
+	</div>
+	<!-- <div class="col-xs-12 col-sm-5 col-md-5 col-lg-7">
+		<ul id="sparks" class="">
+			<li class="sparks-info">			
+				<a class="btn btn-primary"  href="<?php echo $this->mainconfig['host']; ?>sales/invoice">Back to Invoice</a>				
+			</li>			
+		</ul>
+	</div>  -->
+	<div class="col-xs-12 col-sm-5 col-md-5 col-lg-1">
+		<ul id="sparks" class="">
+			<li class="sparks-info">
+			
+				<a class="btn btn-primary"  href="<?php echo $this->mainconfig['host']; ?>finance/outward-voucher/index/type/add">Add</a>
+				
+			</li>			
+		</ul>
+	</div>
+</div>
+	<!-- widget grid -->
+	<section id="widget-grid" class="">
+
+		<!-- row -->
+		<div class="row">
+
+			<!-- NEW WIDGET START -->
+			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+				<!-- Widget ID (each widget will need unique ID)-->
+				<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+					<!-- widget options:
+					usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+					data-widget-colorbutton="false"
+					data-widget-editbutton="false"
+					data-widget-togglebutton="false"
+					data-widget-deletebutton="false"
+					data-widget-fullscreenbutton="false"
+					data-widget-custombutton="false"
+					data-widget-collapsed="true"
+					data-widget-sortable="false"
+
+					-->
+					<header>
+						<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+						<h2></h2>
+
+					</header>
+
+					<!-- widget div-->
+					<div>		
+
+						<!-- widget content -->
+						<div class="widget-body">
+							
+							
+							<div class="table-responsive">
+							
+								<table class="table table-bordered">
+									<thead>
+									<tr>
+										<th>S. No</th>
+										<th>Date</th>
+										<th>Customer Company Name</th>
+										<th>Total Amount</th>
+										<th>Paid Amount</th>
+										<th>Balance</th>
+										<th>Payment By</th>
+										<th>Remarks</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+
+									<?php
+									$i = 1;
+									if (count($this->paginator) != 0) {
+										foreach ($this->paginator as $results) {
+											?>
+											<tr class="row_id<?php echo $results['receipt_voucher_id'];?>">
+												<td><?php
+													echo $i;													
+													?></td>
+												<td>
+												<?php echo $results['add_date']; ?>
+												</td>
+												<td>
+												<?php echo $results['dealer_company_name']; ?>
+												</td>
+												<td style="text-align:right;"><?php echo $results['total_amount']; ?></td>
+												<td style="text-align:right;"><?php echo $results['paid_amount']; ?></td>
+												<td style="text-align:right;"><?php echo $results['balance']; ?></td>
+												<td><?php echo $results['payment_by']; ?></td>
+												<td><?php echo nl2br( $results['remarks'] ); ?></td>
+												<td style="text-align:center;">
+												<?php //if($i == 1){ ?>
+													<!-- <a class="record_view" recordid="<?php echo $results['receipt_voucher_id'];?>"><i class="fa fa-weibo"></i></a>
+													&nbsp; | &nbsp; -->
+													<a href="<?php echo $this->mainconfig['host']; ?>finance/outward-voucher/index/type/edit/id/<?php echo $results['receipt_voucher_id']; ?>"><span class="glyphicon glyphicon-pencil"></span></a>
+													&nbsp; | &nbsp; 
+													<a --href="<?php echo $this->mainconfig['host']; ?>finance/outward-voucher/index/type/delete/id/<?php echo $results['receipt_voucher_id']; ?>" onclick="delete_all('<?php echo $results['receipt_voucher_id']; ?>');"> <span class="glyphicon glyphicon-trash"></span> </a>
+												<?php //} ?>
+												</td>
+											</tr>
+										<?php
+										$i++;
+										} ?>
+										<tr class="odd gradeX">
+											<td colspan="9" align="center"> <?php echo $this->paginationControl($this->paginator, 'Sliding', array('pagination.phtml', 'default')); ?>
+											</td></tr>
+									<?php 
+									} else { ?>
+										<tr class="odd gradeX">
+											<td colspan="9" align="center">No Results Found</td>
+										</tr>
+									<?php } ?>
+								</tbody>
+								</table>
+								
+							</div>
+						</div>
+						<!-- end widget content -->
+
+					</div>
+					<!-- end widget div -->
+
+				</div>
+				<!-- end widget -->
+			</article>
+			<!-- WIDGET END -->
+		</div>
+
+		<!-- end row -->
+	</section>
+	<!-- end widget grid -->
+        
+
+<?php }?>
+
+
+</div>
+
+<script>
+function delete_all(id){			
+	var r = confirm("Are you sure want to delete this record permanently.");
+	if (r == true) {
+		x = "You pressed OK!";
+		window.location.href = "<?php echo $this->mainconfig['host']; ?>finance/outward-voucher/index/type/delete/id/"+id;
+	} else {			
+		x = "You pressed Cancel!";			
+		return false;
+	}	
+} 
+function select_payment(amt){
+	var amt = parseFloat(amt);
+	if(amt){
+		var operator = parseFloat( $("#operator").val() );
+		var total_amount = parseFloat( $("#total_amount").val() );
+		var opening_balance1 = parseFloat( $("#opening_balance1").val() );
+		//if(operator == 1){	
+			var grand_total = total_amount - amt;
+			$("#balance").val(grand_total);							
+		/* }else if(operator == 2){
+			var grand_total = total_amount - amt;
+			$("#balance").val(grand_total);
+		}else{	
+			$("#balance").val(total_amount - amt);
+		} */		
+	}else{
+		$("#balance").val('');
+	}
+}   
+$(document).ready(function() {
+	// START AND FINISH DATE
+	$('.datepicker').datepicker({
+		dateFormat: 'yy-mm-dd',
+		prevText: '<i class="fa fa-chevron-left"></i>',
+		nextText: '<i class="fa fa-chevron-right"></i>' 
+	});
+	$("body").on("change", "#dealer_id", function(event) {
+		//var dealer_id = $("#dealer_id option:selected").val();
+		var id = $(this).val();		
+		if (id) {
+			//$(".pop-loading").show();
+			
+			$.ajax({type: "POST", url: "<?php echo $this->mainconfig['host'] . 'finance/outward-voucher/customer-by-amount'; ?>",
+				data: {dealer_id: id}}).done(function(data) {
+				var result = $.parseJSON( data );
+				$("#total_amount").val(result['total_amount']);
+				$("#transaction_amount").val(result['transaction_amount']);
+			});
+			
+			$.ajax({type: "POST", url: "<?php echo $this->mainconfig['host'] . 'finance/outward-voucher/customer-operator'; ?>",
+				data: {dealer_id: id}}).done(function(data) {
+				var result = $.parseJSON( data );  
+				$("#operator").val(result['operator']);
+				/* if(result['operator'] == 1){
+					$("#symbol").html('+');
+				}else if(result['operator'] == 0){
+					$("#symbol").html('');
+				}else{
+					$("#symbol").html('-');
+				} */
+				$("#opening_balance1").val(result['opening_balance']);
+			});
+		}
+	});
+	
+	$(".record_view").click(function() {		
+		var id=$(this).attr("recordid");		
+		//$("tr.row_id").remove();		
+		$.ajax({
+		  type: "POST",
+		   url:"<?php echo $this->mainconfig['host'].'finance/outward-voucher/record-view';?>",
+		  data: { id: id }
+		}).done(function(data) {
+			$(".record_close").hide();
+			$(data).insertAfter("tr.row_id"+id);
+		});
+	});
+	
+}); 	
+// if(total_amount > 0){
+			
+			/* if( amt <= total_amount){			
+				$("#balance").val(total_amount - amt);				
+			}else{
+				$("#balance").val( total_amount + amt );
+			} */
+			/* if( amt <= total_amount){			
+				$("#balance").val( total_amount + amt );
+			}else if(amt >= total_amount){			
+				$("#balance").val(amt + total_amount);
+			} */
+			/* if( amt <= total_amount){			
+				$("#balance").val( total_amount + amt );
+			}else if(amt >= total_amount){			
+				$("#balance").val(amt + total_amount);
+			}else{
+				$("#balance").val(total_amount - amt);
+			} */			
+		/* }else{	*/
+			/*  if(total_amount == 0){		
+				$("#balance").val(total_amount + parseFloat(amt));
+			}else{
+				$("#balance").val(total_amount + parseFloat(amt));
+			} */
+			/* if( total_amount == 0){
+				$("#balance").val( total_amount + amt );			
+			}else{
+				$("#balance").val(total_amount - amt);	
+			} 
+		} */
+</script>

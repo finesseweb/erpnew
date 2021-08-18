@@ -1,0 +1,113 @@
+  <?php
+$item_result = $this->result;
+
+$i = 1;
+
+	$EvaluationComponents_model = '';
+	
+ for($i=0;$i<count($item_result);$i++) {   ?>
+
+ <div class="box-body">
+	<h4 style="background-color:#3c8dbc;padding:8px 8px;color:white;"><?php echo $item_result[$i]['term_name'].'-'.$item_result[$i]['course_name']; ?></h4>
+	<div style="overflow-x:scroll">
+	<table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+				<thead>
+					<tr>
+						<th rowspan="2">S. No.</th>
+						<th rowspan="2">Name of Participants</th>
+						<th rowspan="2">ID Number</th>
+						<th>Component</th>
+						<?php 
+						
+						$EvaluationComponents_model =  new Application_Model_EvaluationComponents();
+							$result = $EvaluationComponents_model->getAllComponents($item_result[$i]['academic_year_id'],$item_result[$i]['department_id'],$item_result[$i]['employee_id'],$item_result[$i]['term_id'],$item_result[$i]['course_id']);
+							
+							foreach($result as $k => $val) {
+							?>
+							<th><?php echo 	$val['component_name']; ?></th>
+							<?php } ?>
+						<th>Course Grade Point</th>
+					</tr>
+					<tr>
+						
+						
+						<th>Weightage</th>
+						<?php foreach($result as $k => $val) {
+							?>
+						<th><?php echo $val['weightage']; ?></th>
+						<?php } ?>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+				<?php $StudentPortal_model = new Application_Model_StudentPortal(); 
+				 $category_data=$StudentPortal_model->getstudentsdetails($item_result[$i]['academic_year_id']);
+				 $m = 1;
+				 
+				 foreach($category_data as $stu_data) { ?>
+					
+							<tr>
+								<td><?php echo $m; ?></td>						
+								
+								<td><?php echo $stu_data['students']; ?></td>
+								<input type="hidden" name="grade[student_id_<?php echo $item_result[$i]['term_id'];?>_<?php echo $item_result[$i]['course_id'];?>][]" id="student_id" value="<?php echo $stu_data['student_id']; ?>" />
+								<td><?php echo $stu_data['stu_id']; ?></td>
+								<td></td>
+								<?php 
+								$component_grades = '';
+								
+								$total = 0;
+								//foreach($result as $k => $val) { 
+								$GradeAllocation_model = new Application_Model_GradeAllocation();
+								$grade_result = $GradeAllocation_model->getGradeRecords($item_result[$i]['academic_year_id'],$item_result[$i]['department_id'],$item_result[$i]['employee_id'],$item_result[$i]['term_id'],$item_result[$i]['course_id'],$stu_data['student_id']);
+								$component_grades = $grade_result['component_id'];
+								//$grade = $grade_result['grade_value'];
+											$component_res=explode(",",$grade_result['component_id']);
+                                            $grade_result=explode(",",$grade_result['grade_value']);
+											//$gradeval  = array_merge($grade_result, $component_result);
+											?>
+										
+								<?php 
+								$comp_weightages='';
+								foreach($grade_result as $k =>$grade_value){ ?>
+								<td><?php echo $grade_value;?></td>
+								
+								<?php 
+								
+								if(!is_numeric($grade_value)){
+									
+									$ReferenceGradeMaster_model = new Application_Model_ReferenceGradeMaster();
+								$letter_grade_result = $ReferenceGradeMaster_model->getNumberGradeValue($item_result[$i]['academic_year_id'],$grade_value);
+								$numeric_grade = $letter_grade_result['number_grade']; 
+								}	
+								else if(is_numeric($grade_value)){
+									
+									$numeric_grade = $grade_value; 
+								}
+				$EvaluationComponentsItems_model = new Application_Model_EvaluationComponentsItems();
+					$comp_weigh=$EvaluationComponentsItems_model->getweightages($item_result[$i]['academic_year_id'],$item_result[$i]['term_id'],$item_result[$i]['course_id'],$component_res[$k]);
+						//print_r($comp_weigh);die;
+								$comp_weightages = $comp_weightages.$comp_weigh['weightage'].",";
+								
+								$tot_grade = $numeric_grade*$comp_weigh['weightage']; 
+								$total += $tot_grade; ?>
+								 
+								<?php  }    ?>
+														
+								<input type="hidden" name="grade[weightages_<?php echo $item_result[$i]['term_id'];?>_<?php echo $item_result[$i]['course_id'];?>][]" value="<?php echo $comp_weightages; ?>" />
+								<input type="hidden" name="grade[grades_<?php echo $item_result[$i]['term_id'];?>_<?php echo $item_result[$i]['course_id']?>][]" value="<?php echo $component_grades; ?>" />
+								<td><?php echo number_format($total,3); ?></td>
+								<input type="hidden" name="grade[grade_point_<?php echo $item_result[$i]['term_id']; ?>_<?php echo $item_result[$i]['course_id']; ?>][]" value="<?php $tot = number_format($total,3); echo $tot; ?>" />
+								 
+								
+
+							</tr>  
+				 <?php  $m++; }  ?>							
+
+				</tbody>
+			</table>
+			</div>
+	</div>
+	<div id="addmore_items_<?php echo $i;?>"></div>
+				<br>
+<?php  }  ?>

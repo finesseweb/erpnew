@@ -1,0 +1,274 @@
+<?php  
+$alloted_id =  $this->alloted_id;
+
+?>
+
+<div class="padding-md clearfix">
+<?php if($alloted_id)  { 
+$item_result = $this->result; 
+ ?>  
+<h2 style="background-color:#bc973c;padding:8px 8px;color:white;">Courses</h2><br>
+			<table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+			
+			
+				<thead>
+					<tr>
+						
+						<th>Term Name</th>
+						<th>Course Category Name</th>
+						<th>Course Name </th>
+						
+						<th>Credit Value </th>
+					<!-- 	<th>Department </th>  -->
+						<th>Faculty </th>
+
+					</tr>
+				</thead>
+					
+				<tbody>
+					<?php $i = 1; foreach($item_result as $k  => $value) { ?>
+					<tr>
+					<td><?php echo $value['term_name']; ?></td>
+					<input type="hidden" name="faculty[term_id][]" id="term_id" value="<?php echo $value["term_id"]; ?>" />
+					<td><?php echo $value['cc_name']; ?></td>
+					<input type="hidden" name="faculty[cc_id][]" id="cc_id" value="<?php echo $value["cc_id"]; ?>" />
+					<td><?php echo $value['course_name']; ?></td>
+					<input type="hidden" name="faculty[course_id][]" id="course_id" value="<?php echo $value["course_id"]; ?>" />
+					<td><?php echo $value['credit_value']; ?></td>
+					<input type="hidden" name="faculty[credit_value][]" id="credit_value" value="<?php echo $value["credit_value"]; ?>" />
+			<!--	<td><select name="faculty[department_id][]" id="department_id" class="form-control" onchange="select_department(this.value,<?php // echo $i;?>)">
+						<option value="">Select</option>
+						<?php /* foreach($this->department as $key => $departments){
+							$selected = '';							
+							if($key == $value['department_id']){   
+							$selected = "selected"; } */?>
+						<option value="<?php // echo $key; ?>" <?php // echo $selected; ?>><?php // echo $departments; ?></option>
+						
+						<?php // } ?>
+						</select></td> -->
+<input type="hidden" name="faculty[department_id][]" id="department_id" class="form-control" onchange="select_department(this.value,<?php echo $i;?>)" value="1">
+							<td><select name="faculty[employee_id][]" id="employee_id<?php echo $i;?>" class="form-control">
+							<option value="">Select</option>
+							<?php foreach($this->employee as $m => $emp){ 
+							$selected = '';
+							if($m == $value['employee_id']) { 
+							$selected = "selected";
+							}?>
+							<option value="<?php echo $m; ?>" <?php echo $selected; ?>><?php echo $emp; ?></option>
+							<?php } ?>
+							</select></td>
+							</tr>
+					<?php $i++; } ?>
+				 
+				
+						
+				</tbody>
+				</table>
+				<h2 style="background-color:#bc973c;padding:8px 8px;color:white;">Electives</h2><br>
+				<table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+			
+			
+				<thead>
+					<tr>
+						
+						<th>Term Name</th>
+						<th>Elective Name</th>
+					<!-- 	<th>Department</th>  -->
+						<th>Faculty </th>
+
+					</tr>
+				</thead>
+					
+						<tbody>
+						<?php
+						$j = 1;
+						foreach($this->electives_result as $l => $electives) { 
+						
+						
+						$TermMaster_model =  new Application_Model_TermMaster();
+						$term_result = $TermMaster_model->getRecord($electives['term_id']); 
+						 ?>
+						<tr>
+						<input type="hidden" name="elective[elective_term_id][]" id="elective_term_id" value="<?php echo $electives['term_id']; ?>" />
+						<td><?php echo $term_result['term_name']; ?></td>
+						<input type="hidden" name="elective[elective_id][]" id="elective_id" value="<?php echo $electives['elective_id']; ?>" />
+						<?php $Course_model = new Application_Model_Course(); 
+							$course_result = $Course_model->getRecord($electives['elective_id']);?>
+						<td><?php echo $course_result['course_name']; ?></td>
+					<!-- 	<td><select name="elective[elective_department_id][]" id="elective_department_id" class="form-control" onchange="select_elective_department(this.value,<?php// echo $j;?>)">
+						<option value="">Select</option>
+						<?php /* foreach($this->department as $d => $dept) { 
+						$selected = '';
+						if($d == $electives['department_id']) {  
+						 $selected = "selected"; }?>
+						<option value="<?php echo $d; ?>" <?php echo $selected; ?>><?php echo $dept; ?></option>
+						<?php }  */ ?>
+						
+						</select></td>  -->
+<input type="hidden" name="elective[elective_department_id][]" id="elective_department_id" class="form-control" onchange="select_elective_department(this.value,<?php echo $j;?>)" value="1">
+						<td><select name="elective[elective_employee_id][]" id="elective_employee_id<?php echo $j; ?>" class="form-control">
+						<option value="">Select</option>
+						<?php foreach($this->employee as $e => $empl){
+							$selected = "";
+                          if($e == $electives['employee_id']){ 
+
+                            $selected = "selected";
+						  }
+						?>
+						<option value="<?php echo $e; ?>" <?php echo $selected; ?>><?php echo $empl; ?></option>
+						<?php } ?>
+						</select></td>
+						</tr>
+						<?php $j++; } ?>
+					
+						</tbody>
+				</table>
+
+
+
+
+
+
+<?php  } else {  $item_result = $this->result; ?>
+<h2 style="background-color:#bc973c;padding:8px 8px;color:white;">Courses</h2><br>
+			<table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+			
+			
+				<thead>
+					<tr>
+						
+						<th>Term Name</th>
+						<th>Course Category Name</th>
+						<th>Course Name </th>
+						
+						<th>Credit Value </th>
+					<!-- 	<th>Department </th>  -->
+						<th>Faculty </th>
+
+					</tr>
+				</thead>
+					
+				<tbody>
+					<?php $i = 1; foreach($item_result as $k  => $value) { ?>
+					<tr>
+					<td><?php echo $value['term_name']; ?></td>
+					<input type="hidden" name="faculty[term_id][]" id="term_id" value="<?php echo $value["term_id"]; ?>" />
+					<td><?php echo $value['cc_name']; ?></td>
+					<input type="hidden" name="faculty[cc_id][]" id="cc_id" value="<?php echo $value["cc_id"]; ?>" />
+					<td><?php echo $value['course_name']; ?></td>
+					<input type="hidden" name="faculty[course_id][]" id="course_id" value="<?php echo $value["course_id"]; ?>" />
+					<td><?php echo $value['credit_value']; ?></td>
+					<input type="hidden" name="faculty[credit_value][]" id="credit_value" value="<?php echo $value["credit_value"]; ?>" />
+			<!-- 	<td><select name="faculty[department_id][]" id="department_id" class="form-control" onchange="select_department(this.value,<?php // echo $i;?>)">
+						<option value="">Select</option>
+						<?php /* foreach($this->department as $key => $departments){ ?>
+						<option value="<?php echo $key; ?>"><?php echo $departments; ?></option>
+						
+						<?php }  */?>
+						</select></td>   -->
+<input type="hidden" name="faculty[department_id][]" id="department_id" class="form-control" onchange="select_department(this.value,<?php  echo $i;?>)" value="1">
+							<td><select name="faculty[employee_id][]" id="employee_id<?php echo $i;?>" class="form-control">
+							<option value="">Select</option>
+							<?php foreach($this->employee as $m => $emp){ ?>
+							<option value="<?php echo $m; ?>"><?php echo $emp; ?></option>
+							<?php } ?>
+							</select></td>
+							</tr>
+					<?php $i++; } ?>
+				 
+				
+						
+				</tbody>
+				</table>
+				<h2 style="background-color:#bc973c;padding:8px 8px;color:white;">Electives</h2><br>
+				<table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+			
+			
+				<thead>
+					<tr>
+						
+						<th>Term Name</th>
+						<th>Elective Name</th>
+					<!-- 	<th>Department</th>  -->
+						<th>Faculty </th>
+
+					</tr>
+				</thead>
+					
+						<tbody>
+						<?php
+						$j = 1;
+						foreach($this->electives_result as $l => $electives) { 
+						
+						
+						$TermMaster_model =  new Application_Model_TermMaster();
+						$term_result = $TermMaster_model->getRecord($electives['terms']); 
+						 ?>
+						<tr>
+						<input type="hidden" name="elective[elective_term_id][]" id="elective_term_id" value="<?php echo $electives['terms']; ?>" />
+						<td><?php echo $term_result['term_name']; ?></td>
+						<input type="hidden" name="elective[elective_id][]" id="elective_id" value="<?php echo $electives['electives']; ?>" />
+						<?php $Course_model = new Application_Model_Course(); 
+							$course_result = $Course_model->getRecord($electives['electives']);?>
+						<td><?php echo $course_result['course_name']; ?></td>
+					<!--	<td><select name="elective[elective_department_id][]" id="elective_department_id" class="form-control" onchange="select_elective_department(this.value,<?php // echo $j;?>)">
+						<option value="">Select</option>
+						<?php /* foreach($this->department as $d => $dept) { ?>
+						<option value="<?php echo $d; ?>"><?php echo $dept; ?></option>
+						<?php } */ ?>
+						
+						</select></td> -->
+<input type="hidden" name="elective[elective_department_id][]" id="elective_department_id" class="form-control" onchange="select_elective_department(this.value,<?php  echo $j;?>)" value="1">
+						<td><select name="elective[elective_employee_id][]" id="elective_employee_id<?php echo $j; ?>" class="form-control">
+						<option value="">Select</option>
+						<?php foreach($this->employee as $e => $empl){ ?>
+						<option value="<?php echo $e; ?>"><?php echo $empl; ?></option>
+						<?php } ?>
+						</select></td>
+						</tr>
+						<?php $j++; } ?>
+					
+						</tbody>
+				</table>
+<?php } ?>
+</div>
+<script>
+function select_department(value,num){
+	var department_id = value;
+	$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'electives-allotment/ajax-getemployee';?>',
+			data: {department_id:department_id}
+			
+		}).done(function( data ) {
+			
+				
+			$('#employee_id'+num+'').empty('');
+			$('#employee_id'+num+'').append(data);
+			
+		
+			
+		 });
+}
+function select_elective_department(value,count){
+	
+	
+	var department_id = value;
+	$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'electives-allotment/ajax-getemployee';?>',
+			data: {department_id:department_id}
+			
+		}).done(function( data ) {
+			
+				
+			$('#elective_employee_id'+count+'').empty('');
+			$('#elective_employee_id'+count+'').append(data);
+			
+		
+			
+		 });
+	
+}	
+		 
+</script>

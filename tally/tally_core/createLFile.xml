@@ -1,0 +1,415 @@
+<ENVELOPE>
+<HEADER>
+<VERSION>1</VERSION>
+<TALLYREQUEST>Import</TALLYREQUEST>
+<TYPE>Data</TYPE>
+<ID>All Masters</ID>
+</HEADER>
+<BODY>
+<DESC>
+<STATICVARIABLES>
+<IMPORTDUPS>@@DUPCOMBINE</IMPORTDUPS>
+<SVCURRENTCOMPANY>Test1 Company</SVCURRENTCOMPANY>
+</STATICVARIABLES>
+</DESC>
+<DATA>
+      <TALLYMESSAGE><LEDGER NAME="Basic Pay" Action="Create">
+        <NAME>Basic Pay</NAME>
+        <PARENT>Direct Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Conveyance Allowance" Action="Create">
+        <NAME>Conveyance Allowance</NAME>
+        <PARENT>Direct Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Employer&#039;s ESI Cont.@4.75%" Action="Create">
+        <NAME>Employer&#039;s ESI Cont.@4.75%</NAME>
+        <PARENT>Direct Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="House Rent Allowance" Action="Create">
+        <NAME>House Rent Allowance</NAME>
+        <PARENT>Direct Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Other Allowance" Action="Create">
+        <NAME>Other Allowance</NAME>
+        <PARENT>Direct Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Special Allowance" Action="Create">
+        <NAME>Special Allowance</NAME>
+        <PARENT>Direct Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Staff Welfare" Action="Create">
+        <NAME>Staff Welfare</NAME>
+        <PARENT>Direct Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Stipend Paid" Action="Create">
+        <NAME>Stipend Paid</NAME>
+        <PARENT>Direct Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Employer&#039;s PF Cont. @12%" Action="Create">
+        <NAME>Employer&#039;s PF Cont. @12%</NAME>
+        <PARENT>Direct Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Food Coupons" Action="Create">
+        <NAME>Food Coupons</NAME>
+        <PARENT>Direct Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="PLI" Action="Create">
+        <NAME>PLI</NAME>
+        <PARENT>Direct Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Leave Encashment" Action="Create">
+        <NAME>Leave Encashment</NAME>
+        <PARENT>Direct Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Contractual Receipts" Action="Create">
+        <NAME>Contractual Receipts</NAME>
+        <PARENT>Indirect Incomes</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Other Income" Action="Create">
+        <NAME>Other Income</NAME>
+        <PARENT>Indirect Incomes</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Software Development" Action="Create">
+        <NAME>Software Development</NAME>
+        <PARENT>Indirect Incomes</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Loans &amp; Advances (Asset)" Action="Create">
+        <NAME>Loans &amp; Advances (Asset)</NAME>
+        <PARENT>Current Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Sundry Debtors" Action="Create">
+        <NAME>Sundry Debtors</NAME>
+        <PARENT>Current Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Cash-in-Hand" Action="Create">
+        <NAME>Cash-in-Hand</NAME>
+        <PARENT>Current Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Bank Accounts" Action="Create">
+        <NAME>Bank Accounts</NAME>
+        <PARENT>Current Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="TDS Receivable (Input Credit Tds)" Action="Create">
+        <NAME>TDS Receivable (Input Credit Tds)</NAME>
+        <PARENT>Current Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="GST Input" Action="Create">
+        <NAME>GST Input</NAME>
+        <PARENT>Current Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Sundry Debtors (Advance to Staff)" Action="Create">
+        <NAME>Sundry Debtors (Advance to Staff)</NAME>
+        <PARENT>Current Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Input CGST" Action="Create">
+        <NAME>Input CGST</NAME>
+        <PARENT>Current Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Input SGST" Action="Create">
+        <NAME>Input SGST</NAME>
+        <PARENT>Current Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Input IGST" Action="Create">
+        <NAME>Input IGST</NAME>
+        <PARENT>Current Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="52 Port Switch" Action="Create">
+        <NAME>52 Port Switch</NAME>
+        <PARENT>Fixed Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Air Condition" Action="Create">
+        <NAME>Air Condition</NAME>
+        <PARENT>Fixed Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Bicycle" Action="Create">
+        <NAME>Bicycle</NAME>
+        <PARENT>Fixed Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Biometric Time &amp; Attendance Machine" Action="Create">
+        <NAME>Biometric Time &amp; Attendance Machine</NAME>
+        <PARENT>Fixed Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="CC TV Camera" Action="Create">
+        <NAME>CC TV Camera</NAME>
+        <PARENT>Fixed Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Computer End User Device" Action="Create">
+        <NAME>Computer End User Device</NAME>
+        <PARENT>Fixed Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Computer Server" Action="Create">
+        <NAME>Computer Server</NAME>
+        <PARENT>Fixed Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Computer Softwre" Action="Create">
+        <NAME>Computer Softwre</NAME>
+        <PARENT>Fixed Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Fan" Action="Create">
+        <NAME>Fan</NAME>
+        <PARENT>Fixed Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Fire Extinguisher" Action="Create">
+        <NAME>Fire Extinguisher</NAME>
+        <PARENT>Fixed Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Fridge" Action="Create">
+        <NAME>Fridge</NAME>
+        <PARENT>Fixed Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Furniture , Fixture &amp; Fittings" Action="Create">
+        <NAME>Furniture , Fixture &amp; Fittings</NAME>
+        <PARENT>Fixed Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Generator" Action="Create">
+        <NAME>Generator</NAME>
+        <PARENT>Fixed Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Invertor / Stabilizer / Battery" Action="Create">
+        <NAME>Invertor / Stabilizer / Battery</NAME>
+        <PARENT>Fixed Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Mobile Phones" Action="Create">
+        <NAME>Mobile Phones</NAME>
+        <PARENT>Fixed Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Motor Bike" Action="Create">
+        <NAME>Motor Bike</NAME>
+        <PARENT>Fixed Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Room Heater" Action="Create">
+        <NAME>Room Heater</NAME>
+        <PARENT>Fixed Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Routers" Action="Create">
+        <NAME>Routers</NAME>
+        <PARENT>Fixed Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Water Cooler/Purifier" Action="Create">
+        <NAME>Water Cooler/Purifier</NAME>
+        <PARENT>Fixed Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Electrical Items" Action="Create">
+        <NAME>Electrical Items</NAME>
+        <PARENT>Fixed Assets</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Duties &amp; Taxes" Action="Create">
+        <NAME>Duties &amp; Taxes</NAME>
+        <PARENT>Current Liabilities</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Provisions" Action="Create">
+        <NAME>Provisions</NAME>
+        <PARENT>Current Liabilities</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Sundry Creditors" Action="Create">
+        <NAME>Sundry Creditors</NAME>
+        <PARENT>Current Liabilities</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="EPF  Payable" Action="Create">
+        <NAME>EPF  Payable</NAME>
+        <PARENT>Current Liabilities</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Liabilities for Expenses" Action="Create">
+        <NAME>Liabilities for Expenses</NAME>
+        <PARENT>Current Liabilities</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Payable To Contractors" Action="Create">
+        <NAME>Payable To Contractors</NAME>
+        <PARENT>Current Liabilities</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Gratuity Fund" Action="Create">
+        <NAME>Gratuity Fund</NAME>
+        <PARENT>Current Liabilities</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Interest on TDS Payable" Action="Create">
+        <NAME>Interest on TDS Payable</NAME>
+        <PARENT>Current Liabilities</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Salary Payable" Action="Create">
+        <NAME>Salary Payable</NAME>
+        <PARENT>Current Liabilities</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Sanjay Kumar (Rent)" Action="Create">
+        <NAME>Sanjay Kumar (Rent)</NAME>
+        <PARENT>Current Liabilities</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Shabnam Sahay (Rent)" Action="Create">
+        <NAME>Shabnam Sahay (Rent)</NAME>
+        <PARENT>Current Liabilities</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="ESIC Payable" Action="Create">
+        <NAME>ESIC Payable</NAME>
+        <PARENT>Current Liabilities</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="TDS Payable" Action="Create">
+        <NAME>TDS Payable</NAME>
+        <PARENT>Current Liabilities</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Food Coupon Payable" Action="Create">
+        <NAME>Food Coupon Payable</NAME>
+        <PARENT>Current Liabilities</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Prof Tax." Action="Create">
+        <NAME>Prof Tax.</NAME>
+        <PARENT>Current Liabilities</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Development Management Institute" Action="Create">
+        <NAME>Development Management Institute</NAME>
+        <PARENT>Current Liabilities</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Software Development" Action="Create">
+        <NAME>Software Development</NAME>
+        <PARENT>Current Liabilities</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="OUTPUT CGST A/c" Action="Create">
+        <NAME>OUTPUT CGST A/c</NAME>
+        <PARENT>Current Liabilities</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Finessw Webtech Pvt Ltd." Action="Create">
+        <NAME>Finessw Webtech Pvt Ltd.</NAME>
+        <PARENT>Current Liabilities</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="The Telecon" Action="Create">
+        <NAME>The Telecon</NAME>
+        <PARENT>Current Liabilities</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="One to one" Action="Create">
+        <NAME>One to one</NAME>
+        <PARENT>Current Liabilities</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="DIGOUT" Action="Create">
+        <NAME>DIGOUT</NAME>
+        <PARENT>Current Liabilities</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Audit Fee" Action="Create">
+        <NAME>Audit Fee</NAME>
+        <PARENT>Indirect Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Bank Charges" Action="Create">
+        <NAME>Bank Charges</NAME>
+        <PARENT>Indirect Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Business Promotion Expenses" Action="Create">
+        <NAME>Business Promotion Expenses</NAME>
+        <PARENT>Indirect Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Computer / Printer Repair &amp; Maintenance Exp." Action="Create">
+        <NAME>Computer / Printer Repair &amp; Maintenance Exp.</NAME>
+        <PARENT>Indirect Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Consultancy Charges (Others)" Action="Create">
+        <NAME>Consultancy Charges (Others)</NAME>
+        <PARENT>Indirect Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Contractor Charges" Action="Create">
+        <NAME>Contractor Charges</NAME>
+        <PARENT>Indirect Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Contractual Expenses(Meterial)" Action="Create">
+        <NAME>Contractual Expenses(Meterial)</NAME>
+        <PARENT>Indirect Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="DOMAIN EXPENSES" Action="Create">
+        <NAME>DOMAIN EXPENSES</NAME>
+        <PARENT>Indirect Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Electrical Repair &amp; Maintenance" Action="Create">
+        <NAME>Electrical Repair &amp; Maintenance</NAME>
+        <PARENT>Indirect Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Filing Fee ( ROC )" Action="Create">
+        <NAME>Filing Fee ( ROC )</NAME>
+        <PARENT>Indirect Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Fooding Expenses" Action="Create">
+        <NAME>Fooding Expenses</NAME>
+        <PARENT>Indirect Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Food &amp; Tea" Action="Create">
+        <NAME>Food &amp; Tea</NAME>
+        <PARENT>Indirect Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Fuel Expenses" Action="Create">
+        <NAME>Fuel Expenses</NAME>
+        <PARENT>Indirect Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="House Keeping Exp" Action="Create">
+        <NAME>House Keeping Exp</NAME>
+        <PARENT>Indirect Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Interest on TDS" Action="Create">
+        <NAME>Interest on TDS</NAME>
+        <PARENT>Indirect Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Internet Charges" Action="Create">
+        <NAME>Internet Charges</NAME>
+        <PARENT>Indirect Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="News Paper &amp; Periodicals" Action="Create">
+        <NAME>News Paper &amp; Periodicals</NAME>
+        <PARENT>Indirect Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Office Expenses" Action="Create">
+        <NAME>Office Expenses</NAME>
+        <PARENT>Indirect Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Painting Works" Action="Create">
+        <NAME>Painting Works</NAME>
+        <PARENT>Indirect Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Postage &amp; Courier." Action="Create">
+        <NAME>Postage &amp; Courier.</NAME>
+        <PARENT>Indirect Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Printing &amp; Stationery Exp." Action="Create">
+        <NAME>Printing &amp; Stationery Exp.</NAME>
+        <PARENT>Indirect Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Repair &amp; Maintenance Others" Action="Create">
+        <NAME>Repair &amp; Maintenance Others</NAME>
+        <PARENT>Indirect Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Telephone Bill Paid" Action="Create">
+        <NAME>Telephone Bill Paid</NAME>
+        <PARENT>Indirect Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Travelling &amp; Tour Exp." Action="Create">
+        <NAME>Travelling &amp; Tour Exp.</NAME>
+        <PARENT>Indirect Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Vehicle Running &amp; Maintenance" Action="Create">
+        <NAME>Vehicle Running &amp; Maintenance</NAME>
+        <PARENT>Indirect Expenses</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Unsecured Loans" Action="Create">
+        <NAME>Unsecured Loans</NAME>
+        <PARENT>Loans (Liability)</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Repugen Web Team" Action="Create">
+        <NAME>Repugen Web Team</NAME>
+        <PARENT>Loans (Liability)</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Local Purchase" Action="Create">
+        <NAME>Local Purchase</NAME>
+        <PARENT>Purchase Accounts</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Other State Purchase" Action="Create">
+        <NAME>Other State Purchase</NAME>
+        <PARENT>Purchase Accounts</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="Import Purchase" Action="Create">
+        <NAME>Import Purchase</NAME>
+        <PARENT>Purchase Accounts</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="DMI" Action="Create">
+        <NAME>DMI</NAME>
+        <PARENT>Loans (Liability)</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER><LEDGER NAME="testy" Action="Create">
+        <NAME>testy</NAME>
+        <PARENT>Loans (Liability)</PARENT>
+        <OPENINGBALANCE>0</OPENINGBALANCE>
+        </LEDGER></TALLYMESSAGE>
+</DATA>
+</BODY>
+</ENVELOPE>

@@ -1,0 +1,86 @@
+<?php
+//$eval_component_id = $this->eval_component_id;
+
+//echo '<pre>'; print_r($item_result); die;
+$i = 0;
+
+
+if($this->course_type == 1){	
+  ?>
+
+ <div class="box-body">	
+     <h4 style="background-color:#3c8dbc;padding:8px 8px;color:white;">Course Componenets</h4>
+	<div class="row">
+	<input type="hidden" name="count_val" id="count_val_<?php echo $i;?>" value="1" class="count_val" />
+	
+	
+	<div class="col-sm-3">
+	<div class="form-group">
+	<label class="control-label">Component Name</label>
+	<input type="text" name="components[component_name_<?php echo $this->term_id;?>_<?php echo $this->course_id;?>][]" id="component_name" class="form-control" />
+	</div>
+	</div>
+	
+	<div class="col-sm-3">
+	<div class="form-group">
+	<label class="control-label">Weightage</label>
+	<input type="text" name="components[weightage_<?php echo $this->term_id;?>_<?php echo $this->course_id; ?>][]" id="weightage"  class="form-control weightage<?php echo $this->term_id;?>_<?php echo $this->course_id;?>" onchange="getWeightage(this.value,0,<?php echo $this->term_id;?>,<?php echo $this->course_id;?>,this);"/>
+	</div>
+	</div>
+	<div class="col-sm-3" style="">
+				<label class="control-label">Remaining Weightage</label>
+				<input type="text" name="components[remaining_weightage_<?php echo $this->term_id; ?>_<?php echo $this->course_id;?>][]" id="re_weightage_0_<?php echo $this->term_id;?>_<?php echo $this->course_id;?>" class="form-control" readonly />
+				</div>
+
+
+	</div>
+	</div>
+	<div id="addmore_items_<?php echo $i;?>"></div>
+				<br>
+	 <div class="col-md-1" style=""></div><div class="col-sm-4" ></div><div class="col-sm-4" ></div>
+			<input type="button" value="+" id="AddButton1" style="padding:7px 15px;margin:20px 15px;" class="btn btn-primary" onclick="addMore(<?php echo $i;?>,<?php echo $this->term_id;?>,<?php echo $this->course_id;?>);" > 
+	 
+<?php  
+}
+
+//print_r($item_result);exit;
+
+if($this->course_type == 2){
+?>
+
+ <div class="box-body">
+	<h4 style="background-color:#3c8dbc;padding:8px 8px;color:white;">Course Componenets</h4>
+	<div class="row">
+	<input type="hidden" name="exp_count_val" id="exp_count_val_<?php echo $i;?>" value="1" class="count_val" />
+	
+	
+	<div class="col-sm-3">
+	<div class="form-group">
+	<label class="control-label">Component Name</label>
+	<input type="text" name="exp_course_component_name[<?php echo $this->course_id;?>][]" class="form-control" />
+	</div>
+	</div>
+	
+	<div class="col-sm-3">
+	<div class="form-group">
+	<label class="control-label">Weightage</label>
+        <input type="text" name="exp_course_component_weightage[<?php echo $this->course_id;?>][]" onchange="getExpWeightage(this.value,0,<?php echo $this->course_id;?>,this);" class="form-control exp_weightage_<?php echo $this->course_id;?>"/>
+	</div>
+	</div>
+	<div class="col-sm-3" style="">
+				<label class="control-label">Remaining Weightage</label>
+				<input type="text" name="exp_course_component_remaining_weightage[<?php echo $this->course_id;?>][]" class="form-control" id="exp_re_weightage_<?php echo $i.'_'.$this->course_id;?>"  readonly />
+				</div>
+
+
+	</div>
+	</div>
+	<div id="exp_addmore_items_<?php echo $i;?>"></div>
+				<br>
+	 <div class="col-md-1" style=""></div><div class="col-sm-4" ></div><div class="col-sm-4" ></div>
+			<input type="button" value="+" id="AddButton1" style="padding:7px 15px;margin:20px 15px;" class="btn btn-primary" onclick="addExpMore(<?php echo $i;?>,<?php echo $this->course_id;?>);" > 
+	 
+<?php  } 
+
+
+?>

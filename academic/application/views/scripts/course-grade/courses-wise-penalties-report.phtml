@@ -1,0 +1,225 @@
+<style>
+     @media print 
+     {
+/*                    table td:nth-child(4)
+                     {
+                         display:none;
+                     }
+                     table th:nth-child(4)
+                     {
+                         display:none;
+                     }*/
+                      *{
+                        visibility:hidden;
+                     }
+                     table,th,td 
+                     {
+                         visibility:visible;                    
+                     } 
+                     .title1
+                     {
+                        visibility:visible; 
+                     }
+                   
+     }
+</style>
+<div class="right_col">
+<?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+     <div class="alert alert-success ">
+<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+<?php echo $this->escape($message); ?>
+</div>
+ <?php } } ?>
+ <!-- widget grid -->
+<div class="">
+	<div class="">
+		<div class="row">
+			
+			<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+		<h3 class="page-title txt-color-blueDark">
+			<i class="fa fa-bars"> Courses Wise Penalties Report</i>
+				
+		</h3>
+	</div>
+			
+		
+		</div>
+		
+		<div class="x_panel">
+               
+                    <div class="x_title">
+                        <h2 class="title1">Courses Wise Penalties</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                       </li>
+                      <li><a class=""><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+<div class="x_content">
+		
+		<div class="padding-md clearfix table-responsive">
+                    
+
+			<table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+				<thead>
+					<tr>
+						<th>S. No.</th>
+						<th>Batch</th>
+						<th>Term</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+
+						$i = 1;
+						$pagination_tr = '';
+						if (count($this->paginator) != 0) {
+
+						foreach ($this->paginator as $results) {
+						//print_r($results);die;
+
+					?>
+							<tr class="id<?php echo $results['id'];?>">
+								<td><?php echo $i;
+
+									$i++; ?>
+								</td>						
+								
+								<td><?php echo $results['short_code']?></td>
+								<td><?php echo $results['term_name'];  ?></td>
+								<td><a onclick="penalties_view(<?php echo $results['id'];?>,<?php echo $results['academic_id'];?>,<?php echo $results['term_id'];?>)"id="<?php echo $results['id'];?>"> View</a>
+                                                                    
+                                                                    
+                                                                    </td>
+							<?php /* 	
+								<td><a href="<?php echo $this->mainconfig['host']; ?>grade-allocation/grade-allocation-report/type/edit/id/<?php echo $results['grade_report_id']; ?>" class="edit" title="Edit"><span class="fa fa-edit fa-lg"></span></a>&nbsp; | &nbsp;  <a href="<?php echo $this->mainconfig['host']; ?>grade-allocation/grade-allocation-report/type/delete/id/<?php echo $results['grade_report_id']; ?>" onclick="return ConfirmDelete();" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a></td> */ ?>
+
+							</tr>            
+
+						<?php }
+						$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+						} ?>
+
+				</tbody>
+			</table>
+			 <?php echo $pagination_tr; ?>
+		</div><!-- /.padding-md -->
+	</div><!-- /panel -->
+	</div>
+	</div>
+</div><!-- /.padding-md -->		
+
+</div>
+<script>
+$(document).ready(function(){
+	$('#batch').hide();
+});
+$('body').on('change','#year_id',function(){  
+var academic_year_id = $('#academic_id').val();
+var year_id = $('#year_id').val();
+if(year_id == 1){
+$.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'course-grade/ajax-get-student-absence-data';?>',
+			data: {academic_year_id:academic_year_id,year_id:year_id}
+		}).done(function( data ) {
+			 var result = $.parseJSON(data);
+		   
+			if(result !=0){
+				 alert('This Batch and Year is already Existed');
+				 $('#batch').hide();
+				$("#academic_id").find('option').attr("selected",false) ;
+				$("#year_id").find('option').attr("selected",false) ;
+				$('#batch').val('');
+				$('#course_grade_details').empty('');
+			}
+	
+			else{
+				
+				$.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'course-grade/ajax-get-student-absence';?>',
+			data: {academic_year_id:academic_year_id,year_id:year_id}
+		}).done(function( data ) {
+			$('#course_grade_details').html(data);
+			});
+			}
+				});
+		}
+
+else if(year_id == 2){
+	$.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'course-grade/ajax-get-second-year-penaltyterms-data';?>',
+			data: {academic_year_id:academic_year_id,year_id:year_id}
+		}).done(function( data ) {
+			
+			var result = $.parseJSON(data);
+		   
+			 if(result !=0){
+				 alert('This Batch and Year is already Existed');
+				  $('#batch').hide();
+				$("#academic_id").find('option').attr("selected",false) ;
+				$("#year_id").find('option').attr("selected",false) ;
+				$('#batch').val('');
+				$('#course_grade_details').empty('');
+			}
+		
+			else{  
+				
+				$.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'course-grade/ajax-get-second-year-penaltyterms';?>',
+			data: {academic_year_id:academic_year_id,year_id:year_id}
+		}).done(function( data ) {
+			$('#course_grade_details').html(data);
+			});
+			}
+			});
+}			
+});
+
+ 
+ $('body').on('change', '#academic_id', function() {		
+var academic_id=$('#academic_id').val();
+   if(academic_id){
+   $('#batch').show();
+	$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-batch-code';?>',
+			data: {academic_id:academic_id}
+		}).done(function( data ) {
+			var result = $.parseJSON(data);
+			if((data!='')){
+				$('#batch').val(result['short_code']);
+			}
+	  });
+	 }
+	 
+ });
+ function penalties_view(val,academic_year_id,term_id){ 
+	        var id = val;
+			var academic_year_id = academic_year_id;
+			var term_id = term_id;
+                        $.ajax({
+              type: "POST",
+               url:"<?php echo $this->mainconfig['host'].'course-grade/ajax-get-student-absence-view';?>",
+              data: { id:id,academic_year_id:academic_year_id,term_id:term_id}
+            }).done(function(data) {
+				$(".sub").hide();
+				$(data).insertAfter("tr.id"+id);
+			});
+				
+     }
+      $('#dataTable').DataTable();
+      $('#print').click(function(){
+window.print('#grade_data');
+});
+</script>

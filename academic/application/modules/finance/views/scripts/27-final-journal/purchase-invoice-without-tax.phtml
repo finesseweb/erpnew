@@ -1,0 +1,276 @@
+<?php
+$invoiceData = $this->invoiceData;
+//print_r($invoiceData);die;
+
+$cmpDetail = $this->cmpDetail;
+$cmpAddress = '';
+if (isset($cmpDetail)) {
+    $cmpAddress .='<h5>' . $cmpDetail['company_name'] . '</h5>';
+    $cmpAddress .='<p>' . $cmpDetail['company_address1'] . '</p>';
+}
+  
+?>
+<tr class="purchase-quatation-items-close">
+<td colspan="8">
+<div class="purchase-quatation-items" style="display: block;">
+<div class="col-sm-12 " >
+<div id="log1">  
+<div class="panel panel-default bor" >
+ <div class="panel-body">
+<div class="table-responsive employee_class purchase-quatation-items">
+    <table style="margin-bottom:  0px;" class="table table-bordered ">
+        <thead>
+			<tr>
+				<th style="text-align: center" colspan="8">
+					<div class="row">
+						<div class="col-sm-12"><center>
+								<div class="form-group bor">                       
+									<label align="center" class="control-label"><strong> Purchase Invoice</strong></label>
+								</div></center>	
+								<?php
+								 // Edit option hide
+								 $financeDate = $this->financeDate;
+								 if( empty($financeDate[$invoiceData['purchase_invoice_id']]) ){ ?>
+								<div class="col-sm-2" style="float:right; width:10%;"><a class="btn btn-primary" href="<?php echo $this->mainconfig['host'];?>invoice/purchase/index/type/edit/id/<?php echo $invoiceData['purchase_invoice_id'];?>/partyname/<?php echo $this->partyname; ?>/from/<?php echo $this->startdate; ?>/to/<?php echo $this->enddate; ?>">Edit</a></div>
+								<?php }else{ 
+									echo 'Tallied';
+								 }?>
+								<div class="col-sm-2" style="float:right; width:10%;"><a class="close_tr btn btn-primary">Close</a></div>						
+						</div>            
+					</div>
+				</th>
+			</tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="3">From:
+                    <br>
+					<h4><?php echo $invoiceData['vendor_name']; ?> </h4>
+                    <?php echo $invoiceData['vendor_address1']; ?></td>
+                <td colspan="3">Invoice To:
+                    <span><?php echo $cmpAddress; ?></span>
+                </td>
+            </tr>
+                <tr>
+                    <td>Invoice No:
+                         <strong>
+                            <?php
+                            if (isset($invoiceData)) {
+                                if (strlen($invoiceData['purchase_invoice_id']) == 1) {
+                                    echo @INVAL_PREFIX . "000" . $invoiceData['purchase_invoice_id'];
+                                } else
+                                if (strlen($invoiceData['purchase_invoice_id']) == 2) {
+                                    echo @INVAL_PREFIX . "00" . $invoiceData['purchase_invoice_id'];
+                                } else
+                                if (strlen($invoiceData['purchase_invoice_id']) == 3) {
+                                    echo @INVAL_PREFIX . "0" . $invoiceData['purchase_invoice_id'];
+                                } else {
+                                    echo @INVAL_PREFIX . $invoiceData['purchase_invoice_id'];
+                                }
+                            }
+                            ?>
+						</strong>
+                    </td>
+                    <td colspan="2">Invoice Date: <strong><?php
+                            if (isset($invoiceData['purchase_invoice_id'])) {
+                                echo $invoiceData['invoice_date'];
+                            } else
+                                echo 'Not submited';
+                            ?></strong>
+					</td>
+					<td >Bill No: <strong><?php
+                            if (isset($invoiceData['bill_no'])) {
+                                echo $invoiceData['bill_no'];
+                            } ?>
+							</strong></td>
+                </tr>  
+        </tbody>
+
+    </table>
+
+    <table class = "table table-bordered">
+        <thead>
+            <tr>
+                <th style = "text-align: center">S.No.</th>
+                <th style = "text-align: center">Category</th>
+				<th style = "text-align: center">Description </th>
+				<th style = "text-align: center">Account Name </th>
+                <th style = "text-align: center">Qty.</th>
+				<th style = "text-align: center">UOM</th>
+                <th style = "text-align: center">Rate<?php echo CURRENCY_TH_SYMBOL;?></th>
+                <th style = "text-align: center">Net Amount<?php echo CURRENCY_TH_SYMBOL;?></th>
+            </tr>
+
+        </thead>
+        <tbody>
+
+            <tr>
+                <?php 
+				$grand_totals = 0;
+				if($this->itemInvoiceData >0){ 
+					$productDetails = $this->itemInvoiceData;
+                  // echo '<pre>'; print_r($productDetails);die;
+					$index = 1;
+                    $grand = 0;
+                    $grand_discount = 0;
+                    foreach ($productDetails as $item) {
+                        $total = ($item['purchase_invoice_item_price'] * $item['purchase_invoice_item_approved_quantity']);
+                        echo ('<tr align="center">' );
+                        echo ('<td>' . $index . '</td>');
+                        echo ('<td>' . $item['category_name'] . '</td>');
+						echo ('<td>' . $item['item_name'] . '</td>');
+						echo ('<td>' . $item['account_name'] . '</td>');
+                        echo ('<td>' . $item['purchase_invoice_item_approved_quantity'] . '</td>' );
+                        echo ('<td>' . $item['item_uom_unit'] . '</td>' );
+						echo ( '<td style="text-align:right" > ' . number_format($item['purchase_invoice_item_price'], 2) . '</td>');
+                        echo ('<td style="text-align:center"> ' . number_format($total, 2) . '</td>');
+                        echo ('</tr>');
+                        $index++;
+                        $grand+=$total;
+                    }
+
+                    //$vat = ($this->orderDetails->vendor_vat) ? $this->orderDetails->vendor_vat : 0;
+                    //$vat_total = ($vat / 100) * $grand;
+                }
+                ?>
+
+            </tr>
+            <tr>
+                <td colspan="4">
+                </td>                
+                <td></td>
+                <td colspan="2"style="text-align: right;" >Total</td>
+                <td style="text-align: center;"><?php echo CURRENCY_SYMBOL;?>  <?php echo number_format($grand, 2); ?></td>
+            </tr>
+           
+            <tr>
+                <td colspan="8" style="text-align: center;" >
+                    (<?php echo 'Rupees' . '&nbsp;' . convert_number($grand) . '&nbsp;' . 'Only'; ?>)
+                </td>
+
+
+            </tr>
+            <tr>
+               <?php /* <td colspan="6">Please make all payments through DD/Crosed cheques in favour INDAG LTD.NoCash Payment shall be made to any employee of INDAAG as it would be on Buyer's own risk. </td> */ ?>
+            </tr>
+
+        </tbody>
+
+    </table>
+</div>
+ </div>
+
+ </div>
+</div>
+
+               </div>
+    </div>
+</td>
+</tr>
+<style type="text/css">
+/*    .bor {border:1px solid #ccc; }*/
+    .table { margin-bottom: 0px !important;width: 100%;}
+    .employee_class {margin-left: 4% !important;margin-right: 4% !important;}
+    .panel-footer {padding: 5px;}
+    .panel {margin-bottom: 10px !important;}
+	a:hover{cursor:pointer;}
+
+</style>
+
+<?php
+
+function no_to_words($no) {
+    $words = array('0' => '', '1' => 'one', '2' => 'two', '3' => 'three', '4' => 'four', '5' => 'five', '6' => 'six', '7' => 'seven', '8' => 'eight', '9' => 'nine', '10' => 'ten', '11' => 'eleven', '12' => 'twelve', '13' => 'thirteen', '14' => 'fouteen', '15' => 'fifteen', '16' => 'sixteen', '17' => 'seventeen', '18' => 'eighteen', '19' => 'nineteen', '20' => 'twenty', '30' => 'thirty', '40' => 'fourty', '50' => 'fifty', '60' => 'sixty', '70' => 'seventy', '80' => 'eighty', '90' => 'ninty', '100' => 'hundred &', '1000' => 'thousand', '100000' => 'lakh', '10000000' => 'crore');
+    if ($no == 0)
+        return ' ';
+    else {
+        $novalue = '';
+        $highno = $no;
+        $remainno = 0;
+        $value = 100;
+        $value1 = 1000;
+        while ($no >= 100) {
+            if (($value <= $no) && ($no < $value1)) {
+                $novalue = $words["$value"];
+                $highno = (int) ($no / $value);
+                $remainno = $no % $value;
+                break;
+            }
+            $value = $value1;
+            $value1 = $value * 100;
+        }
+        if (array_key_exists("$highno", $words))
+            return $words["$highno"] . " " . $novalue . " " . no_to_words($remainno);
+        else {
+            $unit = $highno % 10;
+            $ten = (int) ($highno / 10) * 10;
+            return $words["$ten"] . " " . $words["$unit"] . " " . $novalue . " " . no_to_words($remainno);
+        }
+    }
+}
+
+function convert_number($number) {
+    if (($number < 0) || ($number > 999999999)) {
+        throw new Exception("Number is out of range");
+    }
+
+    $Gn = floor($number / 100000);  /* Millions (giga) */
+    $number -= $Gn * 100000;
+    $kn = floor($number / 1000);     /* Thousands (kilo) */
+    $number -= $kn * 1000;
+    $Hn = floor($number / 100);      /* Hundreds (hecto) */
+    $number -= $Hn * 100;
+    $Dn = floor($number / 10);       /* Tens (deca) */
+    $n = $number % 10;               /* Ones */
+
+    $res = "";
+
+    if ($Gn) {
+        $res .= convert_number($Gn) . " Lacs";
+    }
+
+    if ($kn) {
+        $res .= (empty($res) ? "" : " ") .
+                convert_number($kn) . " Thousand";
+    }
+
+    if ($Hn) {
+        $res .= (empty($res) ? "" : " ") .
+                convert_number($Hn) . " Hundred";
+    }
+
+    $ones = array("", "One", "Two", "Three", "Four", "Five", "Six",
+        "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen",
+        "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eightteen",
+        "Nineteen");
+    $tens = array("", "", "Twenty", "Thirty", "Fourty", "Fifty", "Sixty",
+        "Seventy", "Eigthy", "Ninety");
+
+    if ($Dn || $n) {
+        if (!empty($res)) {
+            $res .= " and ";
+        }
+
+        if ($Dn < 2) {
+            $res .= $ones[$Dn * 10 + $n];
+        } else {
+            $res .= $tens[$Dn];
+
+            if ($n) {
+                $res .= "-" . $ones[$n];
+            }
+        }
+    }
+
+    if (empty($res)) {
+        $res = "zero";
+    }
+
+    return $res;
+}
+?>
+<script>
+$(".close_tr").click(function() {
+		$( ".purchase-quatation-items-close" ).hide();
+ });
+</script>

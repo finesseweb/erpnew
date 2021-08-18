@@ -1,0 +1,36 @@
+      <?php
+                                $i = 1;
+                                $pagination_tr = '';
+                                if (count($this->result) != 0) {
+                                    foreach ($this->result as $results) {
+                                        ?>
+                                        <tr>
+                                            
+                                         
+                                    
+                                            <td><?php echo $i; $i++; ?>
+                                            </td>	
+                                           <td><?=$results['student_id']; ?>
+                                            </td>
+                                            <td><?=$results['stu_name']; ?>
+                                            </td>
+                                            <?php if($results['filename1']) {?>
+                                            <td><a href='<?=$this->baseUrl($results['upload_file']);?>' class='link' download><?=$results['filename1'];?></a></td>
+                                            <?php }else{?>
+                                            <td>--</td>
+                                            <?php }?>
+                                             <td><?=$results['stu_updated_date']; ?>
+                                            </td>
+                                            
+                                        </tr>   
+                                        
+                                        
+    <?php
+    }
+}else{ ?>
+    <tr>
+        <td colspan="8">No Records</td>
+    </tr>
+<?php }
+?>
+

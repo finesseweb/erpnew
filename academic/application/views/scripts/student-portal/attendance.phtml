@@ -1,0 +1,175 @@
+<?php $result = $this->result; ?>
+<?php //echo "<pre>"; print_r($result);exit;  ?>
+<style>
+    .text-bold-marked{
+        border:1px dashed red;
+        font-weight:700;
+        font-size:22px;
+
+    }
+
+    .table-shadow{
+        -webkit-box-shadow: 4px 3px 8px #000;
+        box-shadow: 2px 3px 4px #000;
+        border:10px inset #aaa;
+    }
+    .my.table>tbody>tr>td, .my.table>tbody>tr>th, .my.table>tfoot>tr>td, .my.table>tfoot>tr>th, .my.table>thead>tr>td, .my.table>thead>tr>th {
+        padding: 0px !important;
+        line-height: 1.42857143;
+        vertical-align: middle !important;
+        border-top: 1px solid #ddd;
+    }
+    .my.table{
+        margin-bottom:0px;
+    }
+</style>
+<div class="right_col">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="page-title txt-color-blueDark" >
+                <div><i class="fa fa-eye">Student Attendance</i>
+                    <div id="chart_div" style='position:absolute; right:0px; top:-14px;' class='pull-right' ></div>
+                </div>
+            </h3>
+            <div class="panel panel-default">
+
+                <div class='panel-title'>
+
+
+                </div>
+                
+                  <div class="panel panel-default">
+                <form class="no-margin" id="formValidate1" action="<?php echo $this->form->getAction() ?>" method="post" data-validate="parsley" >
+
+                    <div class="panel-body">
+
+                        <div class="row">
+
+                            <div class="col-sm-3 employee_class">
+                                <div class="form-group">
+
+                                    <?php if ($this->type != 'edit') { ?>
+                                        <label class="control-label">Term <span class="asterisk">*</span></label>
+                                        <?php echo $this->form->term_id; ?>
+                                    <?php } ?>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3 employee_class">
+
+
+
+
+                                <!-- <div class="col-sm-3 employee_class">
+    <div class="form-group">
+    <label class="control-label">Credit<span class="asterisk">*</span></label>
+                                <?php //echo $this->form->credit_id; ?>
+    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div id="grade_data">
+                        </div>
+
+                    </div>
+                
+                <div class='panel-body'>	
+                    <table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+                        <thead>
+                            <tr>
+                                <th style="text-align:center;">Sl. No.</th>
+                                <th>Courses</th>
+                                <th class='text-center'>Session</th>
+                                <th style="text-align:center;">Total Class</th>
+                                <th style="text-align:center;">Present</th>
+                                <th style="text-align:center;">Absent</th>
+                                <th style="text-align:center;">Leave</th>
+                                
+                                <th style="text-align:center">Last Updated on</th>
+                            </tr>
+                        </thead>
+                        <tbody style="text-align:center;" id ="mainData">
+                            <?php
+                            $i = 1;
+                            $pagination_tr = '';
+                            if (count($result) != 0) {
+                                foreach ($result as $results) {
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $i;
+                            $i++;
+                            ?> </td>						
+                                        <td><?php echo $results['course_code']; ?></td>
+                                        <td><?php echo $results['total_class']; ?></td>
+                                        <td><?php echo ((int)$results['p']+(int)$results['A']+(int)$results['L']); ?></td>
+                                        <td><?php echo $results['p']; ?></td>
+                                        <td><?php echo $results['A']; ?></td>
+                                        <td><?php echo $results['L']; ?></td>
+                                         <td><?php if($results['updated_date'])echo $results['updated_date'];else echo "0000-00-00"; ?></td>
+                                    </tr> 
+    <?php
+    }
+}
+?>   </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script>
+        
+        
+        //get Recent batch and Terms
+        
+   
+    $.ajax({
+        type: "POST",
+        url: '<?php echo $this->mainconfig['host'] . 'student-portal/ajax-get-recent-term-and-batch'; ?>',
+        data: {my_date: '<?= date('d-m-Y'); ?>'}
+    }).done(function (data) {
+        json_new_obj = JSON.parse(data);
+        $('#academic_year_id').val(json_new_obj.batch_id);
+        var academic = json_new_obj.batch_id;
+        if (academic) {
+            $.ajax({
+                type: "POST",
+                url: '<?php echo $this->mainconfig['host'] . 'student-portal/ajax-get-terms-default'; ?>',
+                data: {academic_year_id: academic}
+            }).done(function (data) {
+                //alert(json_new_obj.term_id);
+                $('#term_id').empty('');
+                $('#term_id').html(data);
+                $('#term_id').val(json_new_obj.term_id);
+                
+               
+
+            });
+        }
+    });
+        var academic_id = '<?= $_SESSION['admin_login']['admin_login']->participant_academic; ?>';
+
+                        $.ajax({
+                            type: "POST",
+                            url: '<?php echo $this->mainconfig['host'] . 'student-portal/ajax-get-terms'; ?>',
+                            data: {academic_year_id: academic_id}
+                        }).done(function (data) {
+                            $('#term_id').empty('');
+                            $('#term_id').html(data);
+                        });
+                        
+                        
+                        $('#term_id').change(function(){
+                             $.ajax({
+                            type: "POST",
+                            url: '<?php echo $this->mainconfig['host'] . 'student-portal/ajax-get-attendance-view'; ?>',
+                            data: {term_id: $('#term_id').val()}
+                        }).done(function (data) {
+                           
+                            $('#mainData').empty('');
+                            $('#mainData').html(data);
+                        })
+                        });
+                        
+                        
+        </script>

@@ -1,0 +1,29 @@
+
+                                <?php $i=0;?>
+                                <?php if(empty($this->result[0]['message'])){foreach($this->result as $key => $value) {?>
+                            <?php if($value['term_name'] || $value['tuition_fee']) {?>
+                                        <tr>
+                                            <td><?=++$i;?></td>
+                                            <td><?=$value['term_name'];?></td>
+                                            <td><?=$value['tuition_fee'];?></td>
+                                            <td><?=$value['service_fee'];?></td>
+                                            <td><?=$value['other_annual_charges'];?></td>
+                                            <td><?=$value['fee'];?></td>
+                                            <td><?=$value['fee_discount'];?></td>
+                                            <td><?=$value['fee_to_pay'];?></td>
+                                            
+                                            <?php 
+                                            
+                                            $date_arr = explode('-',$value['due_date']);
+                                            
+                                            ?>
+                                            <td><?= in_array('1970', $date_arr)? 'NA':date('d-m-Y',strtotime($value['due_date'])); ?></td>
+                                            <td><?=$value['trans_details']['trans_amount'];?></td>
+                                       <!--<td><?php //$value['trans_details']['trans_date'];?></td> -->
+                                            <td><?=$value['due_fee'];?></td>
+                                            <td><a href='<?php echo $this->mainconfig['host'] . 'student-portal/print-transction-report/batch_id/';   ?><?=$_SESSION['admin_login']['admin_login']->participant_academic;?>/term_id/ <?=$value['term_id'];?>/term_name/<?=$value['term_name'];?>'><span class='glyphicon glyphicon-print'></span></a></td>
+                                        </tr>
+                                
+                                <?php } }exit;}else{
+                                    echo "<tr><td colspan ='12' class='text-center' >".$this->result[0]['message']."</td></tr>";
+                                } exit; ?>

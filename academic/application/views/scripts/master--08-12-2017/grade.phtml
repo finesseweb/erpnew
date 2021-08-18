@@ -1,0 +1,251 @@
+<div class="right_col">
+<?php if ($this->type) { ?>
+<div class="padding-md ">
+	<div class="row">
+		<div class="col-md-12">
+		<h3 class="page-title txt-color-blueDark" >
+			<div><i class="fa fa-eye"> Grade Master</i></div>
+		</h3>
+			<div class="panel panel-default">
+				<form class="no-margin" id="formValidate1" action="<?php // echo $this->form->getAction() ?>" method="post" data-validate="parsley" >
+					
+						
+
+									<div class="panel-body">
+											
+											<?php 				 
+											if($this->type=='edit'){				
+												if(count($this->results_view)>0){
+													foreach($this->results_view as $val){
+											?>
+											<div class="row">						
+												<div  class="appended_row">										
+													<div class="col-sm-4" style="">
+														<div class="form-group">
+															<label class="control-label">Letter Grade <span class="asterisk">*</span>
+															</label>
+															<input type="text"  value="<?php echo $val['letter_grade']; ?>" onchange="calculate_ltr()" onkeyup="calculate_ltr()" onkeypress="calculate_ltr()" class="form-control item_amount" <?php if($this->type=='add'){ ?> required="true" <?php }?> name="items[letter_grade][]"  placeholder="Add Letter"> 
+														</div>
+													</div>
+													
+													<div class="col-sm-4" style="">
+														<label class="control-label">Number Grade <span class="asterisk">*</span>
+														</label>
+														<input type="text"  value="<?php echo $val['number_grade']; ?>" onchange="calculate_qty()" onkeyup="calculate_qty()" onkeypress="calculate_qty()" class="form-control item_amount" <?php if($this->type=='add'){ ?> required="true" <?php }?> name="items[number_grade][]"  placeholder="Add Number"> 
+													</div>
+												</div>									
+											</div>
+											<?php } ?>
+											<?php } ?>
+											<div class="col-sm-4"></div><div class="col-sm-4"></div>
+											<a id="AddButton" class="btn btn-primary" style="padding:7px 19px;margin:24px 15px;">+</a> 
+											
+											<?php	
+											} else {
+											?>
+											<div class="row">
+												<div  class="appended_row" style="margin-top:10px;">										
+													<div class="col-sm-4" style="">
+														<div class="form-group">
+															<label class="control-label">Letter Grade<span class="asterisk">*</span></label>
+															<input type="text"  onchange="calculate_ltr()" onkeyup="calculate_ltr()" onkeypress="calculate_ltr()" class="form-control item_amount" <?php if($this->type=='add'){ ?> required="true" <?php }?> name="items[letter_grade][]"  placeholder="Add Letter"> 
+														</div>
+													</div>
+													
+													<div class="col-sm-4" style="">
+														<label class="control-label">Number Grade<span class="asterisk">*</span></label>
+														<input type="text"  onchange="calculate_num()" onkeyup="calculate_num()" onkeypress="calculate_num()" class="form-control item_amount" <?php if($this->type=='add'){ ?> required="true" <?php }?> name="items[number_grade][]"  placeholder="Add Number"> 
+													</div>
+													
+													<div class="col-md-2" style="">									   
+														<input type="button" value="+" id="AddButton" class="btn btn-primary" style="margin:24px 0px;padding:7px 19px;width:3.6em;"> 
+													</div>
+												</div>					
+											</div>
+											<?php } ?>
+											<div id="fields">										
+											</div>
+											<div style="display:none">							
+												<div class="row appended_row appended_row1"  id="appended_row1" style="margin-top:10px;background-color:#f1f1f1;margin-top:10px;margin-left:-20px;margin-right:1px;padding-top:15px;padding-bottom:10px;padding-left:10px;margin-bottom:10px;">
+													<div class="col-sm-4" style="">
+														<input type="text" onchange="calculate_ltr()" onkeyup="calculate_ltr()" onkeypress="calculate_ltr()" class="form-control item_amount" name="items[letter_grade][]"  placeholder="Add Letter">
+													</div>
+													<div class="col-sm-4" style="">
+														<input type="text" onchange="calculate_num()" onkeyup="calculate_num()" onkeypress="calculate_num()" class="form-control item_amount" name="items[number_grade][]"  placeholder="Add Number"> 
+													</div>
+														<a href="#" class="removeclass btn btn-primary " style="margin:0px 20px; width:3.6em;" >-</a>
+												</div>
+											</div>
+								
+									</div>
+					<div>
+						<div class="panel-footer">									
+							<div class="row">
+								<div class="col-sm-7 col-sm-offset-5">
+									<?php if ($this->type == 'add') { ?> 
+										<div style="float:left;margin-right:2px;">
+										<button class="btn btn-primary submit">Submit</button>
+										</div>
+										<div style="float:left;padding:0px 10px;">
+										<button type="reset" class="btn btn-danger btn-default">Reset</button>
+										</div>
+									<?php } else { ?>
+										<div >
+										<button class="btn btn-primary submit">Update</button>
+										</div>
+									<?php } ?>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div><!-- /panel -->
+		</div><!-- /.col-->				
+	</div><!-- /.row -->
+	
+</div><!-- /.padding-md -->	
+<?php } else { ?>
+  
+<?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+     <div class="alert alert-success ">
+<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+<?php echo $this->escape($message); ?>
+</div>
+ <?php } } ?>
+ <!-- widget grid -->
+<div class="">
+	<div class="">
+		<div class="row">
+			
+			<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+		<h3 class="page-title txt-color-blueDark">
+			<i class="fa fa-bars"> Grade Master</i>
+				
+		</h3>
+	</div>
+			
+		<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">	 
+			
+			<a class="btn btn-primary pull-right" style="margin-top: 25px;" href="<?php echo $this->mainconfig['host']; ?>master/grade/type/add">Add </a>
+		</div>
+		</div>
+		
+		<div class="x_panel">
+               
+                    <div class="x_title">
+                    <h2>Grade Master</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                       </li>
+                      <li><a class=""><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+<div class="x_content">
+		
+		<div class="padding-md clearfix">
+			<table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+				<thead>
+					<tr>
+						<th>S.No.</th>	
+						<th>Letter Grade</th>
+						<th>Number Grade</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+
+						$i = 1;
+						$pagination_tr = '';
+						if (count($this->paginator) != 0) {
+
+						foreach ($this->paginator as $results) {
+						//print_r($results);die;
+
+					?>
+							<tr>
+								<td><?php echo $i;
+
+									$i++; ?>
+								</td>						
+								
+								
+								<td><?php echo $results['letter_grade']; ?></td>
+								<td><?php echo $results['number_grade']; ?></td>
+								
+								<td><a href="<?php echo $this->mainconfig['host']; ?>master/grade/type/edit/id/<?php echo $results['grade_id']; ?>" class="edit" title="Edit"><span class="fa fa-edit fa-lg"></span></a>&nbsp; | &nbsp;  <a href="<?php echo $this->mainconfig['host']; ?>master/grade/type/delete/id/<?php echo $results['grade_id']; ?>" onclick="return ConfirmDelete();" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a></td>
+
+							</tr>            
+
+						<?php }
+						$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+						} ?>
+
+				</tbody>
+			</table>
+			 <?php echo $pagination_tr; ?>
+		</div><!-- /.padding-md -->
+	</div><!-- /panel -->
+	</div>
+	</div>
+</div><!-- /.padding-md -->		
+<?php } ?>
+</div>
+<script>	
+ 
+	
+	function ConfirmDelete()
+	{
+	var x = confirm("Are you sure you want to delete?");
+	if(x)
+		return true;
+	else
+		return false;
+	}
+$("#cc_name").change(function(){
+	
+	var course_name=$('#cc_name').val();
+	//alert(coursename);
+	$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/get-course-category';?>',
+			data: {course_name:course_name}
+		}).done(function( data ) {
+			
+			if((data!='')){
+				alert("This Course Name Exists");
+				$("#cc_name").val("");
+			}
+		 });
+});
+
+</script>
+
+<script>
+var InputsWrapper   = $("#InputsWrapper"); 
+var AddButton       = $("#AddMoreFileBox"); 
+
+var x = InputsWrapper.length; 
+var FieldCount=1; 
+
+$("body").on("click","#AddButton", function(e){ 
+   
+      FieldCount++;      
+      
+    $( "#appended_row1" ).clone().find("input:text").val("").end().appendTo( "#fields" );
+ x++; 
+return false;
+});
+
+$("body").on("click",".removeclass", function(e){ 
+		$(this).parent('div').remove(); 
+        
+return false;
+});
+</script>

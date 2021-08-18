@@ -1,0 +1,239 @@
+<?php if ($this->type == 'search') { ?>
+<div class="padding-md">
+	<div class="panel panel-default table-responsive">
+		<form class="no-margin" id="formValidate1" action="<?php echo $this->mainconfig['host']; ?>report/report/type/search" method="post" data-validate="parsley" novalidate>
+			<div class="padding-md clearfix">	
+				<div class="row">
+					<div class="col-sm-3">	
+						<div class="form-group">
+							<label class="control-label">How do you know about Esperanza</label>
+							<?php echo $this->Report_form->how_know_esperanza; ?>
+						</div>										
+					</div> 
+					<div class="col-sm-3">	
+						<div class="form-group">
+							<label class="control-label">Enquiry Mindset</label>									
+							<?php echo $this->Report_form->enquiry_mind_set; ?>
+						</div>										
+					</div>
+					<div class="col-sm-3" >	
+						<div class="form-group" style="margin-top:20px;">
+							<?php echo $this->Report_form->search_type; ?>
+							<label class="control-label">( Father Name,Mother Name,Guardian Name,Guardian Mobile No.,Primary Mobile No,Child Name,Email )</label>
+						</div>										
+					</div>		
+					<div style="float:left;margin-right:2px;">
+							<input type="submit" name="search" style="margin-top: 20px;" class="btn btn-primary submit" value="Submit" />
+					</div>
+				</div>	
+			</div>	
+		</form>
+	<div class="padding-md clearfix">
+			<table class="table table-striped" id="dataTable">
+				<thead>
+					<tr>
+						<th>S. No.</th>											
+						<th>Enquiry No.</th>
+						<th>Enquiry Date</th> 
+						<th>Branch</th>
+						<th>Father Name</th>
+						<th>Mother Name</th>												
+						<th>Child Name</th>
+						<th>Guardian Name</th> 	
+						<th>Local Address</th>
+						<th>Father Mobile No.</th> 	
+						<th></th> 
+					</tr>
+				</thead>
+				
+				
+				<tbody>
+					<?php
+
+						$i = 1;
+						//$pagination_tr = '';
+						if (count($this->searchResult) != 0) {
+
+						foreach ($this->searchResult as $searchResult) {
+
+					?>
+					<tr class="Insertenquiryid<?php echo $searchResult['enquiry_id'];?>">
+						<td><?php echo $i;
+
+							$i++; ?>
+						</td>
+						<td><?php if(strlen($searchResult['enquiry_id']) == 1 ){
+						echo '000'.$searchResult['enquiry_id'];
+						}elseif(strlen($searchResult['enquiry_id']) == 2){
+						echo '00'.$searchResult['enquiry_id'];
+						}elseif(strlen($searchResult['enquiry_id']) == 3){
+						echo '0'.$searchResult['enquiry_id'];
+						}else{ echo $searchResult['enquiry_id']; }?></td>						
+						<td><?php echo date( DATE_PREFIX, strtotime($searchResult['enquiry_date'])); ?></td>
+						<td><?php echo $searchResult['branch_name']; ?></td>	
+						<td><?php echo $searchResult['father_first_name'].' '.$searchResult['father_last_name']; ?></td> 
+						<td><?php echo $searchResult['mother_first_name'].' '.$searchResult['mother_last_name']; ?></td>
+						<td><?php echo $searchResult['child_first_name'].' '.$searchResult['child_last_name']; ?></td>
+						<td><?php echo $searchResult['guardian_first_name'].' '.$searchResult['guardian_last_name']; ?></td>								
+						<td><?php 
+						$SubString = substr($searchResult['local_address'],0,18);
+						if(strlen($searchResult['local_address']) >100){
+							echo $SubString.'...';
+						}else{
+							echo $SubString;
+						}
+						 ?></td> 	
+						<td><?php echo $searchResult['father_mobile_no']; ?></td> 	
+						<td ><a  style="cursor:pointer" class="getenquiry" enquiryid="<?php echo $searchResult['enquiry_id'];?>" > View </a> </td>
+					</tr>
+						<?php }
+						//$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+						}?>
+					</tbody>
+			</table>
+			 <?php //echo $pagination_tr; ?>
+		</div><!-- /.padding-md -->
+	</div><!-- /panel -->
+</div><!-- /.padding-md -->	
+
+<?php } else { ?>
+
+<!-- widget grid -->	
+<div class="padding-md">
+	<div class="panel panel-default table-responsive">
+		<form class="no-margin" id="formValidate1" action="<?php echo $this->mainconfig['host']; ?>report/report/type/search" method="post" data-validate="parsley" novalidate>
+			<div class="padding-md clearfix">	
+				<div class="row">
+					<div class="col-sm-3">	
+						<div class="form-group">
+							<label class="control-label">How do you know about Esperanza</label>									
+							<?php echo $this->Report_form->how_know_esperanza; ?>
+						</div>										
+					</div> 
+					<div class="col-sm-3">	
+						<div class="form-group">
+							<label class="control-label">Enquiry Mindset</label>									
+							<?php echo $this->Report_form->enquiry_mind_set; ?>
+						</div>										
+					</div>
+					<div class="col-sm-3" >	
+						<div class="form-group" style="margin-top:20px;">
+							<?php echo $this->Report_form->search_type; ?>
+							<label class="control-label">( Father Name,Mother Name,Guardian Name,Guardian Mobile No.,Primary Mobile No,Child Name,Email )</label>
+						</div>										
+					</div>	
+					<div style="float:left;margin-right:2px;">
+							<input type="submit" name="search" style="margin-top: 20px;" class="btn btn-primary submit" value="Submit" />
+					</div>
+				</div>	
+			</div>	
+		</form>
+		<div class="padding-md clearfix">
+			<table class="table table-striped" id="dataTable">
+				<thead>
+					<tr>
+						<th>S. No.</th>
+						<th>Enquiry No.</th>
+						<th>Enquiry Date</th> 
+						<th>Branch</th>
+						<th>Father Name</th>
+						<th>Mother Name</th>												
+						<th>Child Name</th>
+						<th>Guardian Name</th> 							
+						<th>Local Address</th>
+						<th>Father Mobile No.</th> 	
+						<th>Notes</th>
+					</tr>
+				</thead>
+				
+				
+				<tbody>
+					<?php
+
+						$i = 1;
+						$pagination_tr = '';
+						if (count($this->paginator) != 0) {
+
+						foreach ($this->paginator as $results) {  //echo '<pre>'; print_r($results);
+
+					?>
+					<tr>
+						<td><?php echo $i;
+
+							$i++; ?>
+						</td>
+						<td><?php if(strlen($results['enquiry_id']) == 1 ){
+						echo '000'.$results['enquiry_id'];
+						}elseif(strlen($results['enquiry_id']) == 2){
+						echo '00'.$results['enquiry_id'];
+						}elseif(strlen($results['enquiry_id']) == 3){
+						echo '0'.$results['enquiry_id'];
+						}else{ echo $results['enquiry_id']; }?></td>						
+						<td><?php echo date( DATE_PREFIX, strtotime($results['enquiry_date'])); ?></td>
+						<td><?php echo $results['branch_name']; ?></td>	
+						<td><?php echo $results['father_first_name'].' '.$results['father_last_name']; ?></td> 
+						<td><?php echo $results['mother_first_name'].' '.$results['mother_last_name']; ?></td>
+						<td><?php echo $results['child_first_name'].' '.$results['child_last_name']; ?></td>
+						<td><?php echo $results['guardian_first_name'].' '.$results['guardian_last_name']; ?></td>
+						<td><?php 
+						$SubString = substr($results['local_address'],0,18);
+						if(strlen($results['local_address']) >80){
+							echo $SubString.'...';
+						}else{
+							echo $SubString;
+						}
+						 ?></td> 	
+						<td><?php echo $results['father_mobile_no']; ?></td>
+						<td>
+						<?php 
+						$SubString = substr($results['notes'],0,25);
+						if(strlen($results['notes']) >25){
+							echo $SubString.'...';
+						}else{
+							echo $SubString;
+						}
+						 ?>
+						
+						
+						<?php //echo $results['notes']; ?></td>	
+						<?php /* <td><a href="<?php echo $this->mainconfig['host']; ?>enquiry/followup/type/edit/id/<?php echo $results['enquiry_id']; ?>" class="edit" title="Edit"><span class="fa fa-edit fa-lg"></span></a>&nbsp; | &nbsp;  <a href="<?php echo $this->mainconfig['host']; ?>enquiry/followup/type/delete/id/<?php echo $results['enquiry_id']; ?>" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a></td> */ ?>
+
+					</tr>            
+
+						<?php }
+						$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+						} ?>
+
+				</tbody>
+			</table>
+			 <?php echo $pagination_tr; ?>
+		</div><!-- /.padding-md -->
+	</div><!-- /panel -->
+</div><!-- /.padding-md -->
+<?php } ?>	
+<script>
+
+$('body').on('change', '#enquiry_id', function() {
+	var id = $(this).val();		
+		$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'enquiry/ajax-get-enquiry_info';?>',
+			data: {id:id}
+		}).done(function( data ) {
+			$( "#profession").html( data );
+		 });
+});
+$(".getenquiry").click(function() {
+            var id=$(this).attr("enquiryid");
+            //alert(id);
+            $("tr.enquiryitemsdiv").remove();
+            $.ajax({
+              type: "POST",
+               url:"<?php echo $this->mainconfig['host'].'report/get-enquiry-vew';?>",
+              data: { id: id }
+            }).done(function(data) { 
+				//$(".enquiry-items-close").hide();
+                $(data).insertAfter("tr.Insertenquiryid"+id);
+            });
+     });
+</script>

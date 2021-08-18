@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Zend Framework Default Application</title>
+</head>
+<body>
+  <h1>An error occurred</h1>
+  <h2><?php echo $this->message ?></h2>
+
+  <?php if (isset($this->exception)): ?>
+
+  <h3>Exception information:</h3>
+  <p>
+      <b>Message:</b> <?php echo $this->exception->getMessage() ?>
+  </p>
+
+  <h3>Stack trace:</h3>
+  <pre><?php echo $this->exception->getTraceAsString() ?>
+  </pre>
+
+  <h3>Request Parameters:</h3>
+  <pre><?php echo var_export($this->request->getParams(), true) ?>
+  </pre>
+  <?php endif ?>
+
+</body>
+</html> 
+
+<?php /* 
+<div class="errorPage">        
+	<p class="name">404</p>
+	<p class="description">Not Found</p>        
+	<p><button class="btn btn-danger" onClick="document.location.href = '<?php echo $this->mainconfig['host'];?>';">Back to main</button> <button class="btn btn-warning" onClick="history.back();">Previous page</button></p>        
+</div> */ ?>
+  

@@ -1,0 +1,353 @@
+<style>
+     dt{
+        display:none;
+    }
+    
+    </style>
+    <style>
+    @media print {
+                    table td:nth-child(7)
+                     {
+                         display:none;
+                     }
+                     table th:nth-child(7)
+                     {
+                         display:none;
+                     }
+                      *{
+                        visibility:hidden;
+                     }
+                     table,th,td 
+                     {
+                         visibility:visible;                    
+                     } 
+                     .title1
+                     {
+                        visibility:visible; 
+                     }
+                }
+</style>
+
+<div class="right_col">
+    <?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+     <div class="alert alert-success ">
+<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+<?php echo $this->escape($message); ?>
+</div>
+    <?php } } ?>
+<?php if ($this->type == "edit") { ?>
+<div class="padding-md ">
+	<div class="row">
+		<div class="col-md-12">
+		<h3 class="page-title txt-color-blueDark" >
+			<div><i class="fa fa-eye">Class</i></div>
+		</h3>
+                    <script>
+                                   $('.timepicker').timepicker({
+    timeFormat: 'h:mm p',
+    interval: 60,
+    minTime: '10',
+    maxTime: '6:00pm',
+    defaultTime: 00,
+    startTime: '10:00',
+    dynamic: true,
+    dropdown: true,
+    scrollbar: true
+});
+                    </script>
+			<div class="panel panel-default">
+				<form class="no-margin" id="formValidate1" action="<?php echo $this->form->getAction() ?>" method="post" data-validate="parsley" >
+					
+					<div class="panel-body">
+						<div class="row">
+																
+						
+							
+
+											 <?php if(count($this->classes) >0){ 
+                                                                                             
+               			 $i=1; $new_val = 0; ?>
+						
+						 
+					 <?php foreach($this->classes as $val){ ?>
+                                                 
+					<div class="row">
+                                            <div class="col-sm-2"><div class="form-group">
+                                                    <label class="control-label" id="elective_label_<?php echo $i;?>">Class<span class="asterisk">*</span></label>
+                                                    <input type="text" required name="class_name[<?=$val['class_id'];?>]" id="elective_course_id_<?php echo $i;?>" class="form-control ele_courses" value="<?=$val['class_name'];?>" >
+                                                </div>
+                                            </div>
+                                                <div class="col-sm-2"><div class="form-group">
+                                                        <label class="control-label" id="elective_label_1<?php echo $i;?>">Time<span class="asterisk">*</span></label>
+                                                        <input type="text"  required pattern = "^\d{1,2}:\d{1,2} (AM|PM)" title="00:00 AM|PM" name="time[<?=$val['class_id'];?>]" id="elective_course_id_1<?php echo $i;?>" value="<?=$val['time'];?>" class="form-control ele_courses timepicker" >
+                                                    </div>
+                                                </div>
+                                                    <div class="col-sm-2"><div class="form-group">
+                                                            <label class="control-label" id="elective_label_2<?php echo $i;?>">Class Duration<small class="text-danger"> (in Minutes)</small><span class="asterisk">*</span></label>
+                                                            <input type="text" required name="hours[<?=$val['class_id'];?>]" title="00 in minutes" pattern = "^\d{2}" id="elective_course_id_2<?php echo $i;?>" value="<?=$val['hours'];?>" class="form-control ele_courses" >
+                                                        </div>
+                                                    </div>
+					 <div class="col-sm-2">
+                                                        <div class="form-group">
+                                                                <label class="control-label" id="elective_label_<?php echo $i;?>">status<span class="asterisk">*</span></label>
+                                                                <select type="text" required name="status[<?=$val['class_id'];?>]"   id="elective_course_id_3<?php echo $i;?>"  class="form-control ele_courses" onchange="checkelectiveCredits(this.value,<?php echo $i;?>)">
+                                                                <option value="">--Select--</option>
+                                                                <option value = 0 <?php echo $val['status'] == 0?'selected':''; ?>>Activate</option>
+                                                                <option value = 2 <?php echo $val['status'] == 2?'selected':''; ?>>Deactivate</option>
+                                                                
+                                                                </select>
+				
+						</div>
+					</div>
+                                            <?php $new_val = $val['class_id']; ?>
+					<input type="hidden" name="electives[credit_val][]" id="credit_val_<?php echo $i;?>" class="elc_credits" value="<?php echo $val['credit_value']; ?>" />
+					<input type="hidden" name="credit_val" id="credit_val_<?php echo $i;?>" class="elc_credits" />
+					<a href="#" class="removeclass btn btn-primary remove_class" id="remove_id_<?php echo $i;?>" style="padding:7px 15px;margin:24px 15px;" onchange="selectRemove(this.value,<?php echo $i;?>">-</a>
+					  </div>
+					 <?php $i++; } ?>
+				 
+					
+		
+                  <?php	}else{ ?>
+                      
+                      
+                      
+                      <div class="row">
+                                            <div class="col-sm-2"><div class="form-group">
+                                                    <label class="control-label" id="elective_label_<?php echo $i;?>">Class<span class="asterisk">*</span></label>
+                                                    <input type="text" required name="class_name[1]" id="elective_course_id_<?php echo $i;?>" class="form-control ele_courses"  >
+                                                </div>
+                                            </div>
+                                                <div class="col-sm-2"><div class="form-group">
+                                                        <label class="control-label" id="elective_label_1<?php echo $i;?>">Time<span class="asterisk">*</span></label>
+                                                        <input type="text"  required pattern = "^\d{1,2}:\d{1,2} (AM|PM)" title="00:00 AM|PM" name="time[1]" id="elective_course_id_1<?php echo $i;?>"  class="form-control ele_courses timepicker" >
+                                                    </div>
+                                                </div>
+                                                    <div class="col-sm-2"><div class="form-group">
+                                                            <label class="control-label" id="elective_label_2<?php echo $i;?>">Class Duration<small class="text-danger"> (in Minutes)</small><span class="asterisk">*</span></label>
+                                                            <input type="text" required name="hours[1]" title="00 in minutes" pattern = "^\d{2}" id="elective_course_id_2<?php echo $i;?>" class="form-control ele_courses" >
+                                                        </div>
+                                                    </div>
+					 <div class="col-sm-2">
+                                                        <div class="form-group">
+                                                                <label class="control-label" id="elective_label_<?php echo $i;?>">status<span class="asterisk">*</span></label>
+                                                                <select type="text" required name="status[1]"   id="elective_course_id_3<?php echo $i;?>"  class="form-control ele_courses" onchange="checkelectiveCredits(this.value,<?php echo $i;?>)">
+                                                                <option value="">--Select--</option>
+                                                                <option value = 0 >Activate</option>
+                                                                <option value = 2 >Deactivate</option>
+                       
+                                                                
+                                                                </select>
+				
+						</div>
+					</div>
+								<input type="hidden" name="credit_val" id="credit_val_<?php echo $i;?>" class="elc_credits" />
+					<a href="#" class="removeclass btn btn-primary remove_class" id="remove_id_<?php echo $i;?>" style="padding:7px 15px;margin:24px 15px;" onchange="selectRemove(this.value,<?php echo $i;?>">-</a>
+					  </div>
+                      
+                      
+                      <?php $new_val  = 1; ?>
+                      
+                      
+                 <?php } ?>
+                                                    <input type="hidden" name="count_val" id="count_val" value="<?php echo ($new_val +1 ); ?>" class="count_val">	 
+	<div id="addmore_items"></div>
+	<span class="copy_append" style="display:none">
+	<option value="">Select</option>
+	<?php foreach($this->elective_courses as $k => $ele_courses) { ?>
+	<option value="<?php echo $k;?>"><?php echo $ele_courses;?></option>
+	<?php } ?>
+    </span>	
+				<br>
+	 
+			<div class="col-sm-2 col-sm-offset-6"></div><input type="button" value="+" id="AddButton" style="padding:7px 15px;margin:20px 8px;" class="btn btn-primary" >
+					
+							</div> 
+						
+						</div>
+					</div>
+					<div>
+						<div class="panel-footer">									
+							<div class="row">
+								<div class="col-sm-7 col-sm-offset-5">
+									<?php if ($this->type == 'add') { ?> 
+										<div style="float:left;margin-right:2px;" >
+										<button class="btn btn-primary submit" id="removebtn">Submit</button>
+										</div>
+										<div style="float:left;padding:0px 10px;">
+										<button type="reset" class="btn btn-danger btn-default">Reset</button>
+										</div>
+									<?php } else if ($this->type == 'add'){ ?>	
+										<div style="float:left;margin-right:2px;">
+										<button class="btn btn-primary submit">Submit</button>
+										</div>
+									<?php } else { ?>
+										<div style="float:left;">
+										<button class="btn btn-primary submit">Update</button>
+										</div>
+										<div style="float:left;">
+										<a class="btn btn-primary" href="<?php echo $this->mainconfig['host']; ?>master/corecourselearning">Back</a>
+										</div>
+									<?php } ?>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div><!-- /panel -->
+		</div><!-- /.col-->				
+	</div><!-- /.row -->
+	
+</div><!-- /.padding-md -->	
+<?php } ?>
+</div>
+<script>
+          
+
+    $('.timepicker').timepicker({
+    timeFormat: 'h:mm p', 
+    interval: 60,
+    minTime: '10',
+    maxTime: '6:00pm',
+    startTime: '10:00',
+    dynamic: true,
+    dropdown: true,
+    scrollbar: true
+});
+
+
+var count = $('#count_val').val(); //Addmore script code
+
+		$("body").on("click","#AddButton",function(event)
+		{
+			var academic_year_id = $('#academic_year_id').val();
+			var term_id = $('#term_id').val();
+                        var time = $('input[name^="time"]').eq(count-2).val();
+                        var minutes = $('input[name^="hours"]').eq(count-2).val();
+                        
+                        
+                   
+                         
+		var count_value = count++;
+		//alert(count_value);
+		append_html = '<div class="row" style="">';
+		append_html += '<div class="col-sm-2"><div class="form-group"><label class="control-label" id="elective_label_'+count_value+'">Class<span class="asterisk">*</span></label><input type="text" name="class_name['+count_value+']" id="elective_course_id_'+count_value+'" required class="form-control ele_courses" ></div>';
+                append_html += '</div>';
+                append_html += '<div class="col-sm-2"><div class="form-group"><label class="control-label" id="elective_label_'+count_value+'">Time<span class="asterisk">*</span></label><input type="text" name="time['+count_value+']" pattern = "^[0-9]{1,2}:[0-9]{1,2} (AM|PM)" required id="elective_course_id_1'+count_value+'" class="form-control ele_courses timepicker" ></div>';
+                append_html += '</div>';
+
+                append_html += '<div class="col-sm-2"><div class="form-group"><label class="control-label" id="elective_label_'+count_value+'">Class Duration<small class="text-danger"> (in Minutes) <span class="asterisk">*</span></label><input type="text" name="hours['+count_value+']" pattern = "^[0-9]{1,2}" id="elective_course_id_2'+count_value+'" required class="form-control ele_courses" ></div>';
+
+                append_html += '<div class="col-sm-2"><div class="form-group"><label class="control-label" id="elective_label_'+count_value+'">Class Hours <span class="asterisk">*</span></label><input type="text" name="hours['+count_value+']" pattern = "^\d{1,2}" id="elective_course_id_2'+count_value+'" required class="form-control ele_courses" ></div>';
+
+                append_html += '</div>';
+                append_html += '<div class="col-sm-2"><div class="form-group"><label class="control-label" id="elective_label_'+count_value+'">Status<span class="asterisk">*</span></label><select type="text" name="status['+count_value+']" id="elective_course_id_3'+count_value+'" required class="form-control ele_courses" ><option value = "">--Select--</option><option value=0>Activate</option><option value=2>Deactivate</option></select></div>';
+                append_html += '</div>';
+                append_html += '<a href="#" class="removeclass btn btn-primary remove_class" style="padding:7px 15px;margin:24px 15px;" id="remove_id_'+count_value+'" onchange="selectRemove(this.value,'+count_value+'">-</a>';
+		append_html += '</div>';
+		$('#addmore_items').append(append_html);	
+                
+                
+                  $('#elective_course_id_1'+count_value).timepicker({
+    timeFormat: 'h:mm p', 
+    interval: 60,
+    minTime: '10',
+    maxTime: '6:00pm',
+    startTime: '10:00',
+    dynamic: true,
+    dropdown: true,
+    scrollbar: true
+});
+                
+                     if(time){
+                        $.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-add-time';?>',
+			data: {time : time,minutes: minutes}
+		}).done(function( data ) {
+			$('input[name^="time"]').eq(count_value - 1).val(data);
+		});
+                }
+                
+		});
+                
+                
+        
+
+$("body").on("click",".removeclass", function(e){
+		
+		var academic_year_id = $('#academic_year_id option:selected').val();
+		var term_id = $('#term_id option:selected').val();
+		
+            $(this).parent('div').remove(); 
+			$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'elective/ajax-get-term-elective-credits';?>',
+			data: {academic_year_id:academic_year_id,term_id:term_id}
+			}).done(function( data ) {
+			var result1 = $.parseJSON(data);
+			var term_elcredit = result1['electives_credits'];
+			
+			var elective_credit_val = 0;
+			$('.elc_credits').each(function() {	
+				el_credits = parseFloat($(this).val());	
+               // alert(el_credits);				
+				if (!isNaN(el_credits))
+				elective_credit_val += el_credits;	
+			});		
+			//alert(elective_credit_val);
+			//alert(result1['electives_credits']);
+			if(elective_credit_val < term_elcredit){
+				$('#AddButton').attr('disabled',false);
+			}else{
+				//$('#AddButton').attr('disabled','disabled');
+			}	
+			})
+        return false;
+
+    });  
+	
+
+
+
+$('body').on('change','#academic_year_id',function() { 
+		var academic_year_id = $('#academic_year_id').val();
+		//alert(academic_year_id);
+		$.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-term-name';?>',
+			data: {academic_year_id : academic_year_id}
+		}).done(function( data ) {
+			
+			$('#term_id').empty('');
+			$('#term_id').html(data);
+			
+		});
+});
+
+
+
+$('body').on('change', '#academic_year_id', function() {		
+var academic_id=$('#academic_year_id').val();
+   if(academic_id){
+   $('#payslipData').show();
+	$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-batch-code';?>',
+			data: {academic_id:academic_id}
+		}).done(function( data ) {
+			var result = $.parseJSON(data);
+			if((data!='')){
+				$('#payslipData').val(result['short_code']);
+			}
+	  });
+	 } 
+ }); 
+ 
+
+
+
+
+	
+ </script>

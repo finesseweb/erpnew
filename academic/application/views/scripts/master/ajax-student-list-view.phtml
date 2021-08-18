@@ -1,0 +1,59 @@
+<?php $item_result = $this->result;
+//echo"<pre>"; print_r($item_result);die;
+?>
+
+<style>
+    li>select{
+        color:#a00;
+      
+    }
+</style>
+
+
+   <?php if(count($item_result[-1])==0){ ?>
+
+<div class="col-sm-3">
+<div class="form-group">
+    <label class="control-label">Faculty<span class="asterisk"></span></label>
+<select  name="faculty" class='form-control'   id="faculty_1"><option value='<?=$_SESSION['admin_login']['admin_login']->empl_id;?>'><?=$_SESSION['admin_login']['admin_login']->real_name;?></option></select>
+</div>
+</div>
+
+<div class="col-sm-3">
+<div class="form-group">
+    <label class="control-label">Class<span class="asterisk"></span></label>
+<select class='form-control' name='class_no'>
+    <option>--Select--</option>
+    <?php if($item_result[count($item_result)-1]['class_no'][1]!=0) { ?>
+    <option value='1'>Class I</option>
+   <?php }?>
+    <?php if($item_result[count($item_result)-1]['class_no'][2]!=0){ ?>
+    <option value ='2'>Class II</option>
+    <?php } ?>
+    <?php if($item_result[count($item_result)-1]['class_no'][3]!=0) { ?>
+    <option value='3'>Class III</option>
+    <?php } ?>
+    <?php if($item_result[count($item_result)-1]['class_no'][4]!=0) {?>
+    <option value='4'>Class IV</option>
+    <?php } ?>
+    <?php if($item_result[count($item_result)-1]['class_no'][5]!=0) {?>
+    <option value='5'>Class V</option>
+    <?php } ?>
+</select>
+    </div>
+</div>
+
+
+
+
+
+<!------ Include the above in your HEAD tag ---------->
+
+   <?php } ?>
+
+
+<script>
+$('#print').click(function(){
+    window.print('#grade_data');
+});
+</script>

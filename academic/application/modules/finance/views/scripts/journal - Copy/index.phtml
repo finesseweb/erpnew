@@ -1,0 +1,493 @@
+<div id="content">
+<div class="row">
+	<div class="col-xs-12">
+		<form id="basicForm" action="<?php echo $this->ErpFinanceJournalLedger_form->getAction() ?>" method="post" class="form">		
+		   <div class="panel">
+				<div class="row" style="margin:0px;">
+					<div class="col-sm-3">
+						<div class="form-group">
+							<label class="control-label">Start Date<span class="asterisk">*</span></label>
+							<?php echo $this->ErpFinanceJournalLedger_form->start_date; ?>
+							<!-- <input class="form-control start_date" type="text" name="start_date" value="" required="required"> -->
+						</div>
+					</div>
+					 <div class="col-sm-3">
+						<div class="form-group">
+							<label class="control-label">End Date <span class="asterisk">*</span></label>
+							<?php echo $this->ErpFinanceJournalLedger_form->end_date; ?>
+							<!-- <input class="form-control end_date" type="text" name="end_date" value="" required="required"> -->
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<div class="form-group">
+							<div style="float:left">
+								<br />							
+								<input type="submit" style="margin-top:5px;" class="btn btn-primary" name="submit" value="Submit" onclick="submits();">
+							</div>											
+						</div>
+					</div>					
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<?php 
+//if ( ( !empty($postvalue['start_date']) ) && ( !empty($postvalue['end_date']) ) ) { ?>
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+	<!-- row -->
+	<div class="row">
+
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2></h2>
+
+				</header>
+
+				<!-- widget div-->
+				<div>		
+					<!-- widget content -->
+						<div class="widget-body">
+							<div class="table-responsive">
+								<table style="margin-bottom:0px !important;" class="table table-bordered ">
+									<thead>
+										<tr>											
+											<th colspan="4"></th>
+											<th colspan="2" style="text-align:center;">Balance</th>
+										</tr>
+										<tr>
+											<th>Date</th>
+											<th>Particulars</th>
+											<th>Debit<?php echo CURRENCY_TH_SYMBOL;?></th>
+											<th>Credit<?php echo CURRENCY_TH_SYMBOL;?></th>	
+											<th>Debit </th>
+											<th>Credit </th>											
+										</tr>
+									</thead>
+									<tbody>
+									<?php	
+										
+										function getSubArray($array, $searchValue, $searchkey) {
+
+											$arrIt = new RecursiveIteratorIterator(new RecursiveArrayIterator($array));
+											$outputArray = array();
+											foreach ($arrIt as $sub) {
+												$subArray = $arrIt->getSubIterator();
+												if ($subArray[$searchkey] === $searchValue) {
+													$outputArray[] = iterator_to_array($subArray);
+												}
+											}
+
+											return $outputArray;
+										}
+										$begin = new DateTime($this->start_date);
+										$end = new DateTime($this->enddate);
+										$end = $end->modify('+1 day');
+
+										$interval = DateInterval::createFromDateString('1 day');
+										$period = new DatePeriod($begin, $interval, $end);
+										$total_items = 0;
+										$total_credit = 0;
+										$total_debit = 0;
+										$total_credit_balance = 0;
+										$total_debit_balance = 0;
+										$dealer_payout_total_val = 0;
+										$vendor_payment_total_val = 0;
+										$i = 0;
+										foreach ($period as $date) {
+											//echo $date->format("Y-m-d H:m:s"); 
+											$journal_voucher = getSubArray($this->journal_voucher, $date->format("Y-m-d"), "date");
+											$total_journal_voucher = count($journal_voucher);											
+											$total_items+=$total_journal_voucher;
+
+											$getPaymentVoucher = getSubArray($this->payment, $date->format("Y-m-d"), "date");
+											//$getPaymentVoucher = $this->payment;
+											$total_getPaymentVoucher = count($getPaymentVoucher);
+											$total_items+=$total_getPaymentVoucher;
+
+											$getReceiptVoucher = getSubArray($this->receipt, $date->format("Y-m-d"), "date");
+											//$getReceiptVoucher = $this->receipt;
+											$total_getReceiptVoucher = count($getReceiptVoucher);
+											//echo $total_getReceiptVoucher; die;
+											$total_items+=$total_getReceiptVoucher;
+
+											$items = $total_journal_voucher + $total_getPaymentVoucher + $total_getReceiptVoucher;
+											//echo $total_pettycash_payments; die;
+											if ($total_journal_voucher > 0 || $total_getPaymentVoucher > 0 || $total_getReceiptVoucher > 0) {
+												$date_timestamp = strtotime($date->format("Y-m-d"));
+												$i++;
+												?>											  
+												<?php
+												
+												/*
+												 * Vendor Payments start
+												 */
+												
+												$vendor_payment_total = 0;
+												$total_balance = 0;
+												$total_debit_balance = 0;
+												$total_credit_balance = 0;
+												//echo '<pre>'; print_r($pettycash_payments); die;
+												foreach ($getPaymentVoucher as $val) {								
+													$vendor_payment_total+=$val['paid_amount'];
+													//$total_balance = $val['paid_amount'];
+													?>
+													<tr class="paymentid<?php echo $val['payment_voucher_id'];?>">
+													
+														<td class="noborder"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo date("d-m-Y  ", strtotime($val['add_date'])); ?></td>
+														<td class="noborder">
+															<?php														
+																echo $val['payment_by'];															
+															?>														
+														</td>
+														<td --style="border-top:0px;border-bottom: 0px; "><?php
+															echo $val['paid_amount'];
+															?></td>
+														<td style="text-align:right;"></td>
+														<td style="text-align:right;">
+														<?php															
+															//echo $val['paid_amount'];															
+															if($total_credit_balance <= $val['paid_amount']){												
+																$total_debit_balance += $val['paid_amount'] - $total_credit_balance;
+																echo $total_debit_balance;
+															}else{
+																//$total_debit_balance += $val['paid_amount'];
+															}
+																														
+															?>
+														</td>
+														<td style="text-align:right;">
+														<?php 														
+														/* if($total_debit <= $total_credit_balance){
+															$total_credit_balance += $val['paid_amount'] - $total_debit_balance;
+															echo $total_credit_balance;
+														} */
+														?>
+														</td>
+
+													</tr>
+													<?php
+												}
+												$total_debit+=$vendor_payment_total;												
+												/*
+												 * Vendor Pyments end
+												 */
+												?>
+												<?php
+												/*
+												 * Customer Payouts start
+												 */
+												$dealer_payout_total = 0;
+												$i=1;
+												foreach ($getReceiptVoucher as $val) {													
+													$dealer_payout_total+=$val['paid_amount'];
+													$total_credit_balance += $val['paid_amount'];
+													
+													?>
+													<tr class="cpid<?php echo $val['receipt_voucher_id']; ?>">
+														<td class="noborder">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo date("d-m-Y", strtotime($val['add_date'])); ?></td>
+														<td class="noborder">
+														<?php
+															echo $val['payment_by'];
+															?>
+														</td>
+														<td -style="border-top:0px;border-bottom: 0px; "></td>
+														<td style="text-align:right;"><?php
+															echo $val['paid_amount'];
+															?></td>														
+														<td style="text-align:right;">
+														<?php
+														//echo $date->format("Y-m-d h:m") ."=>". date("d-m-Y h:m", strtotime($val['created_date']));
+														if($date->format("Y-m-d H:m:s") == $val['created_date']){
+															echo $val['add_date'];
+														}
+														 
+														if($total_debit_balance > $total_credit_balance){
+															$total_debit_balance = $total_debit_balance - $val['paid_amount'];
+															echo $total_debit_balance;
+														}
+															//if(created_date)
+															//echo $total_debit_balance;
+															//if($i == 1){
+															/* if($total_balance > $total_credit_balance){
+																$total_debit_balance = $total_balance - $val['paid_amount'];
+																if($total_debit_balance <= $val['paid_amount']){
+																	echo $total_debit_balance;
+																}else{
+																	echo $total_debit_balance;
+																}																
+															} */
+															/* }else{
+																if($total_balance >= $total_credit_balance){
+																$total_debit_balance = $total_balance - $val['paid_amount'];
+																echo $total_debit_balance;
+																}
+															} */																																			
+															?>
+														</td>
+														<td style="text-align:right;">
+														<?php 
+														if($total_debit <= $total_credit_balance){															
+															$total_credit_balance += $total_credit - $total_debit;
+															echo $total_credit_balance;
+														}	
+														?>
+														</td>
+													</tr>
+													<?php
+													$i++;
+												}
+												$total_credit+=$dealer_payout_total;
+
+												/*
+												 * Customer Payouts end
+												 */
+												?>
+
+												<?php
+												/*
+												 * Daily Book start
+												 */
+												/* $credit_amount = 0;
+												$debit_amount = 0;
+												foreach ($journal_voucher as $val) {  
+													?>
+												   <tr class="pettycashid<?php echo $val['id']; ?>">
+														<td class="noborder">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+															<?php echo date("d-m-Y", strtotime($val['date'])); ?></td>
+														<td class="noborder">
+														<a href="javascript:void(0)" class="petty_cash_view" pettycashid="<?php echo $val['id'];?>">														   
+														  
+															</a>
+														</td>
+														<td style="border-top:0px;border-bottom: 0px; "></td>
+														<td style="border-top:0px;border-bottom: 0px; "></td>
+														<td style="text-align:right;border-top:0px;border-bottom: 0px; "><?php														
+																$credit_amount+=$val['credit_amount'];
+																echo number_format($val['credit_amount'], 2);															
+															?></td>
+														<td style="text-align:right;border-top:0px;border-bottom: 0px; "><?php
+																$debit_amount+=$val['debit_amount'];
+																echo number_format($val['debit_amount'], 2);															
+															?></td>															
+													</tr>
+													<?php
+												}
+												$total_credit+=$credit_amount;
+												$total_debit+=$debit_amount; */
+
+												/*
+												 * Daily Book end
+												 */
+
+												//$credit_total_per_record = $dealer_payout_total + $credit_amount;
+												//$debit_total_per_record = $vendor_payment_total + $debit_amount;
+												$credit_total_per_record = $dealer_payout_total;
+												$debit_total_per_record = $vendor_payment_total;
+												?>
+
+											<?php /*	<tr>
+
+													<td style=" border-right:0px !important;" colspan=""><b>Total Transactions in <?php echo date(DATE_PREFIX, $date_timestamp); ?> <b/></td>
+													<td style="text-align:right; border-left:0px !important;"><b><?php echo $items ?><b/></td>
+													<td style="text-align:right; border-left:0px !important;"><b><?php echo number_format($credit_total_per_record, 2); ?><b/></td>
+													<td style="text-align:right; border-left:0px !important;"><b><?php echo number_format($debit_total_per_record, 2); ?><b/></td>
+													<td style="text-align:right; border-left:0px !important;"><b><?php echo number_format($total_debit_balance, 2); ?><b/></td>
+													<td style="text-align:right; border-left:0px !important;"><b><?php echo number_format($total_credit_balance, 2); ?><b/></td>
+
+												</tr> */ ?>
+												<tr>
+
+													<?php
+												}
+											}
+											?>
+											<td colspan="" style=" border-right:0px !important;"><b>Total Transactions<b/></td>
+											<td style="text-align:right; border-left:0px !important;"><b><?php echo $total_items; ?><b/></td>
+											<td style="text-align:right; border-left:0px !important;"><b><?php echo number_format($total_debit, 2); ?><b/></td>
+											<td style="text-align:right; border-left:0px !important;"><b><?php echo number_format($total_credit, 2); ?><b/></td>
+											<td style="text-align:right; border-left:0px !important;"><b><?php echo number_format($total_debit_balance, 2); ?><b/></td>
+											<td style="text-align:right; border-left:0px !important;"><b><?php echo number_format($total_credit_balance, 2); ?><b/></td>
+
+										</tr>
+
+									</tbody>
+								</table>
+							</div>
+						</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- WIDGET END -->
+	</div>
+
+	<!-- end row -->
+</section>
+<!-- end widget grid --> 
+</div>
+<?php //} ?>
+<script type="text/javascript"> 
+$(document).ready(function() {  
+	$("#start_date").datepicker({ dateFormat: 'yy-mm-dd' });
+	$("#end_date").datepicker({ dateFormat: 'yy-mm-dd' });
+	//$(".end_date").datepicker({ dateFormat: 'yy-mm-dd' });
+	
+    /* $(".payment_view").click(function() {			
+            var id=$(this).attr("paymentid");            
+            $("tr.paymentsitemsdiv").remove();
+            $.ajax({
+              type: "POST",
+               url:"<?php echo SITE_URL.'ajax/pvoucherview';?>",
+              data: { name: id }
+            }).done(function(data) {
+				$( ".purchase-quatation-items-close" ).hide();
+                $(data).insertAfter("tr.paymentid"+id);
+            });
+     });
+	 
+	  $(".cp_view").click(function() {
+            var id=$(this).attr("cpid");            
+            $("tr.cpitemsdiv").remove();
+            $.ajax({
+              type: "POST",
+               url:"<?php echo SITE_URL.'ajax/rvoucherview';?>",
+              data: { name: id }
+            }).done(function(data) {
+				$( ".purchase-quatation-items-close" ).hide();
+                $(data).insertAfter("tr.cpid"+id);
+            });
+     });
+	 
+	 $(".petty_cash_view").click(function() {
+            var id=$(this).attr("pettycashid");            
+            $("tr.pettycashiddiv").remove();
+            $.ajax({
+              type: "POST",
+               url:"<?php echo SITE_URL.'ajax/pettycashview';?>",
+              data: { name: id }
+            }).done(function(data) {
+				$( ".purchase-quatation-items-close" ).hide();
+                $(data).insertAfter("tr.pettycashid"+id);
+            });
+     }); */
+
+}); 
+
+</script>
+<?php 
+
+function no_to_words($no)
+{   
+ $words = array('0'=> '' ,'1'=> 'one' ,'2'=> 'two' ,'3' => 'three','4' => 'four','5' => 'five','6' => 'six','7' => 'seven','8' => 'eight','9' => 'nine','10' => 'ten','11' => 'eleven','12' => 'twelve','13' => 'thirteen','14' => 'fouteen','15' => 'fifteen','16' => 'sixteen','17' => 'seventeen','18' => 'eighteen','19' => 'nineteen','20' => 'twenty','30' => 'thirty','40' => 'fourty','50' => 'fifty','60' => 'sixty','70' => 'seventy','80' => 'eighty','90' => 'ninty','100' => 'hundred &','1000' => 'thousand','100000' => 'lakh','10000000' => 'crore');
+    if($no == 0)
+        return ' ';
+    else {
+	$novalue='';
+	$highno=$no;
+	$remainno=0;
+	$value=100;
+	$value1=1000;       
+            while($no>=100)    {
+                if(($value <= $no) &&($no  < $value1))    {
+                $novalue=$words["$value"];
+                $highno = (int)($no/$value);
+                $remainno = $no % $value;
+                break;
+                }
+                $value= $value1;
+                $value1 = $value * 100;
+            }       
+          if(array_key_exists("$highno",$words))
+              return $words["$highno"]." ".$novalue." ".no_to_words($remainno);
+          else {
+             $unit=$highno%10;
+             $ten =(int)($highno/10)*10;            
+             return $words["$ten"]." ".$words["$unit"]." ".$novalue." ".no_to_words($remainno);
+           }
+    }
+}
+
+function convert_number($number)
+{
+if (($number < 0) || ($number > 999999999))
+{
+throw new Exception("Number is out of range");
+}
+ 
+$Gn = floor($number / 100000);  /* Millions (giga) */
+$number -= $Gn * 100000;
+$kn = floor($number / 1000);     /* Thousands (kilo) */
+$number -= $kn * 1000;
+$Hn = floor($number / 100);      /* Hundreds (hecto) */
+$number -= $Hn * 100;
+$Dn = floor($number / 10);       /* Tens (deca) */
+$n = $number % 10;               /* Ones */
+ 
+$res = "";
+ 
+if ($Gn)
+{
+$res .= convert_number($Gn) . " Lacs";
+}
+ 
+if ($kn)
+{
+$res .= (empty($res) ? "" : " ") .
+convert_number($kn) . " Thousand";
+}
+ 
+if ($Hn)
+{
+$res .= (empty($res) ? "" : " ") .
+convert_number($Hn) . " Hundred";
+}
+ 
+$ones = array("", "One", "Two", "Three", "Four", "Five", "Six",
+"Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen",
+"Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eightteen",
+"Nineteen");
+$tens = array("", "", "Twenty", "Thirty", "Fourty", "Fifty", "Sixty",
+"Seventy", "Eigthy", "Ninety");
+ 
+if ($Dn || $n)
+{
+if (!empty($res))
+{
+$res .= " and ";
+}
+ 
+if ($Dn < 2)
+{
+$res .= $ones[$Dn * 10 + $n];
+}
+else
+{
+$res .= $tens[$Dn];
+ 
+if ($n)
+{
+$res .= "-" . $ones[$n];
+}
+}
+}
+ 
+if (empty($res))
+{
+$res = "zero";
+}
+ 
+return $res;
+}
+
+?>

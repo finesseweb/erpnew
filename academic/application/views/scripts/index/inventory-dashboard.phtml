@@ -1,0 +1,148 @@
+<div id="content" class="right_col">
+<?php if( $this->type){
+          
+    
+    ?>
+<div class="row">
+	<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+  <h3><i class="fa fa-bars"></i>Inventory Requisition Management</h3>
+  </div>
+  </div>
+  <div class="">
+    
+  </div>
+<?php } else {?>
+  
+  <?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+     <div class="alert alert-success">
+<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+<?php echo $this->escape($message); ?>
+</div>
+ <?php } } ?>
+  
+<div class="row">
+	<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+ 
+  			<h3 class="page-title txt-color-blueDark" >
+			<div><i class="fa fa-bars"> Inventory Dashboard</i></div>
+		           </h3>
+  </div>
+</div>
+<section id="widget-grid" class="">		
+		<!-- row -->
+	<div class="row">
+
+			<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+				<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+					<!-- widget options:
+					usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+					data-widget-colorbutton="false"
+					data-widget-editbutton="false"
+					data-widget-togglebutton="false"
+					data-widget-deletebutton="false"
+					data-widget-fullscreenbutton="false"
+					data-widget-custombutton="false"
+					data-widget-collapsed="true"
+					data-widget-sortable="false"
+
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<!-- <h2>Sales Quotation List</h2> 
+				</header> -->	
+
+					<!-- widget div-->
+				<div>		
+
+						<!-- widget content -->
+					<div class="widget-body">
+						<div class="table-responsive">
+						 <div class="x_panel">
+               
+                    <div class="x_title">
+                    
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                       </li>
+                      <li><a class=""><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+<div class="x_content">
+							<table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="table2">
+								<thead>
+									<tr>
+										<th>S.No.</th>
+										<th>Category Name</th>
+										<th width="40%">Product</th>
+										<th>Minimum Stock Level</th>
+										<th>Quantity</th>             
+										<th>Re-order Level</th>
+									</tr>
+								</thead>
+								<tbody>
+						   
+									  <?php 
+									  $pagination_tr = '';
+											if(count($this->paginator) !=0){
+										$serialStart = ($this->paginator->getCurrentPageNumber()- 1) * $this->paginator->getItemCountPerPage();
+										   $i=$serialStart+1;		
+											foreach ($this->paginator as $results){
+											?>
+									  
+									<tr>
+										<td><?php echo $i;?></td>
+										<td><?php echo $results['category_name'];?></td>
+										<td><?php echo $results['item_name'];?></td>
+										<td><?php echo $results['item_min_stock_level'];?></td>
+										<td><?php echo $results['item_quantity'];?></td>
+										<td><?php 
+										  if($results['item_min_stock_level']>$results['item_quantity'])
+											{
+												$results['item_reorder_level']=$results['item_min_stock_level'] - $results['item_quantity'];
+											 
+											}
+											else if($results['item_min_stock_level']<=$results['item_quantity'])
+											{
+												$results['item_reorder_level']=0;
+											}
+										
+											echo $results['item_reorder_level'];?>
+										</td>
+									  
+										 
+									</tr>
+									  <?php $i++;} 
+										$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+									   }?>
+								</tbody>
+							</table>
+							</div>
+							</div>
+							 <?php echo $pagination_tr; ?>
+						</div>  
+						<!-- end widget content -->
+
+					</div>
+					<!-- end widget div -->
+
+				</div>
+				<!-- end widget -->
+			</div>	
+		</article>
+			<!-- WIDGET END -->
+	</div>
+
+		<!-- end row -->
+</section>
+	<!-- end widget grid -->
+<?php } ?>
+</div>

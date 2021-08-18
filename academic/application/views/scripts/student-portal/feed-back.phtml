@@ -1,0 +1,251 @@
+<style>
+    .well{
+        display:inline-block !important;
+
+    }
+    .fancy_cont {
+        display: block;
+        position: relative;
+        /* padding-left: 35px;*/
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 22px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    /* Hide the browser's default radio button */
+    .fancy_cont input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    /* Create a custom radio button */
+    .checkmark {
+        position:absolute;
+        top:0px;
+        height: 25px;
+        width: 25px;
+        background-color: #eee;
+        border-radius: 50%;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .fancy_cont:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the radio button is checked, add a blue background */
+    .fancy_cont input:checked ~ .checkmark {
+        background-color: #2196F3;
+        /* background-color: orange;*/
+    }
+
+    /* Create the indicator (the dot/circle - hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the indicator (dot/circle) when checked */
+    .fancy_cont input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    /* Style the indicator (dot/circle) */
+    .fancy_cont .checkmark:after {
+        top: 9px;
+        left: 9px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: white;
+    }
+
+
+    .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+        padding: 0px !important;
+        padding-left: 3px;
+        line-height: 1.42857143;
+        vertical-align: middle;
+        /* border-top: 1px solid #ddd;*/
+
+    }
+    .table>thead>tr>th{
+        font-family: verdana;
+    }
+
+    .table>tbody>tr>td{
+        font-family: verdana;
+    }
+
+
+
+    .verdana{
+        font-family: verdana, serif;
+    }
+</style>
+<div class="right_col">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="page-title txt-color-blueDark" >
+                <div><i class="fa fa-eye">Course Feed Back</i></div>
+            </h3>
+            <form class="no-margin" id="formValidate1" action="<?php echo $this->form->getAction() ?>" method="post" data-validate="parsley"  enctype="multipart/form-data">
+                <div class="panel panel-default">
+
+                    <div class="panel-body">
+                        <div class='row'>
+                            <?php  if($this->custom_message){ ?>
+                                <div class="alert alert-info alert-dismissible">
+                                  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                  <strong>Info!</strong> <?php echo $this->custom_message; ?>
+                                </div>
+                            <?php }?>
+                            </div>
+                        <div class="row">
+                            <div class='col-md-3'>
+                                <div class="form-group disabled" >
+                                    <label class="control-label">Courses<span class="asterisk">*</span></label>
+                                    <?= $this->form->course; ?>
+                                </div>
+                            </div>
+                            <div class ='col-md-8'>
+                                <div class="form-group" > 
+                                    <label class="control-label">Pending Subjects<span class="asterisk">*</span></label>
+                                </div>
+                                <?php foreach ($this->AllCourses as $key => $value) { ?>
+                                    <?php foreach ($this->FeedCourses as $key1 => $value1) { ?>
+
+                                        <?php if ($value['course'] == $value1['course_id']) { ?>
+                                            <?php unset($this->AllCourses[$key]); ?>
+        <?php } ?>
+    <?php } ?>
+<?php } ?>
+                                <?php  foreach ($this->AllCourses as $key => $value) { ?>
+                                                <div class='well well-sm'><?=$value['course_name'].'('.$value['course_code'].')';?></div>
+                                <?php } ?>
+
+                            </div>
+                        </div>
+                        <div class='row' id='gradeData'>
+                        </div>
+                    </div>
+                    <div class="panel-footer">									
+                        <div class="row">
+                            <div class="col-sm-7 col-sm-offset-5">
+                                <div style="float:left;margin-right:2px;">
+                                    <button class="btn btn-primary submit" onclick="return confirmPword();">Submit</button>
+                                </div>
+                                <div style="float:left;padding:0px 10px;">
+                                    <button type="reset" class="btn btn-danger btn-default" >Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $.ajax({
+        type: "POST",
+        url: '<?php echo $this->mainconfig['host'] . 'student-portal/ajax-get-recent-term-and-batch'; ?>',
+        data: {my_date: '<?= date('d-m-Y'); ?>'}
+    }).done(function (data) {
+        json_obj = JSON.parse(data);
+        var term_id = json_obj.term_id;
+        var academic = json_obj.batch_id;
+        if (academic) {
+            $.ajax({
+                type: "POST",
+                url: '<?php echo $this->mainconfig['host'] . 'student-portal/ajax-get-terms-default'; ?>',
+                data: {academic_year_id: academic}
+            }).done(function (data) {
+                $.ajax({
+                    type: "POST",
+                    url: '<?php echo $this->mainconfig['host'] . 'student-portal/ajax-get-course'; ?>',
+                    data: {academic_year_id: academic, term_id: term_id}
+
+                }).done(function (data) {
+                    $('#course').after('<input style="display:none" type="text" name="batch" value = "' + academic + '"/>')
+                    $('#course').after('<input type="text" style="display:none"  name="term" value="' + term_id + '"/>')
+                    $('#course').empty();
+                    $('#course').html(data);
+                });
+
+            });
+        }
+    });
+    $('#course').change(function () {
+        $.ajax({
+            type: "POST",
+            url: '<?php echo $this->mainconfig['host'] . 'student-portal/ajax-get-recent-term-and-batch'; ?>',
+            data: {my_date: '<?= date('d-m-Y'); ?>'}
+        }).done(function (data) {
+            json_obj = JSON.parse(data);
+
+            var academic = json_obj.batch_id;
+            var term_id = json_obj.term_id;
+            $.ajax({
+                type: "POST",
+                url: '<?php echo $this->mainconfig['host'] . 'student-portal/ajax-get-terms-default'; ?>',
+                data: {academic_year_id: academic}
+            }).done(function (data) {
+                $.ajax({
+                    type: "POST",
+                    url: '<?php echo $this->mainconfig['host'] . 'student-portal/ajax-get-faculty'; ?>',
+                    data: {academic_year_id: academic, term_id: term_id, course_id: $('#course').val()}
+                }).done(function (data) {
+                    $('#instructor').empty();
+                    $('#instructor').html(data);
+
+                    $.ajax({
+                        type: "POST",
+                        url: '<?php echo $this->mainconfig['host'] . 'student-portal/ajax-get-rating-view'; ?>',
+                        data: {academic_year_id: academic, term_id: term_id, course_id: $('#course').val(), instructor_id: $('#instructor').val()}
+                    }).done(function (data) {
+                        $('#gradeData').empty();
+                        $('#gradeData').html(data);
+                    });
+                });
+
+            });
+
+        });
+    });
+    /* $('#instructor').change(function () {
+     
+     $.ajax({
+     type: "POST",
+     url: '<?php echo $this->mainconfig['host'] . 'student-portal/ajax-get-recent-term-and-batch'; ?>',
+     data: {my_date: '<?= date('d-m-Y'); ?>'}
+     }).done(function (data) {
+     json_obj = JSON.parse(data);
+     
+     var academic = json_obj.batch_id;
+     var term_id = json_obj.term_id;
+     $.ajax({
+     type: "POST",
+     url: '<?php echo $this->mainconfig['host'] . 'student-portal/ajax-get-terms-default'; ?>',
+     data: {academic_year_id: academic}
+     }).done(function (data) {
+     $.ajax({
+     type: "POST",
+     url: '<?php echo $this->mainconfig['host'] . 'student-portal/ajax-get-rating-instructor-view'; ?>',
+     data: {academic_year_id: academic, term_id: term_id, course_id: $('#course').val(), instructor_id: $('#instructor').val()}
+     }).done(function (data) {
+     $('#gradeData').empty();
+     $('#gradeData').html(data);
+     });
+     });
+     });
+     });*/
+    $('#count').css('display', "none");
+
+</script>

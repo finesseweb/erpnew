@@ -1,0 +1,318 @@
+<style type="text/css">
+    .bold-checkbox{
+        position: absolute; top: 12px; font-weight:bold;
+    }
+    
+    .col-md-4.col-xs-4.bgcl {
+      padding-right: 0px;
+      margin-right: -10px;
+    }
+    .col-md-3.col-xs-3.bgcl2 input {
+      height: 34px;
+      background: none;
+      border-radius: 0px;
+      padding: 0px;
+    }
+    .modal-footer {
+      padding: 15px;
+      text-align: right;
+      border-top: none !important;
+    }
+    
+    .f-mfooter {
+      margin-top: 117px;
+    }
+    
+    
+</style>
+<style>
+    @media print {
+                    table td:nth-child(9)
+                     {
+                         display:none;
+                     }
+                     table th:nth-child(9)
+                     {
+                         display:none;
+                     }
+                     table td:nth-child(10)
+                     {
+                         display:none;
+                     }
+                     table th:nth-child(10)
+                     {
+                         display:none;
+                     }
+                      *{
+                        visibility:hidden;
+                     }
+                     table,th,td 
+                     {
+                         visibility:visible;                    
+                     } 
+                     .title1
+                     {
+                        visibility:visible; 
+                     }
+                }
+</style>
+
+<div class="right_col">
+ <!-- widget grid -->
+    <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title custom_align" id="Heading"> Add New Categories</h4>
+                </div> 
+                <div class="modal-body"> 
+                <form action="" method="POST">                
+                    <div class="form-group">
+                        <label class="control-label" for="inputName">Category Name</label>
+                        <input class="form-control" name="name" id="category_name" placeholder="Name" required="">
+                    </div> 
+                    <!-- textarea -->
+                    <div class="form-group">
+                        <label class="control-label" for="inputDesc">Category Description</label>
+                        <textarea rows="3" name="category_desc" id="category_desc" class="form-control" placeholder="<?php echo 'Description'; ?>" required=""></textarea>
+                    </div> 
+                    <div class="form-group"> 
+                     <label class="control-label col-md-4 col-xs-4" for="inputBColor">Background Color</label>
+                      <div class="col-md-4 col-xs-4 bgcl">  
+                        <input type="text" class="form-control" id="color2" name="category_bgcolor" value="#FF0000" maxlength="7" oninput="copyValue(1)">
+                        </div>
+                        <div class="col-md-3 col-xs-3 bgcl2">
+                            <input type="color" name="color" onchange="copyValue(0)" id="color1" value="#FF0000">
+                        </div>
+                    </div>
+                    <div class="form-group"> 
+                     <label class="control-label col-md-4 col-xs-4" for="inputBColor">Border Color</label> 
+                        <div class="col-md-4 col-xs-4 bgcl">  
+                            <input type="text" class="form-control" id="color4" name="category_bcolor" value="#008080" maxlength="7" oninput="copyValue2(3)">
+                        </div>
+                        <div class="col-md-3 col-xs-3 bgcl2">
+                            <input type="color" name="color" onchange="copyValue2(2)" id="color3" value="#008080">
+                        </div>
+                    </div>
+                    <div class="form-group"> 
+                        <label class="control-label col-md-4 col-xs-4" for="inputBColor">Text Color</label> 
+                        <div class="col-md-4 col-xs-4 bgcl"> 
+                         <input type="text" class="form-control" id="color6" name="category_color" value="#ff8040" maxlength="7" oninput="copyValue3(5)">
+                        </div>
+                        <div class="col-md-3 col-xs-3 bgcl2">
+                            <input type="color" name="color" onchange="copyValue3(4)" id="color5" value="#ff8040">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer ">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true" > <?php echo 'Cancel'; ?></button>
+                    <button type="submit" name="submitAdd" class="btn btn-success" ><i class="fa fa-pencil-square-o"></i>Submit</button> 
+                </div>
+            </form>
+
+            </div>
+            <!-- /.modal-content --> 
+        </div>
+          <!-- /.modal-dialog --> 
+    </div>
+    <div class="">
+        <div class="">
+            <div class="row">
+                <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+                    <h3 class="page-title txt-color-blueDark">
+                    <i class="fa fa-bars"> Event  Categories</i>
+                    </h3>
+                </div>
+                <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
+                    <a class="btn btn-primary pull-right" style="margin-top: 25px;" data-toggle="modal" data-target="#add" href="#">Add </a>
+                </div>
+            </div>
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2 class="title1">Event  Categories</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        </li>
+                        <li><a class=""><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="padding-md clearfix">
+                        <table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="datatable-responsive">
+                        <thead>
+                            <tr>
+                            <th>S.  No.</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+
+                            $i = 1;
+                            $pagination_tr = '';
+                            if (count($this->paginator) != 0) {
+
+                            foreach ($this->paginator as $results) {
+                            ?>
+                            <tr>
+                            <td><?php echo $i;
+
+                            $i++; ?>
+                            </td>                       
+
+                            <td><?php echo $results['category_name']; ?></td>
+                            <td><?php echo $results['category_desc']; ?></td>
+                            <td><a href="#" data-toggle="modal" data-target="#edit<?php echo $results['category_id']; ?>" class="edit" title="Edit"><span class="fa fa-edit fa-lg"></span></a>&nbsp;| &nbsp;  <a href="<?php echo $this->mainconfig['host']; ?>event/category?delete=<?php echo $results['category_id']; ?>" onclick="return confirm('Are you sure you want to delete this ?');" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a> </td>
+
+                            <!-- Popup modal 2 -->
+                            <div id="edit<?php echo $results['category_id']; ?>" class="modal fade">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                                            <h3 id="myModalLabel1"><i class="fa fa-calendar"></i> <?php echo $results['category_name']; ?> </h3>
+                                            <div class="control-group"> 
+                                                <div class="controls controls-row" id="when" style="margin-top:5px;"></div> 
+                                            </div>
+                                        </div>
+                                        <form action='' method='POST'>
+                                            <input type='hidden' name='cat_id' value='<?php echo $results['category_id']; ?>'>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="inputName">Category Name</label>
+                                                    <input class="form-control" name="name1" id="category_name" placeholder="Name" value="<?php echo $results['category_name']; ?>">
+                                                </div> 
+                                                <!-- textarea -->
+                                                <div class="form-group">
+                                                    <label class="control-label" for="inputDesc">Category Description</label>
+                                                    <textarea rows="3" name="category_desc1" id="category_desc" class="form-control" placeholder="<?php echo 'Description'; ?>" ><?php echo $results['category_desc']; ?></textarea>
+                                                </div> 
+
+                                                <div class="form-group"> 
+                                                    <label class="control-label col-md-4 col-xs-4" for="inputBColor">Background Color</label> 
+                                                    <div class="col-md-4 col-xs-4 bgcl">  
+                                                        <input type="text" class="form-control" id="colorb<?php echo $results['category_id']; ?>" name="category_bgcolor1" value="<?php echo $results['backgroundColor']; ?>" maxlength="7" oninput="copyValueA(<?php echo $results['category_id']?>)">
+                                                    </div>
+                                                    <div class="col-md-3 col-xs-3 bgcl2">
+                                                        <input type="color" name="color" onchange="copyValueA(<?php echo $results['category_id']?>)" id="colora<?php echo $results['category_id']; ?>" value="<?php echo $results['backgroundColor']; ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group"> 
+                                                    <label class="control-label col-md-4 col-xs-4" for="inputBColor">Border Color</label> 
+                                                    <div class="col-md-4 col-xs-4 bgcl">   
+                                                        <input type="text" class="form-control" id="colord<?php echo $results['category_id']; ?>" name="category_bcolor1" value="<?php echo $results['borderColor']; ?>" maxlength="7" oninput="copyValueB(<?php echo $results['category_id']?>)">
+                                                    </div>
+                                                    <div class="col-md-3 col-xs-3 bgcl2">
+                                                        <input type="color" name="color" onchange="copyValueB(<?php echo $results['category_id']?>)" id="colorc<?php echo $results['category_id']; ?>" value="<?php echo $results['borderColor']; ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group"> 
+                                                    <label class="control-label col-md-4 col-xs-4" for="inputBColor">Text Color</label> 
+                                                    <div class="col-md-4 col-xs-4 bgcl"> 
+                                                        <input type="text" class="form-control" id="colorf<?php echo $results['category_id']?>" name="category_color1" value="<?php echo $results['textColor']; ?>" maxlength="7" oninput="copyValueC(<?php echo $results['category_id']?>)">
+                                                    </div>
+                                                    <div class="col-md-3 col-xs-3 bgcl2">
+                                                        <input type="color" name="color" onchange="copyValueC(<?php echo $results['category_id']?>)" id="colore<?php echo $results['category_id']?>" value="<?php echo $results['textColor']; ?>">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer f-mfooter">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true" > <?php echo 'Cancel'; ?></button>
+                                                <button type="submit" name="submitAdd" class="btn btn-success" ><i class="fa fa-pencil-square-o"></i>Submit</button> 
+                                            </div>
+                                        </form>
+                                    </div>  
+                                </div>
+                            </div>
+
+                            </tr>            
+
+                            <?php }
+                            $pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+                            } ?>
+
+                        </tbody>
+                        </table>
+                        <?php echo $pagination_tr; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
+</div>
+<script>
+
+function copyValue(callerField) {
+
+    if(callerField){
+        document.getElementById("color1").value = document.getElementById("color2").value;
+    }  else{
+        document.getElementById("color2").value = document.getElementById("color1").value;
+    }
+
+}
+
+function copyValueA(callerField) {
+
+    if(callerField){
+        document.getElementById("colorb"+callerField).value = document.getElementById("colora"+callerField).value;
+    }  else{
+        document.getElementById("colora"+callerField).value = document.getElementById("colorb"+callerField).value;
+    }
+}
+function copyValueB(callerField) {
+
+    if(callerField){
+        document.getElementById("colord"+callerField).value = document.getElementById("colorc"+callerField).value;
+    }  else{
+        document.getElementById("colorc"+callerField).value = document.getElementById("colord"+callerField).value;
+    }
+}
+function copyValueC(callerField) {
+
+    if(callerField){
+        document.getElementById("colorf"+callerField).value = document.getElementById("colore"+callerField).value;
+    }  else{
+        document.getElementById("colore"+callerField).value = document.getElementById("colorf"+callerField).value;
+    }
+}
+
+function copyValue2(callerField2) {
+    if(callerField2){
+        document.getElementById("color4").value = document.getElementById("color3").value;
+    }  else{
+        document.getElementById("color4").value = document.getElementById("color3").value;
+    }
+
+    if(callerField2==8){
+        document.getElementById("color41").value = document.getElementById("color31").value;
+    }  else{
+        document.getElementById("color31").value = document.getElementById("color41").value;
+    }
+}
+
+function copyValue3(callerField3) {
+    
+    if(callerField3==4){
+        document.getElementById("color6").value = document.getElementById("color5").value;
+    }  else{
+        document.getElementById("color6").value = document.getElementById("color5").value;
+    }
+
+     if(callerField3==10){
+        document.getElementById("color61").value = document.getElementById("color51").value;
+    }  else{
+        document.getElementById("color51").value = document.getElementById("color61").value;
+    }
+}
+
+
+</script>

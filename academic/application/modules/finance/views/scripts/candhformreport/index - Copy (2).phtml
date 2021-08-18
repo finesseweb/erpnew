@@ -1,0 +1,395 @@
+<div id="content">
+<?php
+if (count($this->messages)) {
+	foreach ($this->messages as $message) {
+		?>
+		<div class="alert alert-success">
+			<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+			<?php echo $this->escape($message); ?></div>
+		<?php
+	}
+}
+?>
+<div class="row">
+	<div class="col-xs-12">
+		<form id="basicForm" action="<?php echo $this->mainconfig['host']; ?>finance/Candhformreport/index/type/search<?php //echo $this->form->getAction() ?>" method="post" class="form">		
+		   <div class="panel">
+				<div class="row" style="margin:0px;">					
+					<div class="col-sm-3">
+						<div class="form-group">
+							<label class="control-label">Start Date</label>
+							<?php echo $this->Candhformreport_form->start_date; ?>
+						</div>
+					</div>
+					<div class="col-sm-3" >
+						<div class="form-group" style=" padding-right:0px;">
+							<label class="control-label">End Date </label>
+							<?php echo $this->Candhformreport_form->end_date; ?>
+						</div>
+					</div> 
+					<div class="col-sm-2" style="float:left;width:100px;">
+						<div class="form-group">
+							<div style="float:left">
+								<br />							
+								<input type="submit" style="margin-top:5px;" class="btn btn-primary" name="submit" value="Submit" id="submit_val">
+							</div>											
+						</div>
+					</div>
+					
+						<div class="col-sm-2" style="float:right;width:100px;">
+							<div class="form-group">
+								<br />
+								 <input type="submit" style="margin-top:5px;" class="btn btn-primary" name="print" value="print" onclick="this.form.target='_blank';return true;"> 
+							</div>											
+						</div> 
+				</div>
+								
+			</div>
+		</form>
+	</div>
+</div>
+<?php 
+//if ( ( !empty($postvalue['start_date']) ) && ( !empty($postvalue['end_date']) ) ) { 
+//$statement_remarks = $this->statement_remarks;
+$end_dates = $this->enddate;
+$findMont = date("m", strtotime($end_dates));
+$findYear = date("Y", strtotime($end_dates));;
+
+$totalday = cal_days_in_month(CAL_GREGORIAN, $findMont, $findYear); // 31
+//echo $totalday ;
+if(($this->type == 'search') || ($this->type == '') )
+{ 
+	
+//Customers and Vendor Total Credits values	
+$total_credit_amt = 0;
+$total_debit_amt = 0;									
+$dealer_statement = $this->getCustomerStatementlist;
+if ( count($dealer_statement) > 0 ) {
+	foreach ($dealer_statement as $customer) {	
+		if($customer['operator'] == 2){
+			$debit_amount = $customer['sales_amount'] + $customer['waybill_amount'] + $customer['debit_amount']; 
+			$credit_amount = $customer['receipt_amount'] + $customer['credit_amount'] + $customer['payment_amount'] + $customer['start_balance'];
+		}else{
+			$debit_amount = $customer['sales_amount'] + $customer['waybill_amount'] + $customer['debit_amount'] + $customer['start_balance']; 
+			$credit_amount = $customer['receipt_amount'] + $customer['credit_amount'] + $customer['payment_amount'];
+		}
+
+		if( $debit_amount > $credit_amount){				
+			$total_debit_amt += $debit_amount - $credit_amount;
+		}
+
+		if( $credit_amount > $debit_amount){
+			$total_credit_amt += $credit_amount - $debit_amount;
+		}		
+	}
+}	
+
+$vendor_statement = $this->getVendorStatementlist;
+if ( count($vendor_statement) > 0 ) {
+	foreach ($vendor_statement as $vendor) {
+		if($vendor['operator'] == 2){
+			$debit_amount = $vendor['payment_amount']  + $vendor['debit_amount'] + $vendor['receipt_amount']; 
+			$credit_amount = $vendor['pcm_amount'] + $vendor['credit_amount'] + $vendor['start_balance']  + $vendor['purchase_amount'];
+		}else{
+			$debit_amount = $vendor['receipt_amount'] + $vendor['payment_amount'] + $vendor['debit_amount']  + $vendor['start_balance']; 
+			$credit_amount = $vendor['credit_amount'] + $vendor['pcm_amount'] + $vendor['purchase_amount'];
+		}
+
+		if( $debit_amount > $credit_amount){
+			$total_debit_amt += $debit_amount - $credit_amount;
+		}
+
+		if( $credit_amount > $debit_amount){	
+			$total_credit_amt += $credit_amount - $debit_amount;
+		}		
+	}
+} //END 
+// Profit and Loss Left side values
+$total_amount_debits = 0;
+$profitandloss_left = $this->profitandloss_left;
+if ( count($profitandloss_left) > 0 ) {		
+	foreach ($profitandloss_left as $vals) {
+			//$amounts = $vals['payment_amount']  + $vals['receipt_amount'] + $vals['debit_amount'] + $vals['credit_amount'] + $vals['opening_balance'];
+			$debit_amount = 0;
+			$credit_amount = 0;
+			if($vals['operator'] == 2){	
+				$debit_amount = ($vals['payment_amount']  + $vals['debit_amount']);
+				$credit_amount = $vals['receipt_amount'] + $vals['credit_amount'] + $vals['opening_balance'];
+			}else{
+				$debit_amount = ($vals['payment_amount']  + $vals['debit_amount'] + $vals['opening_balance']);
+				$credit_amount = $vals['receipt_amount'] + $vals['credit_amount'];
+			}
+			
+			$total_account_amt	= 0;
+			if( $debit_amount > $credit_amount){								
+				$total_account_amt = $debit_amount - $credit_amount;
+			}
+			
+			if( $credit_amount > $debit_amount){
+				$total_account_amt = $credit_amount - $debit_amount;
+			}
+			$total_amount_debits += $total_account_amt;
+	}											
+}	
+
+// Profit and Loss Right side values											
+$total_amount_credits = 0;
+$gross_profit =0;
+if( !empty($this->gross_profit) ){
+	$gross_profit = $this->gross_profit;
+	$total_amount_credits += $this->gross_profit;														
+}
+
+$profitandloss_right = $this->profitandloss_right;
+if ( count($profitandloss_right) > 0 ) {
+	foreach ($profitandloss_right as $valss) {
+		//$amountss = $valss['payment_amount'] + $valss['receipt_amount'] + $valss['debit_amount'] + $valss['credit_amount'] + $valss['opening_balance'];
+		$debit_amount = 0;
+		$credit_amount = 0;
+		if($valss['operator'] == 2){	
+			$debit_amount = ($valss['payment_amount']  + $valss['debit_amount']);
+			$credit_amount = $valss['receipt_amount'] + $valss['credit_amount'] + $valss['opening_balance'];
+		}else{
+			$debit_amount = ($valss['payment_amount']  + $valss['debit_amount'] + $valss['opening_balance']);
+			$credit_amount = $valss['receipt_amount'] + $valss['credit_amount'];
+		}
+		
+		$total_account_amt	= 0;
+		if( $debit_amount > $credit_amount){								
+			$total_account_amt = $debit_amount - $credit_amount;
+		}
+		
+		if( $credit_amount > $debit_amount){
+			$total_account_amt = $credit_amount - $debit_amount;
+		}
+		$total_amount_credits += $total_account_amt;
+	}											
+} // END	
+
+
+// Trading Balance Amount 	
+$trading_total_debit = 0;
+$trading_total_credit = 0;
+$trading_account = $this->trading_account;
+if ( count($trading_account) > 0 ) {
+	foreach ($trading_account as $account) {			
+		//$amount = $account['payment_amount'] + $account['receipt_amount'] + $account['debit_amount'] + $account['credit_amount'] + $account['opening_balance'];
+		$debit_amount1 = 0;
+		$credit_amount1 = 0;
+		if($account['operator'] == 2){	
+			$debit_amount1 = ($account['payment_amount']  + $account['debit_amount']);
+			$credit_amount1 = $account['receipt_amount'] + $account['credit_amount'] + $account['opening_balance'];
+		}else{
+			$debit_amount1 = ($account['payment_amount']  + $account['debit_amount'] + $account['opening_balance']);
+			$credit_amount1 = $account['receipt_amount'] + $account['credit_amount'];
+		}
+
+		$total_account_amt	= 0;
+		if( $debit_amount1 > $credit_amount1){								
+			$total_account_amt = $debit_amount1 - $credit_amount1;
+		}
+		if( $credit_amount1 > $debit_amount1){
+			$total_account_amt = $credit_amount1 - $debit_amount1;
+		}
+		$trading_total_debit += $total_account_amt;		
+	}	
+}											
+
+$purchase_statement = $this->purchase_statement;
+if ( count($purchase_statement) > 0 ) {
+	$amount = 0;
+	foreach ($purchase_statement as $purchase) {
+		$amount += $purchase['paid_amount'];
+	}
+	$trading_total_debit += $amount;			
+}											
+		
+
+$waybill_statement = $this->waybill_statement;
+if ( count($waybill_statement) > 0 ) {
+	foreach ($waybill_statement as $waybill) {
+		$amount = $waybill['waybill_amount'];
+	}
+	$trading_total_credit += $amount;
+}											
+
+$sales_statement = $this->sales_statement;
+if ( count($sales_statement) > 0 ) {
+	foreach ($sales_statement as $sales) {
+		$amount = $sales['paid_amount'];
+	}															
+	$trading_total_credit += $amount;
+}											
+
+$retail_statement = $this->retail_statement;
+if ( count($retail_statement) > 0 ) {
+	foreach ($retail_statement as $retail) {
+		$amount = $retail['paid_amount'];
+	}	
+	$trading_total_credit += $amount;		
+}											
+
+$closing_Stock = ($trading_total_debit + $gross_profit) - $trading_total_credit;
+$total_trading_amt = ($trading_total_credit+$closing_Stock); 
+//END
+//Bank Details
+$bank_total_debit= 0;
+$bank_total_credit = 0;
+$total_bank_balance = 0;
+$bank_statement = $this->bank_statement;
+if ( count($bank_statement) > 0 ) {
+	foreach ($bank_statement as $bank) {
+		//$total_bank_balance += $bank['opening_balance'];
+		if($bank['operator'] == 2){	
+			$debit_amount = ($bank['payment_amount']  + $bank['debit_amount']);
+			$credit_amount = $bank['receipt_amount'] + $bank['credit_amount'] + $bank['opening_balance'];
+		}else{
+			$debit_amount = ($bank['payment_amount']  + $bank['debit_amount'] + $bank['opening_balance']);
+			$credit_amount = $bank['receipt_amount'] + $bank['credit_amount'];
+		}
+			
+		if( $debit_amount > $credit_amount){								
+			$total_bank_balance += $debit_amount - $credit_amount;
+		}
+		
+		if( $credit_amount > $debit_amount){
+			$total_bank_balance += $credit_amount - $debit_amount;
+		}
+	}
+} // End											
+										
+?>
+
+<!-- widget grid -->
+<!-- widget grid -->
+<section id="widget-grid" class="">	
+	<!-- row -->
+	<div class="row">
+		
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2></h2>
+
+				</header>
+
+				<!-- widget div-->
+				<div>		
+					<!-- widget content -->
+						<div class="widget-body">
+							<div class="table-responsive">
+								<table style="margin-bottom:0px !important;" class="table table-bordered ">
+									<thead>										
+										
+										<tr>
+											<td colspan="4" align="center"><strong>C & H Form Report</strong></td> 												
+										</tr>
+																				
+									</thead>
+									<thead>										
+									<tr>
+										<td style="width:20%;" align="center">C Form</td>
+										<td style="width:20%;" align="center">Total Invoice Count</td>
+										<td style="width:20%;" align="center">Total Amount</td>
+										<td style="width:20%;" align="center">% of C Form</td>
+									</tr>
+									</thead>
+									<tr>
+									<input type="hidden" name="">
+									<input type="hidden" name="">
+									<input type="hidden" name="">
+									<input type="hidden" name="">
+									<?php $i=1; 
+									if(count($this->paginator) !=0){
+									foreach ($this->paginator as $result){ ?>
+										<td style="width:20%;" align="center">
+											<?php echo $i; $i++;?>
+										</td>
+										<td style="width:20%;" align="center">
+											<?php echo COUNT($result['sales_invoice_id']);?>
+											<?php //echo $result['sales_invoice_id'];?>
+										</td>
+										<td style="width:20%;" align="center">
+											 <?php echo number_format($result['after_discount_price']); ?>
+											 <?php //echo number_format(round($net_credit_amount), 2); ?><?php //echo $results['cat_name'];?>
+										</td>
+										<td style="width:20%;" align="center">
+											<?php //echo number_format(round($net_credit_amount), 2); ?>
+										</td>
+										<?php }    ?>
+										
+										 <tr class="odd gradeX">
+											<td colspan="4" align="center"> <?php  //echo $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml'); ?>
+											</td>
+										</tr>
+										
+										<?php } else {?>
+									  <tr style="width:80%;" align="center">
+										<td colspan="4" align="center">No Results Found</td>
+									  </tr>
+									  <?php }?>
+									</tr>
+									<thead>										
+									<tr>
+										<td style="width:20%;" align="center">H Form
+											
+										</td>
+										<td style="width:20%;" align="center">Total Invoice Count
+											
+										</td>
+										<td style="width:20%;" align="center">Total Amount
+											
+										</td>
+										<td style="width:20%;" align="center">% of H Form
+											
+										</td>
+									</tr>
+									</thead>
+									<tr>
+										<td style="width:20%;" align="center">
+											 <?php //echo number_format(round($total_amount_debit), 2); ?>
+										</td>
+										<td style="width:20%;" align="center">
+											<?php //echo number_format(round($net_credit_amount), 2); ?>
+										</td>
+										<td style="width:20%;" align="center">
+											 <?php //echo number_format(round($total_amount_debit), 2); ?>
+										</td>
+										<td style="width:20%;" align="center">
+											<?php //echo number_format(round($net_credit_amount), 2); ?>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- WIDGET END -->
+	</div>
+	
+	<!-- end row -->
+</section>
+<!-- end widget grid -->
+<?php } ?> 
+</div>
+<script type="text/javascript">
+	$("#start_date").datepicker({ 
+		dateFormat: 'yy-mm-dd',
+		prevText: '<i class="fa fa-chevron-left"></i>',
+		nextText: '<i class="fa fa-chevron-right"></i>'
+	});
+	$("#end_date").datepicker({ 
+		dateFormat: 'yy-mm-dd',
+		prevText: '<i class="fa fa-chevron-left"></i>',
+		nextText: '<i class="fa fa-chevron-right"></i>'
+	});
+</script>

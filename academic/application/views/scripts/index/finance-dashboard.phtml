@@ -1,0 +1,90 @@
+<div id="content" class="right_col">
+<section id="widget-grid" class="">
+					<!-- row -->
+					<div class="row">
+						<!-- NEW WIDGET START -->
+						<article class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+							<!-- Widget ID (each widget will need unique ID)-->
+							<div class="jarviswidget" id="wid-id-31" data-widget-colorbutton="false" data-widget-editbutton="false">
+							<h3 class="page-title txt-color-blueDark" >
+							<div><i class="fa fa-bars"> Finance Dashboard</i></div>
+							</h3>
+								
+				
+								<!-- widget div-->
+								<div>
+				
+									<!-- widget edit box -->
+									<div class="jarviswidget-editbox">
+										<!-- This area used as dropdown edit box -->
+				
+									</div>
+									<!-- end widget edit box -->
+				
+					
+					<!-- widget content -->
+									<div class="widget-body">
+									  <div class="col-sm-6 col-md-3" style="width:32%;">
+        <a href="<?php echo $this->mainconfig['host']; ?>finance/receipt-voucher">
+          <div class="panel panel-success panel-stat">
+            <div class="panel-heading" style="background:cyan;height:150px;">
+              
+              <div class="stat">
+                <div class="row">
+                  <div class="col-xs-4">
+                    <img src="<?php echo $this->mainconfig['host']; ?>public/images/is-money.png" alt="" />
+                  </div>
+                  <div class="col-xs-8">
+                    <small class="stat-label">Payments</small>
+                    <h1><?php echo $this->payments;?></h1>
+                  </div>
+                </div><!-- row -->
+                
+                <div class="mb15"></div>
+              </div>
+              
+            </div><!-- panel-heading -->
+          </div>
+          </a>
+        </div><!-- col-sm-6 -->
+        
+            
+		
+		<div class="col-sm-6 col-md-3" style="width:32%;">
+        <a href="<?php echo $this->mainconfig['host']; ?>finance/payment-voucher">
+          <div class="panel panel-success panel-stat">
+            <div class="panel-heading" style="background:gray;height:150px;">
+              <div class="stat">
+                <div class="row">
+                  <div class="col-xs-4" style="padding-bottom:40px;">
+                    <img src="<?php echo $this->mainconfig['host']; ?>public/images/is-money.png" alt="" />
+                  </div>
+                  <div class="col-xs-8">
+                    <small class="stat-label" style="color:#fff">Deposits</small>
+                    <h1 style="color:#fff"><?php echo $this->deposits;?></h1>
+                  </div>
+                </div><!-- row -->
+                
+                <div class="mb15"></div>
+              </div>
+              
+            </div><!-- panel-heading -->
+          </div>
+          </a>
+        </div><!-- col-sm-6 -->        
+		</div>
+									<!-- end widget content -->
+				
+								</div>
+								<!-- end widget div -->
+				
+							</div>
+							<!-- end widget -->
+				
+							
+						</div>	
+				</article>
+				
+				</section>
+	
+</div>

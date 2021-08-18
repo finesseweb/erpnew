@@ -1,0 +1,624 @@
+
+<link href='<?php echo $this->mainconfig['host']; ?>public/admin-assets/packages/core/main.css' rel='stylesheet' />
+<link href='<?php echo $this->mainconfig['host']; ?>public/admin-assets/packages/daygrid/main.css' rel='stylesheet' />
+<link href='<?php echo $this->mainconfig['host']; ?>public/admin-assets/packages/timegrid/main.css' rel='stylesheet' />
+<link href='<?php echo $this->mainconfig['host']; ?>public/admin-assets/packages/list/main.css' rel='stylesheet' />
+<script src='<?php echo $this->mainconfig['host']; ?>public/admin-assets/packages/core/main.js'></script>
+<script src='<?php echo $this->mainconfig['host']; ?>public/admin-assets/packages/interaction/main.js'></script>
+<script src='<?php echo $this->mainconfig['host']; ?>public/admin-assets/packages/daygrid/main.js'></script>
+<script src='<?php echo $this->mainconfig['host']; ?>public/admin-assets/packages/timegrid/main.js'></script>
+<script src='<?php echo $this->mainconfig['host']; ?>public/admin-assets/packages/list/main.js'></script>
+<?php 
+$result = $this->result;
+$color = $this->color;
+$add_event = $this->add_event;
+$eventList= $this->eventList;
+$eventColor= $this->backgroundColor;
+
+
+
+ ?>
+<script>
+
+  document.addEventListener('DOMContentLoaded', function() {
+
+    var Calendar = FullCalendar.Calendar;
+    var Draggable = FullCalendarInteraction.Draggable
+
+    /* initialize the external events
+    -----------------------------------------------------------------*/
+
+    var containerEl = document.getElementById('external-events-list');
+    new Draggable(containerEl, {
+      itemSelector: '.fc-event',
+      eventData: function(eventEl) {
+      	var id=eventEl.id;
+      	var desc=eventEl.innerText;
+        alert(eventEl.start);
+      	$.ajax({
+    		  url: "<?php echo $this->mainconfig['host'] . 'event/ajaxaddEvent' ?>",
+    		  type: "POST",
+    		  data: {category : id,title : desc},
+    		  dataType: "html"
+    		});
+
+        return {
+          title: eventEl.innerText.trim()
+        }
+
+      }
+    });
+
+    /* initialize the calendar
+    -----------------------------------------------------------------*/
+
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new Calendar(calendarEl, {
+      plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+      },
+      navLinks: true, // can click day/week names to navigate views
+      selectable: true,
+      selectMirror: true,
+      select: function(arg) {
+     
+		var current_datetime1 = new Date(arg.start);
+var formatted_date1 = current_datetime1.getFullYear() + "-" + (current_datetime1.getMonth() + 1) + "-" + current_datetime1.getDate() + " " + current_datetime1.getHours() + ":" + current_datetime1.getMinutes() + ":" + current_datetime1.getSeconds() ;
+
+
+	var current_datetime2 = new Date(arg.end);
+var formatted_date2 = current_datetime2.getFullYear() + "-" + (current_datetime2.getMonth() + 1) + "-" + current_datetime2.getDate() + " " + current_datetime2.getHours() + ":" + current_datetime2.getMinutes() + ":" + current_datetime2.getSeconds() ;
+
+            $('#ic_event_starttime').val(formatted_date1);
+            $('#ic_event_endtime').val(formatted_date1);
+            $('#myModal').modal();
+           
+            
+      // }
+        calendar.unselect()
+      },
+      eventClick: function(arg) {
+       var eventObj = arg.event;
+       var eventid =eventObj.id;
+
+        $.ajax({
+          url: "<?php echo $this->mainconfig['host'] . 'event/ajaxget' ?>",
+          type: "POST",
+          data: {id : eventid},
+          success: function(val){
+
+            var obj = JSON.parse(val);
+            var valueMy=obj[0];
+            
+            $('#eid').val(valueMy.eid);
+            $('#ic_event_title1').val(valueMy.title);
+            $('#ic_event_desc1').val(valueMy.description);
+            $('#ic_event_starttime1').val(valueMy.start);
+            $('#ic_event_endtime1').val(valueMy.end);
+            $('#color11').val(valueMy.backgroundColor);
+            $('#color21').val(valueMy.backgroundColor);
+            $('#color31').val(valueMy.borderColor);
+            $('#color41').val(valueMy.borderColor);
+            $('#color51').val(valueMy.textColor);
+            $('#color61').val(valueMy.textColor);
+            $('#marker_category1').val(valueMy.category);
+            
+
+            if(valueMy.only_faculty==1){
+              $('.checkbox').css('display','none');
+              $('.checkbox2').css('display','block');
+            }else{
+
+              $('.checkbox2').css('display','none');
+            }
+          
+            $('#calendarModal').modal();   
+          }
+        });
+
+      },
+     
+      editable: true,
+      droppable: true, // this allows things to be dropped onto the calendar
+      eventLimit: true,
+      events: <?php echo $this->event ?>,
+      
+     drop: function(arg) {
+
+     
+      
+
+     }
+
+    });
+    calendar.render();
+
+  });
+
+
+// $('.datetimepicker').click(function(){
+
+//   var selected_id = $(this).attr('id');
+//   alert(selected);
+
+//  //$(".datetimepicker").prependTo("#datetimepicker1");
+//    //         $(".datetimepicker").prependTo("#createdtp2");
+
+// });
+
+
+
+  
+</script>
+<style>
+  .datetimepicker {
+    left: 0 !important;
+  }
+  .fc-button-primary {
+    text-transform: capitalize;
+  }
+  .right_col {
+    min-height: 1103px !important;
+  }
+  .fc-scroller.fc-day-grid-container {
+    overflow: hidden !important;
+  }
+
+  #wrap {
+    width: 1200px;
+    margin: 0 auto;
+  }
+
+  #external-events {
+    float: left;
+    width: 150px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+    background: #eee;
+    text-align: left;
+  }
+
+  #external-events h4 {
+    font-size: 16px;
+    margin-top: 0;
+    padding-top: 1em;
+  }
+
+  #external-events .fc-event {
+    margin: 10px 0;
+    cursor: pointer;
+  }
+
+  #external-events p {
+    margin: 1.5em 0;
+    font-size: 11px;
+    color: #666;
+  }
+
+  #external-events p input {
+    margin: 0;
+    vertical-align: middle;
+  }
+
+ /* .modal-body {
+	    min-height: 323px;
+	}*/
+  #external-events {
+    display: none;
+  }
+/*.text {
+  left: 875.17px !important;
+  z-index: 10008;
+  top: 354px !important;
+}
+
+.text2 {
+  left: 874.17px !important;
+  z-index: 10008;
+  top: 398px !important;
+}
+.text11 {
+  left: 875.17px !important;
+  z-index: 10008;
+  top: 354px !important;
+}
+
+.text21 {
+  left: 874.17px !important;
+  z-index: 10008;
+  top: 398px !important;
+}*/
+.modal-footer {
+  padding: 15px;
+  text-align: right;
+  border-top: none !important;
+}
+.col-md-4.col-xs-4.bgcl {
+  padding-right: 0px;
+  margin-right: -10px;
+}
+.col-md-3.col-xs-3.bgcl2 input {
+  height: 34px;
+  background: none;
+  border-radius: 0px;
+  padding: 0px;
+}
+#ic_event_desc {
+  margin-bottom: 12px;
+}
+#ic_event_title {
+  margin-bottom: 15px;
+}
+#ic_event_desc1 {
+  margin-bottom: 12px;
+}
+#ic_event_title1 {
+  margin-bottom: 15px;
+}
+.form-group {
+  margin-bottom: 20px;
+}
+#marker_category {
+  margin-bottom: 12px;
+}
+#marker_category1 {
+  margin-bottom: 12px;
+}
+.fc-day-grid-event::before {
+  content: "\f0b2";
+  font-family: FontAwesome;
+  font-size: 7px;
+  line-height: 10px;
+  padding-right: 4px;
+  float: left;
+}
+
+.modal-footer {
+  margin-top: 267px;
+}
+.fc-time:after { content: "m"; }
+.fc-title {
+  text-align: center;
+  font-size: 13px;
+}
+.fc-content {
+  text-align: center;
+}
+.fc-time {
+  float: left;
+  text-transform: uppercase;
+}
+
+</style>
+
+<div class="right_col table-responsive">
+	<div class="x_panel">
+		<div class="x_title">
+			<h2>Add Events</h2>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+  <div id='wrap'>
+<div class="col-md-12 table-responsive">
+    <div id='external-events'>
+      <h4>Draggable Events</h4>
+
+      <div id='external-events-list'>
+      	<?php foreach($result as $val){ ?>
+
+        	<div class="fc-event"  data-color="<?=$val['backgroundColor']?>" id="<?=$val['category_id']?>" style="background-color:<?=$val['backgroundColor']?>;border-color:#ffffff;color:#ffffff" bgcolor="<?=$val['backgroundColor']?>" bcolor="#ffffff" color="#ffffff" desc="<?=$val['title']?>" hash="null"><?=$val['title']?></div>
+
+    	<?php } ?>
+
+      </div>
+<!-- 
+      <p>
+        <input type='checkbox' id='drop-remove' />
+        <label for='drop-remove'>remove after drop</label>
+      </p> -->
+    </div>
+
+    <div id='calendar'></div>
+
+    <div style='clear:both'></div>
+</div>
+  </div>
+
+	<div class="modal fade" id="myModal" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+					<h3 id="myModalLabel1"><i class="fa fa-calendar"></i> Add Event </h3>
+					<div class="control-group"> 
+					<div class="controls controls-row" id="when" style="margin-top:5px;"></div>	
+					</div>
+				</div>
+				<form action='' method='POST'>
+				  <div class="modal-body">
+							<!-- Text input-->
+              <div class="form-group">
+                <label class="control-label col-md-4 col-xs-4" for="inputCategory"><?php echo 'Category'; ?></label>
+                <div class="col-md-7 col-xs-7"> 
+                  <select class="form-control" id="marker_category" name="marker_category">
+                  <?php foreach($result as $val){ ?>
+                  <option value="<?=$val['category_id']?>"><?=$val['category_name']?></option>
+                  
+                  <?php } ?>                        
+                  </select>
+                </div> 
+              </div>
+							<div class="form-group marclass"> 
+								<label class="control-label col-md-4 col-xs-4" for="inputEvent"><?php echo 'Title'; ?></label> 
+								<div class="col-md-7 col-xs-7">
+								<input class="form-control" type="text" name="ic_event_title" id="ic_event_title" placeholder="<?php echo 'Title'; ?>" required/>
+								</div>
+							</div>
+							<!-- Textarea input-->
+							<div class="form-group marclass">		 
+								<label class="control-label col-md-4 col-xs-4" for="inputDescr"><?php echo 'Description'; ?></label>
+								<div class="col-md-7 col-xs-7">
+								<textarea class="form-control" name="ic_event_desc" id="ic_event_desc" placeholder="<?php echo 'Description'; ?>" ></textarea>
+								</div>
+							</div>
+
+							<!-- Text input-->
+							<div class="form-group marclass">	
+								<label class="control-label col-md-4 col-xs-4" for="inputBegin"> Begin Event </label>
+								<div class="col-md-7 col-xs-7">
+									<div class="input-group date form_datetime" id="datetimepicker1"> 
+                    <div id="testChecker">
+                    </div>
+                    
+										<input class="form-control" type="datetime" name="ic_event_starttime" id="ic_event_starttime" placeholder="<?php echo 'Begin Event' ?>" required/>
+										<span class="input-group-addon">
+										<span class="glyphicon glyphicon-calendar"></span>
+										</span>
+									</div> 
+								</div>
+							</div>
+
+              <!-- <div class="form-group">
+              <label class="control-label col-md-4 col-xs-4" for="inputBegin"> Begin Event </label> 
+              <div class="col-md-7 col-xs-7"> 
+                <div class="input-append date form_datetime">
+                    <input class="form-control" type="text" value="">
+                    <span class="add-on"><i class="icon-th"></i></span>
+                </div>
+              </div>
+            </div> -->
+            
+							<div class="form-group marclass">
+								<label class="control-label col-md-4 col-xs-4" for="inputEnd"><?php echo 'End Event'; ?></label>
+								<div class="col-md-7 col-xs-7">
+									<div class="input-group date" id="createdtp2"> 
+										<input class="form-control" type="text" name="ic_event_endtime" id="ic_event_endtime" placeholder="<?php echo 'End Event'; ?>" required/>
+										<span class="input-group-addon">
+										<span class="glyphicon glyphicon-calendar"></span>
+										</span>
+									</div> 	
+								</div>
+							</div>
+              <div class="form-group checkbox"> 
+                  <label class="control-label col-md-4 col-xs-4">Only for Faculties</label>
+                  <div class="col-md-7 col-xs-7"> 
+                    <input type="checkbox" name='only_faculty' id='only_faculty' value="1">
+                  </div>
+              </div>
+				  </div>
+				<div class="modal-footer"> 
+					<div class="btn-group dropup ">
+					 <button class="btn " data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i> <?php echo 'cancel'; ?></button> 
+					</div>	
+					<div class="btn-group dropup "> 
+						<button type="submit" class="btn btn-primary" name="addButton" id="addButton" ><i class="fa fa-floppy-o"></i> <?php echo 'save'; ?></button>		
+					</div> 
+				</div>
+			</form>
+			</div>	
+		</div>
+	</div>
+
+<!-- New Popup Modal -->
+<!-- Popup modal 2 -->
+  <div id="calendarModal" class="modal fade">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+          <h3 id="myModalLabel1"><i class="fa fa-calendar"></i> Edit Event </h3>
+          <div class="control-group"> 
+          <div class="controls controls-row" id="when" style="margin-top:5px;"></div> 
+          </div>
+        </div>
+        <form action='' method='POST'>
+        <input type='hidden' name='id' id='eid'>
+            <div class="modal-body">
+              <!-- Text input-->
+               <div class="form-group">
+                <label class="control-label col-md-4 col-xs-4" for="inputCategory"><?php echo 'Category'; ?></label>
+                <div class="col-md-7 col-xs-7"> 
+                  <select class="form-control" id="marker_category1" name="marker_category1">
+                  <?php foreach($result as $val){ ?>
+                  <option value="<?=$val['category_id']?>"><?=$val['category_name']?></option>
+                  <?php } ?>                        
+                  </select>
+                </div> 
+              </div> 
+              <div class="form-group"> 
+                <label class="control-label col-md-4 col-xs-4" for="inputEvent"><?php echo 'Title'; ?></label> 
+                <div class="col-md-7 col-xs-7">
+                <input class="form-control" type="text" name="ic_event_title1" id="ic_event_title1" placeholder="<?php echo 'Title'; ?>" required/>
+                </div>
+              </div>
+              <!-- Textarea input-->
+              <div class="form-group">     
+                <label class="control-label col-md-4 col-xs-4" for="inputDescr"><?php echo 'Description'; ?></label>
+                <div class="col-md-7 col-xs-7">
+                <textarea class="form-control" name="ic_event_desc1" id="ic_event_desc1" placeholder="<?php echo 'Description'; ?>" ></textarea>
+                </div>
+              </div>
+
+              <!-- Text input-->
+              <div class="form-group">  
+                <label class="control-label col-md-4 col-xs-4" for="inputBegin"> Begin Event </label>
+                <div class="col-md-7 col-xs-7">
+                  <div class="input-group date" id="createdtp11"> 
+                    <div id="testChecker2">
+                    </div>
+                    <input class="form-control datetimesec" type="text" name="ic_event_starttime1" id="ic_event_starttime1" placeholder="<?php echo 'Begin Event' ?>" required/>
+                    <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                  </div> 
+                </div>
+              </div>  
+
+              <!-- Text input-->
+              <div class="form-group">
+                <label class="control-label col-md-4 col-xs-4" for="inputEnd"><?php echo 'End Event'; ?></label>
+                <div class="col-md-7 col-xs-7">
+                  <div class="input-group date" id="createdtp12"> 
+                    <input class="form-control" type="text" name="ic_event_endtime1" id="ic_event_endtime1" placeholder="<?php echo 'End Event'; ?>" required/>
+                    <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                  </div>  
+                </div>
+              </div>
+               <div class="form-group"> 
+                  <div class="checkbox">
+                    <label class="control-label col-md-4 col-xs-4">Only Faculty</label>
+                    <div class="col-md-7 col-xs-7"> 
+                      <input type="checkbox" name='only_faculty' value="0" id='only_faculty1'>
+                    </div>
+                  </div>
+                  <div class="checkbox2">
+                    <label class="control-label col-md-4 col-xs-4">Only for Faculties</label>
+                    <div class="col-md-7 col-xs-7"> 
+                      <input type="checkbox" name='only_faculty' id='only_faculty2' value="1" checked="checked">
+                    </div>
+                  </div>
+                </div>
+            </div>
+        <div class="modal-footer"> 
+           <input type="submit" class="btn btn-danger pull-left" type="submit" name="delButton" id="delButton" value="Delete"></i>
+
+          <div class="btn-group dropup ">
+           <button class="btn " data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i> <?php echo 'cancel'; ?></button> 
+          </div>  
+          <div class="btn-group dropup "> 
+            <button type="submit" class="btn btn-primary" name="addButton" id="addButton" ><i class="fa fa-floppy-o"></i> <?php echo 'save'; ?></button>    
+          </div> 
+        </div>
+      </form>
+      </div>  
+</div>
+</div>
+		
+</div>
+
+<script>
+
+function copyValue(callerField) {
+    if(callerField){
+        document.getElementById("color1").value = document.getElementById("color2").value;
+    }  else{
+        document.getElementById("color2").value = document.getElementById("color1").value;
+    }
+
+   
+}
+
+function copyValueA(callerField) {
+  
+    if(callerField){
+        document.getElementById("color21").value = document.getElementById("color11").value;
+    }  else{
+        document.getElementById("color11").value = document.getElementById("color21").value;
+    }
+
+   
+}
+
+function copyValue2(callerField2) {
+    if(callerField2){
+        document.getElementById("color4").value = document.getElementById("color3").value;
+    }  else{
+        document.getElementById("color4").value = document.getElementById("color3").value;
+    }
+
+    if(callerField2==8){
+        document.getElementById("color41").value = document.getElementById("color31").value;
+    }  else{
+        document.getElementById("color31").value = document.getElementById("color41").value;
+    }
+}
+
+function copyValue3(callerField3) {
+    
+    if(callerField3==4){
+        document.getElementById("color6").value = document.getElementById("color5").value;
+    }  else{
+        document.getElementById("color6").value = document.getElementById("color5").value;
+    }
+
+
+    if(callerField3==10){
+        document.getElementById("color61").value = document.getElementById("color51").value;
+    }  else{
+        document.getElementById("color51").value = document.getElementById("color61").value;
+    }
+}
+
+
+</script>
+
+<script>
+
+  $('#datetimepicker1').datetimepicker();
+  $('#createdtp2').datetimepicker();
+  $('#createdtp11').datetimepicker();
+  $('#createdtp12').datetimepicker();
+</script>
+
+<script type="text/javascript">
+  $( "#datetimepicker1" ).click(function() {
+  $(".datetimepicker").prependTo("#testChecker");
+  $('.datetimepicker').removeClass('text11');
+   $('.datetimepicker').removeClass('text2');
+   $('.datetimepicker').removeClass('text21');
+   $('.datetimepicker').addClass('text');
+  });
+
+  $( "#createdtp11" ).click(function() {
+     $(".datetimepicker").prependTo("#testChecker2");
+   $('.datetimepicker').removeClass('text');
+   $('.datetimepicker').removeClass('text2');
+   $('.datetimepicker').removeClass('text21');
+   $('.datetimepicker').addClass('text11');
+  });
+
+  $( "#createdtp2" ).click(function() {
+    $(".datetimepicker").prependTo("#createdtp2");
+   $('.datetimepicker').removeClass('text');
+   $('.datetimepicker').removeClass('text11');
+   $('.datetimepicker').removeClass('text21');
+   $('.datetimepicker').addClass('text2');
+  });
+
+  $( "#createdtp12" ).click(function() {
+   $('.datetimepicker').removeClass('text');
+    $('.datetimepicker').removeClass('text11');
+   $('.datetimepicker').removeClass('text2');
+   $('.datetimepicker').addClass('text21');
+  });
+
+  $(".main_container").scroll(function() { 
+      alert('Current scroll from the top: ' + window.pageYOffset);
+  }); 
+
+</script>            

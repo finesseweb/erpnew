@@ -1,0 +1,372 @@
+<div id="content">
+<?php
+if (count($this->messages)) {
+	foreach ($this->messages as $message) {
+		?>
+		<div class="alert alert-success">
+			<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+			<?php echo $this->escape($message); ?></div>
+		<?php
+	}
+}
+?>
+<div class="row">
+	<div class="col-xs-12">
+		<form id="basicForm" action="<?php echo $this->mainconfig['host']; ?>finance/profit-and-loss/index/type/search<?php //echo $this->form->getAction() ?>" method="post" class="form">		
+		   <div class="panel">
+				<div class="row" style="margin:0px;">
+					<?php /* <div class="col-sm-3">
+						<div class="form-group">
+							<label class="control-label">Search by </label>
+							<?php echo $this->TrailBalance_form->search_by; ?>							
+						</div>
+					</div>
+					<div class="col-sm-3">
+						<div class="form-group">
+							<label class="control-label">Party Name </label>
+							<?php echo $this->TrailBalance_form->party_id; ?>							
+						</div>
+					</div> 					
+					 <div class="col-sm-2">
+						<div class="form-group">
+							<label class="control-label">Vendor Name </label>
+							<?php echo $this->form->vendor_id; ?>							
+						</div>
+					</div> */ ?>
+				<?php /*	<div class="col-sm-3">
+						<div class="form-group">
+							<label class="control-label">Start Date</label>
+							<?php echo $this->TrailBalance_form->start_date; ?>
+							<!-- <input class="form-control start_date" type="text" name="start_date" value="" required="required"> -->
+						</div>
+					</div>
+					<div class="col-sm-3" >
+						<div class="form-group" style=" padding-right:0px;">
+							<label class="control-label">End Date </label>
+							<?php echo $this->TrailBalance_form->end_date; ?>
+							<!--<input class="form-control end_date" type="text" name="end_date" value="" required="required">-->
+						</div>
+					</div> 
+					<div class="col-sm-2" style="float:left;width:100px;">
+						<div class="form-group">
+							<div style="float:left">
+								<br/>							
+								<input type="submit" style="margin-top:5px;" class="btn btn-primary" name="submit" value="Submit" id="submit_val">
+							</div>											
+						</div>
+					</div>
+					<div class="col-sm-2" style="float:left;width:100px;">
+					<div class="form-group">
+							
+								<br />							
+								 <input type="submit" style="margin-top:5px;" class="btn btn-primary" name="print" value="print" onclick="this.form.target='_blank';return true;"> 
+				
+							</div>											
+						</div> */ ?>
+				</div>
+								
+			</div>
+		</form>
+	</div>
+</div>
+
+<?php 
+//if ( ( !empty($postvalue['start_date']) ) && ( !empty($postvalue['end_date']) ) ) { 
+//$statement_remarks = $this->statement_remarks;
+$end_dates = $this->enddate;
+$findMont = date("m", strtotime($end_dates));
+$findYear = date("Y", strtotime($end_dates));;
+
+$totalday = cal_days_in_month(CAL_GREGORIAN, $findMont, $findYear); // 31
+//echo $totalday ;
+if(($this->type == 'search') || ($this->type == '') )
+{ 
+?>
+
+<!-- widget grid -->
+<!-- widget grid -->
+<section id="widget-grid" class="">	
+	<!-- row -->
+	<div class="row">
+		
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2></h2>
+
+				</header>
+
+				<!-- widget div-->
+				<div>		
+					<!-- widget content -->
+						<div class="widget-body">
+							<div class="table-responsive">
+								<?php /* if(!empty($this->party_name)){
+								
+								?>
+									<form id="basicForm" action="<?php echo $this->mainconfig['host']; ?>finance/journal/invoice-statement/save" method="post" class="form">
+									 <div style="width:10%; z-index:999; float:right !important; position:fixed; margin-left:71%; margin-top:22%;">
+											<textarea name="statement_remarks" required="required" rows="4" cols="50" style="resize:none;"><?php //echo $this->statement_remarks; ?></textarea>
+											<input type="hidden" name="start_date" value="<?php echo $this->start_date; ?>" />
+											<input type="hidden" name="end_date" value="<?php echo $this->enddate; ?>" />	
+											<input type="hidden" name="party_name" value="<?php echo $this->party_name; ?>" />				
+											<input type="submit" name="save" class="btn btn-primary" value="Save" />
+									</div>		
+									<?php } */ ?>
+								<table style="margin-bottom:0px !important;" class="table table-bordered ">
+									<thead>										
+										
+										<tr>
+											<th style="text-align:center;">S.No.</th>
+											<th style="text-align:center;">Account Name</th>
+											<th style="text-align:center;">Balance</th>
+												
+										</tr>
+									</thead>
+									<tbody>
+										<?php //print_r($this->opening_balance); 
+										$total_items = 0;
+										$total_credit = 0;
+										$total_debit = 0;
+																				
+										$i = 0;
+										$days_count = 0;										
+										?>
+										
+										<?php 
+											$account_statement = $this->account_statement;
+										if ( count($account_statement) > 0 ) {
+											?>											  
+											<?php
+											$total_items = count($account_statement);
+											$k = 0;
+											foreach ($account_statement as $account) {
+												//If collect the cash that records not displayed here
+												//echo $val['payment_by'];
+												//$payment_by = '';
+												//if(isset($customer['payment_by'])){
+													//$payment_by = $customer['payment_by'];
+												//}
+												//if( $payment_by !=1){
+												$i++;												
+												?>
+													<tr>
+													<td><?php echo $i; ?></td>
+													<td>
+													<?php echo $account['name']; ?>
+													</td>													
+													<td style="text-align:right;width:15%;">
+													<?php
+														
+															$amount = $account['payment_amount']  + $account['receipt_amount'] + $account['debit_amount'] + $account['credit_amount'];
+														
+													
+														
+															
+															echo number_format(($amount),2);
+															$total_debit += round($amount);
+														
+														
+														?>
+													</td>													
+												</tr>
+												<?php
+												// } //End
+											}																							
+											/*
+											 * Vendor Pyments end
+											 */
+											?>
+											<?php
+											}											
+											?>
+										
+										
+											<?php 
+											$purchase_statement = $this->purchase_statement;
+										if ( count($purchase_statement) > 0 ) {
+											?>											  
+											<?php
+											$total_items = count($purchase_statement);
+											$k = 0;
+											$debit_amount = 0;
+											foreach ($purchase_statement as $purchase) {
+												
+												$amount += $purchase['paid_amount'];
+											}
+												$i++;												
+												?>
+												<tr>
+													<td><?php echo $i; ?></td>
+													<td>
+													<?php echo 'PURCHASE'; ?>
+													</td>													
+													<td style="text-align:right;width:15%;">
+													<?php
+														//echo $debit_amount;
+														
+															
+															echo number_format(($amount),2);
+															$total_debit += round($amount);
+														
+														
+														?>
+													</td>												
+												</tr>
+											<?php
+											}											
+											?>
+											<?php 
+											$waybill_statement = $this->waybill_statement;
+										if ( count($waybill_statement) > 0 ) {
+											?>											  
+											<?php
+											$total_items = count($waybill_statement);
+											$k = 0;
+											$debit_amount = 0;
+											foreach ($waybill_statement as $waybill) {
+												
+												$amount = $waybill['waybill_amount'];
+											}
+												$i++;												
+												?>
+												<tr>
+													<td><?php echo $i; ?></td>
+													<td>
+													<?php echo 'DIRECT EXPORT'; ?>
+													</td>													
+													<td style="text-align:right;width:15%;">
+													<?php
+														//echo $debit_amount;
+														
+															
+															echo number_format(($amount),2);
+															$total_debit += round($amount);
+														
+														
+														?>
+													</td>												
+												</tr>
+											<?php
+											}											
+											?>
+
+										<?php 
+											$retail_statement = $this->retail_statement;
+										if ( count($retail_statement) > 0 ) {
+											?>											  
+											<?php
+											$total_items = count($retail_statement);
+											foreach ($retail_statement as $retail) {
+											$amount = $retail['paid_amount'];
+											}															
+												$i++;																						
+											/*
+											 * Vendor Pyments end
+											 */
+											?>
+												<tr>
+													<td><?php echo $i; ?></td>
+													<td>
+													<?php echo 'AUTO AND DV'; ?>
+													</td>													
+													<td style="text-align:right;width:15%;">
+													<?php
+					
+											
+															echo number_format(($amount),2);
+															$total_debit += round($amount);
+														
+														
+														?>
+													</td>													
+												</tr>
+												
+											<?php
+											}											
+											?>
+											<?php 
+											$sales_statement = $this->sales_statement;
+										if ( count($sales_statement) > 0 ) {
+											?>											  
+											<?php
+											$total_items = count($sales_statement);
+											foreach ($sales_statement as $sales) {
+											$amount = $sales['paid_amount'];
+											}															
+												$i++;																						
+											/*
+											 * Vendor Pyments end
+											 */
+											?>
+												<tr>
+													<td><?php echo $i; ?></td>
+													<td>
+													<?php echo 'INDIRECT STATEMENT'; ?>
+													</td>													
+													<td style="text-align:right;width:15%;">
+													<?php
+					
+											
+															echo number_format(($amount),2);
+															$total_debit += round($amount);
+														
+														
+														?>
+													</td>													
+												</tr>
+												
+											<?php
+											}											
+											?>
+										
+										
+										
+										
+										
+										
+										
+										
+										
+											
+										<tr>
+											<td style=" border-right:0px !important;"><b>Total<b/></td>
+											<td style="text-align:right; border-left:0px !important;"><b><?php echo $i; //$total_items; ?><b/></td>
+											<td style="text-align:right; border-left:0px !important;"><b><?php echo number_format($total_debit, 2); ?><b/></td>	
+										</tr>
+										
+									</tbody>
+								</table>
+							</div>
+						</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- WIDGET END -->
+	</div>
+	
+	<!-- end row -->
+</section>
+<!-- end widget grid -->
+<?php } ?> 
+</div>
+<script type="text/javascript">
+	$("#start_date").datepicker({ 
+		dateFormat: 'yy-mm-dd',
+		prevText: '<i class="fa fa-chevron-left"></i>',
+		nextText: '<i class="fa fa-chevron-right"></i>'
+	});
+	$("#end_date").datepicker({ 
+		dateFormat: 'yy-mm-dd',
+		prevText: '<i class="fa fa-chevron-left"></i>',
+		nextText: '<i class="fa fa-chevron-right"></i>'
+	});
+</script>

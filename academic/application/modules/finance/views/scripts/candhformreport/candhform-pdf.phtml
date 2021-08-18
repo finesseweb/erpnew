@@ -1,0 +1,177 @@
+<style type="text/css">
+* {
+	margin: 0px;
+	padding: 0px;
+	font-family: Arial, sans-serif;
+	font-weight: 300;
+	
+}
+.credit table {
+	border-collapse: collapse;
+	width: 100%;
+}
+.credit table, th {
+	border: 1px solid black;
+	padding: 2px;
+	
+	
+}
+.credit {
+	width: 100%;
+	height: auto;
+	margin: 0px auto;
+	float: left;
+	border: 1px solid #000;
+}
+table {
+	border-collapse: collapse;
+	width: 100%;
+	border: 1px solid #000;
+}
+table, th, td {
+	border: 1px solid black;
+	padding: 5px;
+	font-size: 20px !important;
+	
+}
+</style>
+
+<?php 
+$end_dates = $this->enddate;
+$findMont = date("m", strtotime($end_dates));
+$findYear = date("Y", strtotime($end_dates));
+
+$totalday = cal_days_in_month(CAL_GREGORIAN, $findMont, $findYear); // 31
+										
+?>
+
+<!-- widget grid -->
+<!-- widget grid -->
+<section id="widget-grid" class="">	
+	<!-- row -->
+	<div class="row">
+		
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2></h2>
+
+				</header>
+
+				<!-- widget div-->
+				<div>		
+					<!-- widget content -->
+						<div class="widget-body">
+							<div class="table-responsive">
+								<table class="table table-striped mb30" id="table2">
+									  <thead>
+									  <tr>
+										<td colspan="4" align="center"><strong>C & H Form Report</strong></td> 												
+										</tr>
+										 <tr>
+											<th>C Form</th>					
+											<th>Total Invoice Count</th>
+											<th>Total Amount</th>
+											<th>% of C Form</th> 
+										 </tr>
+									  </thead>
+									  <tbody>      
+
+									<?php //$i=1; 
+
+									if(count($this->paginator) !=0){ 
+
+									foreach ($this->paginator as $result){ //print_r ($result) ; die;?>
+
+										 <tr>
+
+											<td><?php //echo $result['c_form_no'];?></td>
+
+											<td><?php echo $result['sales_invoice_id'];?></td>
+											
+											<td><?php  echo $result['total_amount'];?></td>
+										   <td><?php  //echo number_format($result['after_discount_price']);?></td>
+										 </tr> 
+									<?php } ?>
+
+										   <tr class="odd gradeX">
+											<td colspan="4" align="center"> <?php  //echo $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml'); ?>
+											</td>
+										   </tr>
+										<?php } else { ?>
+										   <tr class="odd gradeX">
+											   <td colspan="4" align="center">No Results Found</td>
+										   </tr>
+									<?php }?>
+									</tbody>
+								</table>
+								<table class="table table-striped mb30" id="table2">
+									  <thead>
+										 <tr>
+											<th>H Form</th>					
+											<th>Total Invoice Count</th>
+											<th>Total Amount</th>
+											<th>% of H Form</th> 
+										 </tr>
+									  </thead>
+									  <tbody>      
+
+									<?php $i=1; 
+
+									if(count($this->paginator1) !=0){
+
+									foreach ($this->paginator1 as $result1){ ?>
+
+										 <tr>
+
+											<td><?php //echo $result['h_form_no']; ?></td>
+
+											<td><?php echo $result1['sales_invoice_id'];?></td>
+											
+											<td><?php  echo $result1['total_amount'];?></td>
+										   <td><?php  //echo $result['after_discount_price'];?></td>
+										 </tr> 
+									<?php } ?>
+
+										   <tr class="odd gradeX">
+											<td colspan="4" align="center"> <?php // echo $this->paginationControl($this->paginator1, 'Sliding', 'pagination.phtml'); ?>
+											</td>
+										   </tr>
+										<?php } else { ?>
+										   <tr class="odd gradeX">
+											   <td colspan="4" align="center">No Results Found</td>
+										   </tr>
+									<?php }?>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- WIDGET END -->
+	</div>
+
+	<!-- end row -->
+</section>
+<!-- end widget grid -->
+<script type="text/javascript">
+	$("#start_date").datepicker({ 
+		dateFormat: 'yy-mm-dd',
+		prevText: '<i class="fa fa-chevron-left"></i>',
+		nextText: '<i class="fa fa-chevron-right"></i>'
+	});
+	$("#end_date").datepicker({ 
+		dateFormat: 'yy-mm-dd',
+		prevText: '<i class="fa fa-chevron-left"></i>',
+		nextText: '<i class="fa fa-chevron-right"></i>'
+	});
+</script>

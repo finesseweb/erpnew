@@ -1,0 +1,1688 @@
+<style>
+input[type=radio] {
+    opacity: 2; 
+    width: 15px;
+    height: 15px;
+    z-index: 1;
+    cursor: pointer;
+}
+</style>
+<?php $result = $this->result;
+$value = $this->DropDownModule;
+//print_r($value[5]); die;
+//print_r($this->result['subprogram_id']); die;?>
+<?php if ($this->type) { ?>
+<div class="padding-md">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<form class="no-margin" id="formValidate1" action="<?php echo $this->Employee_form->getAction() ?>" method="post" enctype="multipart/form-data"  data-validate="parsley" >
+					<div class="panel-heading">									
+						 <h4>Employee</h4> 
+					</div>
+					<div class="panel-heading">									
+						 <h5>General Details</h5> 
+					</div>
+					<div class="panel-body">
+						<div class="row">
+						<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Employee First Name <span class="asterisk">*</span></label>
+									<?php echo $this->Employee_form->employee_name; ?>
+								</div>										
+							</div> 
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Employee Surname <span class="asterisk">*</span></label>
+									<?php echo $this->Employee_form->employee_surname; ?>
+								</div>										
+							</div> 
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Employee Code <span class="asterisk">*</span></label>
+									 <div class="form-group">
+										<input type="checkbox" name="corporate" id="corporate" <?php echo ($this->result['corporate']==1 ? 'checked' : '');?>/>
+										<span class="custom-checkbox" ></span>Corporate
+									</div>
+									<span>OR</span>
+									<label class="control-label">Branch Type </label>
+									 <div class="form-group">
+										<input type="checkbox" name="coco" id="coco" value="1" <?php echo ($this->result['coco']==1 ? 'checked' : '');?> />
+										<span class="custom-checkbox" ></span>COCO
+									</div>
+									<div class="form-group">
+										<input type="checkbox" name="fofo" id="fofo" value="2" <?php echo ($this->result['fofo']==2 ? 'checked' : '');?>/>
+										<span class="custom-checkbox" ></span>FOFO
+									</div>
+									<div class="form-group">
+										<input type="checkbox" name="foco" id="foco"  value="3"/>
+										<span class="custom-checkbox" ></span>FOCO
+									</div>
+									<div class="form-group">
+										<input type="checkbox" name="cofo" id="cofo" value="4"/>
+										<span class="custom-checkbox" ></span>COFO
+									</div>
+									
+								</div>										
+							</div> 
+						</div>	
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">Country <span class="asterisk">*</span></label>
+										<?php echo $this->Employee_form->country; ?>
+									</div>											
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">State <span class="asterisk">*</span></label>
+										<?php echo $this->Employee_form->state; ?>
+									</div>											
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">City <span class="asterisk">*</span></label>
+										<?php echo $this->Employee_form->city; ?>
+									</div>											
+								</div>
+							<div id="branch_id">
+							<div class="col-sm-3">
+							<label  class="control-label">Branch Name </label>
+							<div style="height:100px;overflow-y: scroll;">
+							<?php foreach($this->branch as $k=>$val){ //echo $k;;  ?>
+							<label class="label-checkbox" style="padding-left:0px; margin:8px;" >
+							<input type="checkbox" name="branch_id[]" class="checkbox" <?php
+										if(!empty($this->result['branch_id'])){ 
+												$data = explode(',',$this->result['branch_id']);
+												foreach($data as $key=>$Val){
+													$checked = '';
+													if($k == $Val)
+													echo $checked = 'checked';
+													} } ?> value="<?php echo $k;?>" />
+							<span class="custom-checkbox" style="float:left;"></span> </label> <?php echo $val; ?>
+							<?php } ?>
+							</div>
+							</div> 
+							</div>
+							<div id="branch_type">
+							</div>
+							</div>
+						<div class="row">							
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Department Name <span class="asterisk">*</span></label>
+									<?php echo $this->Employee_form->employee_department_id; ?>
+								</div>										
+							</div>
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Gender <span class="asterisk">*</span></label>
+									<?php echo $this->Employee_form->employee_sex; ?>
+									
+								</div>										
+							</div>
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Religion <span class="asterisk">*</span></label>
+									<?php echo $this->Employee_form->employee_religion; ?>
+									
+								</div>										
+							</div>
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Marital Status</label>
+									<?php echo $this->Employee_form->employee_marital_status; ?>
+									
+								</div>										
+							</div>
+						  
+						
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Date of Birth <span class="asterisk">*</span></label>
+									<div class="input-group">
+										<?php echo $this->Employee_form->employee_dob; ?>
+										<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+									</div>		
+								</div>										
+							</div> 
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Blood Group </label>
+									<?php echo $this->Employee_form->employee_blood_group; ?>								
+								</div>										
+							</div>
+						 </div>
+						
+						<div class="panel-heading"></div>
+						<div class="panel-heading">									
+						  <h5>Employment Details</h5> 
+						</div>
+						<div class="row"></div>
+						<div class="row" style="padding-top:2%;">
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Date of  Joining &nbsp(DOJ)<span class="asterisk">*</span></label>									
+									<div class="input-group">			
+										<?php echo $this->Employee_form->employee_joining_dt; ?>
+										<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+									</div>
+								</div>
+							</div>
+						<?php /* <div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Resignation Date</label>
+									<div class="input-group">
+										<?php echo $this->Employee_form->employee_resignation_date; ?>
+										<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+									</div>
+								</div>										
+							</div> */ ?>
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Joining Remarks <span class="asterisk">*</span></label>
+									<?php echo $this->Employee_form->joining_remarks; ?>
+									
+								</div>										
+							</div>
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Last Date of Employment</label>
+									<div class="input-group">
+										<?php echo $this->Employee_form->employee_last_date; ?>
+										<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+									</div>
+								</div>										
+							</div>
+							<div class="col-sm-3">Type of Discontinuation
+									<div class="checkbox discontinues" style="margin-top: 7px;" >									
+										<label class="label-checkbox" style="padding-left:0px;">
+											<input type="checkbox" id="resignation_with_notice"  name="resignation_with_notice" <?php echo ($this->result['resignation_with_notice']==1 ? 'checked' : '');?>/>
+											<span class="custom-checkbox" ></span>
+											Resignation with notice
+										</label>
+										<label class="label-checkbox" style="padding-left:0px;" >
+											<input type="checkbox" id="resignation_without_notice"  name="resignation_without_notice" <?php echo ($this->result['resignation_without_notice']==1 ? 'checked' : '');?> />
+											<span class="custom-checkbox" ></span>
+											 Resignation without notice<br>
+										</label>
+										<label class="label-checkbox" style="padding-left:0px;" >
+											<input type="checkbox" id="sacked"  name="sacked" <?php echo ($this->result['sacked']==1 ? 'checked' : '');?> />
+											<span class="custom-checkbox" ></span>
+											 Sacked<br>
+										</label>
+									</div>
+							</div>
+							</div>
+						<div class="row">
+						<div class="col-sm-3">	
+								<div class="form-group" >
+									<label class="control-label" id="txtPassportNumber">Date of Notice</label>
+									<div class="input-group">
+										<?php echo $this->Employee_form->date_of_notice; ?>
+										<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+									</div>
+								</div>
+				
+							</div>
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Remarks</label>
+									<?php echo $this->Employee_form->remarks; ?>
+									
+								</div>										
+							</div>
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Security offered</label>
+									<?php echo $this->Employee_form->security_offered; ?>
+									
+								</div>										
+							</div>
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Eligible for return of security</label>									
+									<label class="label-checkbox" style="padding-left:0px;" >
+											<?php echo $this->Employee_form->return_of_security; ?>
+											<span class="custom-checkbox" ></span>
+											 Yes<br>
+									</label>										
+								</div>										
+							</div>
+							</div>
+							
+							<div class="row">
+							<div id="security_remarks">
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Security return remarks</label>
+									<?php echo $this->Employee_form->security_return_remarks; ?>
+									
+								</div>										
+							</div>
+							</div>
+						</div>
+						<div class="panel-heading"></div>
+						<div class="panel-heading">									
+						  <h5>Performance & Conduct </h5> 
+						</div>
+						<div class="row" style="padding-top: 2%;">
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Overall Performance</label>
+									<?php //echo $this->Employee_form->overall_performance; ?>
+									
+										<label class="label-checkbox" style="padding-left:0px;" >
+											<input type="checkbox" id="best"  name="best" <?php echo ($this->result['best']==1 ? 'checked' : '');?> />
+											<span class="custom-checkbox" ></span>
+											 Best<br>
+										</label>
+										<label class="label-checkbox" style="padding-left:0px;" >
+											<input type="checkbox" id="average"  name="average" <?php echo ($this->result['average']==1 ? 'checked' : '');?>  />
+											<span class="custom-checkbox" ></span>
+											 Average<br>
+										</label>
+										<label class="label-checkbox" style="padding-left:0px;" >
+											<input type="checkbox" id="poor"  name="poor" <?php echo ($this->result['poor']==1 ? 'checked' : '');?>/>
+											<span class="custom-checkbox" ></span>
+											 Poor<br>
+										</label>
+										<label class="label-checkbox" style="padding-left:0px;" >
+											<input type="checkbox" id="multi_tasker"  name="multi_tasker" <?php echo ($this->result['multi_tasker']==1 ? 'checked' : '');?>/>
+											<span class="custom-checkbox" ></span>
+											 Multi-tasker<br>
+										</label>
+										<label class="label-checkbox" style="padding-left:0px;" >
+											<input type="checkbox" id="leader"  name="leader" <?php echo ($this->result['leader']==1 ? 'checked' : '');?> />
+											<span class="custom-checkbox" ></span>
+											 Leader<br>
+										</label>
+										<label class="label-checkbox" style="padding-left:0px;" >
+											<input type="checkbox" id="problem_solver"  name="problem_solver" <?php echo ($this->result['problem_solver']==1 ? 'checked' : '');?> />
+											<span class="custom-checkbox" ></span>
+											 Problem solver  <br>
+										</label>
+									
+								</div>										
+							</div>
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Overall Conduct</label><br>
+									<?php //echo $this->Employee_form->overall_conduct; ?>
+											<label>
+											<input type="radio" name="overall_conduct" id="unsatisfactory" class="radio" <?php if($this->result['overall_conduct']==1){ echo 'checked="checked"';} ?>  value="1" />
+											 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Unsatisfactory
+											 </label><br>
+											 <label>
+											<input type="radio" name="overall_conduct" id="satisfactory" class="radio"  <?php  if($this->result['overall_conduct']==2){ echo 'checked="checked"'; } ?> value="2"/>
+											 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Satisfactory
+											</label><br>
+											<label>
+											<input type="radio" name="overall_conduct" id="good" class="radio"  <?php  if($this->result['overall_conduct']==3){  echo 'checked="checked"';} ?> value="3" />
+											 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Good
+											</label><br>
+											<label>
+											<input type="radio" name="overall_conduct" id="excellent" class="radio" <?php  if($this->result['overall_conduct']==4){ echo 'checked="checked"';} ?> value="4" />
+											 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Excellent
+											 </label><br>
+										
+								</div>										
+							</div>
+						 </div>
+						<div class="panel-heading"></div>
+						<div class="panel-heading">									
+						  <h5>Document Upload</h5> 
+						</div>
+						<div class="row" style="padding-top: 2%;">
+						<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Photo</label>
+									<?php echo $this->Employee_form->file_upload; ?>
+									
+								</div>										
+							</div>
+						<?php /* 	<div class="col-sm-3"></div>
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Other Documents </label>
+									<?php echo $this->Employee_form->doc_upload; ?>
+									( Attach Resume, ID proofs, residence proof etc.)
+								</div>										
+							</div>  */ ?>
+						
+								   <?php 
+									
+									if(!empty($this->employee_documents)>0){
+											  $i=0; ?>
+									<input type="hidden" name="count" id="count" value="<?php echo (count($this->employee_documents) +1 ); ?>" class="count">
+									<?php
+									foreach($this->employee_documents as $val){
+									//print_r($val);die;
+									//$total_amount += $val['total_price'];
+									$i++;
+									?>
+										<div  class="row appended_row "style="margin:0px 1px;">
+										   <div class="col-sm-3">
+										   <div class="form-group">
+									
+												<label class="control-label">Other  Documents</label>		
+												<input type="file"  style="width:98%;" class="form-control " label="doc_<?php echo $i; ?>" name="other_documents[]" value="<?php echo $val['other_documents'] ?>"  />
+												<input type="hidden"  class="form-control " label="doc_<?php echo $i; ?>" style=" background:#FFFFFF;" name="other_documents[]" value="<?php echo $val['other_documents'] ?>" class="form-control" />
+											</div>
+											</div>
+											<a  class="removeclass2 btn btn-primary remove_class2 " style="margin:24px 15px 0px; padding: 7px 19px!important;" href="#">-</a>
+											</div> 
+									<?php		} 
+											?>
+										<div  class=" appended_row "> <div class="col-sm-3"></div><div class="col-sm-3"></div><a id="AddButton2" class="btn btn-primary" style="margin:24px 15px 0px; padding: 7px 19px!important;">+</a> 
+										</div>
+									<?php } else { ?>
+									<div  class="row appended_row "style="margin:0px 1px;">
+										<input type="hidden" name="count" id="count" value="1" class="count">
+										<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">Other Documents </label>
+											<input type="file"  style="width:98%;" class="form-control" label="file_0" name="other_documents[]"  />
+										</div>
+										</div>
+										<div class="col-sm-3">
+										<a id="AddButton2" class="btn btn-primary" style="margin:24px 0px 0px; padding: 7px 19px!important;">+</a>
+</div>										
+									</div>
+										<?php } ?>
+									
+									<div  id="fields3">
+										<div class="padding-top"></div>
+									</div>
+								</div>
+									<div class="panel-heading"></div>
+						<div class="panel-heading">									
+						  <h5>Salary Details</h5> 
+						</div>
+						<div class="row" style="padding-top: 2%;">
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Salary amount</label>
+									<?php echo $this->Employee_form->salary_amount; ?>
+									
+								</div>										
+							</div>
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Incentive/Commission</label>
+									<?php echo $this->Employee_form->incentives; ?>
+									
+								</div>										
+							</div>
+						</div>
+					<?php /*	<div class="row" style="padding-top: 2%;">
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Salary Increment Schedule Date  </label>
+									<div class="input-group">
+										<?php echo $this->Employee_form->salary_schedule; ?>
+										<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+									</div>
+								</div>										
+							</div>
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Percentage</label>
+									<?php echo $this->Employee_form->incentives; ?>
+									
+								</div>										
+							</div>
+						</div> */ ?>
+						<?php 
+									
+									if(!empty($this->employee)){
+											  $i=0; ?>
+									<input type="hidden" name="employee_count" id="employee_count" value="<?php echo (count($this->employee) +1 ); ?>" class="employee_count">
+									<?php
+									foreach($this->employee as $val){
+									//print_r($val);die;
+									//$total_amount += $val['total_price'];
+									$i++;
+									?>
+										<div  class="row appended_row ">
+										   <div class="col-md-3">
+												<label class="control-label">Salary Increment Schedule Date</label>		
+												 <div class="input-group">
+												<input type="text"  class="form-control " label="sal_<?php echo $i; ?>" name="employee[salary_increment_date][]"  id="increment_date<?php echo $i; ?>" value="<?php echo $val['salary_increment_date'] ?>"  />
+												<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+												</div>
+											</div>
+											<div class="col-md-3">
+												<label class="control-label">Percentage</label>		
+												<input type="text"  class="form-control " label="per_<?php echo $i; ?>" name="employee[percentage][]" value="<?php echo $val['percentage'] ?>"  />
+											</div>
+											<a  class="removeclass3 btn btn-primary remove_class3 "style="margin:24px 15px 0px; padding: 7px 19px!important;" href="#">-</a>
+											</div> 
+									<?php		} 
+											?>
+										<div  class=" appended_row "> <div class="col-md-3"></div><div class="col-md-3"></div><a id="AddButton3" class="btn btn-primary" style="margin:24px 15px 0px; padding: 7px 19px!important;">+</a> 
+										</div>
+									<?php } else { ?>
+									<div  class="row appended_row ">
+										<input type="hidden" name="employee_count" id="employee_count" value="1" class="employee_count">
+										 <div class="col-md-3">
+												<label class="control-label">Salary Increment Schedule Date</label>		
+												<div class="input-group">
+												<input type="text"  class="form-control " label="sal_0" name="employee[salary_increment_date][]" id="increment_date0"  />
+												<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+											</div>
+										</div>
+											<div class="col-sm-3">
+												<label class="control-label">Percentage</label>		
+												<input type="text"  class="form-control" name="employee[percentage][]"label="per_0"  />
+											</div>
+											<div class="col-sm-3">
+										<a id="AddButton3" class="btn btn-primary" style="margin:24px 0px 0px; padding: 7px 19px!important;">+</a> 
+										</div>
+									</div>
+										<?php } ?>
+									
+									<div  id="fields4">
+										<div class="padding-top"></div>
+									</div>
+								
+
+						<div class="panel-heading"></div>
+						<div class="panel-heading">									
+						  <h5>Leaves & Holidays</h5> 
+						</div>
+						<div class="row" style="padding-top: 2%;">
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Leaves eligible/year</label>
+									<?php echo $this->Employee_form->leave_eligible; ?>
+									
+								</div>										
+							</div>
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Leaves Taken</label>
+									<?php echo $this->Employee_form->leave_taken; ?>
+									
+								</div>										
+							</div>
+							
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Company Assets in Possession</label>
+									<?php echo $this->Employee_form->company_asset; ?>
+									
+								</div>										
+							</div>
+							</div>
+							<?php if(!empty($this->employee_company_asset)){
+											  $i=0; ?>
+									<input type="hidden" name="employee_asset_count" id="employee_asset_count" value="<?php echo (count($this->employee_company_asset) +1 ); ?>" class="employee_asset_count">
+									<?php
+									foreach($this->employee_company_asset as $val){
+									//print_r($val);die;
+									//$total_amount += $val['total_price'];
+									$i++;
+									?>
+										<div  class="row appended_row ">
+										  <div class="col-sm-2">
+												<label class="control-label">Item</label>		
+												<select type="text" name="emp_company[company_asset][]" id="com_asset" label="asset<?php echo $i; ?>" class="form-control" >
+												<option value="">Select</option>
+													<?php foreach($this->company_asset as $k => $asset) { 
+														$selected = '';
+														if($k == $val['company_asset']){
+														$selected = 'selected'; }?>
+													<option value="<?php echo $k;?>" <?php echo $selected; ?> ><?php echo $asset; ?></option>
+													<?php } ?>
+												</select>
+										</div>
+											<div class="col-sm-2">
+												<label class="control-label">Serial No</label>		
+												<input type="text"  class="form-control" name="emp_company[serial_no][]"label="ser_<?php echo $i; ?>" value="<?php echo $val['serial_no']; ?>"/>
+											</div>
+											<div class="col-sm-2">
+												<label class="control-label">Date of Issue</label>
+												<div class="input-group">	
+												<input type="text"  class="form-control" name="emp_company[date_of_issue][]" label="date_<?php echo $i; ?>" value="<?php echo $val['date_of_issue']; ?>"  id="issue_date<?php echo $i;?>"/>
+												<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+												</div>
+											</div>
+											<div class="col-sm-2">
+												<label class="control-label">Cost</label>	
+												<input type="text"  class="form-control" name="emp_company[cost][]" label="cost_<?php echo $i; ?>" value="<?php echo $val['cost'];?>" />
+											</div>
+											<div class="col-sm-2">
+												<label class="control-label">Remarks</label>	
+												<textarea  class="form-control" name="emp_company[remarks][]" label="remarks_<?php echo $i; ?>"><?php echo $val['remarks']; ?></textarea>
+											</div>
+											<a  class="removeclass4 btn btn-primary remove_class4 " style="margin:24px 15px 0px; padding: 7px 19px!important;" href="#">-</a>
+											</div> 
+									<?php		} 
+											?>
+										<div  class=" appended_row "><div class="col-sm-2"></div><div class="col-sm-2"></div><div class="col-sm-2"></div><div class="col-sm-2"></div><div class="col-sm-2"></div> <a id="AddButton4" class="btn btn-primary" style="margin:24px 23px 0px; padding: 7px 19px!important;">+</a> 
+										</div>
+									<?php } else { ?>
+									<div  class="row appended_row ">
+										<input type="hidden" name="employee_asset_count" id="employee_asset_count" value="1" class="employee_asset_count">
+										 <div class="col-sm-2">
+												<label class="control-label">Item</label>		
+												<select type="text" name="emp_company[company_asset][]" id="com_asset" label="asset0" class="form-control">
+												<option value="">Select</option>
+													<?php foreach($this->company_asset as $k => $asset) { ?>
+													<option value="<?php echo $k;?>" ><?php echo $asset; ?></option>
+													<?php } ?>
+												</select>
+										</div>
+											<div class="col-sm-2">
+												<label class="control-label">Serial No</label>		
+												<input type="text"  class="form-control" name="emp_company[serial_no][]"label="ser_0"  />
+											</div>
+											<div class="col-sm-2">
+												<label class="control-label">Date of Issue</label>
+												<div class="input-group">	
+												<input type="text"  class="form-control" name="emp_company[date_of_issue][]" label="date_0" id="issue_date"  />
+												<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+												</div>
+											</div>
+											<div class="col-sm-2">
+												<label class="control-label">Cost</label>	
+												<input type="text"  class="form-control" name="emp_company[cost][]" label="cost_0"  />
+											</div>
+											<div class="col-sm-2">
+												<label class="control-label">Remarks</label>	
+												<textarea  class="form-control" name="emp_company[remarks][]" label="remarks_0"></textarea>
+											</div>
+											<div class="col-sm-2">
+										<a id="AddButton4" class="btn btn-primary" style="margin:24px 0px 0px; padding: 7px 19px!important;">+</a>
+</div>										
+									</div>
+										<?php } ?>
+									
+									<div  id="fields5">
+										<div class="padding-top"></div>
+									</div>
+						</div>
+					
+						<div class="panel-heading"></div>
+						
+						<div class="panel-heading">									
+						  <h5>Bank Details</h5> 
+						</div>
+						<div class="row" style="margin:0px 1px;">
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Bank Name</label>
+									<?php echo $this->Employee_form->employee_bank_name; ?>
+									
+								</div>										
+							</div>
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Account Name</label>
+									<?php echo $this->Employee_form->employee_account_name; ?>
+									
+								</div>										
+							</div>
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Account No</label>
+									<?php echo $this->Employee_form->employee_bank_account_no; ?>
+									
+								</div>										
+							</div>
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Branch Address</label>
+									<?php echo $this->Employee_form->Bank_address; ?>
+								</div>										
+							</div>
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">IFSC Code</label>
+									<?php echo $this->Employee_form->ifsc_code; ?>
+									
+								</div>										
+							</div>
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">PAN No</label>
+									<?php echo $this->Employee_form->pan_no; ?>
+									
+								</div>										
+							</div>
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">PF Account No</label>
+									<?php echo $this->Employee_form->pf_account_no; ?>
+									
+								</div>										
+							</div>
+						</div>
+						<div class="panel-heading"></div>
+						<div class="panel-heading">									
+						  <h5>Contact Details</h5> 
+						</div>
+							<?php /* <div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Phone Number</label>
+									<?php echo $this->Employee_form->employee_telephone_no; ?>
+									
+								</div>										
+							</div> */ ?>
+							<?php 
+									
+									if(!empty($this->employee_telephone_no)){
+											  $i=0; ?>
+									<input type="hidden" name="employee_general_count" id="employee_general_count" value="<?php echo (count($this->employee_telephone_no) +1 ); ?>" class="employee_general_count">
+									<?php
+									foreach($this->employee_telephone_no as $val){
+									//print_r($val);die;
+									//$total_amount += $val['total_price'];
+									$i++;
+									?>
+										<div  class="row appended_row " style="margin:0px 1px;">
+											<div class="col-sm-2">
+												<label class="control-label">Phone Number</label>		
+												<input type="text"  class="form-control " label="pho_<?php echo $i; ?>" name="employee_telephone_no[]" value="<?php echo $val; ?>"  />
+											</div>
+											<a  class="removeclass3 btn btn-primary remove_class3 "style="margin:24px 15px 0px; padding: 7px 19px!important;" href="#">-</a>
+											</div> 
+									<?php		} 
+											?>
+										<div  class=" appended_row " ><div class="col-sm-2"></div> <a id="AddButton" class="btn btn-primary" style="margin:24px 15px 0px; padding: 7px 19px!important;">+</a> 
+										</div>
+									<?php } else { ?>
+									<div  class="row appended_row " style="margin:0px 1px;">
+										<input type="hidden" name="employee_general_count" id="employee_general_count" value="1" class="employee_general_count">
+											<div class="col-md-2">
+												<label class="control-label">Phone Number</label>		
+												<input type="text"  class="form-control" name="employee_telephone_no[]"label="pho_0"  />
+											</div>
+										<a id="AddButton" class="btn btn-primary" style="margin:24px 15px 0px; padding: 7px 19px!important;">+</a> 
+									</div>
+										<?php } ?>
+									
+									<div  id="fields">
+										<div class="padding-top"></div>
+									</div>
+								
+
+							
+							<?php /* <div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Mobile Number <span class="asterisk">*</span></label>
+									<?php echo $this->Employee_form->employee_mobile_no; ?>
+									
+								</div>										
+							</div> */ ?>
+							<?php
+							if(!empty($this->employee_mobile_no)){
+											  $i=0; ?>
+									<input type="hidden" name="employee_mobile" id="employee_mobile" value="<?php echo (count($this->employee_mobile_no) +1 ); ?>" class="employee_mobile">
+									<?php
+									foreach($this->employee_mobile_no as $val){
+									//print_r($val);die;
+									//$total_amount += $val['total_price'];
+									$i++;
+									?>
+										<div  class="row appended_row " style="margin:0px 1px;">
+											<div class="col-md-2">
+												<label class="control-label">Mobile Number</label>		
+												<input type="text"  class="form-control " label="mob_<?php echo $i; ?>" name="employee_mobile_no[]" value="<?php echo $val ;?>"  />
+											</div>
+											<a  class="removeclass3 btn btn-primary remove_class3 "style="margin:24px 15px 0px; padding: 7px 19px!important;" href="#">-</a>
+											</div> 
+									<?php		} 
+											?>
+										<div  class=" appended_row "> <div class="col-sm-2"></div><a id="AddButton5" class="btn btn-primary" style="margin:24px 15px 0px; padding: 7px 19px!important;">+</a> 
+										</div>
+									<?php } else { ?>
+									<div  class="row appended_row " style="margin:0px 1px;">
+										<input type="hidden" name="employee_mobile" id="employee_mobile" value="1" class="employee_mobile">
+											<div class="col-md-2">
+												<label class="control-label">Mobile Number</label>		
+												<input type="text"  class="form-control" name="employee_mobile_no[]"label="mob_0"  />
+											</div>
+										<a id="AddButton5" class="btn btn-primary" style="margin:24px 15px 0px; padding: 7px 19px!important;">+</a> 
+									</div>
+										<?php } ?>
+									
+									<div  id="fields6">
+										<div class="padding-top"></div>
+									</div>
+								
+
+							<?php /* <div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Email ID <span class="asterisk">*</span></label>
+									<?php echo $this->Employee_form->employee_email; ?>
+								</div>										
+							</div> */ ?>
+							<?php
+							if(!empty($this->employee_email)){
+											  $i=0; ?>
+									<input type="hidden" name="employee_email" id="employee_email" value="<?php echo (count($this->employee_email) +1 ); ?>" class="employee_email">
+									<?php
+									foreach($this->employee_email as $val){
+									//print_r($val);die;
+									//$total_amount += $val['total_price'];
+									$i++;
+									?>
+										<div  class="row appended_row " style="margin:0px 1px;">
+											<div class="col-md-2">
+												<label class="control-label">Email ID</label>		
+												<input type="text"  class="form-control " label="email_<?php echo $i; ?>" name="employee_email[]" value="<?php echo $val ;?>"  />
+											</div>
+											<a  class="removeclass6 btn btn-primary remove_class6 " style="margin:24px 15px 0px; padding: 7px 19px!important;"href="#">-</a>
+											</div> 
+									<?php		} 
+											?>
+										<div  class=" appended_row "><div class="col-sm-2"></div> <a id="AddButton6" class="btn btn-primary" style="margin:24px 15px 0px; padding: 7px 19px!important;">+</a> 
+										</div>
+									<?php } else { ?>
+									<div  class="row appended_row " style="margin:0px 1px;">
+										<input type="hidden" name="employee_email" id="employee_email" value="1" class="employee_email">
+											<div class="col-md-2">
+												<label class="control-label">Email ID</label>		
+												<input type="text"  class="form-control" name="employee_email[]"label="email_0"  />
+											</div>
+										<a id="AddButton6" class="btn btn-primary" style="margin:24px 15px 0px; padding: 7px 19px!important;">+</a> 
+									</div>
+										<?php } ?>
+									
+									<div  id="fields7">
+										<div class="padding-top"></div>
+									</div>
+								<div class="row" style="margin-left:6px;">
+
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Present Address</label>
+									<?php echo $this->Employee_form->employee_present_address; ?>
+								</div>										
+							</div>
+						
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Permanent Address</label>
+									<?php echo $this->Employee_form->employee_permanent_address; ?>
+								</div>										
+							</div>
+							</div>
+							<div class="panel-heading"></div>
+							<div class="panel-heading">									
+							  <h5>Account Settings</h5> 
+							</div>
+							<div class="row" style="margin-left:6px;padding-top: 2%;">
+							<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label"> Password <?php if($this->type !='edit'){ ?><span class="asterisk">*</span> <?php } ?> </label>
+										<?php //echo $this->Branch_form->branch_email_id; ?>
+										<input type="password" name="password" id="password" class="form-control" <?php if($this->type !='edit'){ ?> required="required" />  <?php }else {  ?> <input type="password" name="password" id="password" value="<?php echo $this->result['general_password']; ?>" class="form-control" readonly="readonly" />
+										<?php } ?>
+										
+									</div>											
+								</div>  
+								<div class="col-sm-3">
+									<div class="checkbox" style="margin-top: 27px;" >
+										<label class="label-checkbox" style="padding-left:0px;" >
+											<?php echo $this->Employee_form->show_password; ?>
+											<span class="custom-checkbox" ></span>
+											 Show Password<br>
+										</label>
+									</div>
+								</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label class="control-label">Confirm Password <?php if($this->type !='edit'){ ?><span class="asterisk">*</span> <?php } ?> </label>
+									<?php //echo $this->Branch_form->branch_email_id; ?>
+									<input type="password" name="confirm_password" id="confirm_password" value="" class="form-control" <?php if($this->type !='edit'){ ?> required="required" <?php } ?> />
+								</div>											
+							</div>
+						</div>											
+						<div class="row" style="margin-left:6px;">	
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Send Email</label>
+									<?php echo $this->Employee_form->send_mail; ?>
+								</div>										
+							</div>
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Send SMS</label>
+									<?php echo $this->Employee_form->send_sms; ?>
+								</div>										
+							</div>	
+						</div>
+						<div class="panel-heading"></div>
+						<div class="panel-heading">									
+						  <h5>User Rights Allocation</h5> 
+						</div>		
+						<div class="row" style="padding-top: 2%;margin-left:6px;">
+							<input type="button" id="select" value="Select All"  style="border:none;margin-left:-240px;"/>
+						<input type="button" id="unselect" value="Unselect All" style="border:none;"/>
+							<div class="col-sm-3" style="height: 100px;overflow-y: scroll;margin-top:20px">
+							<label  class="control-label">SubProgram </label>
+							<?php foreach($this->DropDownSubprogram as $k=>$val){ //print_r($val); die; ?>
+							<label class="label-checkbox" style="padding-left:0px; margin:8px;" >
+							<input type="checkbox" name="subprogram_id[]" id="subprogram_id"class="checkbox1" <?php
+										if(!empty($this->result['subprogram_id'])){ 
+												$data = explode(',',$this->result['subprogram_id']);
+												foreach($data as $key=>$Val){
+													$checked = '';
+													if($k == $Val)
+													echo $checked = 'checked';
+													} } ?> value="<?php echo $k;?>" />
+							<span class="custom-checkbox" style="float:left;"></span> </label> <?php echo $val; ?>
+							<?php } ?>
+							</div> 
+							<input type="button" id="select1" value="Select All"  style="border:none;margin-left:100px;"/>
+							<input type="button" id="unselect1" value="Unselect All" style="border:none;"/>
+						<?php /*	<div id="module">
+							<div class="col-sm-3" style="height: 150px;overflow-y: scroll;margin-top:20px">			
+							<label class="control-label">Modules</label>
+							<?php foreach($this->DropDownModule as $k=>$val){ //print_r($k);  ?>	
+							<label class="label-checkbox" style="padding-left:0px; margin:8px;" >
+							<input type="checkbox"  multiple name="modules[]" id="module<?php echo $k;?>" class="checkbox module" <?php
+										if(!empty($this->result['modules'])){ //print_r($this->result['subprogram_id']); die;
+											$data = explode(',',$this->result['modules']);
+											//print_r($data); die;
+												foreach($data as $key=>$Val){ 
+													$checked = '';
+													if($k == $Val)
+													echo $checked = 'checked';
+												 	} } ?> value="<?php echo $k;?>" />
+							<span class="custom-checkbox" style="float:left;" ></span>
+							
+							</label> <?php echo $val; ?>
+								<?php 							
+								if( !empty($this->DropDownSubmodule[$k]) ){ 
+								$sub_module = $this->DropDownSubmodule[$k];
+								?>
+								<?php foreach($sub_module as $key =>$value){ //print_r($value); ?>
+								<label class="label-checkbox" style="padding-left:20px; margin:8px;" >
+								<input type="checkbox"  multiple name="modules[]" id="module<?php echo $key;?>" class="checkbox module" <?php
+											if(!empty($this->result['modules'])){ //print_r($this->result['subprogram_id']); die;
+												$data = explode(',',$this->result['modules']);
+												//print_r($data); die;
+													foreach($data as $keys=>$Vals){ 
+														$checked = '';
+														if($key == $Vals)
+														echo $checked = 'checked';
+														} } ?> value="<?php echo $key;?>" />
+								<span class="custom-checkbox" style="float:left;" ></span>
+								</label> <?php echo $value; ?>
+								<?php } 
+								} 
+							} //print_r($k);
+							?>									
+							</div>
+							</div>  */ ?>
+							<div id="module">
+							<div class="col-sm-3" style="height: 150px;overflow-y: scroll;margin-top:20px">			
+							<label class="control-label">Modules</label>
+							<?php foreach($this->DropDownSubSubmodule as $k=>$sub_module){ //print_r($val);  ?>	
+							<label class="label-checkbox" style="padding-left:0px; margin:8px;" >
+							<input type="checkbox"  multiple name="modules[]" id="module<?php echo $k;?>" class="checkbox module" <?php
+										if(!empty($this->result['modules'])){ //print_r($this->result['subprogram_id']); die;
+											$data = explode(',',$this->result['modules']);
+											//print_r($data); die;
+												foreach($data as $key=>$Val){ 
+													$checked = '';
+													if($k == $Val)
+													echo $checked = 'checked';
+												 	} } ?> value="<?php echo $k;?>" />
+							<span class="custom-checkbox" style="float:left;" ></span>
+							
+							</label> <?php echo $k; ?>
+								<?php 							
+								//if( !empty($this->DropDownSubmodule[$k]) ){ 
+								//$sub_module = $this->DropDownSubmodule[$k];
+								?>
+								<?php foreach($sub_module as $key =>$value){ //print_r($value); ?>
+								<label class="label-checkbox" style="padding-left:20px; margin:8px;" >
+								<input type="checkbox"  multiple name="modules[]" id="module<?php echo $key;?>" class="checkbox module" <?php
+											if(!empty($this->result['modules'])){ //print_r($this->result['subprogram_id']); die;
+												$data = explode(',',$this->result['modules']);
+												//print_r($data); die;
+													foreach($data as $keys=>$Vals){ 
+														$checked = '';
+														if($key == $Vals)
+														echo $checked = 'checked';
+														} } ?> value="<?php echo $key;?>" />
+								<span class="custom-checkbox" style="float:left;" ></span>
+								</label> <?php echo $key; ?>
+								<?php foreach($value as $k1 =>$val1){ //print_r($k1); ?>
+								<label class="label-checkbox" style="padding-left:35px; margin:8px;" >
+								<input type="checkbox"  multiple name="modules[]" id="module<?php echo $k1;?>" class="checkbox module" <?php
+											if(!empty($this->result['modules'])){ //print_r($this->result['subprogram_id']); die;
+												$data = explode(',',$this->result['modules']);
+												//print_r($data); die;
+													foreach($data as $keys=>$Vals){ 
+														$checked = '';
+														if($k1 == $Vals)
+														echo $checked = 'checked';
+														} } ?> value="<?php echo $k1;?>" />
+								<span class="custom-checkbox" style="float:left;" ></span>
+								</label> <?php echo $val1; ?>
+								<?php }  
+								//} 
+							} //print_r($k);
+							}?>									
+							</div>
+							</div> 
+								
+						<input type="hidden" name="employee_id" id="employee_id" value="<?php echo $this->result['employee_id']; ?>" />	
+						<span class="copy_append" style="display:none;">
+									<option value="">Select</option>
+												<?php foreach($this->company_asset as $k=>$asset){?>
+												<option value="<?php echo $k;?>"><?php echo $asset;?></option>
+											<?php }?>
+									</span>	
+					 	
+					</div>
+						<div class="panel-footer ">									
+							<div class="row">
+								<div class="col-sm-7 col-sm-offset-5">
+									<?php if ($this->type == 'add') { ?> 
+										<div style="float:left;margin-right:2px;">
+										<button class="btn btn-primary submit">Submit</button>
+										</div>
+										<div style="float:left; padding:0px 10px;">
+										<button type="reset" class="btn btn-danger btn-default">Reset</button>
+										</div>
+									<?php } else { ?>
+										<div >
+										<button class="btn btn-primary submit">Update</button>
+										</div>
+									<?php } ?>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div><!-- /panel -->
+		</div><!-- /.col-->				
+	</div><!-- /.row -->
+</div><!-- /.padding-md -->	
+<?php } else { ?>
+  
+<?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+     <div class="alert alert-success ">
+<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+<?php echo $this->escape($message); ?>
+</div>
+ <?php } } ?>
+ <!-- widget grid -->
+<div class="padding-md">
+	<div class="panel panel-default table-responsive">
+		<div class="panel-heading">
+			 Employee
+			<a class="btn btn-primary pull-right" style="margin-top: -9px;" href="<?php echo $this->mainconfig['host']; ?>master/employee/type/add">Add Employee </a>
+		</div>
+		<div class="padding-md clearfix">
+			<table class="table table-striped" id="dataTable">
+				<thead>
+					<tr>
+						<th>S. No.</th>	 
+						<th>Department Name</th>
+						<th>Employee Name</th>
+						<th>Employee Mobile Number</th>
+						<th>Employee Email</th>
+						<th>Action</th>   
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+
+						$i = 1;
+						$pagination_tr = '';
+						if (count($this->paginator) != 0) {
+
+						foreach ($this->paginator as $results) {
+
+					?>
+					<tr>
+						<td><?php echo $i;
+
+							$i++; ?>
+						</td>
+						<td><?php echo $results['department_name']; ?></td>
+						<td><?php echo $results['employee_name']; ?></td>
+						<td><?php if(!empty($results['employee_mobile_no'])) { $mobile = unserialize($results['employee_mobile_no']);
+						foreach($mobile as $val){ echo $val.','; } }?></td>
+						<td><?php if(!empty($results['employee_email'])) { $email = unserialize($results['employee_email']);
+						foreach($email as $val){ echo $val.','; } }  ?></td>
+						<td><a href="<?php echo $this->mainconfig['host']; ?>master/employee/type/edit/id/<?php echo $results['employee_id']; ?>" class="edit" title="Edit"><span class="fa fa-edit fa-lg"></span></a>&nbsp; | &nbsp;  <a href="<?php echo $this->mainconfig['host']; ?>master/employee/type/delete/id/<?php echo $results['employee_id']; ?>" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a></td>
+
+					</tr>            
+
+								<?php }
+								$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+								} ?>
+
+				</tbody>
+			</table>
+			 <?php echo $pagination_tr; ?>
+		</div><!-- /.padding-md -->
+	</div><!-- /panel -->
+</div><!-- /.padding-md -->		
+<?php } ?>
+
+<script> 
+	
+	$(document).ready(function() {		
+		// Datepicker
+		$('#employee_dob').datepicker({format: 'yyyy-mm-dd'});
+		$('#employee_joining_dt').datepicker({format: 'yyyy-mm-dd'});
+		$('#employee_last_date').datepicker({format: 'yyyy-mm-dd'});
+		$('#salary_schedule').datepicker({format: 'yyyy-mm-dd'});		
+		$('#date_of_notice').datepicker({format: 'yyyy-mm-dd'});
+		$('#employee_dob').datepicker({format: 'yyyy-mm-dd'});
+		$('#increment_date0').datepicker({format: 'yyyy-mm-dd'});
+		$('#issue_date').datepicker({format: 'yyyy-mm-dd'});
+		//$('#security_remarks').hide();
+		$('#admissionfields').hide();
+		
+		
+		
+		 
+	});
+	$('body').on('change', '#show_password', function() {
+		
+		//var id = $(this).val();
+		
+		var id = $("#show_password").is(':checked') ? 1 : 0;
+		//alert(id);
+		if(id == '1'){
+			$("#password").removeAttr("type");
+			$("#password").attr("type","text");
+		}else{
+			$("#password").removeAttr("type");
+			$("#password").attr("type","password");
+		}
+			
+		var password = $('#password').val();
+		//alert(password);
+		//$("#password").toggle();
+		//$("#password1").toggle();	
+		$("#password").val(password);	
+	});
+
+	$('body').on('change','#confirm_password', function() {	
+		var id = $(this).val();
+		//alert(id);
+		var password = $('#password').val();
+		var confirm_password = $('#confirm_password').val();
+		if($('#password').val() == $('#confirm_password').val()) {
+				//alert("Password and Confirm Password  matched");
+		}
+		else if($('#password').val() != $('#confirm_password').val()) {
+			
+				$('#confirm_password').val('');
+				alert("Password and Confirm Password not match");
+		}
+	});
+	$('body').on('change','#module',function(){
+		//alert('jjj');
+		//var value =  $value;
+		
+	});
+	$('body').on('change','#employee_department_id', function() {
+	var id = $(this).val();	
+
+		$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-department';?>',
+			data: {id:id}
+		}).done(function( data ) {
+			//$( "#module").html( data );
+			var data1 = $.parseJSON( data );
+			$('.module').prop("checked", false);
+			for(var val in data1){
+				
+			$('#module input[value='+data1[val]+']').prop("checked", true);
+			
+				}	
+			//$.each(data1, function(key, item) {				
+				//alert(item);
+			//});
+			});		
+	});
+	
+	$('body').on('change', '#country', function() {
+	var id = $(this).val();		
+		$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-state';?>',
+			data: {id:id}
+		}).done(function( data ) {
+			$( "#state").html( data );
+		 });
+});
+$('body').on('change', '#state', function() {
+	var id = $(this).val();		
+		$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-city';?>',
+			data: {id:id}
+		}).done(function( data ) { 
+			$( "#city").html( data );
+		 });
+});
+
+/* $(function () {
+            $("#chkPassport").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#dvPassport").show();
+                } else {
+                    $("#dvPassport").hide();
+                }
+            });
+        }); */
+		$('body').on('click','#corporate',function() { 
+			var id = $("#corporate").is(':checked') ? 1 : 0;
+			if(id == 1) {
+			
+			$('#branch_id').show();
+			$('#branch_type').hide();
+			$('#coco').attr('disabled','disabled');
+			$('#cofo').attr('disabled','disabled');
+			$('#fofo').attr('disabled','disabled');
+			$('#foco').attr('disabled','disabled');
+			
+			}
+			else{
+			$('#coco').removeAttr('disabled','disabled');
+			$('#cofo').removeAttr('disabled','disabled');
+			$('#fofo').removeAttr('disabled','disabled');
+			$('#foco').removeAttr('disabled','disabled');
+			
+			}
+		});
+		$(document).ready(function() { 
+		var id = $("#corporate ").is(':checked') ? 1 : 0;
+		//alert(id);
+			if(id == 1) {
+			//$('#branch_type').hide();
+			$('#branch_id').show();
+			$('#branch_type').hide();
+			$('#coco').attr('disabled','disabled');
+			$('#cofo').attr('disabled','disabled');
+			$('#fofo').attr('disabled','disabled');
+			$('#foco').attr('disabled','disabled');
+			}
+			else{
+			//$('#coco').removeAttr('disabled','disabled');
+			//$('#cofo').removeAttr('disabled','disabled');
+			//$('#fofo').removeAttr('disabled','disabled');
+			//$('#foco').removeAttr('disabled','disabled');
+			}
+		});
+			
+		$(document).ready(function() { 
+			var id = $("#coco").val();				
+			var check = $("#coco").is(':checked') ? 1 : 0;
+			//alert(check);
+			var employee_id = $('#employee_id').val();
+			if(check == 1){
+			//alert(check);
+						$('#branch_type').show();
+						$('#branch_id').hide();
+						$('#corporate').attr('disabled','disabled');
+						$('#cofo').attr('disabled','disabled');
+						$('#fofo').attr('disabled','disabled');
+						$('#foco').attr('disabled','disabled');
+						$.ajax({ 
+						type: "POST",
+						url:'<?php echo $this->mainconfig['host'].'master/ajax-get-branch-type';?>',
+						data: {id:id, employee_id: employee_id}
+					}).done(function( data ) {
+						$("#branch_type").html( data );
+					 });
+			}else{ 
+				// $('#corporate').removeAttr('disabled','disabled');
+						//$('#cofo').removeAttr('disabled','disabled');
+						//$('#fofo').removeAttr('disabled','disabled');
+						//$('#foco').removeAttr('disabled','disabled'); 
+			} 
+			
+		});
+		$(document).ready(function() { 
+			var id = $("#fofo").val();
+			//alert(id);
+			var check = $("#fofo").is(':checked') ? 1 : 0;
+			var employee_id = $('#employee_id').val();
+			//alert(id); 
+			if(check == 1){
+				
+						$('#branch_type').show();
+						$('#branch_id').hide();
+						$('#corporate').attr('disabled','disabled');
+						$('#cofo').attr('disabled','disabled');
+						$('#coco').attr('disabled','disabled');
+						$('#foco').attr('disabled','disabled');
+						$.ajax({ 
+						type: "POST",
+						url:'<?php echo $this->mainconfig['host'].'master/ajax-get-branch-type';?>',
+						data: {id:id, employee_id: employee_id}
+					}).done(function( data ) {
+						$( "#branch_type").html( data );
+					 });
+			}else{ 
+						//$('#corporate').removeAttr('disabled','disabled');
+						//$('#cofo').removeAttr('disabled','disabled');
+						//$('#coco').removeAttr('disabled','disabled');
+						//$('#foco').removeAttr('disabled','disabled');
+			}
+		});
+		$(document).ready(function() { 
+			var id = $("#foco").val();
+			var check = $("#foco").is(':checked') ? 1 : 0;
+			var employee_id = $('#employee_id').val();
+			if(check == 1){
+						$('#branch_type').show();
+						$('#branch_id').hide();
+						$('#corporate').attr('disabled','disabled');
+						$('#cofo').attr('disabled','disabled');
+						$('#coco').attr('disabled','disabled');
+						$('#fofo').attr('disabled','disabled');
+						$.ajax({ 
+						type: "POST",
+						url:'<?php echo $this->mainconfig['host'].'master/ajax-get-branch-type';?>',
+						data: {id:id, employee_id: employee_id}
+					}).done(function( data ) {
+						$( "#branch_type").html( data );
+					 });
+			}
+			else{ 
+						//$('#corporate').removeAttr('disabled','disabled');
+						//$('#cofo').removeAttr('disabled','disabled');
+						//$('#coco').removeAttr('disabled','disabled');
+						//$('#fofo').removeAttr('disabled','disabled');
+			}
+		});
+		$(document).ready(function() { 
+			var id = $("#cofo").val();
+			var check = $("#cofo").is(':checked') ? 1 : 0;
+			var employee_id = $('#employee_id').val();
+			if(check == 1){
+						$('#branch_type').show();
+						$('#branch_id').hide();
+						$('#corporate').attr('disabled','disabled');
+						$('#foco').attr('disabled','disabled');
+						$('#coco').attr('disabled','disabled');
+						$('#fofo').attr('disabled','disabled');
+						$.ajax({ 
+						type: "POST",
+						url:'<?php echo $this->mainconfig['host'].'master/ajax-get-branch-type';?>',
+						data: {id:id, employee_id: employee_id}
+					}).done(function( data ) {
+						$( "#branch_type").html( data );
+					 });
+			}
+			else{ 
+					//$('#corporate').removeAttr('disabled','disabled');
+						//$('#foco').removeAttr('disabled','disabled');
+						//$('#coco').removeAttr('disabled','disabled');
+						//$('#fofo').removeAttr('disabled','disabled');
+			}
+			
+			
+			
+		
+		});
+			
+			$('body').on('click','#coco',function() { 
+			var id = $("#coco").val();
+			
+			var check = $("#coco").is(':checked') ? 1 : 0;
+
+			var employee_id = $('#employee_id').val();
+			if(check == 1){
+						$('#branch_type').show();
+						$('#branch_id').hide();
+						$('#corporate').attr('disabled','disabled');
+						$('#cofo').attr('disabled','disabled');
+						$('#fofo').attr('disabled','disabled');
+						$('#foco').attr('disabled','disabled');
+						$.ajax({ 
+						type: "POST",
+						url:'<?php echo $this->mainconfig['host'].'master/ajax-get-branch-type';?>',
+						data: {id:id, employee_id: employee_id}
+					}).done(function( data ) {
+						$("#branch_type").html( data );
+					 });
+			}else{ 
+						 $('#corporate').removeAttr('disabled','disabled');
+						$('#cofo').removeAttr('disabled','disabled');
+						$('#fofo').removeAttr('disabled','disabled');
+						$('#foco').removeAttr('disabled','disabled'); 
+			}
+			});
+			
+			
+			$('body').on('click','#fofo',function() { 
+			var id = $("#fofo").val();
+			var check = $("#fofo").is(':checked') ? 1 : 0;
+			var employee_id = $('#employee_id').val();
+			//alert(id); 
+			if(check == 1){
+						$('#branch_type').show();
+						$('#branch_id').hide();
+						$('#corporate').attr('disabled','disabled');
+						$('#cofo').attr('disabled','disabled');
+						$('#coco').attr('disabled','disabled');
+						$('#foco').attr('disabled','disabled');
+						$.ajax({ 
+						type: "POST",
+						url:'<?php echo $this->mainconfig['host'].'master/ajax-get-branch-type';?>',
+						data: {id:id, employee_id: employee_id}
+					}).done(function( data ) {
+						$("#branch_type").html( data );
+					 });
+			}else{ 
+						$('#corporate').removeAttr('disabled','disabled');
+						$('#cofo').removeAttr('disabled','disabled');
+						$('#coco').removeAttr('disabled','disabled');
+						$('#foco').removeAttr('disabled','disabled');
+			}
+			});
+			
+			$('body').on('click','#foco',function() { 
+			var id = $("#foco").val();
+			var check = $("#foco").is(':checked') ? 1 : 0;
+			var employee_id = $('#employee_id').val();
+			if(check == 1){
+						$('#branch_type').show();
+						$('#branch_id').hide();
+						$('#corporate').attr('disabled','disabled');
+						$('#cofo').attr('disabled','disabled');
+						$('#coco').attr('disabled','disabled');
+						$('#fofo').attr('disabled','disabled');
+						$.ajax({ 
+						type: "POST",
+						url:'<?php echo $this->mainconfig['host'].'master/ajax-get-branch-type';?>',
+						data: {id:id, employee_id: employee_id}
+					}).done(function( data ) {
+						$( "#branch_type").html( data );
+					 });
+			}else{ 
+						$('#corporate').removeAttr('disabled','disabled');
+						$('#cofo').removeAttr('disabled','disabled');
+						$('#coco').removeAttr('disabled','disabled');
+						$('#fofo').removeAttr('disabled','disabled');
+			
+			}
+			});
+			
+			
+			$('body').on('click','#cofo',function() { 
+			var id = $("#cofo").val();
+			var check = $("#cofo").is(':checked') ? 1 : 0;
+			var employee_id = $('#employee_id').val();
+			if(check == 1){
+						$('#branch_type').show();
+						$('#branch_id').hide();
+						$('#corporate').attr('disabled','disabled');
+						$('#foco').attr('disabled','disabled');
+						$('#coco').attr('disabled','disabled');
+						$('#fofo').attr('disabled','disabled');
+						$.ajax({ 
+						type: "POST",
+						url:'<?php echo $this->mainconfig['host'].'master/ajax-get-branch-type';?>',
+						data: {id:id, employee_id: employee_id}
+					}).done(function( data ) {
+						$( "#branch_type").html( data );
+					 });
+			}else{ 
+						$('#corporate').removeAttr('disabled','disabled');
+						$('#foco').removeAttr('disabled','disabled');
+						$('#coco').removeAttr('disabled','disabled');
+						$('#fofo').removeAttr('disabled','disabled');
+				
+			}
+			});
+			
+			
+			
+			$('body').on('change','#return_of_security', function() {
+			var id = $("#return_of_security").is(':checked') ? 1 : 0;
+			if(id == 1){
+			$('#security_remarks').show();
+			}
+			else{
+			$('#security_remarks').hide();
+			}
+			});
+			$('body').on('change','#resignation_with_notice', function() {
+			var id = $("#resignation_with_notice").is(':checked') ? 1 : 0;
+			//alert(id);
+			if(id == 1){
+			$('#date_of_notice').show();
+			$('#resignation_without_notice').attr('disabled','disabled');
+			$('#sacked').attr('disabled','disabled');
+			}
+			else{
+			$('#date_of_notice').hide();
+			$('#resignation_without_notice').removeAttr('disabled','disabled');
+			$('#sacked').removeAttr('disabled','disabled');
+			}
+			});
+			$('body').on('change','#resignation_without_notice', function() {
+			var id = $("#resignation_without_notice").is(':checked') ? 1 : 0;
+			//alert(id);
+			if(id == 1){
+			
+			$('#resignation_with_notice').attr('disabled','disabled');
+			$('#sacked').attr('disabled','disabled');
+			}
+			else{
+			
+			$('#resignation_with_notice').removeAttr('disabled','disabled');
+			$('#sacked').removeAttr('disabled','disabled');
+			}
+			});
+			$('body').on('change','#sacked', function() {
+			var id = $("#sacked").is(':checked') ? 1 : 0;
+			//alert(id);
+			if(id == 1){
+			
+			$('#resignation_with_notice').attr('disabled','disabled');
+			$('#resignation_without_notice').attr('disabled','disabled');
+			}
+			else{
+			
+			$('#resignation_with_notice').removeAttr('disabled','disabled');
+			$('#resignation_without_notice').removeAttr('disabled','disabled');
+			}
+			});
+			$(document).ready(function() { 
+			
+			if($('#resignation_with_notice').is(":checked")){
+				
+				$('#resignation_without_notice').attr('disabled','disabled');
+				$('#sacked').attr('disabled','disabled');
+			}else if($('#resignation_with_notice').not(":checked")) {
+				//$('#resignation_without_notice').removeAttr('disabled','disabled');
+				//$('#sacked').removeAttr('disabled','disabled');
+				
+			}
+			if($('#resignation_without_notice').is(":checked")){
+				//alert('asa');
+				$('#resignation_with_notice').attr('disabled','disabled');
+				$('#sacked').attr('disabled','disabled');
+			}else if($('#resignation_without_notice').not(":checked")) {
+				//$('#resignation_with_notice').removeAttr('disabled','disabled');
+				//$('#sacked').removeAttr('disabled','disabled');
+				
+			}
+			if($('#sacked').is(":checked")){
+				//alert('asa');
+				$('#resignation_with_notice').attr('disabled','disabled');
+				$('#resignation_without_notice').attr('disabled','disabled');
+			}else if($('#sacked').not(":checked")) {
+				//$('#resignation_with_notice').removeAttr('disabled','disabled');
+				//$('#resignation_without_notice').removeAttr('disabled','disabled');
+				
+			}
+			});
+		var count2 = $('#count').val();
+		$("body").on("click","#AddButton2",function(event){
+		var fee_count_value = count2++;
+			append_html = '<div class="row"style="margin:0px 1px;">';
+			append_html += '<div class="col-sm-3"></div>';
+			append_html += '<div class="col-sm-3" style="margin:5px 0px;"><input type="file"  class="form-control" label="oth_'+fee_count_value+'" name="other_documents[]"  style="background:#FFFFFF;"/></div>';		
+			append_html += '<a href="#" class="removeclass2 btn btn-primary remove_class " style="margin:5px 15px 0px; padding: 7px 19px!important;">-</a>';
+			append_html += '</div>';													
+		$('#fields3').append(append_html);
+	});
+	$("body").on("click",".removeclass2", function(e){
+		//alert('sdsd');
+
+                $(this).parent('div').remove(); 				
+				
+        return false;
+
+    });
+	var count = $('#employee_general_count').val();
+		$("body").on("click","#AddButton",function(event){
+		var value = count++;
+			append_html = '<div class="row" style="margin:0px 1px;">';
+			append_html += '<div class="col-sm-2"  style="margin:10px 0px;"><input type="text" class="form-control" label="pho_'+value+'" name="employee_telephone_no[]"  style=" background:#FFFFFF;"/></div>';		
+			append_html += '<a href="#" class="removeclass2 btn btn-primary remove_class " style="margin:10px 15px 5px; padding: 7px 19px!important;">-</a>';
+			append_html += '</div>';													
+		$('#fields').append(append_html);
+	});
+	var count1 = $('#employee_mobile').val();
+		$("body").on("click","#AddButton5",function(event){
+		var value1 = count++;
+			append_html = '<div class="row" style="margin:0px 1px;">';
+			append_html += '<div class="col-sm-2" style="margin:10px 0px;"><input type="text"  class="form-control" label="mob_'+value1+'" name="employee_mobile_no[]"  style=" background:#FFFFFF;"/></div>';		
+			append_html += '<a href="#" class="removeclass2 btn btn-primary remove_class " style="margin:10px 15px 5px; padding:7px 19px!important;">-</a>';
+			append_html += '</div>';													
+		$('#fields6').append(append_html);
+	});
+	var count7 = $('#employee_email').val();
+		$("body").on("click","#AddButton6",function(event){
+		var value1 = count++;
+			append_html = '<div class="row" style="margin:0px 1px;">';
+			append_html += '<div class="col-sm-2" style="margin:10px 0px;"><input type="text" class="form-control" label="email_'+value1+'" name="employee_email[]"  style=" background:#FFFFFF;"/></div>';		
+			append_html += '<a href="#" class="removeclass2 btn btn-primary remove_class " style="margin:10px 15px 5px; padding:7px 19px!important;">-</a>';
+			append_html += '</div>';													
+		$('#fields7').append(append_html);
+	});
+	$("body").on("click",".removeclass6", function(e){
+		//alert('sdsd');
+
+                $(this).parent('div').remove(); 				
+				
+        return false;
+
+    });
+		var count3 = $('#employee_count').val();
+		$("body").on("click","#AddButton3",function(event){
+		var count_value = count3++;
+			append_html = '<div class="row">';
+			append_html += '<div class="col-sm-3"><div class="input-group" style="margin:8px 0px;"><input type="text"  class="form-control" label="sal_'+count_value+'" id="increment_date'+count_value+'" name="employee[salary_increment_date][]"  style="background:#FFFFFF;"/><span class="input-group-addon"><i class="fa fa-calendar"></i></span></div></div>';	
+			append_html += '<div class="col-sm-3"><input type="text" style="margin:8px 0px;" class="form-control" label="per_'+count_value+'" name="employee[percentage][]"  style=" background:#FFFFFF;"/></div>';				
+			append_html += '<a href="#" class="removeclass3 btn btn-primary remove_class3 " style="margin:8px 15px; padding: 7px 19px!important;">-</a>';
+			append_html += '</div>';			
+			$('#fields4').append(append_html);
+			$(".no-margin input[id='increment_date"+count_value+"']").datepicker({format: 'yyyy-mm-dd'});
+	});
+	$("body").on("click",".removeclass3", function(e){
+		//alert('sdsd');
+
+                $(this).parent('div').remove(); 				
+				
+        return false;
+
+    });
+	var count4 = $('#employee_asset_count').val();
+		$("body").on("click","#AddButton4",function(event){
+		var count_value1 = count4++;
+			append_html = '<div class="row">';
+			append_html += '<div class="col-sm-2"><select type="text" style="margin:10px 0px;" name="emp_company[company_asset][]" id="com_asset" label="asset'+count_value1+'" class="form-control">'+$('.copy_append').html()+'</select></div>';	
+			append_html += '<div class="col-sm-2"><input type="text"  style="margin:10px 0px;" class="form-control" name="emp_company[serial_no][]"label="ser_'+count_value1+'"  /></div>';append_html += '<div class="col-sm-2"><div class="input-group" style="margin:10px 0px;">	<input type="text"  class="form-control" name="emp_company[date_of_issue][]" label="date_'+count_value1+'"  id="issue_date'+count_value1+'"/><span class="input-group-addon"><i class="fa fa-calendar"></i></span></div></div>';
+			append_html += '<div class="col-sm-2"><input type="text" style="margin:10px 0px;" class="form-control" name="emp_company[cost][]" label="cost_'+count_value1+'"  /></div>';
+			append_html += '<div class="col-sm-2" style="margin:10px 0px;"><textarea  class="form-control" name="emp_company[remarks][]" label="remarks_'+count_value1+'"></textarea></div>';
+			append_html += '<a href="#" class="removeclass4 btn btn-primary remove_class4 " style="margin:10px 15px 0px; padding: 7px 19px!important;">-</a>';
+			append_html += '</div>';			
+			$('#fields5').append(append_html);
+			$(".no-margin input[id='issue_date"+count_value1+"']").datepicker({format: 'yyyy-mm-dd'});
+	});
+	$("body").on("click",".removeclass4", function(e){
+		//alert('sdsd');
+
+                $(this).parent('div').remove(); 				
+				
+        return false;
+
+    });
+																																
+$('body').on('click','#select',function() {
+//alert('sdsd'); 
+var id = $('#select').val();
+  if(id == 'Select All') {
+      // Iterate each checkbox
+      $('.checkbox1').each(function() {
+          this.checked = true;
+      });
+  }
+  else {
+    $('.checkbox1').each(function() {
+          this.checked = false;
+      });
+  }
+}); 
+$('body').on('click','#unselect',function() {
+var id = $('#unselect').val();
+//alert(id);
+  if(id == 'Unselect All') {
+      // Iterate each checkbox
+      $('.checkbox1').each(function() {
+          this.checked = false;
+      });
+  }
+  else {
+    $('.checkbox1').each(function() {
+          this.checked = true;
+      });
+  }
+}); 
+$('body').on('click','#select1',function() {
+//alert('sdsd'); 
+var id = $('#select1').val();
+  if(id == 'Select All') {
+      // Iterate each checkbox
+      $('.checkbox').each(function() {
+          this.checked = true;
+      });
+  }
+  else {
+    $('.checkbox').each(function() {
+          this.checked = false;
+      });
+  }
+}); 
+$('body').on('click','#unselect1',function() {
+var id = $('#unselect1').val();
+//alert(id);
+  if(id == 'Unselect All') {
+      // Iterate each checkbox
+      $('.checkbox').each(function() {
+          this.checked = false;
+      });
+  }
+  else {
+    $('.checkbox').each(function() {
+          this.checked = true;
+      });
+  }
+}); 
+
+
+</script>

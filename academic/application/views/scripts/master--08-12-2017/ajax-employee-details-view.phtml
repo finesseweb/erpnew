@@ -1,0 +1,192 @@
+<?php 
+//print_r( $this->academicresult);die;
+?>
+<div style="overflow-x:scroll">
+<div class="padding-md clearfix">
+			<table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+			
+			
+				<thead >
+					<tr>
+						
+						<th>Term Name</th>
+						<th>Course Category Name</th>
+						<th style="text-align:center;">Course Name </th>
+						
+						<th>Credit Value </th>
+					<!--	<th>Department </th>  -->
+						<th style="text-align:center;width:22%;">Faculty Coordinator</th>
+						<th style="text-align:center;width:22%;">Faculty</th>
+						<th style="text-align:center; width:14%;">Visiting Faculty</th>
+						<th style="text-align:center;">Remarks</th>
+
+					</tr>
+				</thead>
+				
+			
+				<tbody>
+									<?php if(!empty($this->item_result)){
+									$i = 1;
+									foreach($this->employee_result as $key=>$val){ 
+										?>
+										<tr>
+											<td><?php echo $val['term_name'];?></td> 
+											<input type="hidden" name="employee[term_id][]" id="term_id" value="<?php echo $val['term_id']; ?>" />
+											<td><?php echo $val['cc_name'];?></td>
+											<input type="hidden" name="employee[cc_id][]" id="cc_id" value="<?php echo $val['cc_id']; ?>" /> 											
+											<td><?php echo $val['course_name'];?></td>
+											<input type="hidden" name="employee[course_id][]" id="course_id" value="<?php echo $val['course_id']; ?>" /> 
+											<td><?php echo $val['credit_value'];?></td> 
+											<input type="hidden" name="employee[credit_id][]" id="credit_id" value="<?php echo $val['credit_id']; ?>" />
+				<!--		<td><select id="department_name<?php echo $i;?>" name="employee[department_id][]" class="form-control" onchange="select_department(this.value,<?php // echo $i;?>)">
+						   <?php /* foreach($this->department as $d=>$dept){
+							   $selected = '';
+									if($d == $val['department_id']) { 
+										$selected = "selected";
+										} */
+									?>
+						   <option value="<?php // echo $d;?>" <?php // echo $selected;?>><?php // echo $dept;?></option>
+						   <?php // } ?>
+						   </select></td>  -->
+						   <?php $EmployeeAllotment_model = new Application_Model_EmployeeAllotment();
+						   $existed_result = $EmployeeAllotment_model->getExistedFaculty($val['academic_year_id'],$val['term_id'],$val['cc_id'],$val['course_id']); ?>
+<input type="hidden" id="department_name<?php echo $i;?>" name="employee[department_id][]" value='1'>
+											<td><select id="employee_name<?php echo $i;?>" name="employee[employee_id][]" class="form-control">
+											<option value="">Select</option>
+						   <?php foreach($this->employee as $e=>$emp){
+									$selected = '';
+									if($e == $existed_result['employee_id']){
+										$selected = "selected";
+									}?>
+						   <option value="<?php echo $e;?>" <?php echo $selected; ?>><?php echo $emp;?></option>
+						   <?php } ?>
+						   </select></td>
+						   <td><select id="faculty_name<?php echo $i;?>" name="employee[faculty_id][]" class="form-control">
+											<option value="">Select</option>
+						   <?php foreach($this->employee as $em=>$empe){
+									$selected = '';
+									if($em == $existed_result['faculty_id']){
+										$selected = "selected";
+									}?>
+						   <option value="<?php echo $em;?>" <?php echo $selected; ?>><?php echo $empe;?></option>
+						   <?php } ?>
+						   </select></td>
+						    <td><select id="visiting_faculty_name<?php echo $i;?>" name="employee[visiting_faculty_id][]" class="form-control">
+											<option value="">Select</option>
+						   <?php foreach($this->visitingemployees as $vem=>$vempe){
+									$selected = '';
+									if($vem == $existed_result['visiting_faculty_id']){
+										$selected = "selected";
+									}?>
+						   <option value="<?php echo $vem;?>" <?php echo $selected; ?>><?php echo $vempe;?></option>
+						   <?php } ?>
+						   </select></td>
+						   <td><textarea name="employee[remarks][]" id="remarks<?php echo $i;?>" class="form-control"><?php echo $existed_result['remarks'];?></textarea></td>
+
+										
+		                               </tr>
+									   
+									  
+									   <?php 
+									  
+											$i++; 
+											}
+									
+									}
+									
+										else{
+											$i = 1;
+											
+										?>
+										
+										<?php if(!empty($this->employee_result)){
+										foreach($this->employee_result as $key=>$val){ 
+										?>
+										<tr>
+										
+											
+											<td><?php echo $val['term_name'];?></td> 
+											<input type="hidden" name="employee[term_id][]" id="term_id" value="<?php echo $val['term_id']; ?>" />
+											<td><?php echo $val['cc_name'];?></td>
+											<input type="hidden" name="employee[cc_id][]" id="cc_id" value="<?php echo $val['cc_id']; ?>" /> 											
+											<td><?php echo $val['course_name'];?></td>
+											<input type="hidden" name="employee[course_id][]" id="course_id" value="<?php echo $val['course_id']; ?>" /> 
+											<td><?php echo $val['credit_value'];?></td> 
+											<input type="hidden" name="employee[credit_id][]" id="credit_id" value="<?php echo $val['credit_id']; ?>" />
+				<!-- 		<td><select id="department_name<?php // echo $i;?>" name="employee[department_id][]" class="form-control" onchange="select_department(this.value,<?php // echo $i;?>)">
+						   <?php /* foreach($this->department as $k=>$val){ ?>
+						   <option value="<?php echo $k;?>"><?php echo $val;?></option>
+						   <?php } */ ?>
+						   </select></td>  -->
+<input type="hidden" id="department_name<?php echo $i;?>" name="employee[department_id][]" value='1'>
+											<td><select id="employee_name<?php echo $i;?>" name="employee[employee_id][]" class="form-control">
+						   <?php foreach($this->employee as $k=>$val){ ?>
+						   <option value="<?php echo $k;?>"><?php echo $val;?></option>
+						   <?php } ?>
+						   </select></td>
+						   <td><select id="faculty_name<?php echo $i;?>" name="employee[faculty_id][]" class="form-control">
+						   <?php foreach($this->employee as $k=>$val){ ?>
+						   <option value="<?php echo $k;?>"><?php echo $val;?></option>
+						   <?php } ?>
+						   </select></td>
+						   <td><select id="visiting_faculty_name<?php echo $i;?>" name="employee[visiting_faculty_id][]" class="form-control">
+						   <?php foreach($this->visitingemployees as $k=>$val){ ?>
+						   <option value="<?php echo $k;?>"><?php echo $val;?></option>
+						   <?php } ?>
+						   </select></td>
+						   <td><textarea name="employee[remarks][]" id="remarks<?php echo $i;?>"></textarea></td>
+		                               </tr>
+									   
+									  
+									   <?php 
+									  
+											$i++; }
+											}
+											}
+											?>
+								
+				</tbody>
+			</table>
+			 <?php //echo $pagination_tr; ?>
+		</div><!-- /.padding-md -->
+</div>	
+		
+<script>
+function select_department(value,num){
+	var department_name = value;
+	$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-department-name';?>',
+			data: {department_name:department_name}
+			
+		}).done(function( data ) {
+			
+				
+			$('#employee_name'+num+'').empty('');
+			$('#employee_name'+num+'').append(data);
+			
+		
+			
+		 });
+}
+		/*$("#department_name").change(function(){
+	
+	
+	var department_name=$('#department_name').val();
+	//alert(department_name);
+	$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-department-name';?>',
+			data: {department_name:department_name}
+			
+		}).done(function( data ) {
+			
+				
+			$('#employee_name').empty('');
+			$('#employee_name').append(data);
+			
+		
+			
+		 });
+}); */
+</script>

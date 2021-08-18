@@ -1,0 +1,464 @@
+<div class="right_col">
+<?php if ($this->type) { ?>
+<div class="padding-md ">
+	<div class="row">
+		<div class="col-md-12">
+		<h3 class="page-title txt-color-blueDark" >
+			<div><i class="fa fa-eye"> Reference Grade Master</i></div>
+		</h3>
+			<div class="panel panel-default">
+				<form class="no-margin" id="formValidate1" action="<?php echo $this->form->getAction() ?>" method="post" data-validate="parsley" >
+					
+					<div class="panel-body">
+						<div class="row">
+
+							<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                            <label class="control-label">Batch<span class="asterisk">*</span></label>
+                            <?php echo $this->form->academic_year_id; ?>
+                            </div>
+							</div>
+							
+							
+
+							
+							
+							</div>
+							 <div class="row">
+							<div class="col-sm-3">
+							<div class="form-group">
+							<input type="text" id="batch" class="form-control" style="background-color:#fdf59a;"  readonly /></div>
+							</div>
+							</div>
+						 
+						  
+						   <?php if(count($this->item_result) > 0) {  ?>
+	<input type="hidden" name="count_val" id="count_val" value="<?php echo 
+	(count($this->item_result)+1) ; ?>" class="count_val">
+	<?php 
+	$i = 0;
+	foreach($this->item_result as $l => $val) {   ?>
+			<div class="row">
+			
+						<div class="col-sm-3"><div class="form-group"><label class="control-label">Letter Grade</label><input type="text" name="grade[letter_grade][]" id="letter_grade" class="form-control" value="<?php echo $val['letter_grade']; ?>" /></div></div>
+	
+						<div class="col-sm-3"><div class="form-group"><label class="control-label">Number Grade</label><input type="text" name="grade[number_grade][]" id="number_grade" class="form-control" value="<?php echo $val['number_grade']; ?>"  /></div></div>
+							<a  class="removeclass btn btn-primary remove_class " style="margin:24px 15px;padding:7px 15px;" href="#">-</a>
+			
+		</div> 
+	<?php $i++; } ?>
+	<!-- <div class="box-body">
+		<div class="col-md-3" style="">	</div><div class="col-md-3"></div>			   
+				<input type="button" value="+" id="AddButton"  style="margin:24px 15px;padding:7px 15px;" class="btn btn-primary" > 
+								
+				
+			</div> -->
+	
+	<?php  } else {  ?>
+	
+	
+		<input type="hidden" name="count_val" id="count_val" value="1" class="count_val">
+	
+	<div class="row">
+	<div class="col-sm-3"><div class="form-group"><label class="control-label">Letter Grade</label><input type="text" name="grade[letter_grade][]" id="letter_grade" class="form-control" /></div></div>
+	
+	<div class="col-sm-3"><div class="form-group"><label class="control-label">Number Grade</label><input type="text" name="grade[number_grade][]" id="number_grade" class="form-control" /></div></div>
+	
+				   
+						
+														
+		</div>
+	
+	<?php } ?>
+			<div id="fields"></div>
+					<div class="col-md-3" style="">	</div><div class="col-md-3"></div><input type="button" value="+" style="margin:24px 15px;padding:7px 15px;" id="AddButton" class="btn btn-primary" > 	
+					</div>
+					
+						<div class="panel-footer">									
+							<div class="row">
+								<div class="col-sm-7 col-sm-offset-5">
+									<?php if ($this->type == 'add') { ?> 
+										<div style="float:left;margin-right:2px;">
+										<button class="btn btn-primary submit">Submit</button>
+										</div>
+										<div style="float:left;padding:0px 10px;">
+										<button type="reset" class="btn btn-danger btn-default">Reset</button>
+										</div>
+									<?php } else { ?>
+									
+									
+										<div style="float:left;">
+										<button class="btn btn-primary submit">Update</button>
+										</div>
+										<div style="float:left;">
+										<a class="btn btn-primary" href="<?php echo $this->mainconfig['host']; ?>evaluation-components/component-grade">Back</a>
+										</div>
+									<?php } ?>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div><!-- /panel -->
+		</div><!-- /.col-->				
+	</div><!-- /.row -->
+	
+</div><!-- /.padding-md -->	
+<?php } else { ?>
+  
+<?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+     <div class="alert alert-success ">
+<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+<?php echo $this->escape($message); ?>
+</div>
+ <?php } } ?>
+ <!-- widget grid -->
+<div class="">
+	<div class="">
+		<div class="row">
+			
+			<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+		<h3 class="page-title txt-color-blueDark">
+			<i class="fa fa-bars"> Reference  Grade Master</i>
+				
+		</h3>
+	</div>
+			
+		<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">	 
+			
+			<a class="btn btn-primary pull-right" style="margin-top: 25px;" href="<?php echo $this->mainconfig['host']; ?>master/reference-grade/type/add">Add </a>
+		</div>
+		</div>
+		
+		<div class="x_panel">
+               
+                    <div class="x_title">
+                    <h2> Reference Grade Master</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                       </li>
+                      <li><a class=""><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+<div class="x_content">
+		
+		<div class="padding-md clearfix">
+			<table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+				<thead>
+					<tr>
+						<th>S.  No.</th>	
+						<th>Batch</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+
+						$i = 1;
+						$pagination_tr = '';
+						if (count($this->paginator) != 0) {
+
+						foreach ($this->paginator as $results) {
+						//print_r($results);die;
+
+					?>
+							<tr>
+								<td><?php echo $i;
+
+									$i++; ?>
+								</td>						
+								
+								<td><?php echo $results['from_date'] .'&nbsp;&nbsp;-&nbsp;&nbsp;'. $results['to_date']; ?></td>
+								
+								<td><a href="<?php echo $this->mainconfig['host']; ?>master/reference-grade/type/edit/id/<?php echo $results['reference_id']; ?>" class="edit" title="Edit"><span class="fa fa-edit fa-lg"></span></a>&nbsp; | &nbsp;  <a href="<?php echo $this->mainconfig['host']; ?>master/reference-grade/type/delete/id/<?php echo $results['reference_id']; ?>" onclick="return ConfirmDelete();" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a></td>
+
+							</tr>            
+
+						<?php }
+						$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+						} ?>
+
+				</tbody>
+			</table>
+			 <?php echo $pagination_tr; ?>
+		</div><!-- /.padding-md -->
+	</div><!-- /panel -->
+	</div>
+	</div>
+</div><!-- /.padding-md -->		
+<?php } ?>
+</div>
+<script>	
+ 
+	
+	function ConfirmDelete()
+	{
+	var x = confirm("Are you sure you want to delete?");
+	if(x)
+		return true;
+	else
+		return false;
+	}
+$("#cc_name").change(function(){
+	
+	var course_name=$('#cc_name').val();
+	//alert(coursename);
+	$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/get-course-category';?>',
+			data: {course_name:course_name}
+		}).done(function( data ) {
+			
+			if((data!='')){
+				alert("This Course Name Exists");
+				$("#cc_name").val("");
+			}
+		 });
+});
+
+$('body').on('change','#department_id',function() { 
+		var department_id = $('#department_id').val();
+		$.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'evaluation-components/ajax-get-employee';?>',
+			data: {department_id : department_id}
+		}).done(function( data ) {
+			
+			$('#employee_id').empty('');
+			$('#employee_id').html(data);
+			
+		})	
+})
+$('body').on('change','#employee_id',function() {  
+var employee_id = $('#employee_id').val();
+var department_id = $('#department_id').val();
+var academic_year_id = $('#academic_year_id').val();
+$.ajax({
+		type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'evaluation-components/ajax-get-terms';?>',
+			data: {employee_id : employee_id,department_id:department_id,academic_year_id:academic_year_id}
+		}).done(function( data ) {
+			//alert(data);
+			$('#term_ids').empty('');
+			$('#term_ids').html(data);
+	})
+})
+var employee_id = $('#employee_id option:selected').val();
+var department_id = $('#department_id option:selected').val();
+var academic_year_id = $('#academic_year_id option:selected').val();
+var component_grade_id = $('#component_grade_id').val();
+$.ajax({
+		type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'evaluation-components/ajax-get-terms';?>',
+			data: {employee_id : employee_id,department_id:department_id,academic_year_id:academic_year_id,component_grade_id:component_grade_id}
+		}).done(function( data ) {
+			$('#term_ids').html(data);
+			var term_id = $('#term_id option:selected').val();
+				$.ajax({
+						type: "POST",
+							url:'<?php echo $this->mainconfig['host'].'evaluation-components/ajax-get-courses';?>',
+							data: {employee_id : employee_id,department_id:department_id,academic_year_id:academic_year_id,term_id:term_id,component_grade_id:component_grade_id}
+						}).done(function( data ) {
+							
+							//$('#course_ids').empty('');
+							$('#course_ids').html(data);
+							var course_id = $('#course_id option:selected').val();
+
+				$.ajax({
+					type: "POST",
+						url:'<?php echo $this->mainconfig['host'].'evaluation-components/ajax-get-evaluation-components';?>',
+						data: {employee_id : employee_id,department_id:department_id,academic_year_id:academic_year_id,term_id:term_id,course_id:course_id,component_grade_id:component_grade_id}
+					}).done(function( data ) {
+						//$('#components_ids').empty('');
+						$('#components_ids').html(data);
+						
+var component_id = $('#component_id option:selected').val();
+  //alert(component_id);
+var employee_id = $('#employee_id option:selected').val();
+var department_id = $('#department_id option:selected').val();
+var academic_year_id = $('#academic_year_id option:selected').val();
+var course_id = $('#course_id option:selected').val();
+ //alert(course_id);
+ var term_id = $('#term_id option:selected').val(); 
+ //alert(term_id);
+       $.ajax({
+		    type: "POST",
+			   url:'<?php echo $this->mainconfig['host'].'evaluation-components/ajax-get-weightages';?>',
+			   data: {component_id : component_id,employee_id : employee_id,department_id:department_id,academic_year_id:academic_year_id,term_id:term_id,course_id:course_id}
+		  }).done(function( data ) {
+			
+			  $('#weightage').empty('');
+			  var result = $.parseJSON(data);
+			   $('#weightage').val(result['weightage']);
+	     })
+				})
+					})
+					
+			
+								})
+	
+$('body').on('change','#term_id',function() 
+{  
+var employee_id = $('#employee_id').val();
+var department_id = $('#department_id').val();
+var academic_year_id = $('#academic_year_id').val();
+var term_id = $('#term_id').val();
+$.ajax({
+		type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'evaluation-components/ajax-get-courses';?>',
+			data: {employee_id : employee_id,department_id:department_id,academic_year_id:academic_year_id,term_id:term_id}
+		}).done(function( data ) {
+			
+			$('#course_ids').empty('');
+			$('#course_ids').html(data);
+	})
+
+})
+
+
+
+$('body').on('change','#course_id',function() 
+{
+var employee_id = $('#employee_id').val();
+var department_id = $('#department_id').val();
+var academic_year_id = $('#academic_year_id').val();
+var term_id = $('#term_id').val();
+var course_id = $('#course_id').val();
+$.ajax({
+		type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'evaluation-components/ajax-get-add-evaluation-components';?>',
+			data: {employee_id : employee_id,department_id:department_id,academic_year_id:academic_year_id,term_id:term_id,course_id:course_id}
+		}).done(function( data ) {
+			
+			$('#components_ids').empty('');
+			$('#components_ids').html(data);
+	})	
+})
+
+/* var academic_year_id = $('#academic_year_id option:selected').val();
+var department_id = $('#department_id option:selected').val();
+var  employee_id = $('#employee_id option:selected').val();
+var eval_component_id = $('#eval_component_id').val();
+
+$.ajax({
+	type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'evaluation-components/ajax-get-employee-terms';?>',
+			data: {department_id : department_id,employee_id:employee_id,academic_year_id:academic_year_id,eval_component_id:eval_component_id}
+	
+	}).done(function( data ) {
+		$('#item_details').empty('');
+		$('#item_details').html(data);
+	}) */
+
+ var count = $('#count_val').val(); //Addmore script code
+
+		$("body").on("click","#AddButton",function(event)
+		{
+		var count_value = count++;
+		//alert(count_value);
+		append_html = '<div class="row">';
+		
+		append_html += '<div class="col-sm-3"><div class="form-group"><label class="control-label">Letter Grade</label><input type="text" name="grade[letter_grade][]" id="letter_grade" class="form-control" /></div></div>';
+	
+		append_html += '<div class="col-sm-3"><div class="form-group"><label class="control-label">Number Grade</label><input type="text" name="grade[number_grade][]" id="number_grade" class="form-control" /></div></div>';
+	
+		append_html += '<a href="#" class="removeclass btn btn-primary remove_class" style="padding:7px 15px;margin:24px 15px;">-</a>';
+		append_html += '</div>';			
+		$('#fields').append(append_html);
+		
+		});
+		$("body").on("click",".removeclass", function(e){
+		//alert('sdsd');
+
+                $(this).parent('div').remove(); 				
+				
+        return false;
+
+    }); 
+	
+	
+$('body').on('change', '#academic_year_id', function() {		
+var academic_id=$('#academic_year_id').val();
+   if(academic_id){
+   $('#batch').show();
+    $.ajax({ 
+			type: "POST",
+			url:"<?php echo $this->mainconfig['host'].'fee-structure/ajax-get-check-fee-data';?>",
+			data: { academic_year_id : academic_id}
+		}).done( function( data ) { 
+	     
+		 var result = $.parseJSON(data);
+		 if(result){
+			 alert('This Batch is already Existed');
+				$("#academic_year_id").find('option').attr("selected",false) ;
+				$('#batch').hide();
+		      $('#batch').val('');		 
+		
+		 }else {
+	$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-batch-code';?>',
+			data: {academic_id:academic_id}
+		}).done(function( data ) {
+			var result = $.parseJSON(data);
+			if((data!='')){
+				$('#batch').val(result['short_code']);
+			}
+	  });
+	 }
+	 
+ }); 
+   }
+   }); 
+ 
+var academic_id=$('#academic_year_id option:selected').val();
+   if(academic_id){
+   $('#batch').show();
+	$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-batch-code';?>',
+			data: {academic_id:academic_id}
+		}).done(function( data ) {
+			var result = $.parseJSON(data);
+			if((data!='')){
+				$('#batch').val(result['short_code']);
+			}
+	  });
+	 }
+	else{
+$('#batch').hide();
+}
+
+
+//rajesh code for weightage
+
+$('body').on('change','#component_id',function() 
+{ 
+var component_id = $('#component_id').val();
+//alert(component_id);
+var employee_id = $('#employee_id').val();
+var department_id = $('#department_id').val();
+var academic_year_id = $('#academic_year_id').val();
+var course_id = $('#course_id').val();   
+//alert(course_id);
+var term_id = $('#term_id').val();
+//alert(term_id);
+$.ajax({
+		type: "POST",
+		url:'<?php echo $this->mainconfig['host'].   'evaluation-components/ajax-get-weightages';?>',
+			data: {component_id : component_id,employee_id : employee_id,department_id:department_id,academic_year_id:academic_year_id,term_id:term_id,course_id:course_id}
+		}).done(function( data ) {
+			
+			$('#weightage').empty('');
+			var result = $.parseJSON(data);
+			$('#weightage').val(result['weightage']);
+	})
+
+})
+</script>

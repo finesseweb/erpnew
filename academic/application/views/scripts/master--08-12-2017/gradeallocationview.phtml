@@ -1,0 +1,122 @@
+
+<div class="padding-md right_col">
+	<div class="row">
+		<div class="col-md-12">
+		<h3 class="page-title txt-color-blueDark" >
+			<div><i class="fa fa-eye">  Grade Allocation View</i></div>
+		</h3>
+			<div class="panel panel-default">
+				<form class="no-margin" id="formValidate1" action="<?php echo $this->form->getAction() ?>" method="post" data-validate="parsley" >
+					
+					<div class="panel-body">
+							<div class="row">
+															
+							<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Academic Year<span class="asterisk">*</span></label>
+                                <?php echo $this->form->academic_year_id; ?>
+                            </div>
+							</div> 
+								<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Department<span class="asterisk">*</span></label>
+                                <?php echo $this->form->id; ?>
+                            </div>
+							</div> 
+							<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Employee<span class="asterisk">*</span></label>
+                                <?php echo $this->form->empl_id; ?>
+                            </div>
+							</div> 
+							
+							<div id="employee" class="col-sm-12 row">
+									</div>
+							</div>
+							</div>
+						
+				</form>
+			</div><!-- /panel -->
+		</div><!-- /.col-->				
+	</div><!-- /.row -->
+	
+</div><!-- /.padding-md -->	
+
+
+<script>
+/*	
+$('body').on('change', '#academic_year_id', function() {
+	var id = $(this).val();		
+	alert(id);
+		$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/get-program-view';?>',
+			data: {id:id}
+		}).done(function( data ) { 
+		 });
+});	 */
+
+
+
+
+ jQuery(document).ready(function() {
+		
+        $('body').on('change', '#id', function() {
+			alert("hello");
+        //   getgradeDetails();
+			var department_id = $('#id').val();
+			var academic_year_id = $('#academic_year_id').val();
+		//	alert(department_id);
+		$.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/get-grade-allocation-view';?>',
+			data: {department_id : department_id,academic_year_id : academic_year_id}
+			
+		}).done(function( data ) {
+			//alert(data);
+		//	$('#empl_id').empty('');
+		//	$('#employee').html(data);
+			
+		})	
+
+        });
+
+ });
+ 
+	
+ /*   function getgradeDetails() {
+        
+        $url = '<?php echo $this->mainconfig['host']; ?>master/get-grade-allocation-view';
+        
+        $.post($url,
+                {
+                    
+                    'corecourselearning': $('#empl_id').val()
+
+
+                })
+                .done(function(data) {
+                  // alert(data);
+                    //$('#payslipData').html('');
+                    $('#garde').html(data);
+                });
+
+    }  */
+	
+	
+/*	('body').on('change','#id',function() { 
+	//alert("hai");
+		var department_id = $('#id').val();
+		$.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/get-grade-allocation-view';?>',
+			data: {department_id : department_id}
+		}).done(function( data ) {
+			
+			$('#empl_id').empty('');
+			$('#empl_id').html(data);
+			
+		})	
+}) */
+	
+</script>

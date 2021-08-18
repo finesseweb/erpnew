@@ -1,0 +1,256 @@
+
+<tr class="">
+<style>
+    .panel-body{padding: 15px 10px 0 10px;}
+    .form-control{width:95%;}
+    textarea{resize:none;}
+</style>
+<script src="<?php echo $this->mainconfig['publicpath']; ?>js/jquery-ui.min.js"></script>
+<?php
+error_reporting(0);
+$date = new Zend_Date();
+$col_span = 2 + count($this->term_data);
+?>
+<tr class="feeclose">
+    <td colspan="6">
+        <div class="purchase-quatation-items" style="display: block;"><div class="col-sm-12 " >
+                <div id="log1">  
+                    <div class="panel panel-default bor" >
+                        <div class="panel-body" style="">
+                            <div>
+                                <div class="col-sm-0" style="float:right;">
+                                   <!-- <a class="btn btn-primary" target="_blank" href="#<?php //echo $this->mainconfig['host'];  ?>fee-structure/structure-pdf/id/<?php //echo $this->structure_id;  ?>">Print</a>--><a class="btn btn-link" role="button" href="#" id="print"><span class='glyphicon glyphicon-print'></span></a></div>
+                                <div class="col-sm-2" style="float:right;"><button class="close_tr btn btn-primary">Close</button></div>
+
+                                <div class="col-sm-12" width="99%"><center>
+                                        <div class="form-group bor" style="">
+
+                                            <label class="control-label"><strong><h4>Fee Details</h4></strong></label>
+                                        </div></center>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:5px;" >
+                            <div class="col-sm-12">
+                                <div class="form-group bor" >
+                                    <table class="table table-striped table-bordered mb30 table bulk_action" border="0" >
+                                        <thead>
+                                            <tr align="center">
+                                                <th rowspan="2" style="text-align:center;">S.No.</th>
+                                                <th rowspan="2" style="text-align:center;">Particulars</th> 
+
+
+
+                                                <?php foreach ($this->term_data as $key => $term_details) { ?>
+                                                    <?php $inc = $key + 1; ?>
+                                                    <th style="text-align:center;"><?php echo $term_details['term_name']; ?></th>
+
+                                                <?php } ?>
+                                                <th rowspan="3" style="text-align:center;">Total (Rs.)</th>  
+                                            </tr>
+                                            <tr>
+                                                <td colspan="<?=count($this->term_data);?>"><table><thead><tr><td colspan="<?=count($this->term_data);?>" class="text-center">Due Date for Payment<td></tr></thead><tbody>
+                                                            <tr>
+                                                                <?php
+                                                                $items_result = $this->result1;
+
+                                                                if (!empty($items_result)) {
+                                                                    // foreach($items_result as $k=>$i_results) { 
+                                                                    ?>
+                                                                    <?php foreach ($this->term_data as $key => $term_details) { ?>
+                                                                        <?php $inc = $key + 1; ?>
+                                                                        <td style="padding:5px;"><?php echo $items_result["t" . $inc . "_date"]; ?></td>
+                                                                    <?php } ?>
+                                                                </tr>
+
+                                                            </tbody></table></td>
+
+
+                                                    <?php
+                                                } else {
+                                                    ?>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td ></td>
+                                                    <td></td>
+                                                <?php } ?>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            // print_r($this->academics_data);
+                                            // $i=1;
+                                            $letters = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+                                            $i = 0;
+
+                                            //echo '<pre>'; print_r($this->Feeheads_data['feehead_name']);						
+                                            if (($this->Category_data) > 0) {
+                                                $fee_head = $this->Feeheads_data;
+                                                //echo '<pre>'; print_r($this->Category_data['feecategory_id']); 
+                                                foreach ($this->Category_data as $key => $categories) {
+                                                    ?>
+
+                                                    <tr>
+                                                               <!-- <td align="center"><?php //echo $letters[$i]; ?></td> -->
+                                                        <td align="left" colspan="<?= $col_span; ?>" bgcolor="#f7ffe6"><?php
+                                                            // if($categories['category_id'] == $fee_head[$key]['feecategory_id']){
+                                                            echo $letters[$i] . '. ' . $categories['category_name'] . ' ' . '(Rs.)';
+                                                            // } 
+                                                            ?>
+                                                            <input type="hidden" name="terms[category_id][]" id="category_id" value="<?php echo $categories['category_id']; ?>" />
+                                                        </td> 
+                                                        <td bgcolor="#f7ffe6" ></td>
+
+                                                    </tr>
+                                                    <?php
+                                                    $j = 1;
+                                                    $term1_cat_tot = 0;
+                                                    $term2_cat_tot = 0;
+                                                    $term3_cat_tot = 0;
+                                                    $term4_cat_tot = 0;
+                                                    $term5_cat_tot = 0;
+                                                    foreach ($this->Feeheads_data as $keys => $vals) {
+                                                        //print_r($
+                                                        if ($categories['category_id'] == $vals['feecategory_id']) {
+                                                            ?>
+                                                            <tr>
+                                                                <td align="center"><?php echo $j; ?><input type="hidden" name="terms[count][]" value="<?php echo $j; ?>"/></td>
+                                                                <td><?php echo $vals['feehead_name']; ?><input type="hidden" name="terms[feehead_id<?php echo $categories['category_id']; ?><?php echo $j; ?>][]" id="feehead_id<?php echo $j; ?>" value="<?php echo $vals['feehead_id']; ?>" /></td>
+                                                                <?php
+                                                                if (!empty($this->result1)) {
+                                                                    $TermItems_model = new Application_Model_FeeStructureTermItems();
+                                                                    $cat_ids = $categories['category_id'];
+                                                                    $fhead_ids = $vals['feehead_id'];
+                                                                    ?>
+                                                                    <?php foreach ($this->term_data as $key => $term_details) { ?>
+                                                                        <?php $inc = $key + 1; ?>
+                                                                        <td>
+                                                                            <?php $term1_result = $TermItems_model->getFeesRecords($this->structure_id, $cat_ids, $fhead_ids, $this->term_data[$key]['term_id']); ?>
+                                                                            <?php
+                                                                            $term1_cat_tot += $term1_result['fees'];
+                                                                            echo $term1_result['fees'];
+                                                                            ?></td>
+                    <?php } ?>
+
+
+                                                                    <td style="text-align:center;"><?php echo $term1_result['feeheads_total']; ?> 
+                                                                    </td>	
+                                                                    <?php
+                                                                    //}
+                                                                } else {
+                                                                    ?>	
+                                                                     <?php foreach($this->term_data as $key => $term_details) {?>
+                                                <?php $inc = $key+1; ?> 
+						<td>
+						<input type="text" name="term_<?php echo $categories['category_id'];?>_<?php echo $vals['feehead_id'];?>_<?=$inc;?>" id ="term<?php echo $j;?><?=$inc;?>" class="form-control term<?=$inc;?><?php echo $categories['category_id']; ?> term" onchange="select_term<?=$inc;?>_fees(this.val,<?php echo $j;?>,<?php echo $i;?>,<?php echo $categories['category_id'];?>)" style="text-align:right;" value="<?php echo $this->termitems_result[$keys]['fees'];?>"/></td>
+                                                <?php } ?>
+						<td><span id="feeheads_total<?php echo $j;?>"></span>
+						<input type="hidden" name="terms[feeheads_total_val<?php echo $categories['category_id'];?>][]" id="feeheads_total_val<?php echo $j;?>" /> 
+						</td>
+                <?php } ?>
+                                                            </tr>
+
+                                                            <?php
+                                                        }
+                                                        $j++;
+                                                    }
+                                                    ?>
+                                                    <tr>
+                                                        <td bgcolor="#ccf5ff"></td>
+                                                        <td bgcolor="#ccf5ff" style="text-align:right;"><?php echo 'Total ' . $letters[$i] . ' (Rs.)'; ?></td>
+                                                        <?php
+                                                        $TermItems_model = new Application_Model_FeeStructureTermItems();
+                                                        $category_id = $categories['category_id'];
+                                                        $terms1_total = $TermItems_model->getFeeTermTotals($this->structure_id, $category_id, $this->term_data[0]['term_id']);
+                                                        ?>
+                                                        <?php $check = array();?>
+                                                        <?php foreach ($this->term_data as $key => $term_details) { ?>
+                                                            <?php $inc = $key + 1; ?>
+            <?php $termsmy_total = $TermItems_model->getFeeTermTotal1($this->structure_id, $category_id, $this->term_data[$key]['term_id']); ?>
+                                                     
+                                                           
+                                                            <td bgcolor="#ccf5ff" style="text-align:left;"><?php echo $termsmy_total; ?></td>
+                                                        <?php } ?>
+                                                        <td style="text-align: center;"><?php echo $terms1_total['cat_row_total']; ?></td>
+                                                    </tr>
+                                                <input type="hidden" name="terms[count_i][]" id="count_i" value="<?php echo $i; ?>" />
+                                                <?php
+                                                $i++;
+                                            }
+                                            ?>
+                                            <tr>
+                                                <td bgcolor="#b3ecff"></td>
+                                                <td bgcolor="#b3ecff" style="text-align:right;"><?php
+                                                    $lets = "";
+                                                    $cats = $categories['category_id'] . length;
+
+                                                    for ($l = 0; $l < $cats; $l++) {
+                                                        $lets = $lets . $letters[$l] . '+';
+                                                    }
+                                                    echo 'Grand Total (' . rtrim($lets, '+') . ') (Rs.)';
+                                                    ?></td>
+                                                <?php
+                                                $items_result = $this->result1;
+                                                if (!empty($items_result)) {
+                                                    ?>	  <?php foreach ($this->term_data as $key => $term_details) { ?>
+                                                        <?php $inc = $key + 1; ?>
+                                                        <td bgcolor="#b3ecff" style="text-align:left;"><?php echo $items_result["grand_term" . $inc . "_result"]; ?></td>
+                                                    <?php } ?>
+                                                    <td bgcolor="#b3ecff" style="text-align:center;"><?php echo $items_result['total_grand_value']; ?></td>
+    <?php } else {
+        ?>
+                                                    <td bgcolor="#b3ecff" style="text-align:right;"><span id="term1_grandtotal_" ></span>
+                                                        <input type="hidden" name="terms_fee[grand_result1][]" id="grand_result1" value="0"/></td>
+                                                    <td bgcolor="#b3ecff" style="text-align:right;"><span id="term2_grandtotal_" ></span>
+                                                        <input type="hidden" name="terms_fee[grand_result2][]" id="grand_result2" value="0" /></td>
+                                                    <td bgcolor="#b3ecff" style="text-align:right;"><span id="term3_grandtotal_" ></span>
+                                                        <input type="hidden" name="terms_fee[grand_result3][]" id="grand_result3" value="0" /></td>
+                                                    <td bgcolor="#b3ecff" style="text-align:right;"><span id="term4_grandtotal_" ></span>
+                                                        <input type="hidden" name="terms_fee[grand_result4][]" id="grand_result4" value="0" /></td>
+                                                    <td bgcolor="#b3ecff" style="text-align:right;"><span id="term5_grandtotal_" ></span>
+                                                        <input type="hidden" name="terms_fee[grand_result5][]" id="grand_result5" value="0" /></td>
+                                                    <td bgcolor="#b3ecff" style="text-align:center;"><span id="grand_total" ></span>
+                                                        <input type="hidden" name="terms_fee[grandtotal_total][]" id="grandtotal_total" value="0"/></td>
+                                            <?php } ?>
+                                            </tr>
+                                        <?php } else {
+                                            ?>
+                                            <tr><td colspan="8"><center><strong>No Data Available</strong></center></td></tr>  
+<?php } ?>	
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</td>
+</tr>
+</tr>
+<script>
+    $(".close_tr").click(function () {
+
+        $(".feeclose").hide();
+    });
+    $('#print').click(function () {
+        window.print('#log1');
+    });
+</script>
+<style type="text/css">
+    /*  .bor {border:1px solid #ccc; } */
+    .table { margin-bottom: 0px !important;width: 100%;}
+    .employee_class {margin-left: 4% !important;margin-right: 4% !important;}
+    .panel-footer {padding: 5px;}
+    .panel {margin-bottom: 10px !important;}
+    a:hover{cursor:pointer;}
+</style>
+
+

@@ -1,0 +1,406 @@
+<?php
+error_reporting(0);
+$date = new Zend_Date();
+?>
+<tr class="purchase-quatation-items-close">
+<td colspan="17">
+<div class="purchase-quatation-items" style="display: block;">
+<div class="col-sm-12 " >
+<div id="log1">  
+<div class="panel panel-default bor" >
+ <div class="panel-body">
+     <div>
+         <div class="col-sm-7"><center>
+                 <div class="form-group bor" style="margin-left:-12px; margin-bottom:5px;">
+                     <h4 style="margin-top: 0%;" align="center"><?php echo $this->company['company_name']; ?></h4>
+                     <label class="control-label"><strong> INVOICE</strong></label>
+                 </div></center>
+         </div>		 
+		 <input type="hidden" name="sales_invoice_id" id="sales_invoice_id" value="<?php echo $this->salesInvoice['sales_invoice_id']; ?>" />
+		 <?php
+		 // Edit option hide
+		 $financeDate = $this->financeDate;
+		 if( empty($financeDate[$this->salesInvoice['sales_invoice_id']]) ){ ?>
+		 <div class="col-sm-2" style="float:right; width:10%;"><a class="btn btn-primary" href="<?php echo $this->mainconfig['host'];?>sales/invoice/type/edit/id/<?php echo $this->salesInvoice['sales_invoice_id'];?>/search_by/<?php echo $this->search_by;?>/partyname/<?php echo $this->partyname; ?>/from/<?php echo $this->startdate; ?>/to/<?php echo $this->enddate; ?>">Edit</a></div>
+		 <?php }else{ 
+			echo 'Tallied';
+		 }?>
+         <div class="col-sm-2" style="float:right; width:10%;"><a class="close_tr btn btn-primary">Close</a></div>
+     </div>
+     <div class="row" >         
+        <div class="col-sm-11">
+             <div class="panel bor panel-default bor table-responsive">
+                 <table class="table mb30" >    
+                 <tr>
+                 <td colspan="4" ><strong>Invoice No. : <?php echo $invoice_type; ?> /</strong> <?php echo $this->salesInvoice['invoice_increment_id']; ?></td>
+                 <td colspan="4" align="right" >Dated: <strong><?php echo date(DATE_PREFIX, strtotime($this->salesInvoice['invoice_date'])); ?></strong></td>
+                 </tr>                
+                     <tr style="height:120px;">
+                         <td colspan="4" style="border-right:1px solid #ddd;">
+                             <b>  <?php echo $this->salesInvoice['dealer_company_name']?>  </b><br>
+                             <b>  <?php echo $this->salesInvoice['dealer_address']?>  </b><br>
+							<br />
+							<br />
+							<br />
+							<p><strong>VRN/TIN &nbsp;&nbsp; &nbsp;&nbsp;<?php echo $this->company['company_cst_no'];	?> </strong><span style="float:right; margin-right:10%;"><strong>DT. </strong><?php echo date(DATE_PREFIX, strtotime($this->salesInvoice['invoice_date'])); ?> </span></p>
+							<p><strong>C.S.T No. &nbsp;&nbsp;&nbsp;&nbsp; <?php echo $this->company['company_cst_no'];	?> </strong><span style="float:right; margin-right:10%;"><strong>DT. </strong> <?php echo date(DATE_PREFIX, strtotime($this->salesInvoice['invoice_date'])); ?></span></p> 
+
+                         </td>
+                         <td colspan="4" width="300"> Gr. No. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :<br />
+                          Gr. Dated	&nbsp; 	&nbsp; 	&nbsp; 	&nbsp; 	&nbsp; 	&nbsp; &nbsp;:<br />
+                          Despatched Per &nbsp; : <?php if( isset($this->salesInvoiceItems[0]['name_of_transport']) ){ echo $this->salesInvoiceItems[0]['name_of_transport']; } ?><br />
+                          No. of Packages 	&nbsp; : <?php if( isset($this->salesInvoiceItems[0]['no_of_packages']) ){ echo $this->salesInvoiceItems[0]['no_of_packages']; } ?><br />
+						  P. Marks &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; 	&nbsp; 	&nbsp; &nbsp; &nbsp;: <?php if( isset($this->salesInvoiceItems[0]['private_mark']) ){ echo $this->salesInvoiceItems[0]['private_mark']; } ?><br />
+                          Weight &nbsp; &nbsp; 	&nbsp; 	&nbsp; 	&nbsp; &nbsp; 	&nbsp; &nbsp; 	&nbsp; : <?php echo $this->salesInvoiceItems[0]['weight'];?><br />
+						  Doc. Thru &nbsp;&nbsp; &nbsp; &nbsp; 	&nbsp; &nbsp; 	&nbsp; :<?php if( isset($this->salesInvoiceItems[0]['despatched_through']) ){ echo $this->salesInvoiceItems[0]['despatched_through']; } ?>
+						  <br />                   
+                          Vehicle No. &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; : <?php if( isset($this->salesInvoiceItems[0]['vehicle_no']) ){ echo $this->salesInvoiceItems[0]['vehicle_no']; } ?>
+						  
+						  
+                         </td>
+                     </tr>
+                 </table>
+             </div>
+         </div>
+     </div>
+     <div class="row" style="margin-bottom:5px;" >
+         <div class="col-sm-11">
+             <div class="form-group bor " >
+                 <table width="100%" class="table table-bordered" border="0" >
+                 <tr>
+                 <td colspan="8"> Road Permit No.: <?php if(isset ($this->salesInvoiceItems[0]['road_permit_no'])){ echo $this->salesInvoiceItems[0]['road_permit_no']; }?></td>
+                 
+                 </tr>
+                     <tr align="center">                         
+						<th>S. No</th>
+						<th>Bags / Bundles</th>	
+						<th colspan="2">Description</th>
+													
+						<th>Pcs</th>
+						<th>Unit</th>
+                        <th>Rate/Pcs.</th>
+						<th>Gross Amt.</th>
+                        	                  
+                     </tr>
+                     <tbody>
+                         
+                          <?php  //echo '<pre>';print_r($this->salesInvoiceItems);
+							if(count($this->salesInvoiceItems) !=0){
+								$i=1;
+								$amount = 0;
+								$total = 0;
+								$vat = 0;
+								$vat_amount = 0;
+								$total_amount = 0;				
+							foreach ($this->salesInvoiceItems as $results){
+							
+							?>
+                            <tr>
+								<td align="center"><?php echo $i; $i++;?></td>
+								<td align="center"><?php echo $results['number_of_bundle'];?></td>	
+								<td colspan="2"><?php echo $results['product_name'];?></td>															
+								<td align="center"><?php echo $results['sales_invoice_product_quantity'];?></td>                              
+								<td align="center"><?php echo $results['item_uom_unit'];?></td>                              
+								<td align="right"><?php echo number_format($results['sales_product_unit_price'], 2);?></td>
+								<td align="right"><?php $amount = $results['total_price']; //$results['sales_invoice_product_quantity'] * $results['price'];
+                                                            echo number_format($amount, 2);
+                                                            $total += $amount;
+                                                            ?></td>
+                            </tr>
+                            <?php } 
+							?>
+                            
+							<?php
+							  $add_amount = 0;
+							  $sub_amount = 0;
+							  $tax_amount = round($this->salesInvoice['price1']);
+							  //Operator1
+							 /* if( ($this->salesInvoice['operator1'] == 1) ){								  
+								 $add_amount += ( $this->salesInvoice['price1'] );								
+							  }else{
+								  $sub_amount += ( $this->salesInvoice['price1'] );
+							  } */
+							  //Operator2
+							  if( ($this->salesInvoice['operator2'] == 1) ){
+								 $add_amount += ( $this->salesInvoice['price2'] );
+							  }else{
+								  $sub_amount += ( $this->salesInvoice['price2'] );
+							  }
+							  //Operator3
+							  if( ($this->salesInvoice['operator3'] == 1) ){
+								 $add_amount += ( $this->salesInvoice['price3'] );
+							  }else{
+								  $sub_amount += ( $this->salesInvoice['price3'] );
+							  } 
+							 ?>
+							
+                            <tr>
+                              <td colspan="7"  align="right"> Total </td>                            
+                              <td align="right"> <?php echo number_format($total, 2);
+							  ?></td>
+                            </tr>
+							<?php
+							/* if( !empty( $this->salesInvoice['label1'] ) ){
+							?>
+							<tr>
+                            <td colspan="5" style="border:0px !important;"></td> 
+							<td><?php echo $this->salesInvoice['label1'];?></td>							
+                            <td><?php 
+								if( $this->salesInvoice['operator1'] == 1){
+									echo '+';
+								}else{
+									echo '-';
+								}
+							?></td>
+                            <td><?php echo $this->salesInvoice['price1'];?></td>
+                            </tr> 
+							<?php } */ 
+							if( !empty( $this->salesInvoice['label2'] ) ){
+							?>
+							<tr>
+                            <td colspan="5" style="border:0px !important;"></td> 
+							<td><?php echo $this->salesInvoice['label2'];?></td>							
+                            <td><?php 
+								if( $this->salesInvoice['operator2'] == 1){
+									echo '+';
+								}else{
+									echo '-';
+								}
+							?></td>
+                            <td><?php echo number_format( $this->salesInvoice['price2'], 2);?></td>
+                            </tr> 
+							<?php }
+							if( !empty( $this->salesInvoice['label3'] ) ){
+							?>
+							<tr>
+                            <td colspan="5" style="border:0px !important;"></td> 
+							<td><?php echo $this->salesInvoice['label3'];?></td>							
+                            <td><?php 
+								if( $this->salesInvoice['operator3'] == 1){
+									echo '+';
+								}else{
+									echo '-';
+								}
+							?></td>
+                            <td><?php echo number_format( $this->salesInvoice['price3'], 2);?></td>
+                            </tr> 
+							<?php } 
+						    ?>
+							
+							                         
+                         
+						 <?php if($this->salesInvoice['tax_value'] >0){ ?>
+						 <tr>
+                              
+							  <td style="border:0px !important;" colspan="5"></td> 
+							  <?php if($this->salesInvoice['invoice_type'] == 1){ ?>
+                              <td style="border:0px !important; border-left:1px solid #ccc !important;">CST</td>
+							  <?php }else{?>
+							  <td style="border:0px !important; border-left:1px solid #ccc !important;">VAT</td>
+							  <?php } ?>
+							  <td style="border:0px !important;">@ % <?php  echo $this->salesInvoice['tax_value'];  ?></td>
+							  <td align="right" style="border:0px !important;"><?php echo number_format($tax_amount, 2); ?></td>
+                            </tr>
+							<?php } ?>
+							<tr>
+                              <td style="border:0px !important;" colspan="5"></td>                            
+                              <td colspan="2" style="border:0px !important; border-left:1px solid #ccc !important; border-bottom:1px solid #ccc !important;">Total Amount:</td>
+							  <td align="right" style="border:0px !important; border-bottom:1px solid #ccc !important;"><?php
+								//operator2
+								$addprice2 = 0;
+								$subprice2 = 0;
+								$addprice3 = 0;
+								$subprice3 = 0;
+								if( $this->salesInvoice['operator2'] == 1){
+									$addprice2 = $this->salesInvoice['price2'];
+								}else{
+									$subprice2 = $this->salesInvoice['price2'];
+								}
+								//operator3
+								if( $this->salesInvoice['operator3'] == 1){
+									$addprice3 = $this->salesInvoice['price3'];
+								}else{
+									$subprice3 = $this->salesInvoice['price3'];
+								}
+							  $total_amount = $this->salesInvoice['grand_total']; //round(($total + $tax_amount +$addprice2 +$addprice3)-($subprice2 + $subprice3) );	
+							  echo number_format( $total_amount, 2);
+							  ?></td>
+                            </tr>
+					<tr>
+					
+					
+                            <tr>
+                         <td colspan="8" style="text-align:left;">Amount in Words: Rupees <?php echo rtrim( strtoupper( no_to_words($total_amount) ) ); ?> ONLY. </td>
+                         </tr>
+						 
+						 
+                             <td colspan="2" valign="top" style="border:0px !important;"> 
+							 <p>Terms & Conditions :</p><br />
+                             <p>                             
+                             <?php //echo nl2br( $this->salesInvoice['description'] );?>
+                             </p>
+						
+                             </td>
+							 
+						  <td colspan="4" style="text-align:left; border:0px !important;">
+								<p>1.Our responsibility ceases as soon as goods leave our premises.</p>
+								<p>2.All payments to made as Jalandhar City.</p>
+								<p>3.Dispute if any will be settled at Jalandhar jurisdiction only</p>
+								<p>4.Interest will be charged @24% if the payment is not made within 30days</p>
+							 
+							 </td>
+                             
+                             <td colspan="2" style="text-align:left;"><p style=" font-size:12px;"><strong>For <?php echo strtoupper($this->company['company_name']);	?></strong><br />
+<br />
+<br />
+<br />
+<span style=" float:right; margin-right:20%;"> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; Auth. Signatory</span></p></td>
+                         </tr>		
+                     
+                         
+                         
+                         
+                         
+                         
+                            <?php }else {
+                             ?>
+                            <tr>
+                              <td colspan="8"><center>
+                                  <strong>No Data Available</strong>
+                                </center></td>
+                            </tr>
+                            <?php } ?>
+					 </tbody>
+                 </table>
+             </div>
+         </div>
+     </div>
+        
+     </div>
+
+ </div>
+</div>
+
+               </div>
+    </div>
+</td>
+</tr>
+
+<style type="text/css">
+/*    .bor {border:1px solid #ccc; }*/
+    .table { margin-bottom: 0px !important;width: 100%;}
+    .employee_class {margin-left: 4% !important;margin-right: 4% !important;}
+    .panel-footer {padding: 5px;}
+    .panel {margin-bottom: 10px !important;}
+	a:hover{cursor:pointer;}
+
+</style>
+<script>
+$(".close_tr").click(function() {
+		$( ".purchase-quatation-items-close" ).hide();
+ });
+</script>
+<?php 
+function no_to_words($no)
+{   
+ $words = array('0'=> '' ,'1'=> 'one' ,'2'=> 'two' ,'3' => 'three','4' => 'four','5' => 'five','6' => 'six','7' => 'seven','8' => 'eight','9' => 'nine','10' => 'ten','11' => 'eleven','12' => 'twelve','13' => 'thirteen','14' => 'fouteen','15' => 'fifteen','16' => 'sixteen','17' => 'seventeen','18' => 'eighteen','19' => 'nineteen','20' => 'twenty','30' => 'thirty','40' => 'fourty','50' => 'fifty','60' => 'sixty','70' => 'seventy','80' => 'eighty','90' => 'ninty','100' => 'hundred &','1000' => 'thousand','100000' => 'lakh','10000000' => 'crore');
+    if($no == 0)
+        return ' ';
+    else {
+	$novalue='';
+	$highno=$no;
+	$remainno=0;
+	$value=100;
+	$value1=1000;       
+            while($no>=100)    {
+                if(($value <= $no) &&($no  < $value1))    {
+                $novalue=$words["$value"];
+                $highno = (int)($no/$value);
+                $remainno = $no % $value;
+                break;
+                }
+                $value= $value1;
+                $value1 = $value * 100;
+            }       
+          if(array_key_exists("$highno",$words))
+              return $words["$highno"]." ".$novalue." ".no_to_words($remainno);
+          else {
+             $unit=$highno%10;
+             $ten =(int)($highno/10)*10;            
+             return $words["$ten"]." ".$words["$unit"]." ".$novalue." ".no_to_words($remainno);
+           }
+    }
+}
+
+function convert_number($number)
+{
+	if (($number < 0) || ($number > 999999999))
+	{
+		throw new Exception("Number is out of range");
+	}
+	 
+	$Gn = floor($number / 100000);  /* Millions (giga) */
+	$number -= $Gn * 100000;
+	$kn = floor($number / 1000);     /* Thousands (kilo) */
+	$number -= $kn * 1000;
+	$Hn = floor($number / 100);      /* Hundreds (hecto) */
+	$number -= $Hn * 100;
+	$Dn = floor($number / 10);       /* Tens (deca) */
+	$n = $number % 10;               /* Ones */
+	 
+	$res = "";
+	 
+	if ($Gn)
+	{
+		$res .= convert_number($Gn) . " Lacs";
+	}
+	 
+	if ($kn)
+	{
+		$res .= (empty($res) ? "" : " ") .
+		convert_number($kn) . " Thousand";
+	}
+	 
+	if ($Hn)
+	{
+		$res .= (empty($res) ? "" : " ") .
+		convert_number($Hn) . " Hundred";
+	}
+	 
+	$ones = array("", "One", "Two", "Three", "Four", "Five", "Six",
+	"Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen",
+	"Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eightteen",
+	"Nineteen");
+	$tens = array("", "", "Twenty", "Thirty", "Fourty", "Fifty", "Sixty",
+	"Seventy", "Eigthy", "Ninety");
+	 
+	if ($Dn || $n)
+	{
+	if (!empty($res))
+	{
+		$res .= " and ";
+	}
+	 
+	if ($Dn < 2)
+	{
+		$res .= $ones[$Dn * 10 + $n];
+	}
+	else
+	{
+		$res .= $tens[$Dn];
+	 
+	if ($n)
+	{
+		$res .= "-" . $ones[$n];
+	}
+	}
+	}
+	 
+	if (empty($res))
+	{
+		$res = "zero";
+	}
+	 
+	return $res;
+}  
+?>

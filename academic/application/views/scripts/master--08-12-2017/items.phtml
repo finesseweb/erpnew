@@ -1,0 +1,250 @@
+<?php if ($this->type) { ?>
+<div class="padding-md">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<form class="no-margin" id="formValidate1" action="<?php echo $this->Item_form->getAction() ?>" method="post" data-validate="parsley" novalidate>
+					<div class="panel-heading">									
+						 <h4>Items</h4> 
+					</div>
+					<div class="panel-body">
+						<div class="row">							                         
+							
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Item Name <span class="asterisk">*</span></label>
+									<?php echo $this->Item_form->item_name; ?>
+								</div>										
+							</div>
+							<div class="col-sm-3" style="display:none">	
+								<div class="form-group">
+									<label class="control-label">Quantity <span class="asterisk">*</span></label>
+									<?php echo $this->Item_form->item_quantity; ?>
+								</div>										
+							</div>
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Unit Of Measurement<span class="asterisk">*</span></label>
+									<?php echo $this->Item_form->item_uom; ?>
+								</div>										
+							</div>
+						</div>
+						
+						<div class="row" >
+						<?php 
+							$itemRecord = $this->itemResult;
+							//echo '<pre>';print_r($itemRecord);die;
+								if(count($itemRecord) > 0 ){ ?>
+									<input type="hidden" name="count_val" id="count_val" value="<?php echo (count($itemRecord) +1 ); ?>" class="count_val">
+								<?php 	$i= 1;
+									foreach($itemRecord as $k=>$data){ 
+									
+							?>
+							<div  class="row appended_row field-margin">
+								<div class="col-sm-3 ">
+									<label class="control-label"> Nutrition</label>
+									<select type="text" name="nutrition[title][]"  class="form-control" >
+										<option value="">Select Nutrition</option>									 
+										<?php foreach($this->Nutrition as $k=>$val){
+											$selected='';
+											if($k==$data['title'])
+											$selected="selected";
+										?>										
+										<option value="<?php echo $k;?>" <?php echo $selected;?>><?php echo $val;?></option>
+										<?php }?>
+									</select>
+								</div>
+								<div class="col-sm-2 ">
+									<div class="form-group">
+										<label class="control-label">Value</label>
+										<input type="text"  class="form-control" value="<?php echo $data['percentage']; ?>" name="nutrition[percentage][]" placeholder=""/> 
+									</div>
+								</div>
+								<div class="col-sm-3 ">
+									<label class="control-label">Unit Of Measurement </label>
+									<select type="text" name="nutrition[uom][]" class="form-control label_rawmclass" >
+										<option value="">Select Unit Of Measurement </option>
+										<?php foreach($this->Uom as $k=>$val){
+											$selected='';
+											if($k==$data['uom'])
+											$selected="selected";
+										?>
+										<option value="<?php echo $k;?>" <?php echo $selected;?>><?php echo $val;?></option>
+										<?php }?>
+									</select>
+								</div>
+								 <?php /* if($i==1) { ?>
+										<a  class="removeclass btn btn-primary remove_class" style="margin-left:0px;margin-top:21px;" href="#">-</a><?php } else { */ ?>
+										<a  class="removeclass btn btn-primary remove_class" style="margin:22px 08px 5px; padding: 7px 19px!important;" href="#">-</a>
+								<?php //} ?>
+							</div>
+							<div id="program_info" label="program_info<?php echo $i;?>" ></div>
+							<?php $i++; }  ?>
+							  <div class="width10ps"><div class="col-sm-3"></div><div class="col-sm-2"></div><div class="col-sm-3"></div>
+									<input type="button" value="+" id="AddButton" style="margin:22px 18px 5px; padding: 7px 19px!important;" class="btn btn-primary"  > 
+							</div>
+							<?php }else{?>
+							<input type="hidden" name="count_val" id="count_val" value="1" class="count_val">
+							<div class="col-sm-3 ">
+								<label class="control-label"> Nutrition</label>
+								<select type="text" name="nutrition[title][]"  class="form-control" >
+									<option value="">Select Nutrition</option>									 
+									<?php foreach($this->Nutrition as $k=>$val){
+									?>										
+									<option value="<?php echo $k;?>"><?php echo $val;?></option>
+									<?php }?>
+								</select>
+							</div>
+							<div class="col-sm-2 ">
+								<div class="form-group">
+									<label class="control-label">Value</label>
+									<input type="text"  class="form-control" name="nutrition[percentage][]" placeholder=""/> 
+								</div>
+							</div>
+							<div class="col-sm-3 ">
+								<label class="control-label">Unit Of Measurement </label>
+								<select type="text" name="nutrition[uom][]" class="form-control label_rawmclass" >
+									<option value="">Select Unit Of Measurement </option>
+									<?php foreach($this->Uom as $k=>$val){?>
+									<option value="<?php echo $k;?>"><?php echo $val;?></option>
+									<?php }?>
+								</select>
+							</div>
+							<div class="col-sm-3">
+							<div class="width10ps">
+								<input type="button" value="+" id="AddButton" style="margin:22px 05px 5px; padding: 7px 19px!important;" class="btn btn-primary adjust-size"> 
+							</div> 
+							</div>
+							<?php } ?>
+						</div>	
+						<div id="fields"></div>
+						<div style="display:none" class="select_data" >        
+							<div class="row appended_row  padding-top "  id="appended_row1" style="margin-bottom:5px;">
+								<div class="col-sm-3 ">
+									<select type="text" name="nutrition[title][]"  class="form-control" >
+										<option value="">Select Nutrition</option>									 
+										<?php foreach($this->Nutrition as $k=>$val){
+										?>										
+										<option value="<?php echo $k;?>"><?php echo $val;?></option>
+										<?php }?>
+									</select>
+								</div>
+								<div class="col-sm-2 ">
+									<div class="form-group">
+										<input type="text"  style="margin:5px 0px;"class="form-control" name="nutrition[percentage][]" placeholder=""/> 
+									</div>
+								</div>
+								<div class="col-sm-3 ">
+									<select type="text" name="nutrition[uom][]" class="form-control label_rawmclass" >
+										<option value="">Select Unit Of Measurement </option>
+										<?php foreach($this->Uom as $k=>$val){?>
+										<option value="<?php echo $k;?>"><?php echo $val;?></option>
+										<?php }?>
+									</select>
+								</div>
+								<a href="#" style="margin:2px 20px 5px; padding: 7px 19px!important;" class="removeclass btn btn-primary remove_class" >-</a>
+							
+						</div>
+						</div>
+						<div class="panel-footer ">									
+							<div class="row">
+								<div class="col-sm-7 col-sm-offset-5">
+									<?php if ($this->type == 'add') { ?> 
+										<div style="float:left;margin-right:2px;">
+										<button class="btn btn-primary submit">Submit</button>
+										</div>
+										<div style="float:left;padding:0px 10px;">
+										<button type="reset" class="btn btn-danger btn-default">Reset</button>
+										</div>
+									<?php } else { ?>
+										<div >
+										<button class="btn btn-primary submit">Update</button>
+										</div>
+									<?php } ?>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div><!-- /panel -->
+		</div><!-- /.col-->				
+	</div><!-- /.row -->
+</div><!-- /.padding-md -->	
+<?php } else { ?>
+  
+<?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+     <div class="alert alert-success ">
+<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+<?php echo $this->escape($message); ?>
+</div>
+ <?php } } ?>
+ <!-- widget grid -->
+<div class="padding-md">
+	<div class="panel panel-default table-responsive">
+		<div class="panel-heading">
+			 Items
+			<a class="btn btn-primary pull-right" style="margin-top: -9px;" href="<?php echo $this->mainconfig['host']; ?>master/items/type/add">Add Item</a>
+		</div>
+		<div class="padding-md clearfix">
+			<table class="table table-striped" id="dataTable">
+				<thead>
+					<tr>
+						<th>S. No</th>
+						<th>Item Title</th>
+						<th>Action</th>   
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+
+						$i = 1;
+						$pagination_tr = '';
+						if (count($this->paginator) != 0) {
+
+						foreach ($this->paginator as $results) {
+
+					?>
+					<tr>
+						<td><?php echo $i;
+
+							$i++; ?>
+						</td>
+						<td><?php echo $results['item_name']; ?></td>
+						<td><a href="<?php echo $this->mainconfig['host']; ?>master/items/type/edit/id/<?php echo $results['item_id']; ?>" class="edit" title="Edit"><span class="fa fa-edit fa-lg"></span></a>&nbsp; | &nbsp;  <a href="<?php echo $this->mainconfig['host']; ?>master/items/type/delete/id/<?php echo $results['item_id']; ?>" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a></td>
+
+					</tr>            
+
+								<?php }
+								$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+								} ?>
+
+				</tbody>
+			</table>
+			 <?php echo $pagination_tr; ?>
+		</div><!-- /.padding-md -->
+	</div><!-- /panel -->
+</div><!-- /.padding-md -->		
+<?php } ?>
+<script type="text/javascript">	
+$(document).ready(function() { 
+	 var count = $('#count_val').val();
+     $("body").on("click","#AddButton", function(e){ 
+	 //alert(count);
+        $( "#appended_row1:last" ).clone().find("input:text").val("").end().appendTo( "#fields" );			
+			var count_val = count++;
+			$('#count_val').val(count_val);
+			//$('#label_proid').attr('onchange', 'programID('+count_val+')');
+			//$('#label_consession').attr('onchange', 'concessionPercentage('+count_val+')');
+			//$('#label_proid').attr('label', 'proid'+count_val);
+			//$('#program_info_item').attr('label', 'program_info'+count_val);
+          return false;		  
+    });
+
+    $("body").on("click",".removeclass", function(e){
+                   $(this).parent('div').remove(); 
+               return false;
+    });
+    
+});
+</script>

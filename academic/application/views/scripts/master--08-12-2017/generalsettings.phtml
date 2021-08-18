@@ -1,0 +1,422 @@
+<?php if ($this->type) { ?>
+<div class="padding-md">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<form class="no-margin" id="formValidate1" action="<?php echo $this->MainBranch_form->getAction() ?>" method="post" data-validate="parsley" novalidate>
+					<div class="panel-heading">									
+						 <h4>General Settings</h4> 
+					</div>
+					<div class="panel-body">
+				    	<div class="row masterbox">
+						<div class="row">
+							<div class="col-sm-3 ">
+								<div class="form-group">
+									<label class="control-label">Branch/Office Name </label>
+									<?php echo $this->MainBranch_form->main_branch_name; ?>
+								</div>
+							</div> 
+								<?php
+							if(!empty($this->email)){
+											  $i=0; ?>
+									<input type="hidden" name="email_id" id="email_id" value="<?php echo (count($this->email) +1 ); ?>" class="email_id">
+									<?php
+									foreach($this->email as $val){
+									//print_r($val);die;
+									//$total_amount += $val['total_price'];
+									$i++;
+									?>
+									<div class="row">
+										<div  class="row appended_row "style="margin:0px 1px;width:100%;">
+											<div class="col-sm-3">
+											<div class="form-group col-sm-offset-1">
+												<label class="control-label">Email</label>		
+												<input type="text"  class="form-control email_id" name="email_id[]"label="email_<?php echo $i; ?>" value="<?php echo $val;?>" required="required" />
+												</div>
+												
+										</div>
+											<a  class="removeclass6 btn btn-primary remove_class6 " style="margin:24px 10px;  padding:7px 19px;"href="#">-</a>
+											 
+										</div>										
+										</div>
+									<?php		} 
+											?>
+										<div  class=" appended_row "> <div class="col-sm-3"></div><div class="col-sm-3"></div><a id="AddButton1" class="btn btn-primary" style="margin:5px 15px;  padding:7px 19px;">+</a> 
+										</div>
+									<?php } else { ?>
+									<div  class="row appended_row " style="margin:0px 1px;width:100%;">
+										<input type="hidden" name="email_id" id="email_id" value="1" class="email_id">
+											<div class="col-md-3">
+											<div class="form-group col-sm-offset-1">
+												<label class="control-label">Email</label>		
+												<input type="text" class="form-control email_id" name="email_id[]"label="email_0" required="required" />
+												</div>
+											</div>	
+											<div class="col-sm-3">
+										<a id="AddButton1" class="btn btn-primary" style="margin-top:24px;margin-bottom:10px; padding: 7px 19px!important;">+</a> 
+										</div>
+									</div>
+										<?php } ?>
+									
+									<div  id="fields1">
+										<div class="padding-top"></div>
+									</div>
+							
+							<!-- <div class="col-sm-3">
+								<div class="form-group">
+									<label class="control-label"> Email Address </label>
+									<?php //echo $this->MainBranch_form->email_id; ?>
+								</div>
+							</div>  -->
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label class="control-label"> Web Site URL</label>
+									<?php echo $this->MainBranch_form->website; ?>
+								</div>
+							</div> 
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label class="control-label">Address </label>
+									<?php echo $this->MainBranch_form->address; ?>
+								</div>
+							</div>   
+							</div>
+						<div class="row">
+							<div class="col-sm-3 ">
+								<div class="form-group">
+									<label class="control-label">Zip Code </label>
+									<?php echo $this->MainBranch_form->pincode; ?>
+								</div>
+							</div>  														 
+							<div class="col-sm-3 ">
+								<div class="form-group">
+									<label class="control-label">PAN Number</label>
+									<?php echo $this->MainBranch_form->pan_no; ?>
+								</div>
+							</div> 
+							<div class="col-sm-3 ">
+								<div class="form-group">
+									<label class="control-label">Service Tax Number</label>
+									<?php echo $this->MainBranch_form->service_tax_no; ?>
+								</div>
+							</div>
+							
+							</div>
+						</div>
+						<div style="border-bottom:1px dotted #ddd;"></div>
+						<div class="row">
+							<div class="col-sm-3"><h4><span style=" color:#777;">Contact Details</span></h4></div>
+						</div>
+					<div class="row masterbox">
+						<div class="row">
+							<div class="col-sm-3 ">
+								<div class="form-group">
+									<label class="control-label">Contact Person </label>
+									<?php echo $this->MainBranch_form->contact_person; ?>
+								</div>
+							</div> 
+							<div class="col-sm-3 ">
+								<div class="form-group">
+									<label class="control-label"> Landline 1 </label>
+									<?php echo $this->MainBranch_form->phone_no1; ?>
+								</div>
+							</div>  
+							<div class="col-sm-3 ">
+								<div class="form-group">
+									<label class="control-label">Landline 2 </label>
+									<?php echo $this->MainBranch_form->phone_no2; ?>
+								</div>
+							</div> 
+						</div>
+						<div class="row">
+							<?php
+							if(!empty($this->mobile)){
+											  $i=0; ?>
+									<input type="hidden" name="mobile_no" id="mobile_no" value="<?php echo (count($this->mobile) +1 ); ?>" class="mobile_no">
+									<?php
+									foreach($this->mobile as $val){
+									//print_r($val);die;
+									//$total_amount += $val['total_price'];
+									$i++;
+									?>
+									<div class="row append_row" style="margin:0 1px;width:100%;">
+											<div class="col-md-3">
+											<div class="form-group">
+												<label class="control-label">Mobile No</label>		
+												<input type="text"  class="form-control mobile_no" name="mobile_no[]"label="mobile_<?php echo $i; ?>" value="<?php echo $val;?>"  required="required"  />
+												</div>
+											</div>
+											<a  class="removeclass7 btn btn-primary remove_class7 " style="margin:24px 14px;  padding:7px 19px;"href="#">-</a>
+											</div> 
+									<?php		} 
+											?>
+										<div  class=" appended_row "> <div class="col-sm-3"></div><a id="AddButton6" class="btn btn-primary" style="margin:5px 14px;  padding:7px 19px;">+</a> 
+										</div>
+									<?php } else { ?>
+									<div  class="row appended_row " style="margin:0 1px;width:100%;">
+										<input type="hidden" name="mobile_no" id="mobile_no" value="1" class="mobile_no">
+											<div class="col-md-3">
+											<div class="form-group">
+												<label class="control-label">Mobile No</label>		
+												<input type="text"  class="form-control mobile_no" name="mobile_no[]"label="mobile_0" required="required" />
+												</div>
+											</div>
+											
+										<a id="AddButton6" class="btn btn-primary" style="margin:24px 14px; padding: 7px 19px!important;">+</a> 
+									</div>
+										<?php } ?>
+									
+									<div  id="fields7">
+										<div class="padding-top"></div>
+									</div>
+							
+						 </div>
+						</div>	
+						<!--	<div class="col-sm-3 ">
+								<div class="form-group">
+									<label class="control-label">Mobile Number </label>
+									<?php //echo $this->MainBranch_form->mobile_no; ?>
+								</div>
+							</div> -->
+							<?php /* <div class="col-sm-3 ">
+								<div class="form-group">
+									<label class="control-label">Contact Person Phone Number </label>
+									<?php echo $this->MainBranch_form->contact_person_phone; ?>
+								</div>
+							</div> */ ?>
+						
+							<div style="border-bottom:1px dotted #ddd;"></div>
+							<div class="row">
+							<div class="col-sm-3"><h4><span style=" color:#777;">Bank Details</span></h4></div>
+							</div>
+							<div class="row masterbox">
+							<div class="row">
+							<div class="col-sm-3 ">
+								<div class="form-group">
+									<label class="control-label">Name </label>
+									<?php echo $this->MainBranch_form->bank_name; ?>
+								</div>
+							</div>
+							<div class="col-sm-3 ">
+								<div class="form-group">
+									<label class="control-label">Account Name </label>
+									<?php echo $this->MainBranch_form->bank_account_name; ?>
+								</div>
+							</div>
+							<div class="col-sm-3 ">
+								<div class="form-group">
+									<label class="control-label">Account Number </label>
+									<?php echo $this->MainBranch_form->bank_account_no; ?>
+								</div>
+							</div>	
+							<div class="col-sm-3 ">
+								<div class="form-group">
+									<label class="control-label">IFSC Code </label>
+									<?php echo $this->MainBranch_form->bank_ifci_code; ?>
+								</div>
+							</div>
+							<div class="col-sm-3 ">
+								<div class="form-group">
+									<label class="control-label">Account Type </label>
+									<?php echo $this->MainBranch_form->account_type; ?>
+								</div>
+							</div>
+							<div class="col-sm-3 ">
+								<div class="form-group">
+									<label class="control-label">MICR Code </label>
+									<?php echo $this->MainBranch_form->micr_code; ?>
+								</div>
+							</div>
+							
+							<div class="col-sm-3 ">
+								<div class="form-group">
+									<label class="control-label">Address </label>
+									<?php echo $this->MainBranch_form->bank_address; ?>
+								</div>
+							</div>
+						<?php /*	<div class="col-sm-3 ">
+								<div class="form-group">
+									<label class="control-label">Referral Discount Amount </label>
+									<?php echo $this->MainBranch_form->referral_discount_amount; ?>
+								</div>
+							</div> */?>	
+							</div>
+						</div>	
+							<div style="border-bottom:1px dotted #ddd;"></div>
+							<div class="row">
+							<div class="col-sm-4"><h4><span style=" color:#777;">OTP Receiver Details</span></h4></div>
+							</div>
+							<div class="row masterbox">	
+							<div class="row">
+							<div class="col-sm-3 ">
+								<div class="form-group">
+									<label class="control-label">Mobile No 1</label>
+									<?php echo $this->MainBranch_form->mobile_number; ?>
+								</div>
+							</div>
+							<div class="col-sm-3 ">
+								<div class="form-group">
+									<label class="control-label">Mobile No 2</label>
+									<?php echo $this->MainBranch_form->alternate_mobile_number; ?>
+								</div>
+							</div>
+							</div>
+							</div>
+												
+						<div class="panel-footer ">									
+							<div class="row">
+								<div class="col-sm-7 col-sm-offset-5">
+									<?php if ($this->type == 'add') { ?> 
+										<div style="float:left;margin-left:10px;">
+										<button class="btn btn-primary submit">Submit</button>
+										</div>
+										<div style="float:left;padding:0px 10px;">
+										<button type="reset" class="btn btn-danger btn-default">Reset</button>
+										</div>
+									<?php } else { ?>
+										<div >
+										<button class="btn btn-primary submit">Update</button>
+										</div>
+									<?php } ?>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div><!-- /panel -->
+		</div><!-- /.col-->				
+	</div><!-- /.row -->
+</div><!-- /.padding-md -->	
+<?php } else { ?>  
+
+<?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+     <div class="alert alert-success ">
+<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+<?php echo $this->escape($message); ?>
+</div>
+ <?php } } ?>
+ <div class="padding-md">
+	<div class="panel panel-default table-responsive">
+		<div class="panel-heading">
+			General Settings
+			 <a class="btn btn-primary pull-right" style="margin-top: -9px;" href="<?php echo $this->mainconfig['host']; ?>master/generalsettings/type/add">Add</a> 
+			<span class="label label-info pull-right"></span>
+		</div>
+		<div class="padding-md clearfix">
+			<table class="table table-striped" id="dataTable">
+				<thead>
+					<tr>
+						<th>S. No.</th>
+						<th>Name</th>
+						<th>Address</th>
+						<th>Email</th> 
+						<th>Mobile Number</th> 
+						<th>Action</th>   
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+
+						$i = 1;
+						$pagination_tr = '';
+						if (count($this->paginator) != 0) {
+
+						foreach ($this->paginator as $results) {
+
+					?>
+					<tr>
+						<td><?php echo $i;
+							$i++; ?>
+						</td>
+						<td><?php echo $results['main_branch_name']; ?></td>
+						<td><?php echo $results['address']; ?></td>
+						<td><?php  $emails=unserialize($results['email_id']);
+									foreach($emails as $val){
+									  echo $val.',';
+									}
+									//echo $results['email_id']; ?></td> 
+						<td><?php  $mobiles_no=unserialize($results['mobile_no']);
+									foreach($mobiles_no as $val){
+									  echo $val.',';
+									}
+									//echo $results['mobile_no']; ?></td> 
+						<td><a href="<?php echo $this->mainconfig['host']; ?>master/generalsettings/type/edit/id/<?php echo $results['main_branch_id']; ?>" class="edit" title="Edit"><span class="fa fa-edit fa-lg"></span></a><?php /* &nbsp; | &nbsp;  <a href="<?php echo $this->mainconfig['host']; ?>master/generalsettings/type/delete/id/<?php echo $results['main_branch_id']; ?>" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a> */ ?></td>
+					</tr>
+						<?php }
+						$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+						} ?>
+				</tbody>
+			</table>
+			<?php echo $pagination_tr; ?>
+		</div><!-- /.padding-md -->
+	</div><!-- /panel -->
+</div><!-- /.padding-md -->	
+<?php } ?>
+<script type="text/javascript">	
+
+var count = $('#email_id').val();
+		$("body").on("click","#AddButton1",function(event){
+		var value = count++;
+			append_html = '<div class="row" style="margin:0px 1px;width:100%;">';
+			append_html += '<div class="col-md-3"></div>';
+			append_html += '<div class="col-md-3"><div class="form-group col-sm-offset-1"><input type="text"  class="form-control email_id" label="email_0'+value+'" name="email_id[]"  style=" background:#FFFFFF;" required="required"/></div></div>';	
+			append_html += '<a href="#" class="removeclass6 btn btn-primary remove_class6 " style="margin:0px 15px 10px;  padding:7px 19px;">-</a>';
+			append_html += '</div>';													
+		$('#fields1').append(append_html);
+	});
+
+	$("body").on("click",".removeclass6", function(e){
+		//alert('sdsd');
+
+                $(this).parent('div').remove(); 				
+				
+        return false;
+
+    });
+var count7 = $('#mobile_no').val();
+		$("body").on("click","#AddButton6",function(event){
+		var value1 = count7++;
+			append_html = '<div class="row" style="margin:0 1px; width:100%;">';
+			append_html += '<div class="col-md-3"><div class="form-group"><input type="text"  class="form-control mobile_no" label="mobile_0'+value1+'" name="mobile_no[]"  style=" background:#FFFFFF;" required="required"/></div></div>';	
+			append_html += '<a href="#" class="removeclass7 btn btn-primary remove_class7 " style="margin:0px 14px; padding:7px 19px;">-</a>';
+			append_html += '</div>'													
+		$('#fields7').append(append_html);
+	});
+	
+	$("body").on("click",".removeclass7", function(e){
+		//alert('sdsd');
+
+                $(this).parent('div').remove(); 				
+				
+        return false;
+
+    });
+/*
+$(document).ready(function() { 
+	 var count = $('#count_val').val();
+     $("body").on("click","#AddButton", function(e){ 
+	 
+        $( "#appended_row1:last" ).clone().find("input:text").val("").end().appendTo( "#fields" );			
+			var count_val = count++;
+			$('#count_val').val(count_val);
+          return false;		  
+    });
+
+    $("body").on("click",".removeclass", function(e){
+                   $(this).parent('div').remove(); 
+               return false;
+    });
+});	
+
+$('body').on('change', '#organization_id', function() {		
+	var org_id = $(this).val();		
+		$.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'admission/ajax-get-students';?>',
+			data: {org_id:org_id}
+		}).done(function( data ) {
+			$( "#student_name").html( data );
+		 });
+});	*/
+</script>

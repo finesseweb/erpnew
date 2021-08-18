@@ -1,0 +1,554 @@
+<style>
+input[type=radio] {
+    opacity: 2; 
+    width: 15px;
+    height: 15px;
+    z-index: 1;
+    cursor: pointer;
+	 margin-left: -15px;
+}
+</style>
+<?php if ($this->type) { ?>
+<div class="padding-md right_col">
+	<div class="row">
+		<div class="col-md-12">
+		<h3 class="page-title txt-color-blueDark" >
+			<div><i class="fa fa-eye"> Add Corporate Tie up</i></div>
+		</h3>
+			<div class="panel panel-default">
+				<form class="no-margin" id="formValidate1" action="<?php echo $this->form->getAction() ?>" method="post" data-validate="parsley" novalidate>
+					
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Country Name</label>
+									<?php echo $this->form->country_id; ?>
+								</div>										
+							</div> 
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">State Name</label>										
+										<?php echo $this->form->state_id; ?>
+								</div>	
+							</div>	
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">City Name</label>																	
+										<?php echo $this->form->city_id; ?>
+								</div>										
+							</div>
+								<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Location</label>									
+											
+										<?php echo $this->form->location; ?>
+								</div>	
+							</div>
+							<div class="col-sm-3">	
+								<div class="form-group">
+								<label class="control-label">Branch</label>
+									<?php echo $this->form->branch; ?>	
+								</div>
+							</div>
+															
+							</div>
+							 <?php 
+								if(!empty($this->companyitems)>0){
+										  $i=0; ?>
+								<input type="hidden" name="count1" id="count1" value="<?php echo (count($this->companyitems) +1 ); ?>" class="count1">
+								<?php
+								foreach($this->companyitems as $val){
+								//print_r($val);die;
+								//$total_amount += $val['total_price'];
+								$i++;
+							
+								?>
+								
+									<div  class="row appended_row ">
+									   <div class="col-md-2">
+											<label class="control-label">Company Name</label>	
+										<select type="text"  name="company_name[]" id="company_name" label="company_name<?php echo $i; ?>" class="form-control">           
+										<?php foreach($this->company_name as $k=>$val1) { //echo $k;; 
+										$selected = '';
+										if($k == $val['company_id']){
+										$selected = "selected";
+										//print_r($selected);die;
+										}?>
+										
+									<option value="<?php echo $k; ?>" <?php echo $selected; ?>><?php echo $val1;?></option>	
+									<?php } ?>
+								       </select>
+																				
+								
+										</div>
+										<a  class="removeclass2 btn btn-primary remove_class2 "style="margin:24px 18px 10px; padding:7px 19px;" href="#">-</a>
+										</div> 
+								<?php		} 
+										?>
+									<div  class=" appended_row " > <div class="col-md-2"></div><a id="AddButton6" class="btn btn-primary" style="margin:10px 05px 10px; padding:7px 19px;">+</a> 
+									</div>
+								<?php } else { ?>
+								<div  class="row appended_row " >
+									<input type="hidden" name="count1" id="count1" value="1" class="count1">
+									<div class="col-md-2">
+										<label class="control-label">Company Name </label>
+									<select type="text"  name="company_name[]" id="company_name" label="company_name" class="form-control">           
+									<?php foreach($this->company_name as $k=>$val1) { //echo $k;; ?>
+									<option value="<?php echo $k; ?>"><?php echo $val1;?></option>	
+									<?php } ?>
+									</select>
+									</div>
+									<div>										
+									<a id="AddButton6" class="btn btn-primary" style="margin:24px 15px; padding: 7px 19px!important;">+</a> 
+									</div>
+								</div>
+									<?php } ?>
+								
+								<div  id="fields7">
+									<div class="padding-top"></div>
+								</div>
+								<span class="copy_append6" style="display:none;">
+								<option value="">Select</option>
+										<?php foreach($this->company_name as $k=>$val1) { //echo $k;; ?>
+									<option value="<?php echo $k; ?>"><?php echo $val1;?></option>	
+									<?php } ?>	
+								</span>	
+								<?php 
+								if(!empty($this->programitems)>0){
+										  $i=0; ?>
+							<input type="hidden" name="count2" id="count2" value="<?php echo (count($this->programitems
+                                                          ) +1 ); ?>" class="count2">
+								<?php
+								foreach($this->programitems as $val){
+								//print_r($val['program_id']); die;
+								//print_r($val);die;
+								//$total_amount += $val['total_price'];
+								
+							
+								?>
+								 
+									<div  class="row appended_row ">
+						
+										
+									   <div class="col-md-2">
+											<label class="control-label">program</label>	
+										<select type="text" multiple  name="program[<?php echo $i; ?>][]" id="program" label="Program<?php echo $i; ?>" class="form-control">   
+											
+										<?php 
+										//print_r($val['program_id']); 
+										foreach($this->program as $k=>$val2) {
+										$selected = '';
+										$data = explode(',',$val['program_id']);
+										//print_r($val['program_id']); die;
+										foreach($data as $key => $value){
+										
+										
+										if($k == $value){
+										
+										$selected = "selected";
+										
+										} }?>
+										
+									<option value="<?php echo $k; ?>" <?php echo $selected; ?>><?php echo $val2;?></option>	
+									<?php } ?>
+								</select>
+																				
+								
+										</div>
+										<a  class="removeclass2 btn btn-primary remove_class2 " style="margin:24px 18px 10px; padding:7px 19px;" href="#">-</a>
+										</div> 
+								<?php		$i++; } 
+										?>
+									<div  class=" appended_row "><div class="col-md-2"></div> <a id="AddButton2" class="btn btn-primary" style="margin:10px 05px 10px; padding:7px 19px;">+</a> 
+									</div>
+								<?php } else { ?>
+								<div  class="row appended_row ">
+									<input type="hidden" name="count2" id="count2" value="1" class="count2">
+									<div class="col-md-2">
+										<label class="control-label">program </label>
+									<select type="text" multiple name="program[0][]" id="program" label="Program0" class="form-control">           
+									<?php foreach($this->program as $k=>$val2) { //echo $k;; ?>
+									<option value="<?php echo $k; ?>"><?php echo $val2;?></option>	
+									<?php } ?>
+									</select>
+									</div>
+									<div>										
+									<a id="AddButton2" class="btn btn-primary" style="margin:24px 15px; padding: 7px 19px!important;">+</a> 
+									</div>
+								</div>
+									<?php } ?>
+								
+								<div  id="fields3">
+									<div class="padding-top"></div>
+								</div>
+								<span class="copy_append1" style="display:none;">
+								<option value="">Select</option>
+										<?php foreach($this->program as $k=>$val2) { //echo $k;; ?>
+									<option value="<?php echo $k; ?>"><?php echo $val2;?></option>	
+									<?php } ?>	
+								</span>	
+								<div class="row">
+								<div class="col-sm-3">	
+									<div class="form-group">
+										<label class="control-label">Percentage Discount %</label>
+										<?php echo $this->form->percentage_discount  ; ?>
+									</div>										
+								</div> 	
+                              <?php 
+								if(!empty($this->feeheaditems)>0){
+										  $i=0; ?>
+								<input type="hidden" name="count3" id="count3" value="<?php echo (count($this->feeheaditems) +1 ); ?>" class="count3">
+								<?php
+								foreach($this->feeheaditems as $val){
+								//print_r($val);die;
+								//$total_amount += $val['total_price'];
+								$i++;
+							
+								?>
+								
+									<div  class="row appended_row " style="width:100%;margin:0px 1px;">
+						
+										
+									   <div class="col-md-2">
+											<label class="control-label">Fee Heads</label>	
+										<select type="text"  name="fee_heads[]" id="fee_heads" label="fee_heads" class="form-control">           
+										<?php foreach($this->fee_heads as $k=>$val3) { //echo $k;; 
+										$selected = '';
+										if($k == $val['fee_head_id']){
+										$selected = "selected";
+										//print_r($selected);die;
+										}?>
+										
+									<option value="<?php echo $k; ?>" <?php echo $selected; ?>><?php echo $val3;?></option>	
+									<?php } ?>
+								</select>
+																				
+								
+										</div>
+										<a  class="removeclass2 btn btn-primary remove_class2 " style="margin:24px 16px 10px; padding:7px 19px;"href="#">-</a>
+										</div> 
+								<?php		} 
+										?>
+									<div  class=" appended_row "> <div class="col-sm-3"></div><div class="col-md-2"></div><a id="AddButton3" class="btn btn-primary" style="margin:10px 16px 10px; padding:7px 19px;">+</a> 
+									</div>
+								<?php } else { ?>
+								<div  class="row appended_row " style="width:100%;margin:0px 1px;">
+									<input type="hidden" name="count3" id="count3" value3="1" class="count3">
+									<div class="col-md-2">
+										<label class="control-label">Fee Heads </label>
+									<select type="text"  name="fee_heads[]" id="fee_heads" label="fee_heads" class="form-control">           
+									<?php foreach($this->fee_heads as $k=>$val3) { //echo $k;; ?>
+									<option value="<?php echo $k; ?>"><?php echo $val3;?></option>	
+									<?php } ?>
+									</select>
+									</div>
+									<div>										
+									<a id="AddButton3" class="btn btn-primary" style="margin:24px 15px 0px; padding: 7px 19px!important;">+</a> 
+									</div>
+								</div>
+									<?php } ?>
+								
+								<div  id="fields4">
+									<div class="padding-top"></div>
+								</div>
+								<span class="copy_append2" style="display:none;">
+								<option value="">Select</option>
+										<?php foreach($this->fee_heads as $k=>$val3) { //echo $k;; ?>
+									<option value="<?php echo $k; ?>"><?php echo $val3?></option>	
+									<?php } ?>	
+								</span>
+								<div class="col-sm-3">	
+									<div class="form-group">
+										<label class="control-label">Discount Amount</label>
+										<?php echo $this->form->discount_amount; ?>
+									</div>                             						
+								</div>                           
+														 
+								<div class="col-sm-3">	
+									<div class="form-group">
+										<label class="control-label">From Date</label>
+										<?php echo $this->form->from_date; ?>
+									</div>										
+								</div>  
+								<div class="col-sm-3">	
+									<div class="form-group">
+										<label class="control-label">To Date</label>
+										<?php echo $this->form->to_date; ?>
+									</div>										
+								</div>	
+								<div class="col-sm-3">	
+									<div class="form-group">
+										<label class="control-label">Tie Up Status</label>
+										<?php echo $this->form->tie_up_status; ?>
+									</div>										
+								</div>
+							</div>	
+						<input type="hidden" name="id" id="id" value="<?php echo $this->result['id'];?>" />
+						<div class="panel-footer ">									
+							<div class="row">
+								<div class="col-sm-7 col-sm-offset-5">
+									<?php if ($this->type == 'add') { ?> 
+										<div style="float:left;margin-right:2px;">
+										<button class="btn btn-primary submit">Submit</button>
+										</div>
+										<div style="float:left;padding:0px 10px;">
+										<button type="reset" class="btn btn-danger btn-default">Reset</button>
+										</div>
+									<?php } else { ?>
+										<div >
+										<button class="btn btn-primary submit">Update</button>
+										</div>
+									<?php } ?>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div><!-- /panel -->
+		</div><!-- /.col-->				
+	</div><!-- /.row -->
+</div><!-- /.padding-md -->
+	
+<?php } else { ?>
+  
+<?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+     <div class="alert alert-success ">
+<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+<?php echo $this->escape($message); ?>
+</div>
+ <?php } } ?>
+ <!-- widget grid -->	
+<div class="right_col">
+<div class="row">
+	<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+		<h3 class="page-title txt-color-blueDark">
+			<i class="fa fa-bars"> Add Corporate Tie up</i>
+				
+		</h3>
+	</div>
+	<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
+		<a class="btn btn-primary pull-right" style="margin-top:25px;" href="<?php echo $this->mainconfig['host']; ?>master/add-corporate/type/add">Add </a>
+			
+	</div>
+</div>
+	<form class="no-margin" action="<?php echo $this->mainconfig['host']; ?>master/add-corporate/type/search" method="post" data-validate="parsley" novalidate>
+			<div class="row" style="margin: 10px 5px 0px 5px;;">
+				<div class="col-sm-3">	
+					<div class="form-group">
+						<label class="control-label">Tie Up Status</label>
+						<?php echo $this->form->tie_up_status; ?>
+					</div>										
+				</div>			
+					<div style="float:left;margin-right:2px;margin-top:20px;">
+				<button class="btn btn-primary submit">Submit</button>
+				</div>
+			</div>		
+							
+			
+		</form>	
+		<div class="x_panel">
+               
+                    <div class="x_title">
+                    <h2> Add Corporate Tie up</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                       </li>
+                      <li><a class=""><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+<div class="x_content">
+		<div class="padding-md clearfix">
+			<table class="table table-striped table-bordered jambo_table bulk_action" id="dataTable">
+				<thead>
+					<tr>
+						<th>S.No.</th>
+						<th>Country Name</th>
+						<th>State Name</th>
+						<th>City Name</th>
+						<th>Branch</th>
+						<th>Company</th>
+						<th>From Date</th>
+						<th>To Date</th>
+						<th>Tie Up Status  </th> 
+						<th>Action</th>  
+					</tr>
+				</thead>
+				<?php if(!empty($this->searchResult)) { ?>
+				<tbody>
+					<?php
+
+						$i = 1;
+						$pagination_tr = '';
+						if (count($this->searchResult) != 0) {
+
+						foreach ($this->searchResult as $result) { //echo '<pre>'; print_r($result);die;
+
+					?>
+					<tr>
+								<td><?php echo $i; $i++;?></td>
+								<td><?php echo $result['countries_name'];?></td>
+								<td><?php echo $result['state_name'];?></td>
+								<td><?php echo $result['city_name'];?></td>
+								<td><?php echo $result['branch_name']; ?></td>
+								<td><?php echo $result['company_name']; ?></td>
+								<td><?php echo $result['from_date'];?></td>
+								<td><?php echo $result['to_date']; ?></td>
+								<td><?php if($result['tie_up_status'] == 0 ) { echo 'Active';} else {  echo 'Inactive'; } ?></td>
+								
+							<td><a href="<?php echo $this->mainconfig['host']; ?>master/add-corporate/type/edit/id/<?php echo $result['corporate_id']; ?>" class="edit" title="Edit"><span class="fa fa-edit fa-lg"></span></a>&nbsp; | &nbsp;  <a href="<?php echo $this->mainconfig['host']; ?>master/add-corporate/type/delete/id/<?php echo $result['corporate_id']; ?>" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a></td>
+					 </tr>           
+					
+								<?php }
+								//$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+								} ?>
+
+				</tbody>
+				
+				<?php } else { ?>
+				
+				<tbody>
+					<?php
+						$i = 1;
+						$pagination_tr = '';
+						if (count($this->paginator) != 0) {
+						foreach ($this->paginator as $result) {
+					?>
+					<tr>
+						<td><?php echo $i; $i++;?></td>
+					    <td><?php echo $result['countries_name'];?></td>
+						<td><?php echo $result['state_name'];?></td>
+						<td><?php echo $result['city_name'];?></td>
+						<td><?php echo $result['branch_name']; ?></td>
+						<td><?php echo $result['company_name']; ?></td>
+						<td><?php echo $result['from_date'];?></td>
+						<td><?php echo $result['to_date']; ?></td>
+					    <td><?php if($result['tie_up_status'] == 0 ) { echo 'Active';} else {  echo 'Inactive'; } ?></td>
+						
+					<td><a href="<?php echo $this->mainconfig['host']; ?>master/add-corporate/type/edit/id/<?php echo $result['corporate_id']; ?>" class="edit" title="Edit"><span class="fa fa-edit fa-lg"></span></a>&nbsp; | &nbsp;  <a href="<?php echo $this->mainconfig['host']; ?>master/add-corporate/type/delete/id/<?php echo $result['corporate_id']; ?>" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a></td>
+					 </tr>           
+
+								<?php }
+								$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+								} ?>
+
+				</tbody>
+				<?php } ?>
+			</table>			 <?php //echo $pagination_tr; ?>
+		</div><!-- /.padding-md -->
+	</div><!-- /panel -->
+</div><!-- /.padding-md -->		
+<?php } ?>
+</div>
+<script>
+$(document).ready(function() {	
+		$('#from_date').datepicker({format: 'yyyy-mm-dd'});
+		$('#to_date').datepicker({format: 'yyyy-mm-dd'});
+	});	
+$('body').on('change', '#country_id', function() {
+	var id = $(this).val();		
+	//alert(id);
+		$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-state';?>',
+			data: {id:id}
+		}).done(function( data ) {
+			$( "#state_id").html( data );
+		 });
+});
+$('body').on('change', '#state_id', function() {
+	var id = $(this).val();		
+		$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-city';?>',
+			data: {id:id}
+		}).done(function( data ) { 
+			$( "#city_id").html( data );
+		 });
+});
+$('body').on('change', '#city_id', function() {
+	var id = $(this).val();		
+		$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-location';?>',
+			data: {id:id}
+		}).done(function( data ) { 
+			$( "#location").html( data );
+		 });
+});
+$('body').on('change','#location', function() {
+		var id = $(this).val();		
+		$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-camp-branch';?>',
+			data: {id:id}
+		}).done(function( data ) { 
+			$( ".branch_id").html( data );
+		 });
+
+ });
+var count1 = $('#company_name').val();
+		$("body").on("click","#AddButton6",function(event){
+		var value1 = count1++;
+			append_html = '<div class="row" style="width:100%;">';
+			append_html += '<div class="col-md-2"><select type="text"  name="company_name[]" id="company_name" label="company_name'+value1+'" class="form-control">'+$('.copy_append6').html()+'</select></div>';		
+			append_html += '<a href="#" class="removeclass2 btn btn-primary remove_class " style="margin:0px 20px 10px; padding:7px 19px;">-</a>';
+			append_html += '</div>';													
+		$('#fields7').append(append_html);
+	});
+$("body").on("click",".removeclass2", function(e){
+		//alert('sdsd');
+
+                $(this).parent('div').remove(); 				
+				
+        return false;
+	});	
+   
+var count2= $('#count2').val();
+
+		$("body").on("click","#AddButton2",function(event){
+		
+		var value2 = count2++;
+		//alert(value2);
+			append_html = '<div class="row" style="width:100%;">';
+			append_html += '<div class="col-md-2" style="margin:10px 0px;"><select type="text" multiple name="program['+value2+'][]" id="Program" label="Program'+value2+'" class="form-control">'+$('.copy_append1').html()+'</select></div>';		
+			append_html += '<a href="#" class="removeclass2 btn btn-primary remove_class " style="margin:10px 20px 10px; padding:7px 19px;">-</a>';
+			append_html += '</div>';													
+		$('#fields3').append(append_html);
+	});
+$("body").on("click",".removeclass2", function(e){
+		//alert('sdsd');
+
+                $(this).parent('div').remove(); 				
+				
+        return false;
+
+    });
+	var count3 = $('#fee_heads').val();
+		$("body").on("click","#AddButton3",function(event){
+		var value3 = count3++;
+			append_html = '<div class="row" style="width:100%;margin:0px 1px;">';
+			append_html += '<div class="col-sm-3"></div>';
+			append_html += '<div class="col-md-2" style="margin:10px 0px;"><select type="text"  name="fee_heads[]" id="fee_heads" label="fee_heads'+value3+'" class="form-control">'+$('.copy_append2').html()+'</select></div>';		
+			append_html += '<a href="#" class="removeclass2 btn btn-primary remove_class " style="margin:10px 16px 10px; padding:7px 19px;">-</a>';
+			append_html += '</div>';													
+		$('#fields4').append(append_html);
+	});
+$("body").on("click",".removeclass2", function(e){
+		//alert('sdsd');
+
+                $(this).parent('div').remove(); 				
+				
+        return false;
+
+    });
+
+		
+		
+</script>

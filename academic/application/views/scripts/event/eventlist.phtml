@@ -1,0 +1,337 @@
+
+<link href='<?php echo $this->mainconfig['host']; ?>public/admin-assets/packages/core/main.css' rel='stylesheet' />
+<link href='<?php echo $this->mainconfig['host']; ?>public/admin-assets/packages/daygrid/main.css' rel='stylesheet' />
+<link href='<?php echo $this->mainconfig['host']; ?>public/admin-assets/packages/timegrid/main.css' rel='stylesheet' />
+<link href='<?php echo $this->mainconfig['host']; ?>public/admin-assets/packages/list/main.css' rel='stylesheet' />
+<script src='<?php echo $this->mainconfig['host']; ?>public/admin-assets/packages/core/main.js'></script>
+<script src='<?php echo $this->mainconfig['host']; ?>public/admin-assets/packages/interaction/main.js'></script>
+<script src='<?php echo $this->mainconfig['host']; ?>public/admin-assets/packages/daygrid/main.js'></script>
+<script src='<?php echo $this->mainconfig['host']; ?>public/admin-assets/packages/timegrid/main.js'></script>
+<script src='<?php echo $this->mainconfig['host']; ?>public/admin-assets/packages/list/main.js'></script>
+<script src='https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js'></script>
+
+<?php 
+$result = $this->result;
+$color = $this->color;
+$add_event = $this->add_event;
+$eventList= $this->eventList;
+$eventColor= $this->backgroundColor;
+
+
+
+ ?>
+ <?php //echo $this->event ?>
+<script>
+
+  document.addEventListener('DOMContentLoaded', function() {
+
+    var Calendar = FullCalendar.Calendar;
+    var Draggable = FullCalendarInteraction.Draggable
+
+    /* initialize the external events
+    -----------------------------------------------------------------*/
+
+    var containerEl = document.getElementById('external-events-list');
+    new Draggable(containerEl, {
+      itemSelector: '.fc-event',
+      eventData: function(eventEl) {
+        var id=eventEl.id;
+        var desc=eventEl.innerText;
+        alert(eventEl.start);
+        $.ajax({
+          url: "<?php echo $this->mainconfig['host'] . 'event/ajaxaddEvent' ?>",
+          type: "POST",
+          data: {category : id,title : desc},
+          dataType: "html"
+        });
+
+        return {
+          title: eventEl.innerText.trim()
+        }
+
+      }
+    });
+
+    /* initialize the calendar
+    -----------------------------------------------------------------*/
+
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new Calendar(calendarEl, {
+      plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+      },
+      navLinks: false, // can click day/week names to navigate views
+      selectable: false,
+      selectMirror: false,
+      eventMouseEnter: function (data) {
+        var eventObj = data.event;
+        var eventid =eventObj.id;
+        var eventtitle =eventObj.title;
+        var description = eventObj.url;
+        $("a").click(function() {
+          return false;
+        });
+        var current_datetime1 = new Date(eventObj.start);
+var formatted_date1 = current_datetime1.getFullYear() + "-" + (current_datetime1.getMonth() + 1) + "-" + current_datetime1.getDate() + " " + current_datetime1.getHours() + ":" + current_datetime1.getMinutes() + ":" + current_datetime1.getSeconds() ;
+
+var current_datetime2 = new Date(eventObj.end);
+var formatted_date2 = current_datetime2.getFullYear() + "-" + (current_datetime2.getMonth() + 1) + "-" + current_datetime2.getDate() + " " + current_datetime2.getHours() + ":" + current_datetime2.getMinutes() + ":" + current_datetime2.getSeconds() ;
+
+
+        
+        tooltip = '<div class="tooltiptopicevent">' + 'Start Date: ' + ': ' + formatted_date1 + '</br>' + 'End Date: ' + ': ' + formatted_date2 + '</br>' + 'Title: ' + ': ' + eventtitle + '</br>' + 'Description: ' + ': ' + description + '</div>'; 
+
+
+            $("#wrap").append(tooltip);
+            $(this).mouseover(function (e) {
+                $(this).css('z-index', 10000);
+                $('.tooltiptopicevent').fadeIn('500');
+                $('.tooltiptopicevent').fadeTo('10', 1.9);
+            }).mousemove(function (e) {
+                $('.tooltiptopicevent').css('top', e.pageY + 10);
+                $('.tooltiptopicevent').css('left', e.pageX + 20);
+            });
+      },
+      eventMouseLeave: function (data, event, view) {
+            $(this).css('z-index', 8);
+
+            $('.tooltiptopicevent').remove();
+
+      },
+
+
+      // 
+      editable: false,
+      droppable: false, // this allows things to be dropped onto the calendar
+      eventLimit: true,
+      events: <?php echo $this->event ?>,
+      eventClick: function(arg) {
+        return false;
+      },
+      select: function(arg) {
+         return false;
+      },
+      
+    });
+    calendar.render();
+
+  });
+  
+</script>
+
+<style>
+
+  body {
+    /*overflow: hidden*/;
+  }
+  .fc-button-primary {
+    text-transform: capitalize;
+  }
+  .right_col {
+    min-height: 1103px !important;
+  }
+  .fc-scroller.fc-day-grid-container {
+    overflow: hidden !important;
+  }
+
+  #wrap {
+    width: 1200px;
+    margin: 0 auto;
+  }
+
+  #external-events {
+    float: left;
+    width: 150px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+    background: #eee;
+    text-align: left;
+  }
+
+  #external-events h4 {
+    font-size: 16px;
+    margin-top: 0;
+    padding-top: 1em;
+  }
+
+  #external-events .fc-event {
+    margin: 10px 0;
+    cursor: pointer;
+  }
+
+  #external-events p {
+    margin: 1.5em 0;
+    font-size: 11px;
+    color: #666;
+  }
+
+  #external-events p input {
+    margin: 0;
+    vertical-align: middle;
+  }
+
+ /* .modal-body {
+      min-height: 323px;
+  }*/
+  #external-events {
+    display: none;
+  }
+.text {
+  left: 875.17px !important;
+  z-index: 10008;
+  top: 354px !important;
+}
+
+.text2 {
+  left: 874.17px !important;
+  z-index: 10008;
+  top: 398px !important;
+}
+.text11 {
+  left: 875.17px !important;
+  z-index: 10008;
+  top: 354px !important;
+}
+
+.text21 {
+  left: 874.17px !important;
+  z-index: 10008;
+  top: 398px !important;
+}
+.modal-footer {
+  padding: 15px;
+  text-align: right;
+  border-top: none !important;
+}
+.col-md-4.col-xs-4.bgcl {
+  padding-right: 0px;
+  margin-right: -10px;
+}
+.col-md-3.col-xs-3.bgcl2 input {
+  height: 34px;
+  background: none;
+  border-radius: 0px;
+  padding: 0px;
+}
+#ic_event_desc {
+  margin-bottom: 12px;
+}
+#ic_event_title {
+  margin-bottom: 15px;
+}
+#ic_event_desc1 {
+  margin-bottom: 12px;
+}
+#ic_event_title1 {
+  margin-bottom: 15px;
+}
+.form-group {
+  margin-bottom: 20px;
+}
+#marker_category {
+  margin-bottom: 12px;
+}
+#marker_category1 {
+  margin-bottom: 12px;
+}
+.fc-day-grid-event::before {
+  content: "\f0b2";
+  font-family: FontAwesome;
+  font-size: 7px;
+  line-height: 10px;
+  padding-right: 4px;
+  float: left;
+}
+
+.modal-footer {
+  margin-top: 267px;
+}
+.fc-day-grid-event .fc-time:after { content: "m"; }
+.fc-title {
+  text-align: center;
+  font-size: 13px;
+}
+.fc-content {
+  text-align: center;
+}
+.fc-day-grid-event .fc-time {
+  float: left;
+  text-transform: uppercase;
+}
+.fc-axis.fc-widget-content {
+  text-transform: capitalize;
+}
+/*.tooltiptopicevent
+{
+  position:absolute;
+  top:25vh;
+  left:25vw;
+  width:50vw;
+  background-color:#EFF1F3;
+  color:black;
+  padding:20px;
+  border-style:solid;
+  border-radius:15px;
+  border-color:#bbd8b3;
+  transition:all 1s;
+  -webkit-transition:all 1s;
+}*/
+.tooltiptopicevent {
+  position: fixed;
+  top: 43px;
+  left: 50vw;
+  width: 292px;
+  background-color: #EFF1F3;
+  color: black;
+  padding: 20px;
+  border-style: solid;
+  border-radius: 15px;
+  border-color: #bbd8b3;
+  transition: all 1s;
+  -webkit-transition: text;
+  text-align: center;
+  z-index: 999;
+}
+</style>
+
+<div class="right_col table-responsive">
+  <div class="x_panel">
+    <div class="x_title">
+      <h2>All Events</h2>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+  <body>
+  <div id='wrap'>
+    <div id="popup" style="text-align:center;">
+    </div>
+<div class="col-md-12">
+    <div id='external-events'>
+      <h4>Draggable Events</h4>
+
+      <div id='external-events-list'>
+        <?php foreach($result as $val){ ?>
+
+          <div class="fc-event"  data-color="<?=$val['backgroundColor']?>" id="<?=$val['category_id']?>" style="background-color:<?=$val['backgroundColor']?>;border-color:#ffffff;color:#ffffff" bgcolor="<?=$val['backgroundColor']?>" bcolor="#ffffff" color="#ffffff" desc="<?=$val['title']?>" hash="null"><?=$val['title']?></div>
+
+      <?php } ?>
+
+      </div>
+<!-- 
+      <p>
+        <input type='checkbox' id='drop-remove' />
+        <label for='drop-remove'>remove after drop</label>
+      </p> -->
+    </div>
+    <div id='calendar'></div>
+
+    <div style='clear:both'></div>
+</div>
+</div>
+</body>
+  </div>
+
+  

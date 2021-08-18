@@ -1,0 +1,147 @@
+
+<div class="padding-md right_col">
+	<div class="row">
+		<div class="col-md-12">
+		<h3 class="page-title txt-color-blueDark" >
+			<div><i class="fa fa-eye">  Program Design View</i></div>
+		</h3>
+			<div class="panel panel-default">
+				<form class="no-margin" id="formValidate1" action="<?php echo $this->form->getAction() ?>" method="post" data-validate="parsley" >
+					
+					<div class="panel-body">
+							<div class="row">
+
+							<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Program Name<span class="asterisk">*</span></label>
+                                <?php echo $this->form->pm_name; ?>
+                            </div>
+							</div>
+							<div id="payslipData" class="col-sm-12">
+									</div>
+							</div>
+							
+							</div>
+						
+				</form>
+			</div><!-- /panel -->
+		</div><!-- /.col-->				
+	</div><!-- /.row -->
+	
+</div><!-- /.padding-md -->	
+
+
+<script>
+ jQuery(document).ready(function() {
+		
+        $('body').on('change', '#academic_year_id', function() {
+			//alert("hello");
+            getprogramDetails();
+
+        });
+        
+        
+        
+        //alert(short_id);
+		$.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'student-portal/ajax-get-program-name-display';?>',
+			data: {short_id : short_id}
+		}).done(function( data ) {
+			
+			$('#pm_name').empty('');
+			$('#pm_name').html(data);
+			
+		})
+        
+        
+
+ });
+ 
+	
+    function getprogramDetails() {
+        
+        $url = '<?php echo $this->mainconfig['host']; ?>student-portal/get-program-view';
+        
+        $.post($url,
+                {
+                    
+                    'academicid': $('#academic_year_id').val()
+
+
+                })
+                .done(function(data) {
+                  // alert(data);
+                    //$('#payslipData').html('');
+                    $('#payslipData').html(data);
+                });
+    }
+	
+/*	
+$('body').on('change', '#academic_year_id', function() {		
+var sel = document.getElementById("academic_year_id");
+var value = sel.options[sel.selectedIndex].value; // or sel.value
+var text = sel.options[sel.selectedIndex].text; 
+//alert(text);
+$('#payslipData').val(text);
+ });
+var academic_year_id =$('#academic_year_id option:selected').text();
+$('#payslipData').val(academic_year_id);*/
+ 
+$('body').on('change','#short_id',function() { 
+		var short_id = $('#short_id').val();
+		//alert(short_id); 
+		$.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'student-portal/ajax-get-academic';?>',
+			data: {short_id : short_id}
+		}).done(function( data ) {
+			
+			var result = $.parseJSON(data);
+			if(result !=''){
+			$('#academic_year_id').empty('');
+			$('#academic_year_id').val(result['from_date']+'-'+result['to_date']);
+			}
+			
+		})	
+})
+var short_id = $('#short_id option:selected').val();
+		
+		$.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'student-portal/ajax-get-academic';?>',
+			data: {short_id : short_id}
+		}).done(function( data ) {
+			
+			var result = $.parseJSON(data);
+			if(result !=''){
+			
+			$('#academic_year_id').val(result['from_date']+'-'+result['to_date']);
+			}
+			
+		})	
+		
+		
+	 
+		
+			
+
+ 
+ $('body').on('change','#pm_name',function() 
+ { 
+		var pm_name = $('#pm_name').val();
+		var short_id = $('#short_id').val();
+		//alert(pm_name);
+		$.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'student-portal/get-program-view';?>',
+			data: {pm_name : pm_name,short_id:short_id}
+		}).done(function( data ) {
+			
+			$('#payslipData').empty('');
+			$('#payslipData').html(data);
+			
+		})	
+})
+ 
+</script>

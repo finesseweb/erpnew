@@ -1,0 +1,250 @@
+
+<?php
+$item_result = $this->result;
+//echo '<pre>'; print_r($this->result['class_value'][0]['date']); die;  
+$cl_no = $this->no_of_classes;
+$room_model = new Application_Model_Room();
+?>
+
+<?php $x=''; ?>
+                                                               <div class="col-sm-0" style="float:right; overflow-y: hidden;">
+                                   <!-- <a class="btn btn-primary" target="_blank" href="#<?php //echo $this->mainconfig['host']; ?>fee-structure/structure-pdf/id/<?php //echo $this->structure_id; ?>">Print</a>--><a class="btn btn-link" role="button" href="#" id="print"><span class='glyphicon glyphicon-print'></span></a></div>
+<?php if($item_result['day_diff']>0){?>
+   <table class="my table table-striped table-bordered mb30 jambo_table bulk_action" style="width:100%;" >
+                                                <thead>
+                                                    <tr>
+                                                        <th style="text-align:center;">Date </th>	
+                                                        <th style="text-align:center;">Day</th>
+                                                        <th style="text-align:center;">Day count</th>
+                                                        <?php for($dcl=1; $dcl<=$cl_no;$dcl++){ ?>
+                                                                 <th style="text-align:center;"><table class="my table table-striped table-bordered mb30 bulk_action" style="background:#3C87F9;" ><tr>
+                             <th class='text-center' colspan="4" style="background:#3C87F9;"><?=$this->classrecords[$this->no_of_classes - $dcl];?></th></tr><tr>
+                                        <th class="col-md-3 text-center">Subject</th>
+                                        <th class='text-center col-md-3'>#.</th>
+                                        <th class='text-center col-md-3'>Time</th>
+                                        <th class="col-md-3 text-center">Room No</th>
+                        </tr></table></th>
+                                                         <?php }?>
+                                                    </tr>
+                                                </thead>
+                                                <?php $j = 0; ?>
+                                                <?php $l = 0; ?>
+
+
+                                                    <?php if ($item_result['selected_date'] == 0)
+                                                        $date = strtr($item_result['start_date'], '/', '-');
+                                                    else
+                                                        $date = $item_result['selected_date'];
+                                                    ?> 
+
+                                                <tbody style="text-align:center;">
+                                                        <?php for ($i = 0; $i <= $item_result['day_diff']; $i++): ?> 
+                                                            <?php $course1 = $course2 = $course3 = $course4 = $course5 = 0; ?>
+                                                            <?php $inc_date = date("d-m-Y", strtotime($date . ' + ' . $i . ' days')); ?>
+
+                                                        <tr>
+                                                            <?php $k = 0; ?>
+                                                            <?php $holiday_name = ''; ?>
+                                                            <?php $background_color = ''; ?>
+                                                            <?php $text_color = 'red'; ?>
+                                                            <?php $border_color = ''; ?>
+                                                            <?php for ($holi = 0; $holi < count($item_result['holidays']); $holi++): ?>
+                                                                <?php if (strtotime($date . ' + ' . $i . ' days') >= strtotime(date("m/d/Y", strtotime($item_result['holidays'][$holi]['start']))) AND ( strtotime($date . ' + ' . $i . ' days') <= strtotime(date("m/d/Y", strtotime($item_result['holidays'][$holi]['end']))))) {
+                                                                    ?>
+                                                                    <?php $k = 1; ?>   
+                                                                    <?php $holiday_name = $item_result['holidays'][$holi]['title']; ?>
+                    <?php $background_color = $item_result['holidays'][$holi]['backgroundColor']; ?>
+                    <?php $text_color = $item_result['holidays'][$holi]['textColor']; ?>
+                    <?php $border_color = $item_result['holidays'][$holi]['borderColor']; ?>
+                    <?php break; ?>
+                <?php }endfor; ?>
+            <?php if (in_array(date('D', strtotime($inc_date)),$item_result['weekends']) || $k == 1) { ?>
+                                                        <input type="text" value="<?= $inc_date; ?>" style="display:none" name="date[]">
+                                                        <input type="text" value="<?= date('l', strtotime($inc_date)); ?>" style="display:none;" name="days[]">
+                                                        <td style="box-shadow:2px 2px 4px <?= $border_color; ?>;  border:2px dashed <?= $border_color; ?>; background-color:<?= $background_color; ?>; text-align: center; color:<?= $text_color; ?>; font-weight: bold; font-size:130%;"><?= $inc_date; ?></td>
+                                                        <td colspan='2' style="border:2px dashed <?= $border_color; ?>; background-color:<?= $background_color; ?>; text-align: center; color:<?= $text_color; ?>; font-weight: bold; font-size:130%;"><?= date('l', strtotime($inc_date)) . " " . $holiday_name; ?></td>
+                                                        <?php for($dcl=1; $dcl<=$cl_no;$dcl++){ ?>
+                                                        <td style="border:2px dashed <?= $border_color; ?>; background-color:<?= $background_color; ?>; text-align: center; color:<?= $text_color; ?>; font-weight: bold; font-size:130%;" >
+                                                            <table class="my table table-striped table-bordered mb30 jambo_table bulk_action">
+                                                                <thead>
+                                                                </thead>
+                                                                <tbody>
+
+                                                                    <tr>
+
+                                                                        <td class='col-md-3'>
+                                                                            <?php $chekdateinc = 0; ?>
+                                                                            <?php for ($checkdate = 0; $checkdate < count($this->result['class_value']); $checkdate++): ?>
+                                                                                <?php if ($this->result['class_value'][$checkdate]['date'] == $inc_date) { ?>
+                                                                                    <?php for ($course_result = 0; $course_result < count($item_result['course_result']); $course_result++): ?>
+                                                                                        <?php if ($this->result['course_result'][$course_result]['course_id'] == $this->result['class_value'][$checkdate]["class_$dcl"]) { ?>
+
+                                                                                            <?= $this->result['course_result'][$course_result]['course_code']; ?>
+                                                                                            <?php ${"course$dcl"} = 1; ?>
+
+                                                                                        <?php } ?>
+                                                                                    <?php endfor; ?>
+                                                                                <?php } else { ?>
+                                                                                    <?php $chekdateinc++; ?>
+                    <?php } ?>
+                                                                            <?php endfor; ?>
+                                                                            <?php if (${"course$dcl"} != 1) { ?>
+                                                                                <?= "--"; ?>
+
+                                                                            <?php } ?>
+                                                                        </td>
+                                                                        <td class='col-md-3'>
+                <?php $chekdateinc = 0; ?>
+                <?php for ($checkdate = 0; $checkdate < count($this->result['class_value']); $checkdate++): ?>
+                    <?php if ($this->result['class_value'][$checkdate]['date'] == $inc_date) { ?>
+                        <?php if (!empty($this->result['class_value'])) echo $this->result['class_value'][$checkdate]["description_$dcl"]; ?>
+                    <?php } ?>
+                <?php endfor; ?>
+
+                                                                        </td>
+                                                                        <td class='col-md-3'>
+                <?php $chekdateinc = 0; ?>
+                <?php for ($checkdate = 0; $checkdate < count($this->result['class_value']); $checkdate++): ?>
+                    <?php if ($this->result['class_value'][$checkdate]['date'] == $inc_date) { ?>
+                        <?php if (!empty($this->result['class_value'])) echo $this->result['class_value'][$checkdate]["time_$dcl"]; ?>
+                    <?php } ?>
+                <?php endfor; ?>
+
+                                                                        </td>
+                                                                        <td class='col-md-3'>
+                <?php $chekdateinc = 0; ?>
+                <?php for ($checkdate = 0; $checkdate < count($this->result['class_value']); $checkdate++): ?>
+                    <?php if ($this->result['class_value'][$checkdate]['date'] == $inc_date) { ?>
+                        <?php if (!empty($this->result['class_value'])) {
+                    echo !empty($this->result['class_value'][$checkdate]["room_$dcl"])?$room_model->getRecord($this->result['class_value'][$checkdate]["room_$dcl"])['room_number']:'';}?>
+                    <?php } ?>
+                <?php endfor; ?>
+
+                                                                        </td>
+
+
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+
+
+                                                        <?php } ?>
+            <?php }else { ?>
+                <?php //if(date('l', strtotime($inc_date)) != 'Sunday' AND $k==0) { ?>
+                                                        <input type="text" value="<?= $inc_date; ?>" style="display:none" name="date[]">
+                                                        <td><?= $inc_date; ?></td>
+                                                        <input type="text" value="<?= date('l', strtotime($inc_date)); ?>" style="display:none;" name="days[]">
+                                                        <td class="text-left"><?= date('l', strtotime($inc_date)); ?></td>
+                                                        <td><?= ++$j ?></td>
+                                                        <input type="text" value="<?= $j; ?>" style="display:none" name="day_count[]">
+<?php for($dcl=1; $dcl<=$cl_no;$dcl++){ ?>
+                                                        <td style="text-align:center;">
+                                                            <table class="my table table-striped table-bordered mb30 jambo_table bulk_action">
+                                                                <thead>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php $disable = ""; ?>
+                                                                    <?php for ($attendance = 0; $attendance < count($item_result['Attendance_result']); $attendance++): ?>    
+                    <?php if ($item_result['Attendance_result'][$attendance]['date'] == $item_result['class_value'][$l]['date'] && $item_result['Attendance_result'][$attendance]["class_$dcl"] != '0') : ?>
+                        <?php $disable = "disabled"; ?>
+                        <?php break; ?>
+                                                                                <?php endif; ?>
+
+                                                                            <?php endfor; ?>
+
+                                                                    <tr>
+
+                                                                        <td class='col-md-3'>  
+                                                                            <?php $chekdateinc = 0; ?>
+                                                                            <?php for ($checkdate = 0; $checkdate < count($this->result['class_value']); $checkdate++): ?>
+                                                                                <?php if ($this->result['class_value'][$checkdate]['date'] == $inc_date) { ?>  
+                                                                                    <?php for ($course_result = 0; $course_result < count($item_result['course_result']); $course_result++): ?>
+                                                                                        <?php if ($this->result['course_result'][$course_result]['course_id'] == $this->result['class_value'][$checkdate]["class_$dcl"]) { ?>
+
+
+                                                                                            <?= $this->result['course_result'][$course_result]['course_code']; ?>
+                                                                                            <?php ${"course$dcl"} = 1; ?>
+                                                                                        <?php } ?>
+                                                                                    <?php endfor; ?>
+                                                                                <?php } else { ?>
+                                                                                    <?php $chekdateinc++; ?>
+                    <?php } ?>
+                                                                            <?php endfor; ?>
+                                                                            <?php if (${"course$dcl"} != 1) { ?>
+                                                                                <?= "--"; ?>
+
+                                                                            <?php } ?>
+                                                                        </td>
+                                                                        <td class='col-md-3'>
+                <?php $chekdateinc = 0; ?>
+                <?php for ($checkdate = 0; $checkdate < count($this->result['class_value']); $checkdate++): ?>
+                    <?php if ($this->result['class_value'][$checkdate]['date'] == $inc_date) { ?>  
+                        <?php if (!empty($this->result['class_value'])) echo $this->result['class_value'][$checkdate]["description_$dcl"]; ?>
+                    <?php } ?>
+                <?php endfor; ?>
+                                                                        </td>
+                                                                        <td class='col-md-3'>
+                <?php $chekdateinc = 0; ?>
+                <?php for ($checkdate = 0; $checkdate < count($this->result['class_value']); $checkdate++): ?>
+                    <?php if ($this->result['class_value'][$checkdate]['date'] == $inc_date) { ?>  
+                        <?php if (!empty($this->result['class_value'])) echo $this->result['class_value'][$checkdate]["time_$dcl"]; ?>
+                    <?php } ?>
+                <?php endfor; ?>
+                                                                        </td>
+                                                                         <td class='col-md-3'>
+                <?php $chekdateinc = 0; ?>
+                <?php for ($checkdate = 0; $checkdate < count($this->result['class_value']); $checkdate++): ?>
+                    <?php if ($this->result['class_value'][$checkdate]['date'] == $inc_date) { ?>
+                        <?php if (!empty($this->result['class_value'])){
+                            if(!empty($this->result['class_value'][$checkdate]["room_$dcl"]))
+                          echo !empty($this->result['class_value'][$checkdate]["room_$dcl"])?$room_model->getRecord($this->result['class_value'][$checkdate]["room_$dcl"])['room_number']:'';}?>
+                    <?php } ?>
+                <?php endfor; ?>
+
+                                                                        </td>
+
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+
+                                <?php } ?>
+
+            <?php } ?>
+                                                <?php $l++; ?>
+                                                    </tr>
+
+        <?php endfor; ?>
+                                                </tbody>
+                                            </table>
+
+<?php }else{?>
+    <table class="my table table-striped table-bordered mb30 jambo_table bulk_action" style="width:100%;" id="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:center;">Date </th>	
+                                        <th style="text-align:center;">Day</th>
+                                        <th style="text-align:center;">Day count</th>
+                                       <?php for($dcl=1; $dcl<=$cl_no;$dcl++){ ?>
+                                          <th style="text-align:center;">Class <?=$dcl;?></th>
+                                       <?php }?>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="8" style='text-align: center;'> <?='no data found';?></td>
+                                    </tr>
+                                </tbody>
+    </table>
+<?php } ?>
+<script>
+    $(".close_tr").click(function() {
+            $( ".sub" ).hide();
+     });
+$('#print').click(function(){
+window.print('#grade_data');
+});
+
+     
+</script>

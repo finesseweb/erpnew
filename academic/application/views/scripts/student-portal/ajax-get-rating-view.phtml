@@ -1,0 +1,94 @@
+<?php $result = $this->result; 
+//echo "<pre>"; print_r($result);exit; ?>
+
+
+<div class='col-md-12 col-xs-12'>
+ 
+        <div class="page-header">
+            <!--<h2>Courses</h2>-->
+        </div>
+        <table class="my table table-striped table-bordered  table-shadow" id="dataTable">
+            <thead>
+                <tr>
+                    <th style="text-align:center;">Sl. No </th>
+                    <th class='text-center'>Questions</th>
+                    <th class='text-center'>
+                        <table class='table table-bordered '>
+                            <thead>
+                                <tr >
+                                    <th class="text-center" colspan="<?=count($result['rating']);?>">Rating Scale<th>
+                                </tr>
+                                <tr>
+                                    <?php foreach ($result['rating'] as $key => $value) { ?>
+                                        <th class="text-center"><?= $value['text_filed']; ?></th>
+                                    <?php } ?>
+                                </tr>
+                            </thead>
+                        </table>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $i = 0; $isRequired = 1; $required = 1;?>
+                <?php foreach ($result['course'][0]['questions'] as $key => $value) { ?>
+                <?php //echo "<pre>"; print_r($value); exit;?>
+                    <tr>
+
+                        <td class='text-center'><?= ++$i; ?></td>
+                        <td class='text-left' style="padding-right: 10px;"> <?= $value[0]['text_filed']; ?></td>
+                        <td class='text-center'>
+                            <?php      $question_required = new Application_Model_StudentFeed();  
+                                       $isRequired =  $question_required->isNotRequired($value[0]['Auto_no']);
+                                      
+                            
+                            ?>
+                            <table class="table table-bordered" >
+                                <tbody>
+                                    <tr>
+                                <input type='text' name='count[]' style="display:none" value='<?= $i; ?>' />
+                                <?php foreach ($result['rating'] as $key1 => $value1) { ?>
+
+                                   <?php if($result['course_value'][$key]['feed'] == $value1['rating_value'] ) {?>
+                               <?php  if($isRequired != 2){ ?>
+                                    <th class="text-center">
+                                        <label class='fancy_cont'>
+                                        <input type='radio' name='rate_<?= $i; ?>' checked value='<?= $value[0]['Auto_no'] . "-" . $value1['rating_value']; ?>'/>
+                                         <span class="checkmark"></span>
+                                        </label>
+                                    </th> 
+                                    <?php }else{ ?>
+                                     <?php if($required == 1){ ?>
+                                    <th class="text-center" colspan="5">
+                                        <textarea  name='rate_<?=$i;?>' class='form-control'><?=$result['course_value'][$key]['feed'];?></textarea>
+                                        <input type ='text' style="display:none;" value='<?=$value[0]['Auto_no'];?>' name="Q_<?=$i;?>" />
+                                      </th> 
+                                       <?php  $required+=1; }?>
+                                    
+                                    <?php } }else{ ?>
+                                       <?php  if($isRequired != 2){ ?>
+                                     <th class="text-center">
+                                         <label class='fancy_cont'>
+                                         <input type='radio' name='rate_<?=$i;?>'  value='<?= $value[0]['Auto_no'] . "-" . $value1['rating_value']; ?>'/>
+                                            <span class="checkmark"></span>
+                                         </label>
+                                     </th>
+                                       <?php }else{ ?>
+                                     <?php if($required == 1){ ?>
+                                     <th class="text-center" colspan="5">
+                                         <textarea  name='rate_<?=$i;?>' class='form-control'><?=$result['course_value'][$key]['feed'];?></textarea>
+                                          <input type ='text' style="display:none;" value='<?=$value[0]['Auto_no'];?>' name="Q_<?=$i;?>" />
+                                     </th>
+                                     <?php $required+=1; }?>
+                                       <?php }?>
+                                <?php } }?>
+                    </tr>
+                </tbody>
+            </table>
+    </td>
+            </tr>
+        <?php } ?>
+        </tbody>
+        </table>
+   
+   
+</div>

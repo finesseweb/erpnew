@@ -1,0 +1,641 @@
+<style>
+*{font-weight:300;}
+.col-sm-2{width:14%;}
+</style>
+<?php if ($this->type) { ?>
+<div class="padding-md right_col">
+	<div class="row">
+		<div class="col-md-12">
+		<h3 class="page-title txt-color-blueDark" >
+			<div><i class="fa fa-eye"> Fees Planner</i></div>
+				
+		</h3>
+			<div class="panel panel-default">
+				<form class="no-margin" id="formValidate1" action="<?php echo $this->Fees_form->getAction() ?>" method="post" data-validate="parsley" novalidate>
+					<?php $itemRecord = $this->itemsrecord;
+						if(empty($itemRecord)){?> 
+						<div class="col-sm-3 " style="margin-left:75%;" >
+							<select type="text" onchange="branchDump(0);" class="form-control" id="dump" >
+								<option value="">Dump data from branch</option>									 
+								<?php foreach($this->branchForDump as $k=>$val){									
+								?>										
+								<option value="<?php echo $k;?>" ><?php echo $val;?></option>
+								<?php }?>
+							</select>
+						</div>
+						<?php } ?>
+					<div class="panel-body">
+					<div id="branch_info" >					
+						<div id="TotalForm">
+						<div class="row">
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">Country <span class="asterisk">*</span></label>
+										<?php echo $this->Fees_form->country; ?>
+									</div>											
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">State <span class="asterisk">*</span></label>
+										<?php echo $this->Fees_form->state; ?>
+									</div>											
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">City <span class="asterisk">*</span></label>
+										<?php echo $this->Fees_form->city; ?>
+									</div>											
+								</div>
+								<div class="col-sm-3">	
+									<div class="form-group">
+										<label class="control-label">Location Name <span class="asterisk">*</span></label>
+										<?php echo $this->Fees_form->location_id; ?>
+									</div>										
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-3 ">				
+									<div class="form-group">
+										<label class="control-label">Branch <span class="asterisk">*</span></label>
+										<?php echo $this->Fees_form->branch; ?>
+									</div>									
+								</div>
+								<div class="col-sm-3 ">				
+									<div class="form-group">
+										<label class="control-label">Select Academic Year <span class="asterisk">*</span></label>
+										<?php echo $this->Fees_form->academic_year; ?>
+									</div>									
+								</div>
+
+							<?php /*	<div class="col-sm-3">	
+									<div class="form-group">
+										<label class="control-label">Academic Start Date <span class="asterisk">*</span></label>
+										<div class="input-group">
+											<?php echo $this->Fees_form->academic_start_date; ?>
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+										</div>		
+									</div>										
+								</div>
+								<div class="col-sm-3">	
+									<div class="form-group">
+										<label class="control-label">Academic End Date <span class="asterisk">*</span></label>
+										<div class="input-group">
+											<?php echo $this->Fees_form->academic_end_date; ?>
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+										</div>		
+									</div>										
+								</div>  */?>
+								</div>
+							<?php /* <div class="row">	
+								<div class="col-sm-3 ">				
+									<div class="form-group">
+										<label class="control-label">Weekdays <span class="asterisk">*</span></label>
+										<?php echo $this->Fees_form->weekdays; ?>
+									</div>									
+								</div>
+								<div class="col-sm-3 ">				
+									<div class="form-group">
+										<label class="control-label">Annual Subscription <span class="asterisk">*</span></label>
+										<?php echo $this->Fees_form->annual_subscription; ?>
+									</div>									
+								</div>
+								<div class="col-sm-3 ">				
+									<div class="form-group">
+										<label class="control-label">Student Kit <span class="asterisk">*</span></label>
+										<?php echo $this->Fees_form->student_kit; ?>
+									</div>									
+								</div>
+							</div> */ ?>
+								<?php 
+								$itemRecord = $this->itemsrecord;
+								//echo '<pre>';print_r($itemRecord);die;
+									if(count($itemRecord) > 0 ){ ?>
+										<input type="hidden" name="count_val" id="count_val" value="<?php echo (count($itemRecord) +1 ); ?>" class="count_val">
+									<?php 	$i= 1;
+										foreach($itemRecord as $k=>$data){  //echo '<pre>';print_r($data);die;
+										
+								?>
+								<div  class="row field-margin">
+									<div class="col-sm-3">
+										<label class="control-label"> Program</label>
+										<select type="text" name="fees[program_name][]" onchange="programID(<?php echo $i; ?>);" label="proid<?php echo $i;?>" class="form-control program" id="label_proid">
+											<option value="">Select Program</option>									 
+											<?php foreach($this->program as $k=>$val){
+												$selected='';
+												if($k==$data['program_name']){
+												$selected="selected";
+												}
+											?>										
+											<option value="<?php echo $k;?>" <?php echo $selected;?>><?php echo $val;?></option>
+											<?php }?>
+										</select>
+									</div>
+									
+									
+									
+									<?php /* <div class="col-sm-2 ">
+										<label class="control-label"> </label>
+										<select type="text" name="fees[monthly][]" class="form-control label_rawmclass" >
+											<option value="">Select Type</option>
+											<?php foreach($this->fees_type as $k=>$val){
+												$selected='';
+												if($k==$data['monthly']){
+												$selected="selected";
+												}
+											?>
+											<option value="<?php echo $k;?>" <?php echo $selected;?>><?php echo $val;?></option>
+											<?php }?>
+										</select>
+									</div>
+									<div class="col-sm-1 ">
+										<div class="form-group">
+											<label class="control-label">Amount</label>
+											<input type="text"  class="form-control" name="fees[monthly_amount][]" value="<?php echo $data['monthly_amount'];?>" placeholder=""/> 
+										</div>
+									</div>
+									<div class="col-sm-2 ">
+										<label class="control-label">  </label>
+										<select type="text" name="fees[term][]" class="form-control label_rawmclass" >
+											<option value="">Select Type</option>
+											<?php foreach($this->fees_type as $k=>$val){
+												$selected='';
+												if($k==$data['term']){
+												$selected="selected";
+												}
+											?>
+											<option value="<?php echo $k;?>" <?php echo $selected;?>><?php echo $val;?></option>
+											<?php }?>
+										</select>
+									</div>
+									<div class="col-sm-1 ">
+										<div class="form-group">
+											<label class="control-label">Amount</label>
+											<input type="text"  class="form-control" name="fees[term_amount][]" value="<?php echo $data['term_amount'];?>" placeholder=""/> 
+										</div>
+									</div>
+									<div class="col-sm-2 ">
+										<label class="control-label">  </label>
+										<select type="text" name="fees[yearly][]" class="form-control label_rawmclass" >
+											<option value="">Select Type</option>
+											<?php foreach($this->fees_type as $k=>$val){
+												$selected='';
+												if($k==$data['yearly']){
+												$selected="selected";
+												}
+											?>
+											<option value="<?php echo $k;?>" <?php echo $selected;?>><?php echo $val;?></option>
+											<?php }?>
+										</select>
+									</div>
+									<div class="col-sm-1 ">
+										<div class="form-group">
+											<label class="control-label">Amount</label>
+											<input type="text"  class="form-control" name="fees[yearly_amount][]" value="<?php echo $data['yearly_amount'];?>" placeholder=""/> 
+										</div>
+									</div> */ ?>
+									<div class="col-sm-3 " style="display:none">
+										<div class="form-group">
+											<label class="control-label" >Annual Fee Concession</label>
+											<input type="text" id="concession" class="commonconsession form-control consession_<?php echo $data['program_name'];?>" onchange="concessionPercentage(<?php echo $data['program_name'].','.$i;?>)" label="consession_<?php echo $i;?>" name="fees[concession][]"  value="<?php echo $data['concession'] ?>" placeholder=""/> 
+										</div>
+									</div>	
+										
+									 <?php /* if($i==1) { ?>
+											<a  class="removeclass btn btn-primary remove_class" style="margin-left:0px;margin-top:21px;" href="#">-</a><?php } else { */ ?>
+											<a  class="removeclass btn btn-primary remove_class" style="margin:18px 15px 0px; padding: 7px 19px!important;" href="#">-</a>
+									<?php //} ?>
+								</div>
+								<div id="program_info" label="program_info<?php echo $data['program_name'];?>"  ></div>
+								<?php $i++; }  ?>
+								  <div class="col-sm-3"></div><div class="col-sm-2"></div>
+										<input type="button" value="+" style="margin:24px 12px 0px; padding: 7px 19px!important;" id="AddButton" class="btn btn-primary"> 
+								
+								</div>
+								</div>
+								<?php	}else{?>
+								<div class="row field-margin getconsession" >
+								<input type="hidden" name="count_val" id="count_val" value="1" class="count_val">
+									<div class="col-sm-3 ">
+										<label class="control-label"> Program</label>
+										<select type="text" name="fees[program_name][]" id="program_id" label="proid0" onchange="programID(0)" class="form-control program" >
+											<option value="">Select Program</option>									 
+											<?php foreach($this->program as $k=>$val){
+											?>										
+											<option value="<?php echo $k;?>"><?php echo $val;?></option>
+											<?php }?>
+										</select>
+									</div>
+									<div class="col-sm-3" style="display:none" >
+										<div class="form-group">
+											<label class="control-label">Annual Fee Concession</label>
+											<input type="text"  class="form-control" name="fees[concession][]" id="concession"---onchange="concessionPercentage(0)" label="consession_0" placeholder=""/> 
+										</div>
+									</div>
+									<div class="width10ps">
+										<input type="button" style="margin:24px 15px 0px; padding: 7px 19px!important;" value="+" id="AddButton" class="btn btn-primary adjust-size"> 
+									</div> 
+									
+								</div>	
+								
+								<div id="program_info" label="program_info0" ></div>
+								<?php } ?>
+								<div id="fields"></div>
+								<span class="copy_append" style="display:none">
+								<option value="">Select Program</option>									 
+											<?php foreach($this->program as $k=>$val){
+											?>										
+											<option value="<?php echo $k;?>"><?php echo $val;?></option>
+											<?php }?>
+								</span>
+								<?php /*<div style="display:none" class="select_data" >        
+									<div class="row appended_row getprogramid padding-top field-margin"  id="appended_row1" style="margin-bottom:5px;">
+										<div class="col-sm-3 ">
+										<label class="control-label"> Program</label>
+										<select type="text" name="fees[program_name][]" id="label_proid" class="form-control label_rawmclass"  >
+											<option value="">Select Program</option>									 
+											<?php foreach($this->program as $k=>$val){											
+											?>										
+											<option value="<?php echo $k;?>"><?php echo $val;?></option>
+											
+											<?php }?>
+										</select>
+									</div>
+									<div class="col-sm-2" style="width:13%;display:none">
+										<div class="form-group">
+											<label class="control-label"> Concession /Year</label>
+											<input type="text"  class="form-control" id="label_consession" name="fees[concession][]" placeholder=""/>
+										</div>
+									</div>
+									
+										<a href="#" style="margin-top: 20px;" class="removeclass btn btn-primary remove_class" >-</a>
+									<div id="program_info_item" ></div>	
+								   </div>
+									
+								</div> */?>
+								
+							
+					</div>
+					</div>
+					</div>
+					<div class="panel-footer ">									
+						<div class="row">
+							<div class="col-sm-7 col-sm-offset-5">
+								<?php if ($this->type == 'add') { ?> 
+									<div style="float:left;margin-right:2px;">
+									<button class="btn btn-primary submit">Submit</button>
+									</div>
+									<div style="float:left;padding:0px 10px;">
+									<button type="reset" class="btn btn-danger btn-default">Reset</button>
+									</div>
+								<?php } else { ?>
+									<div >
+									<button class="btn btn-primary submit">Update</button>
+									</div>
+								<?php } ?>
+							</div>
+						</div>
+						</div>
+				</form>
+			</div><!-- /panel -->
+		</div><!-- /.col-->				
+	</div><!-- /.row -->
+
+</div><!-- /.padding-md -->
+<?php } else { ?>
+  
+<?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+     <div class="alert alert-success ">
+<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+<?php echo $this->escape($message); ?>
+</div>
+ <?php } } ?>
+ <!-- widget grid -->
+<div class="right_col">
+	
+		<div class="row">
+	<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+		<h3 class="page-title txt-color-blueDark">
+			<i class="fa fa-bars"> Fees </i>
+				
+		</h3>
+	</div>
+	<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
+		
+		<a class="btn btn-primary pull-right" style="margin-top:25px;" href="<?php echo $this->mainconfig['host']; ?>master/fees/type/add">Add Fees </a>
+
+			
+	</div>
+</div>
+	<div class="x_panel">
+               
+                    <div class="x_title">
+                    <h2> Fees </h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                       </li>
+                      <li><a class=""><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+<div class="x_content">
+		<div class="padding-md clearfix">
+			<table class="table table-striped table-bordered jambo_table bulk_action" id="dataTable">
+				<thead>
+					<tr>
+						<th>S.No.</th>								
+						<th>Branch</th>
+						<th>Action</th>    
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+						$i = 1;
+						$pagination_tr = '';
+						if (count($this->paginator) != 0) {
+						foreach ($this->paginator as $results) {
+					?>
+					<tr>
+						<td><?php echo $i;
+							$i++; ?>
+						</td>
+						<td><?php echo $results['branch_name']; ?></td>
+						<td><a href="<?php echo $this->mainconfig['host']; ?>master/fees/type/edit/id/<?php echo $results['fees_id']; ?>" class="edit" title="Edit"><span class="fa fa-edit fa-lg"></span></a> <?php /* &nbsp; | &nbsp;  <a href="<?php echo $this->mainconfig['host']; ?>master/fees/type/delete/id/<?php echo $results['fees_id']; ?>" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a> */ ?></td>
+
+					</tr>            
+
+						<?php }
+						$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+						} ?>
+
+				</tbody>
+			</table>
+			 <?php echo $pagination_tr; ?>
+		</div><!-- /.padding-md -->
+	</div><!-- /panel -->
+</div>
+</div><!-- /.padding-md -->		
+<?php } ?>
+
+	
+<script type="text/javascript">	
+$(".program option:selected").each(function () { 
+//alert('xas');
+	var branch_id = $(".branch1 option:selected").val();
+		var id = $(this).val();		
+		 $.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-sub-program';?>',
+			data: {id:id,branch_id:branch_id}
+		}).done(function( data ) { 
+			$("#formValidate1 div[label='program_info"+id+"']").html( data );
+		}); 
+
+	}); 
+
+$(document).ready(function() { 
+	/* var count = $('#count_val').val();
+	 
+     $("body").on("click","#AddButton", function(e){ 
+	 //alert(count);
+        $( "#appended_row1:last" ).clone().find("input:text").val("").end().appendTo( "#fields" );			
+			var count_val = count++;
+			var concession = $('#concession').val();
+			$('#count_val').val(count_val);		
+			$('#label_proid').attr('label', 'proid'+count_val);	
+			$('#label_proid').attr('onchange', 'programID('+count_val+')');
+			$('#label_proid').addClass('program');
+			$('#label_consession').attr('onchange', 'concessionPercentage('+count_val+')');
+			$('#label_consession').attr('label', 'consession_'+count_val);
+			$('#label_consession').addClass('commonconsession');			
+			$('#label_consession').addClass('autoincriment_'+count_val);
+			//$('#label_proid').attr('label', 'proid'+count_val);
+			$('#program_info_item').attr('label','program_info'+count_val);
+			$('.commonconsession').val(concession);	
+          return false;		  
+    }); */
+	var count = $('#count').val();
+$("body").on("click","#AddButton",function(event){
+		var count_val = count++;		
+		append_html = '<div class="row" style="">';
+		append_html += '<div class="col-sm-3">Program<select type="text"  class="form-control program" label="proid'+count_val+'" name="fees[program_name][]" onChange="programID('+count_val+') "style="background:#FFFFFF;">'+$('.copy_append').html()+'</select></div>';
+		append_html += '<a  class="removeclass btn btn-primary remove_class" style="margin:18px 15px 0px; padding: 7px 19px!important;"href="#">-</a>'
+		append_html += '<div id="program_info" label="program_info'+count_val+'"  ></div>'
+		append_html += '</div>';
+		$('#fields').append(append_html);
+});
+
+    $("body").on("click",".removeclass", function(e){
+                   $(this).parent('div').remove(); 
+               return false;
+    });
+    
+});
+
+
+
+//for Dump Branch Values	
+function  branchDump(vals){
+	//$('#TotalForm').hide();
+	//$('#TotalForm').empty();	
+	var id = $("#dump").val();	 
+		$.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-branch-dump';?>',
+			data: {id:id}
+		}).done(function( data ) {
+			//$("#formValidate1 div[label='program_info"+vals+"']").html( data );
+			$( "#branch_info").html( data );
+		 });
+	
+		 
+}
+function  programID(vals){ 	
+
+	var id = $("#formValidate1 select[label='proid"+vals+"']").val();
+	//alert(id); 
+	//var branch_id = $('#branch option:selected').val();
+		//alert(branch_id);
+		//$('#concession').attr('onchange', 'concessionPercentage('+id+','+vals+')');
+		//$('#concession').attr('label', 'consession_'+id);
+		$("input[label='consession_"+vals+"']").attr('onchange', 'concessionPercentage('+id+', '+vals+')');
+		$("input[label='consession_"+vals+"']").addClass('consession_'+id);
+		//$('#label_consession').attr('label', 'consession_'+id);
+		//alert(auto);
+		$.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-sub-program-info';?>',
+			data: {id:id}
+		}).done(function( data ) {
+			$("#formValidate1 div[label='program_info"+vals+"']").html( data );
+			//$( "#program_info").html( data );
+		 });
+}	
+	
+	//$(".program option:selected").each(function () { 
+
+	/* var id = $("#label_proid option:selected").val();
+	//alert(id);
+		//$('#concession').attr('onchange', 'concessionPercentage('+id+','+vals+')');
+		//$('#concession').attr('label', 'consession_'+id);
+	//$("input[label='consession_"+vals+"']").attr('onchange', 'concessionPercentage('+id+', '+vals+')');
+	//$("input[label='consession_"+vals+"']").addClass('consession_'+id);
+		//$('#label_consession').attr('label', 'consession_'+id);
+		//alert(id);
+		$.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-sub-program-info';?>',
+			data: {id:id}
+		}).done(function( data ) {
+			//$("#formValidate1 div[label='program_info"+vals+"']").html( data );
+			$( "#program_info").html( data );
+		 });
+		  //}); */
+	
+	
+
+		
+$(document).ready(function() {		
+	// Datepicker
+	$('#academic_start_date').datepicker( {format: 'yyyy-mm-dd'} );
+	$('#academic_end_date').datepicker( {format: 'yyyy-mm-dd'} );
+});
+
+/* function  monthlyFees(program,vals){ 
+	var month_fee = $(".feecalculation input[label='monthFees"+vals+"']").val();
+	
+	var consession = $(".consession_"+program).val();	
+	//var getprogramid = $(".getprogramid  input[data='consession_"+program+"']").val();	
+	var bimonthlyFees = month_fee * 2;
+	var quarterFees = month_fee * 3;
+	var tearm_fee = month_fee * 4;
+	var halfFees = month_fee * 6;
+	var year_fee = month_fee * 12;
+	var consession_fee = (year_fee * consession) / 100;
+	
+	$(".feecalculation input[label='bimonthlyFees"+vals+"']").val( bimonthlyFees );
+	$(".feecalculation input[label='quaterlyFees"+vals+"']").val( quarterFees );
+	$(".feecalculation input[label='termFees"+vals+"']").val( tearm_fee );
+	$(".feecalculation input[label='halfyearFees"+vals+"']").val( halfFees );
+	$(".feecalculation input[label='yearFees"+vals+"']").val( year_fee );
+	$(".feecalculation input[label='concessionFees"+vals+"']").val( consession_fee );
+	
+	/* if(getprogramid != ''){
+		var consession_fee = (year_fee * getprogramid) / 100;
+			$(".getprogramid input[label='termFees"+vals+"']").val( tearm_fee );
+			$(".getprogramid input[label='yearFees"+vals+"']").val( year_fee );
+			$(".getprogramid input[label='concessionFees"+vals+"']").val( consession_fee );
+	}else{
+		    var consession_fee = (year_fee * consession) / 100;
+			$(".feecalculation input[label='termFees"+vals+"']").val( tearm_fee );
+			$(".feecalculation input[label='yearFees"+vals+"']").val( year_fee );
+			$(".feecalculation input[label='concessionFees"+vals+"']").val( consession_fee );
+	} */
+	
+
+function  tutuion_care_fee(program,vals){ 
+var auxillary_fee = $(".feecalculation input[label='auxillaryFees"+vals+"']").val();
+var tution_care_fee = $(".feecalculation input[label='tutioncareFees"+vals+"']").val();
+var month = parseFloat(auxillary_fee)+parseFloat(tution_care_fee);
+//alert(month);
+	var month_fee = $(".feecalculation input[label='monthFees"+vals+"']").val(month);
+	
+	var consession = $(".consession_"+program).val();	
+	//var getprogramid = $(".getprogramid  input[data='consession_"+program+"']").val();	
+	var bimonthlyFees = month * 2;
+	var quarterFees = month * 3;
+	var tearm_fee = month * 4;
+	var halfFees = month * 6;
+	var year_fee = month * 12;
+	var consession_fee = (year_fee * consession) / 100;
+	
+	$(".feecalculation input[label='bimonthlyFees"+vals+"']").val( bimonthlyFees );
+	$(".feecalculation input[label='quaterlyFees"+vals+"']").val( quarterFees );
+	$(".feecalculation input[label='termFees"+vals+"']").val( tearm_fee );
+	$(".feecalculation input[label='halfyearFees"+vals+"']").val( halfFees );
+	$(".feecalculation input[label='yearFees"+vals+"']").val( year_fee );
+	$(".feecalculation input[label='concessionFees"+vals+"']").val( consession_fee );
+	
+	/* if(getprogramid != ''){
+		var consession_fee = (year_fee * getprogramid) / 100;
+			$(".getprogramid input[label='termFees"+vals+"']").val( tearm_fee );
+			$(".getprogramid input[label='yearFees"+vals+"']").val( year_fee );
+			$(".getprogramid input[label='concessionFees"+vals+"']").val( consession_fee );
+	}else{
+		    var consession_fee = (year_fee * consession) / 100;
+			$(".feecalculation input[label='termFees"+vals+"']").val( tearm_fee );
+			$(".feecalculation input[label='yearFees"+vals+"']").val( year_fee );
+			$(".feecalculation input[label='concessionFees"+vals+"']").val( consession_fee );
+	} */
+	
+}
+
+function  concessionPercentage(program_id, vals){
+
+	var concessionVal = $('#concession').val();	
+	$('.commonconsession').val(concessionVal);
+	
+	$(".program  option:selected").each(function () { 	
+		var program = parseFloat($(this).val());
+		
+		var consession = $(".consession_"+program_id).val();
+		var count = 1;
+		//alert(program);
+		$('input.yearly_fee'+program).each(function() { 	
+			var value = parseFloat($(this).val());
+			var consession_fee = 0;		
+			if (!isNaN(value)){ 			
+				consession_fee = (value * consession) / 100;
+			}	
+			$('.concession_fees'+program+'_'+count).val(consession_fee);		
+			count++;
+		});
+	});	
+}
+$('body').on('change', '#country', function() {
+	var id = $(this).val();		
+		$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-state';?>',
+			data: {id:id}
+		}).done(function( data ) {
+			$( "#state").html( data );
+		 });
+});
+$('body').on('change', '#state', function() {
+	var id = $(this).val();		
+		$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-city';?>',
+			data: {id:id}
+		}).done(function( data ) { 
+			$( "#city").html( data );
+		 });
+});
+
+$('body').on('change', '#city', function() {
+	var id = $(this).val();		
+		$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-location';?>',
+			data: {id:id}
+		}).done(function( data ) { 
+			$( "#location_id").html( data );
+		 });
+});
+$('body').on('change','#location_id', function() {
+	var id = $(this).val();		
+		$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-camp-branch';?>',
+			data: {id:id}
+		}).done(function( data ) { 
+			$(".branch_id").html( data );
+		 });
+});
+
+</script>

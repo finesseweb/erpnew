@@ -1,0 +1,277 @@
+<div class="workplace">
+  <?php
+	if ($this->type) {
+	?>
+   
+  <div class="row-fluid">
+		
+               <div class="span12 block-fluid">                 
+                    <div class="head clearfix">
+                     <!-- <div class="isw-cloud"></div> -->    
+                        <h3>Ledger</h3>
+                    </div>
+				<div class="span6" style="width:43%;">
+                                          
+
+                        <div class="row-form clearfix">
+                            <div class="span6">Project Name</div>
+                            <div class="span6">
+									<select name="select">
+											 <option value="0">Select Any Item</option>
+											 <option value="1">Arjun</option>
+											 <option value="0">Abdul</option>
+											 <option value="1">Arnold</option>
+									</select>
+
+							</div>
+                        </div>                         
+                        
+                        <div class="row-form clearfix">
+                            <div class="span6">Non Tender Name</div>
+                            <div class="span6"><input type="text" placeholder="Enter the Tender Name"/></div>
+                        </div>                                   
+
+                        <div class="row-form clearfix">
+                            <div class="span6">Non Tender Number</div>
+                            <div class="span6"><input type="text" placeholder="Enter the Tender Number"/> </div>
+                        </div> 
+						<div class="row-form clearfix">
+                            <div class="span6">Description</div>
+                            <div class="span6"><textarea></textarea> </div>
+                        </div> 
+
+						<div class="row-form clearfix">
+                           <strong>Status</strong><br />
+								
+									
+										<input type="checkbox" value=""/>Active
+													
+									
+									
+										<input type="checkbox" value=""/>Submitted
+									
+									
+										<input type="checkbox" value=""/>InActive
+									
+								
+									<div class="row-form clearfix">
+										<div class="span6">Remarks</div>
+										<div class="span6"><textarea>Enter the Remark</textarea></div>
+									</div>
+									<div class="row-form clearfix">
+										<div class="span6">Date</div>
+										<div class="span6"><input type="text" id="mask_ssn"/></div>
+									</div>
+									
+						 </div>
+                   
+                </div>         
+                <div class="span6" style="width:43%;">
+						<div class="row-form clearfix">
+                            <div class="span6">Tender Number</div>
+                            <div class="span6"><input type="text" disabled  placeholder="-1"/>
+							
+							</div>
+                        </div> 
+
+                        <div class="row-form clearfix">
+                            <div class="span6">Client:</div>
+                            <div class="span6"><input value=""  type="text" disabled  placeholder="All" /> </div>
+                        </div>
+						<div class="row-form clearfix">
+                            <div class="span6">Architect:</div>
+                            <div class="span6"><input value=""  type="text" disabled  placeholder="All"/> </div>
+                        </div>
+						<div class="row-form clearfix">
+                            <div class="span6">Location:</div>
+                            <div class="span6"><input value=""  type="text" disabled  placeholder="All"/>  </div>
+                        </div>
+						
+
+                  </div>
+                                                    
+                </div>
+				
+				<div class="block-fluid" style="padding-top:1%;">
+							
+							<button type="submit" class="btn btn-default" style="margin-left:45%;">Save</button>
+							
+				</div>
+				
+		</div>
+					
+		
+		</div>
+					
+					
+                
+	<div class="dr"><span></span></div>
+  
+  <?php } else { ?>
+  <?php if (count($this->messages))   { 
+
+    foreach ($this->messages as $message) {?>
+  <div class="alert alert-success">
+    <a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+    <?php echo $this->escape($message); ?> </div>
+  <?php } } ?>             
+	
+	<div class="row-fluid">
+		
+		<div class="span12"> 
+
+			<div class="head clearfix">
+				<div class="isw-grid"></div>
+				<h1>Ledger Project Wise</h1>
+				<ul class="buttons">
+					<!-- <li><a href="#" class="isw-download"></a></li>                                                        
+					<li><a href="#" class="isw-attachment"></a></li> -->
+					<li>
+						<a href="#" class="isw-settings"></a>
+						<ul class="dd-list">
+							<li><a href="<?php echo $this->mainconfig['host'];?>inventory/stockandledger/ledger-projectwise/type/add"><span class="isw-plus"></span>Add New </a></li>
+							<!-- <li><a href="#"><span class="isw-edit"></span> Edit</a></li>
+							<li><a href="#"><span class="isw-delete"></span> Delete</a></li> -->
+						</ul>
+					</li>
+				</ul>    
+			</div>
+			<div class="block-fluid" style="padding:1%;">
+				<a  href="<?php echo $this->mainconfig['host'];?>index"><u>Home</u></a>	 &nbsp >> &nbsp Inventory Management &nbsp >> &nbsp Ledger Project Wise
+			</div>
+		<div class="block-fluid" style="padding-top:2%;">
+						 <div class="row-form clearfix">	
+							<label class="checkbox inline span1" >
+                                Type  
+                              </label>
+					
+								
+							  <label class="checkbox inline" style="margin-left:11%;">
+                                    <input type="radio" name="radio2"/> Quantity Based
+                              </label>
+							  <label class="checkbox inline">
+                                    <input type="radio" name="radio2"/>Amount Based 
+                              </label>
+						</div>
+						 <div class="row-form clearfix">	
+							  <label class="checkbox inline span2">
+                               Register 
+                              </label>
+							  <label class="checkbox inline" style="margin-left:2.3%;">
+                                    <input type="radio" name="radio2" /> Inward Register  
+                              </label>
+							  <label class="checkbox inline">
+                                    <input type="radio" name="radio2"/> Outward Register  
+                              </label>
+							  <label class="checkbox inline">
+                                    <input type="radio" name="radio2"/> Stock Register
+                              </label>
+							  <label class="checkbox inline">
+                                    <input type="radio" name="radio2"/> Stock Statement
+                              </label>
+						</div>  
+							
+			<div class="row-fluid">
+				 <div class="span12 ">                 
+						
+					<div class="span6">
+							
+												 
+							<div class="row-form clearfix">
+								<div class="span5">Project Name</div>
+								<div class="span5">
+										<select name="select">
+												 <option value="0">Select Any Item</option>
+												 <option value="1">Arjun</option>
+												 <option value="0">Abdul</option>
+												 <option value="1">Arnold</option>
+										</select>
+								</div>
+							</div>
+							 
+							<div class="row-form clearfix">
+								<div class="span5">From Date</div>
+								<div class="span5">
+										<input type="date"/>
+								</div>
+							</div> 
+															  
+
+					</div> 
+					<div class="span6">
+
+								<div class="row-form clearfix">
+									<div class="span5">Material Name:</div>
+									<div class="span5">
+											<select name="select">
+													 <option value="0">Select Any Item</option>
+													 <option value="1">Arjun</option>
+													 <option value="0">Abdul</option>
+													 <option value="1">Arnold</option>
+											</select>
+									</div>
+								</div> 
+								<div class="row-form clearfix">
+									<div class="span5">To Date</div>
+									<div class="span5">
+											<input type="date" style="width:80%;"/>
+									</div>
+									 <div class="span1"> <button class="btn link_navPopMessages" type="button">Search</button></div>
+								</div> 
+					</div>
+				</div>
+			
+			</div>
+	
+		</div>                           
+			<div class="block-fluid table-sorting clearfix">
+				<table cellpadding="0" cellspacing="0" width="100%" class="table" id="tSortable">
+					<thead>
+						<tr>
+							
+							<th>Date</th>
+							<th>Inward / Transfer Number</th>
+							<th>Inward Quantity</th>
+							<th>Unit</th>
+							<th>Rate</th>
+							<th>Amount</th>
+							<th>Transfer Sent Number</th> 
+							<th>Quantity</th>
+							<th>Unit</th>
+							<th>Rate</th>
+							<th>Amount</th> 
+							<th>Balance Quantity</th>
+							<th>Balance Rate</th>
+							<th>Balance Amount</th>
+									
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							
+							<td>01/04/2015</td>
+							<td>Opening Stock</td>
+							<td>0.000</td>
+							<td>0.000</td>
+							<td>
+							0.000</a>
+							</td>
+							<td>0.000</td>
+							<td>0.000</td>
+							<td>0.000</td> 
+							<td>0.000</td>
+							<td>0.000</td> 
+							<td>0.000</td>
+							<td>0.000</td>
+							<td>0.000</td> 
+							<td>0.000</td>
+							
+						</tr>
+                         
+					</tbody>
+				</table>
+			</div>
+	
+	<div class="dr"><span></span></div> 	
+  <?php } ?>
+</div>

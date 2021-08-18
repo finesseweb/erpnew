@@ -1,0 +1,14 @@
+SONIA HAS TO CHECK ALREADY SUBMITTED WAYBILL BST-20 A and B
+HOW?
+
+
+
+SELECT `sales_invoice_id`, erp_dealer_master.`dealer_id`, `invoice_date`, erp_dealer_master.dealer_added_date, erp_dealer_master.dealer_name, erp_dealer_master.deposit_amount FROM `erp_sales_invoice` left join erp_dealer_master on erp_dealer_master.dealer_id=erp_sales_invoice.dealer_id
+
+SELECT `sales_invoice_id`, erp_dealer_master.`dealer_id`, `invoice_date`, erp_dealer_master.dealer_added_date, erp_dealer_master.dealer_name, erp_dealer_master.deposit_amount FROM `erp_sales_invoice` left join erp_dealer_master on erp_dealer_master.dealer_id=erp_sales_invoice.dealer_id where erp_dealer_master.dealer_added_date >= 2015-08-15 and CURRENT_DATE() <= 2015-11-15
+
+
+SELECT `sales_invoice_id`, erp_dealer_master.`dealer_id`, `invoice_date`, erp_dealer_master.dealer_added_date, erp_dealer_master.dealer_name, erp_dealer_master.deposit_amount FROM `erp_sales_invoice` left join erp_dealer_master on erp_dealer_master.dealer_id=erp_sales_invoice.dealer_id where erp_sales_invoice.invoice_date >= erp_dealer_master.dealer_added_date and erp_sales_invoice.invoice_date <= '2015-11-15'
+
+
+SELECT `sales_invoice_id`, erp_dealer_master.`dealer_id`, `invoice_date`, erp_dealer_master.dealer_added_date, erp_dealer_master.dealer_name, erp_dealer_master.deposit_amount FROM `erp_sales_invoice` left join erp_dealer_master on erp_dealer_master.dealer_id=erp_sales_invoice.dealer_id where (erp_sales_invoice.invoice_date BETWEEN erp_dealer_master.dealer_added_date and '2015-11-15') and erp_sales_invoice.dealer_id='1'

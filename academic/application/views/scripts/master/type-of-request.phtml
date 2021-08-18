@@ -1,0 +1,102 @@
+<?php if ($this->type) { ?>
+<div class="padding-md">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<form class="no-margin" id="formValidate1" action="<?php echo $this->form->getAction() ?>" method="post" data-validate="parsley" novalidate>
+					<div class="panel-heading">									
+						 <h4>Type of Request</h4> 
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Type</label>											
+										<?php echo $this->form->type; ?>
+								</div>
+							</div>
+						</div>
+						<div class="panel-footer ">									
+							<div class="row">
+								<div class="col-sm-7 col-sm-offset-5">
+									<?php if ($this->type == 'add') { ?> 
+										<div style="float:left;margin-right:2px;">
+										<button class="btn btn-primary submit">Submit</button>
+										</div>
+										<div style="float:left;padding:0px 10px;">
+										<button type="reset" class="btn btn-danger btn-default">Reset</button>
+										</div>
+									<?php } else { ?>
+										<div >
+										<button class="btn btn-primary submit">Update</button>
+										</div>
+									<?php } ?>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div><!-- /panel -->
+		</div><!-- /.col-->				
+	</div><!-- /.row -->
+</div><!-- /.padding-md -->	
+<?php } else { ?>
+  
+<?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+     <div class="alert alert-success ">
+<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+<?php echo $this->escape($message); ?>
+</div>
+ <?php } } ?>
+ <!-- widget grid -->
+<div class="padding-md">
+	<div class="panel panel-default table-responsive">
+		<div class="panel-heading">
+			 Type of Request
+			<a class="btn btn-primary pull-right" style="margin-top: -9px;" href="<?php echo $this->mainconfig['host']; ?>master/type-of-request/type/add">Add</a>
+
+		</div>
+		<div class="padding-md clearfix">
+			<table class="table table-striped" id="dataTable">
+				<thead>
+					<tr>
+						<th>S. No</th>
+						<th>Type</th>	 
+						<th>Action</th>   
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+
+						$i = 1;
+						$pagination_tr = '';
+						if (count($this->paginator) != 0) {
+
+						foreach ($this->paginator as $results) {
+
+					?>
+					<tr>
+						<td><?php echo $i;
+
+							 ?>
+						</td>
+						<td><?php echo $results['type']; ?></td>
+						
+						<td><a href="<?php echo $this->mainconfig['host']; ?>master/type-of-request/type/edit/id/<?php echo $results['type_id']; ?>" class="edit" title="Edit"><span class="fa fa-edit fa-lg"></span></a>&nbsp; | &nbsp;  <a href="<?php echo $this->mainconfig['host']; ?>master/type-of-request/type/delete/id/<?php echo $results['type_id']; ?>" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a></td>
+
+					</tr>            
+
+								<?php  $i++;}
+								$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+								} ?>
+
+				</tbody>
+			</table>
+			 <?php echo $pagination_tr; ?>
+		</div><!-- /.padding-md -->
+	</div><!-- /panel -->
+</div><!-- /.padding-md -->		
+<?php } ?>
+
+

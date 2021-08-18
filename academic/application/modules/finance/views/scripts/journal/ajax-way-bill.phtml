@@ -1,0 +1,353 @@
+<?php
+error_reporting(0);
+$date = new Zend_Date();
+//echo '<pre>';
+//print_r($this->record);
+//print_r($this->getItems);
+// die;
+?>
+
+<tr class="purchase-quatation-items-close">
+  <td colspan="9">
+  <div class="col-sm-2" style="float:right; width:10%;">
+          <a class="close_tr btn btn-primary">Close</a>
+    </div>
+		
+    <div class="credit">
+	  <table width="100%">
+		<tr>
+		  <td colspan="8"  align="center"><i>Way Bill</i></td>
+		</tr>
+		<tr>
+		  <td colspan="4" rowspan="3" valign="top"><strong><?php echo $this->company['company_name'];?></strong>
+			<p><?php echo $this->company['company_address1'];?></p></td>
+		  <td colspan="4">Way Bill No. & Date.<?php 
+		    if(strlen($this->record['waybill_id'])==1){
+				echo @(SCI_PREFIX)."000".$this->record['waybill_id'];
+			}else
+			 if(strlen($this->record['waybill_id'])==2){
+			   echo @(SCI_PREFIX)."00".$this->record['waybill_id'];
+			}else
+			 if(strlen($this->record['waybill_id'])==3){
+				echo @(SCI_PREFIX)."0".$this->record['waybill_id'];
+			}
+			else{
+			echo @(SCI_PREFIX)."".$this->record['waybill_id'];
+			}  ?> & <?php echo $this->record['waybill_date'];  ?></td>
+		</tr>
+		<tr>
+		  <td colspan="4">P.Invoice No. & Date.<?php 
+		  if(strlen($this->proforma['proforma_invoice_id'])==1){
+				echo @(SPI_PREFIX)."000".$this->proforma['proforma_invoice_id'];
+			}else
+			 if(strlen($this->proforma['proforma_invoice_id'])==2){
+			   echo @(SPI_PREFIX)."00".$this->proforma['proforma_invoice_id'];
+			}else
+			 if(strlen($this->proforma['proforma_invoice_id'])==3){
+				echo @(SPI_PREFIX)."0".$this->proforma['proforma_invoice_id'];
+			}
+			else{
+			echo @(SPI_PREFIX)."".$this->proforma['proforma_invoice_id'];
+			}
+		  //echo $this->proforma['proforma_invoice_id'];  ?> & <?php echo $this->proforma['proforma_invoice_date'];  ?></td>
+		</tr>
+		<tr>
+		  <td colspan="4">Other Reference (s)</td>
+		</tr>
+		<tr>
+		  <td colspan="4" rowspan="4" valign="top">
+		  <u>Drawee/Consignee</u> <br />
+		  <div style="padding-left:108px; ">
+		  <b> <?php echo $this->record['agent_name'];?></b> <br>
+          <p><?php echo $this->record['agent_address'];  ?> </p>
+		  </div>
+		  </td>
+		  <td colspan="4" ><p>I.E. Code No.:<?php echo $this->company['ie_code_no'];?></p></td>
+		  <!-- only alignment table  --> 
+		</tr>
+		<tr>
+		  <td colspan="4" style="border:0px; border-right:1px solid #000;">TIN: 03261013075</td>
+		</tr>
+		<tr>
+		  <td colspan="4" style="border:0px; border-right:1px solid #000;"></td>
+		</tr>
+		<!-- End-alignment table  -->
+		<tr>
+		 
+		</tr>
+        
+        
+		<tr>
+		  <td colspan="2" align="center"><p>Pre-Carriage by</p>
+			<strong>ROAD<?php //echo $this->proforma['pre_carriage_by'];  ?></strong></td>
+		  <td colspan="2"  width="270" align="center"><p>Place of Receipt by Pre-carrier</p>
+			<strong>LUDHIANA<?php //echo $this->proforma['place_of_receipt_by_pre_carrier'];  ?></strong></td>
+		   <td colspan="2" align="center"><p>Country of Origin of Goods</p>
+			<strong><?php echo $this->proforma['country_of_origin'];  ?></strong></td>
+		  <td colspan="2" align="center" valign="top"><p>Final Destination</p><strong><?php echo $this->record['final_destination'];//$this->proforma['country_final_destinaioon'];  ?></strong></td>
+		  
+		</tr>
+		
+		<tr>
+		  <td colspan="2" align="center"><p>Vessel/Flight No.</p><strong><?php echo $this->proforma['vessel_flight_no'];  ?></strong></td>
+		  <td colspan="2"  align="center"><p>Port of Loading</p>
+			<strong>MUMBAI<?php //echo $this->proforma['port_of_loading'];  ?></strong></td>
+			<td colspan="4" ><p>Terms of Delivery and Payment</p>
+			<p><?php echo $this->record['terms_of_delivery'];  ?><br />
+			<?php echo $this->record['terms_of_payment'];  ?>
+			</p>
+			</td>
+		</tr>        
+		<!--<tr>
+		  <td><strong>NOS/CONTAINER NO.</strong></td>
+		  <td colspan="7"></td>
+		</tr>-->
+		
+		<tr>
+		  <td width="320" align="center" style="border-bottom:0px; border-right:none;"> <p>No. & Kind of Pkgs.<p></td>
+		  <td colspan="3" align="center" style="border-bottom:0px; border-left:none;"><p>Description of Goods</p></td> 
+		   <td colspan="2" style="border-bottom:0px;" align="center" >Quantity</td>
+		  <td colspan="2" style="border-bottom:0px;" align="center">Amount</td>
+		</tr>
+		
+		<tr>
+		<td align="right" colspan="2"  style="border:none; padding:0px; border-bottom:1px solid #000; border-right:none;"></td>
+		  <td align="center" colspan="2"  style="border:none; padding:0px; border-bottom:1px solid #000; border-right:none;"></td>
+		  <td  colspan="2" style="padding:0px; border-top:0px; border-left:1px solid #000;"  align="center"><strong>PCS</strong></td>
+		  <td colspan="2" width="170" style="padding:0px; border-top:0px;"  align="center"><strong>INR</strong></td>
+		</tr>	
+		
+		<?php if($this->getItems){	
+			$total_price=0;
+			$pcs=0;
+			$total_pcs=0;
+			$total_inr=0;
+			$unit_price =0;
+			$total_quantity =0;
+			
+			$i=1;
+			  $dollarValue =  $this->record['dollar_value'];
+			//$product_count = 1;
+			//echo '<pre>';print_r($this->getItems);die;
+			 foreach ($this->getItems as $data_enquiry){ 
+				$total_quantity += $data_enquiry['sales_product_quantity'];				
+				$unit_per_price = ($data_enquiry['sales_product_quantity'] * $data_enquiry['sales_product_unit_price'] ); //$dollarValue );//$data_enquiry['price']);
+				$total_price =  $unit_per_price; //currency_convert('INR', $unit_per_price, 'USD');
+				$unit_price += $unit_per_price; //$data_enquiry['sales_product_unit_price'];
+				$total_inr += $total_price * $dollarValue;
+				
+				$pcs = $data_enquiry['sales_product_quantity'];
+				$total_pcs +=  $pcs;
+			 ?>
+			 <?php }}?>
+		<tr>
+		<td align="center" colspan="4" style="font-size:10px; border-bottom:1px solid #000; border-top:none; border-right:1px solid #000;"> <p style="font-size:10px; ">
+		  AUTO MOBILE TIRES RE-INFORCED WITH NYLON <br/>TYRE CORD WRAP SHEET</p></td>
+		
+	<?php /*	<td align="center" colspan="3"  style="border-bottom:1px solid #000; border-right:none; padding:0px;"><?php echo $data_enquiry['product_name'];?></td>
+		  <td style="border-bottom:1px solid #000; border-left:none; padding:0px;"><div style=" text-align:center; width:80px; float:right; padding:5px 2px; border-left:1px solid #000;"><?php echo $data_enquiry['ply_rating'].' PR';?></div>
+		  </td> */ ?>
+		  <td colspan="2" align="center" style="border-bottom:1px solid #000;"><strong><?php echo $total_quantity;//$data_enquiry['sales_product_quantity'];?></strong></td>
+		  <!--<td align="center"><strong><?php //echo $unit_price;?></strong></td>-->
+		  <td colspan="2" align="center"><strong><?php echo number_format($total_inr,2);//$unit_per_price; //currency_convert('INR', $unit_per_price, 'USD'); ?></strong></td>
+		</tr>
+		
+		
+		<tr>
+		  <td colspan="5" style="border:0px;">Amount Chargeable (in words)</td>
+		  
+		  <td align="center" style="border:0px;">Total </td>
+		  <td colspan="2" align="center"><strong><?php echo number_format($total_inr,2);//$total_price; ?> </strong></td>
+		</tr>
+		<tr>
+		  <td colspan="8" style=" border:none; border-right:1px solid #000;" >(TOTAL: <?php echo rtrim( strtoupper( no_to_words($total_inr) ) ); ?>. )<br /><br /><br /></td>
+		</tr>
+		 <tr>
+		  <td colspan="9" style="border:0px;" ><p>TRANSPORT: <?php echo $this->record['transport']; ?></p>
+		  <p>QTY: <?php echo $total_pcs;?> PCS</p>
+		  <p>CONTAINER NO. <?php echo $this->record['conrainer_no']; ?></p>
+		  <p>GR.NO. <?php echo $this->record['gr_no']; ?></p>
+		           
+          </td>
+		</tr>
+	<?PHP /*	<tr>
+		  <td colspan="2"  style="border:0px;" ><strong>Beneficiary Name -</strong></td>
+		  <td colspan="6"  style="border:0px;" ><?php echo $this->company['beneficiary_name'];?></td>
+		</tr> 
+		<tr>
+		  <td colspan="2"  style="border:0px;" >Beneficiary Account No -.</td>
+		  <td colspan="6"  style="border:0px;" ><?php echo $this->company['company_bank_account_no'];?></td>
+		</tr>
+		<tr>
+		  <td colspan="2"  style="border:0px;" >Beneficiary  Bank Name-</td>
+		  <td colspan="6"  style="border:0px;" ><?php echo $this->company['beneficiary_bank_name'];?></td>
+		</tr>
+		<tr>
+		  <td colspan="2"  style="border:0px;" >Beneficiary  Bank Swift Code -</td>
+		  <td colspan="6"  style="border:0px;" ><?php echo $this->company['bank_swift_code'];?></td>
+		</tr> */ ?>
+		<tr>
+		  <td colspan="2" style="border:0px;"><p></p>
+			<br />
+			<br />
+			<br />
+			<br />
+			<p align="right"><strong></strong></p></td>
+		  <td colspan="3" style="border:0px;"></td>
+		  <td colspan="3" style="border-left:1px solid #000;">Signature & Date<br/>
+			<p>For <?php echo $this->company['company_name']; ?>, </p>
+			<br/><br/>
+			<p align="right"><strong> AUTH. SIGNATORY</strong></p>
+			
+			</td>
+		</tr> 
+	  </table>
+	</div>
+	</td>
+</tr>
+<style type="text/css">
+* {
+	margin: 0px;
+	padding: 0px;
+	font-family: Arial, sans-serif;
+	font-weight: 300;
+}
+.credit table {
+	border-collapse: collapse;
+	width: 100%;
+}
+.credit table, th {
+	border: 1px solid black;
+	padding: 2px;
+	font-size: 12px;
+}
+.credit {
+	width: 100%;
+	height: auto;
+	margin: 0px auto;
+	float: left;
+	border: 1px solid black;
+}
+table {
+	border-collapse: collapse;
+	width: 90%;
+	border: 1px solid #333;
+}
+table, th, td {
+	border: 1px solid black;
+	padding: 5px;
+}
+</style>
+<?php 
+function currency_convert($from_currency="", $price="", $to_currency="") {
+	$value = $price/62.33;
+	return round($value);
+}
+function no_to_words($no)
+{   
+ $words = array('0'=> '' ,'1'=> 'one' ,'2'=> 'two' ,'3' => 'three','4' => 'four','5' => 'five','6' => 'six','7' => 'seven','8' => 'eight','9' => 'nine','10' => 'ten','11' => 'eleven','12' => 'twelve','13' => 'thirteen','14' => 'fouteen','15' => 'fifteen','16' => 'sixteen','17' => 'seventeen','18' => 'eighteen','19' => 'nineteen','20' => 'twenty','30' => 'thirty','40' => 'fourty','50' => 'fifty','60' => 'sixty','70' => 'seventy','80' => 'eighty','90' => 'ninty','100' => 'hundred &','1000' => 'thousand','100000' => 'lakh','10000000' => 'crore');
+    if($no == 0)
+        return ' ';
+    else {
+	$novalue='';
+	$highno=$no;
+	$remainno=0;
+	$value=100;
+	$value1=1000;       
+            while($no>=100)    {
+                if(($value <= $no) &&($no  < $value1))    {
+                $novalue=$words["$value"];
+                $highno = (int)($no/$value);
+                $remainno = $no % $value;
+                break;
+                }
+                $value= $value1;
+                $value1 = $value * 100;
+            }       
+          if(array_key_exists("$highno",$words))
+              return $words["$highno"]." ".$novalue." ".no_to_words($remainno);
+          else {
+             $unit=$highno%10;
+             $ten =(int)($highno/10)*10;            
+             return $words["$ten"]." ".$words["$unit"]." ".$novalue." ".no_to_words($remainno);
+           }
+    }
+}
+
+function convert_number($number)
+{
+	if (($number < 0) || ($number > 999999999))
+	{
+		throw new Exception("Number is out of range");
+	}
+	 
+	$Gn = floor($number / 100000);  /* Millions (giga) */
+	$number -= $Gn * 100000;
+	$kn = floor($number / 1000);     /* Thousands (kilo) */
+	$number -= $kn * 1000;
+	$Hn = floor($number / 100);      /* Hundreds (hecto) */
+	$number -= $Hn * 100;
+	$Dn = floor($number / 10);       /* Tens (deca) */
+	$n = $number % 10;               /* Ones */
+	 
+	$res = "";
+	 
+	if ($Gn)
+	{
+		$res .= convert_number($Gn) . " Lacs";
+	}
+	 
+	if ($kn)
+	{
+		$res .= (empty($res) ? "" : " ") .
+		convert_number($kn) . " Thousand";
+	}
+	 
+	if ($Hn)
+	{
+		$res .= (empty($res) ? "" : " ") .
+		convert_number($Hn) . " Hundred";
+	}
+	 
+	$ones = array("", "One", "Two", "Three", "Four", "Five", "Six",
+	"Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen",
+	"Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eightteen",
+	"Nineteen");
+	$tens = array("", "", "Twenty", "Thirty", "Fourty", "Fifty", "Sixty",
+	"Seventy", "Eigthy", "Ninety");
+	 
+	if ($Dn || $n)
+	{
+	if (!empty($res))
+	{
+		$res .= " and ";
+	}
+	 
+	if ($Dn < 2)
+	{
+		$res .= $ones[$Dn * 10 + $n];
+	}
+	else
+	{
+		$res .= $tens[$Dn];
+	 
+	if ($n)
+	{
+		$res .= "-" . $ones[$n];
+	}
+	}
+	}
+	 
+	if (empty($res))
+	{
+		$res = "zero";
+	}
+	 
+	return $res;
+}  
+?>
+<script>
+    $(".close_tr").click(function() {
+            $( ".purchase-quatation-items-close" ).hide();
+     });
+</script>

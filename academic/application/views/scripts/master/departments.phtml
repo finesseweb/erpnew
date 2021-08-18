@@ -1,0 +1,237 @@
+<?php if ($this->type) { ?>
+<div class="padding-md">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<form class="no-margin" id="formValidate1" action="<?php echo $this->Departments_form->getAction() ?>" method="post" data-validate="parsley" novalidate>
+					<div class="panel-heading">									
+						 <h4>Department</h4> 
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-sm-3 ">				
+								<div class="form-group">
+									<label class="control-label"> Department Name <span class="asterisk">*</span></label>
+									<?php echo $this->Departments_form->department_name; ?>
+								</div>									
+							</div>  
+							<div class="col-sm-3 ">				
+								<div class="form-group">
+									<label class="control-label"> Department Code <span class="asterisk">*</span></label>
+									<?php echo $this->Departments_form->department_code; ?>
+								</div>									
+							</div>  	
+							<div class="col-sm-3">	
+								<div class="form-group">
+									<label class="control-label">Description</label>
+									<?php echo $this->Departments_form->department_description; ?>
+								</div>										
+							</div> 
+							<?php  /*<div class="col-sm-3" style="height: 150px;overflow-y: scroll;margin-top:20px">					
+							<label class="control-label">Modules </label>
+							<?php foreach($this->DropDownModule as $k=>$val){ //print_r($val); die;?>	
+							<label class="label-checkbox" style="padding-left:0px; margin:8px;" >
+							<input type="checkbox"  multiple name="modules[]" class="checkbox" <?php
+										if(!empty($this->result['modules'])){ //print_r($this->result['subprogram_id']); die;
+											$data = explode(',',$this->result['modules']);
+											//print_r($data); die;
+												foreach($data as $key=>$Val){
+													$checked = '';
+													if($k == $Val)
+													echo $checked = 'checked';
+													} } ?> value="<?php echo $k;?>" />
+							<span class="custom-checkbox" style="float:left;" ></span> </label> <?php echo $val; ?>
+							<?php 							
+								if( !empty($this->DropDownSubmodule[$k]) ){ 
+								$sub_module = $this->DropDownSubmodule[$k];
+								?>
+								<?php foreach($sub_module as $key =>$value){ //print_r($value); ?>
+								<label class="label-checkbox" style="padding-left:20px; margin:8px;" >
+								<input type="checkbox"  multiple name="modules[]"  class="checkbox module" <?php
+											if(!empty($this->result['modules'])){ //print_r($this->result['subprogram_id']); die;
+												$data = explode(',',$this->result['modules']);
+												//print_r($data); die;
+													foreach($data as $keys=>$Vals){ 
+														$checked = '';
+														if($key == $Vals)
+														echo $checked = 'checked';
+														} } ?> value="<?php echo $key;?>" />
+								<span class="custom-checkbox" style="float:left;" ></span>
+								</label> <?php echo $value; ?>
+							<?php } } }?>																
+							</div> */ ?>
+							
+							<div class="col-sm-3" style="height: 150px;overflow-y: scroll;margin-top:20px">			
+							<label class="control-label">User Rights Allocation</label>
+							<?php foreach($this->DropDownSubSubmodule as $k=>$sub_module){ //print_r($val);  ?>	
+							<label class="label-checkbox" style="padding-left:0px; margin:8px;" >
+							<input type="checkbox"  multiple name="modules[]" id="module<?php echo $k;?>" class="checkbox module" <?php
+										if(!empty($this->result['modules'])){ //print_r($this->result['subprogram_id']); die;
+											$data = explode(',',$this->result['modules']);
+											//print_r($data); die;
+												foreach($data as $key=>$Val){ 
+													$checked = '';
+													if($k == $Val)
+													echo $checked = 'checked';
+												 	} } ?> value="<?php echo $k;?>" />
+							<span class="custom-checkbox" style="float:left;" ></span>
+							
+							</label> <?php echo $k; ?>
+								<?php 							
+								//if( !empty($this->DropDownSubmodule[$k]) ){ 
+								//$sub_module = $this->DropDownSubmodule[$k];
+								?>
+								<?php foreach($sub_module as $key =>$value){ //print_r($value); ?>
+								<label class="label-checkbox" style="padding-left:20px; margin:8px;" >
+								<input type="checkbox"  multiple name="modules[]" id="module<?php echo $key;?>" class="checkbox module" <?php
+											if(!empty($this->result['modules'])){ //print_r($this->result['subprogram_id']); die;
+												$data = explode(',',$this->result['modules']);
+												//print_r($data); die;
+													foreach($data as $keys=>$Vals){ 
+														$checked = '';
+														if($key == $Vals)
+														echo $checked = 'checked';
+														} } ?> value="<?php echo $key;?>" />
+								<span class="custom-checkbox" style="float:left;" ></span>
+								</label> <?php echo $key; ?>
+								<?php foreach($value as $k1 =>$val1){ //print_r($k1); ?>
+								<label class="label-checkbox" style="padding-left:35px; margin:8px;" >
+								<input type="checkbox"  multiple name="modules[]" id="module<?php echo $k1;?>" class="checkbox module" <?php
+											if(!empty($this->result['modules'])){ //print_r($this->result['subprogram_id']); die;
+												$data = explode(',',$this->result['modules']);
+												//print_r($data); die;
+													foreach($data as $keys=>$Vals){ 
+														$checked = '';
+														if($k1 == $Vals)
+														echo $checked = 'checked';
+														} } ?> value="<?php echo $k1;?>" />
+								<span class="custom-checkbox" style="float:left;" ></span>
+								</label> <?php echo $val1; ?>
+								<?php }  
+								//} 
+							} //print_r($k);
+							}?>									
+							</div>
+							
+
+						</div>
+						<div class="panel-footer ">									
+							<div class="row">
+								<div class="col-sm-7 col-sm-offset-5">
+									<?php if ($this->type == 'add') { ?> 
+										<div style="float:left;margin-right:2px;">
+										<button class="btn btn-primary submit">Submit</button>
+										</div>
+										<div style="float:left;padding:0px 10px;">
+										<button type="reset" class="btn btn-danger btn-default">Reset</button>
+										</div>
+									<?php } else { ?>
+										<div >
+										<button class="btn btn-primary submit">Update</button>
+										</div>
+									<?php } ?>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div><!-- /panel -->
+		</div><!-- /.col-->				
+	</div><!-- /.row -->
+</div><!-- /.padding-md -->	
+<?php } else { ?>
+  
+<?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+     <div class="alert alert-success ">
+<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+<?php echo $this->escape($message); ?>
+</div>
+ <?php } } ?>
+ <!-- widget grid -->
+<div class="padding-md">
+	<div class="panel panel-default table-responsive">
+		<div class="panel-heading">
+			 Departments
+			<a class="btn btn-primary pull-right" style="margin-top: -9px;" href="<?php echo $this->mainconfig['host']; ?>master/departments/type/add">Add Department </a>
+		</div>
+		<div class="padding-md clearfix">
+			<table class="table table-striped" id="dataTable">
+				<thead>
+					<tr>
+						<th>S. No.</th>								
+						<th>Department Name</th> 
+						<th>Description</th>
+						<th>Action</th>   
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+
+						$i = 1;
+						$pagination_tr = '';
+						if (count($this->paginator) != 0) {
+
+						foreach ($this->paginator as $results) {
+
+					?>
+					<tr>
+						<td><?php echo $i;
+
+							$i++; ?>
+						</td>
+						<td><?php echo $results['department_name']; ?></td>
+						<td>
+						<?php 
+						$SubString = substr($results['department_description'],0,25);
+						if(strlen($results['department_description']) >500){
+							echo $SubString.'...';
+						}else{
+							echo $SubString;
+						}
+						 ?>
+						</td>
+						<td><a href="<?php echo $this->mainconfig['host']; ?>master/departments/type/edit/id/<?php echo $results['department_id']; ?>" class="edit" title="Edit"><span class="fa fa-edit fa-lg"></span></a>&nbsp; | &nbsp;  <a href="<?php echo $this->mainconfig['host']; ?>master/departments/type/delete/id/<?php echo $results['department_id']; ?>" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a></td>
+
+					</tr>            
+
+								<?php }
+								$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+								} ?>
+
+				</tbody>
+			</table>
+			 <?php echo $pagination_tr; ?>
+		</div><!-- /.padding-md -->
+	</div><!-- /panel -->
+</div><!-- /.padding-md -->		
+<?php } ?>
+<script type="text/javascript">	
+/*
+$(document).ready(function() { 
+	 var count = $('#count_val').val();
+     $("body").on("click","#AddButton", function(e){ 
+	 
+        $( "#appended_row1:last" ).clone().find("input:text").val("").end().appendTo( "#fields" );			
+			var count_val = count++;
+			$('#count_val').val(count_val);
+          return false;		  
+    });
+
+    $("body").on("click",".removeclass", function(e){
+                   $(this).parent('div').remove(); 
+               return false;
+    });
+});	
+
+$('body').on('change', '#organization_id', function() {		
+	var org_id = $(this).val();		
+		$.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'admission/ajax-get-students';?>',
+			data: {org_id:org_id}
+		}).done(function( data ) {
+			$( "#student_name").html( data );
+		 });
+});	 */
+</script>

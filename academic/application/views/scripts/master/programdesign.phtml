@@ -1,0 +1,934 @@
+<style>
+    @media print {
+                    table td:nth-child(11)
+                     {
+                         display:none;
+                     }
+                     table th:nth-child(11)
+                     {
+                         display:none;
+                     }
+                      *{
+                        visibility:hidden;
+                     }
+                     table,th,td 
+                     {
+                         visibility:visible;                    
+                     } 
+                     .title1
+                     {
+                        visibility:visible; 
+                     }
+                }
+</style>
+<script src="<?php echo $this->mainconfig['publicpath'];?>vendors/select2/dist/js/select2.full.min.js"></script>
+<script src="<?php echo $this->mainconfig['publicpath'];?>js/jquery-ui.min.js"></script>
+<div class="right_col">
+<?php if ($this->type) { ?>
+   
+<div class="padding-md ">
+	<div class="row">
+		<div class="col-md-12">
+		<h3 class="page-title txt-color-blueDark" >
+			<div><i class="fa fa-eye">Program Calendar Year</i></div>
+                     
+		</h3>
+			<div class="panel panel-default">
+				<form class="no-margin" id="formValidate1" action="<?php echo $this->form->getAction() ?>" method="post" data-validate="parsley" >
+					
+					<div class="panel-body">
+							<div class="row">
+							<div class="col-sm-3 ">
+                            <div class="form-group">
+                              <label class="control-label">Batch Code<span class="asterisk">*</span></label>
+                                <?php echo $this->form->short_code; ?>
+                            </div>
+							</div>								
+							<div class="col-sm-3 ">
+                            <div class="form-group">
+                              <label class="control-label">Batch<span class="asterisk">*</span></label>
+                              <input type="text" id="academic_year_id" name="academic_year_id" class="form-control" readonly />  
+                              
+                            </div>
+							</div> 	
+																
+														
+							<div class="col-sm-3 ">
+                            <div class="form-group">
+                              <label class="control-label">Program Name <span class="asterisk">*</span></label>
+                                <?php echo $this->form->pd_name; ?>
+                            </div>
+							</div>
+							
+							<div class="col-sm-3 ">
+                            <div class="form-group">
+                              <label class="control-label">Session Name <span class="asterisk">*</span></label>
+                                <?php echo $this->form->se_name; ?>
+                            </div>
+							</div>
+
+							<div class="col-sm-3 ">
+                            <div class="form-group">
+                              <label class="control-label">Description <span class="asterisk">*</span></label>
+                                <?php echo $this->form->pd_desc; ?>
+                            </div>
+							</div>	
+							
+							<div class="col-sm-3 ">
+                            <div class="form-group">
+                              <label class="control-label">Start Date <span class="asterisk">*</span></label>
+                                <?php echo $this->form->start_date; ?>
+                            </div>
+                                                        
+							</div> 
+							
+							<div class="col-sm-3 ">
+                            <div class="form-group">
+                              <label class="control-label">End Date  <span class="asterisk">*</span></label>
+                                <?php echo $this->form->end_date; ?>
+                            </div>
+							</div>
+							
+							<?php if($this->type=='edit') { ?>
+							<div class="col-sm-3 ">
+                            <div class="form-group">
+                              <label class="control-label">No of Days <span class="asterisk">*</span></label>
+                                <?php //echo $this->form->no_weeks; ?>
+								<input type="text" id="no_days" name="no_days" class="form-control" value="<?php echo $this->result['no_days'];?>"/>
+                            </div>
+							</div>
+							<div class="col-sm-3 ">
+                            <div class="form-group">
+                              <label class="control-label">No of Weeks <span class="asterisk">*</span></label>
+                                <?php //echo $this->form->no_weeks; ?>
+								<input type="text" id="no_weeks" name="no_weeks" class="form-control" value="<?php echo $this->result['no_weeks'];?>"/>
+                            </div>
+							</div>
+							
+							<?php } else{?>
+							<div class="col-sm-3 ">
+                            <div class="form-group">
+                              <label class="control-label">No of Days <span class="asterisk">*</span></label>
+                                <?php //echo $this->form->no_weeks; ?>
+								<input type="text" id="no_days" name="no_days" class="form-control"/>
+                            </div>
+							</div>
+							
+							<div class="col-sm-3 ">
+                            <div class="form-group">
+                              <label class="control-label">No of Weeks <span class="asterisk">*</span></label>
+                                <?php //echo $this->form->no_weeks; ?>
+								<input type="text" id="no_weeks" name="no_weeks" class="form-control"/>
+                            </div>
+							</div>
+							<?php } ?>
+							</div>
+							<!--  <div class="row">
+							<div class="col-sm-3">
+                            <div class="form-group">
+                              <label class="control-label">Sort No.<span class="asterisk">*</span></label>
+                                <?php echo $this->form->sort_no; ?>
+                                 
+                            </div>
+							</div>
+							
+							
+							
+							</div> -->
+							
+							</div>
+						<div>
+                                                     
+						<div class="panel-footer">									
+							<div class="row">
+								<div class="col-sm-7 col-sm-offset-5">
+									<?php if ($this->type == 'add') { ?> 
+                                                                             
+										<div style="float:left;margin-right:2px;">
+										<button class="btn btn-primary submit">Submit</button>
+										</div>
+										<div style="float:left;padding:0px 10px;">
+										<button type="reset" class="btn btn-danger btn-default">Reset</button>
+										</div>
+									<?php } else { ?>
+										<div style="float:left;">
+										<button class="btn btn-primary submit">Update</button>
+										</div>
+										<div style="float:left;">
+										<a class="btn btn-primary" href="<?php echo $this->mainconfig['host']; ?>master/programdesign">Back</a>
+										</div>
+									<?php } ?>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div><!-- /panel -->
+		</div><!-- /.col-->				
+	</div><!-- /.row -->
+	
+</div><!-- /.padding-md -->	
+<?php } else { ?>
+  
+<?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+     <div class="alert alert-success ">
+<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+<?php echo $this->escape($message); ?>
+</div>
+ <?php } } ?>
+ <!-- widget grid -->
+<div class="">
+	<div class="">
+		<div class="row">
+			
+			<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+		<h3 class="page-title txt-color-blueDark">
+			<i class="fa fa-bars"> Program Calendar Year </i>
+				
+		</h3>
+	</div>
+			
+		<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">	 
+			
+			<a class="btn btn-primary pull-right" style="margin-top: 25px;" href="<?php echo $this->mainconfig['host']; ?>master/programdesign/type/add">Add </a>
+		</div>
+		</div>
+		
+		<div class="x_panel">
+               
+                    <div class="x_title">
+                    <h2 class="title1">Program Calendar Year Master</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                       </li>
+                      <li><a class=""><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+   <div class="x_content">
+   
+   <!--<div class="padding-md clearfix">
+			<table class="table-striped table-bordered  jambo_table bulk_action" id="dataTable" width="100%" > -->
+		
+		<div class="padding-md clearfix table-responsive">
+                    <div class="col-sm-0" style="float:right;">
+                                   <!-- <a class="btn btn-primary" target="_blank" href="#<?php //echo $this->mainconfig['host']; ?>fee-structure/structure-pdf/id/<?php //echo $this->structure_id; ?>">Print</a>--><a class="btn btn-link" role="button" href="#" id="print"><span class='glyphicon glyphicon-print'></span></a></div>
+
+			<table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="datatable-responsive">
+				<thead>
+					<tr>
+						<th style="text-align:center;" >S.No.</th>
+						<th style="text-align:center;" >Batch Code</th>
+						<th style="text-align:center;" >Batch</th>
+						<th style="text-align:center;" >Program Name</th>
+						<th style="text-align:center;" >Session Name</th>
+						<th style="text-align:center;" >Description</th>
+						<th style="text-align:center;" >Start Date</th>
+						<th style="text-align:center;" >End Date</th>
+						<th style="text-align:center;" >No of Days</th>
+						<th style="text-align:center;" >No of Weeks</th>
+						<!-- <th>Sort No.</th> -->
+						<th style="text-align:center;" >Action</th>
+					</tr>
+				</thead>
+				<tbody style="text-align:center;">
+					<?php
+
+						$i = 1;
+						$pagination_tr = '';
+						if (count($this->paginator) != 0) {
+//echo'<pre>';print_r($this->paginator);die;
+						foreach ($this->paginator as $results) {
+						
+
+					?>
+							<tr>
+								<td><?php echo $i;
+
+									$i++; ?>
+								</td>						
+								
+								<td><?php echo $results['short_code']; ?></td>
+                                                                <td><?php echo $results['from_date'] .'&nbsp;&nbsp;-&nbsp;&nbsp;'. $results['to_date']; ?></td>                                                                                        <?php 
+                                                                          
+                                                                          // $from_date = array();
+                                                                           //$from_date = $results['from_date']; 
+                                                                         //echo "<pre>";
+                                                                         // echo $from_date; ?>
+								<td><?php echo $results['pm_name']; ?></td>
+								<td><?php echo $results['se_name']; ?></td>
+								<td><?php echo $results['pd_desc']; ?></td>
+								<td><?php echo $results['start_date']; ?></td>
+                                                                <?php GLOBAL $s;
+                                                                      $s= $results['start_date'];
+                                                                      //echo $s;
+                                                                ?> 
+								<td><?php echo $results['end_date']; ?></td>
+								<td><?php echo $results['no_days']; ?></td>
+								<td><?php echo $results['no_weeks']; ?></td>
+								<!-- <td><?php // echo $results['sort_no']; ?></td> -->
+								<td><a href="<?php echo $this->mainconfig['host']; ?>master/programdesign/type/edit/id/<?php echo $results['pd_id']; ?>" class="edit" title="Edit"><span class="fa fa-edit fa-lg"></span></a>&nbsp; | &nbsp;  <a href="<?php echo $this->mainconfig['host']; ?>master/programdesign/type/delete/id/<?php echo $results['pd_id']; ?>" onclick="return ConfirmDelete();" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a></td>
+
+							</tr>            
+
+						<?php }
+						$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+						} ?>
+
+				</tbody>
+			</table>
+                   
+			 <?php echo $pagination_tr; ?>
+		</div><!-- /.padding-md -->
+	</div><!-- /panel -->
+	</div>
+	</div>
+</div><!-- /.padding-md -->		
+<?php }  ?>
+</div>
+
+
+<script>
+
+   //var from_back_days = '';
+   //var to_back_days = '';
+      var d_from = new Date();
+      var d_to = new Date();
+                         
+$(document).ready(function() {	
+    
+    
+        var academic = $('#academic_year_id').val();
+       
+        
+        
+        //alert(academic);
+        //result['from_date']=[];
+       // result['to_date']=[];
+        //var academic_split = academic.split("/");
+         var academic_split = academic.split("-");
+          from_date = academic_split[0];
+          to_date =    academic_split[1];
+        
+         //alert(academic_split[0]);
+         //alert(academic_split[1]);
+        
+        restrictDate(from_date,to_date);
+//        restrictDate(result['from_date'],result['to_date']);
+       
+});
+
+$('body').on('change', '#start_date', function() {
+    
+         start_date=$('#start_date').val();
+        //alert(start_date);
+        var short_id = $('#short_code').val();
+        //alert(short_id);
+  $.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-academic';?>',
+			data: {short_id : short_id}
+		}).done(function( data ) {
+			
+			var result = $.parseJSON(data);
+                        
+			 if(result !=''){
+			$('#academic_year_id').empty('');
+			$('#academic_year_id').val(result['from_date']+'-'+result['to_date']);                                         
+                        
+                        to_date=result['to_date'];
+                        
+                        var dateParts = start_date.split("/");
+	                var checkindate = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+                        
+                        var datePart = to_date.split("/");
+	                var check = new Date(datePart[2], datePart[1] - 1, datePart[0]);
+                        
+                        if(checkindate > check)
+                        {
+                            alert("Start date must be in Batch duration!");
+                             $('#start_date').val("");
+                            $("#no_days" ).val("");
+                            $("#no_weeks" ).val("");
+                            return false;
+                            
+                         }
+                        
+                      
+                                           
+			}                    
+                                     
+		});
+ 
+        
+   
+    
+    
+    
+});
+$('body').on('change', '#end_date', function() {
+    
+         end_date=$('#end_date').val();
+        //alert(end_date);
+        var short_id = $('#short_code').val();
+        //alert(short_id);
+  $.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-academic';?>',
+			data: {short_id : short_id}
+		}).done(function( data ) {
+			
+			var result = $.parseJSON(data);
+                        
+			 if(result !=''){
+			$('#academic_year_id').empty('');
+			$('#academic_year_id').val(result['from_date']+'-'+result['to_date']);                                         
+                        
+                        to_date=result['to_date'];
+                        
+                        var dateParts = end_date.split("/");
+	                var checkindate = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+                     //   alert(checkindate);
+                        
+                        var datePart = to_date.split("/");
+	                var check = new Date(datePart[2], datePart[1] - 1, datePart[0]);
+                        
+                        if(checkindate > check)
+                        {
+                            alert("End date must be in Batch duration!");
+                             $('#end_date').val("");
+                            $("#no_days" ).val("");
+                            $("#no_weeks" ).val("");
+                            return false;
+                            
+                         }
+                        
+                      
+                                           
+			}                    
+                                     
+		});
+ 
+        
+   
+    
+    
+    
+});
+
+$('body').on('change', '#end_date', function() {
+    
+     
+   
+     	
+	var start_date=$('#start_date').val();
+         //alert(start_date);
+         
+	var dateParts = start_date.split("/");
+	var checkindate = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+	
+	
+	var end_date=$('#end_date').val();
+       //alert(end_date);
+        
+          
+        
+	var datePart = end_date.split("/");
+	var check = new Date(datePart[2], datePart[1] - 1, datePart[0]);
+        //alert(check);
+        
+//        if(check > checkindate)
+//        {
+//           // alert("start  date must be smaller  than end  date !");
+//            //end_date=$( "#end_date" ).val("");
+//            $('#start_date').val("");
+//            $("#no_days" ).val("");
+//            $("#no_weeks" ).val("");
+//            return false;
+//           
+//        }
+         if(check < checkindate)
+        {
+           alert("End date must be greater than start date !");
+           end_date=$( "#end_date" ).val("");
+            $('#end_date').val("");
+            $("#no_days" ).val("");
+            $("#no_weeks" ).val("");
+            return false;
+           
+        }
+        
+       
+	var difference = check - checkindate;
+	var days = Math.floor(difference / (1000 * 3600 * 24));
+	var inc_days = days+1;
+	var exdays_in_weeks = inc_days % 7;
+	var diffWeeks = Math.floor(difference / (1000 * 60 * 60 * 24 * 7));
+	
+	$('#batch').html(inc_days);
+	var tot_weeks = diffWeeks+'.'+exdays_in_weeks;
+	if(inc_days !=''){
+            var no_of_weeks = 0;
+	$('#no_days').val(inc_days);
+        var now_rem = inc_days % 7;
+        if(now_rem == 0){
+            no_of_weeks = inc_days/7;
+        }
+        else{
+            no_of_weeks = Math.floor(inc_days/7);
+        }       
+        
+        if(now_rem > 2){
+            no_of_weeks++;
+        }
+	$('#no_weeks').val(Math.round(no_of_weeks));
+	}
+});
+
+	var start_date=$('#start_date').val();
+	var dateParts = start_date.split("/");
+	var checkindate = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+	
+	
+	var end_date=$('#end_date').val();
+	var datePart = end_date.split("/");
+	var check = new Date(datePart[2], datePart[1] - 1, datePart[0]);
+	var difference = check - checkindate;
+	var days = Math.floor(difference / (1000 * 3600 * 24));
+	var inc_days = days+1;
+	var exdays_in_weeks = inc_days % 7;
+	var diffWeeks = Math.floor(difference / (1000 * 60 * 60 * 24 * 7));
+	
+	$('#batch').html(inc_days);
+	var tot_weeks = diffWeeks+'.'+exdays_in_weeks;
+	//alert(tot_weeks);
+	if(inc_days !=0){
+            var no_of_weeks = 0;
+	$('#no_days').val(inc_days);
+        var now_rem = inc_days % 7;
+        if(now_rem == 0){
+            no_of_weeks = inc_days/7;
+        }
+        else{
+            no_of_weeks = Math.floor(inc_days/7);
+        }       
+        
+        if(now_rem > 2){
+            no_of_weeks++;
+        }
+	$('#no_weeks').val(Math.round(no_of_weeks));
+	}
+	
+
+	function ConfirmDelete()
+	{
+	var x = confirm("Are you sure you want to delete?");
+	if(x)
+		return true;
+	else
+		return false;
+	}
+	
+$("#no_days" ).change(function() {
+  $no_days=$( "#no_days" ).val();
+  
+  
+  if(isNaN($no_days))
+  {
+	  alert("Days should be numeric only ");
+	  $("#no_days" ).val("");
+  }
+  
+});	
+
+$("#no_weeks" ).change(function() {
+  $no_weeks=$( "#no_weeks" ).val();
+  
+  if(isNaN($no_weeks))
+  {
+	  alert("Weeks should be numeric only ");
+	  $("#no_weeks" ).val("");
+  }
+  
+});	
+	
+	
+	
+	
+$("#sort_no" ).change(function() {
+  $sort_no=$( "#sort_no" ).val();
+  
+  if(isNaN($sort_no))
+  {
+	  alert("Weeks should be numeric only ");
+	  $("#sort_no" ).val("");
+  }
+  
+});	
+	
+	
+
+	
+$("#pd_name").change(function(){
+	
+	var pd=$('#pd_name').val();
+	$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/get-program-design-same-name';?>',
+			data: {pd:pd}
+		}).done(function( data ) {
+			//alert(data);
+			if((data!='')){
+				alert("This Program name Exists");
+				  $("#pd_name" ).val("");
+			}
+		
+			
+		 });
+});
+
+
+$('body').on('change', '#academic_year_id', function() {	
+
+
+var sel = document.getElementById("academic_year_id");
+var value = sel.options[sel.selectedIndex].value; // or sel.value
+var text = sel.options[sel.selectedIndex].text; 
+//alert(text);
+$('#payslipData').val(text);
+ });
+var academic_year_id =$('#academic_year_id option:selected').text();
+$('#payslipData').val(academic_year_id);
+
+
+
+
+
+$('body').on('change','#short_code',function() {     
+    //alert("short code "); die;
+  var short_id = $('#short_code').val();
+  
+  
+  $.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-academic';?>',
+			data: {short_id : short_id}
+		}).done(function( data ) {
+			
+			var result = $.parseJSON(data);
+                        
+			 if(result !=''){
+			$('#academic_year_id').empty('');
+			$('#academic_year_id').val(result['from_date']+'-'+result['to_date']);
+                        
+                        
+                        if(result['from_date'])
+                        {
+                          //alert("1");  
+                          //getmaxdata();
+                          restrictDate(result['from_date'],result['to_date']);
+                          
+                        }
+                       
+                      
+                      //  academic_fromdate= result['from_date'];
+                       // academic_todate= result['to_date'];
+                        
+                        //alert(academic_fromdate+"==="+academic_todate);
+                         //var todate= result['to_date'];
+                        // alert(fromdate+"===+"todate);
+                        //alert(result['from_date']+"============="+result['to_date']);
+                    
+                      
+                        
+//                         start_date=$('#start_date').val();
+//                         end_date=$('#end_date').val();
+//			//$('#academic_year_id').val(result['from_date']+'-'+result['to_date']);
+//                        restrictDate(start_date,end_date);                       
+			}                    
+                                     
+		});
+        
+  
+   //===========================Get Last Max Date 26/04/2019 satyam============================
+//                 var academic_year_id = $('#short_code').val();        
+//                        if (academic_year_id) {
+//                            /*ajax-get_term_lastdate */
+//                            $.ajax({
+//                                type: "POST",
+//                                url: 'php //echo $this->mainconfig['host'] . 'master/ajax-get-term-max-date'; ?>',
+//                                data: {academic_year_id: academic_year_id}
+//                            }).done(function (data) {
+//                                result = $.parseJSON(data);
+//
+//                                
+//                               if ((data != '')) 
+//                               {
+//                                    alert("End date "+result['end_date']);
+//                                    restrictDate(result['end_date'],result['end_date']);
+//                               }
+//                               else
+//                               {
+//                                   
+//                                   //die;
+//                               }
+//
+//                            });
+//                        }
+           //================================================================================             
+     
+		
+		
+		
+                
+                
+});
+$('body').on('focusout','#start_date',function() {  
+
+getmaxdate();
+
+
+});
+
+function getmaxdate()
+{
+         var academic_year_id = $('#short_code').val();        
+                        if (academic_year_id) {
+                            /*ajax-get_term_lastdate */
+                            $.ajax({
+                                type: "POST",
+                                url: '<?php echo $this->mainconfig['host'] . 'master/ajax-get-term-max-date'; ?>',
+                                data: {academic_year_id: academic_year_id}
+                            }).done(function (data) {
+                                result = $.parseJSON(data);
+                                //alert(result['start_date']);
+
+                                
+                               if ((data != '')) 
+                               {
+                                   // alert("End date "+result['end_date']);
+                                    restrictDate(result['end_date'],result['end_date']);
+                               }
+                              
+
+                            });
+                        }
+}
+
+
+
+//==========================================
+var short_id = $('#short_code option:selected').val();
+		
+		$.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-academic';?>',
+			data: {short_id : short_id}
+		}).done(function( data ) {
+			
+			var result = $.parseJSON(data);
+			if(result !=''){
+			
+			$('#academic_year_id').val(result['from_date']+'-'+result['to_date']);
+			}
+			
+			
+		});	
+
+$('body').on('change','#short_code',function() { 
+		var short_id = $('#short_code').val();
+		
+		$.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-program-name';?>',
+			data: {short_id : short_id}
+		}).done(function( data ) {
+			
+			$('#pd_name').empty('');
+			$('#pd_name').html(data);
+			
+		})	
+});
+
+
+
+
+
+
+
+
+</script>
+
+<script>
+    
+    //=======we have to make this function as global for future purpose
+
+     function restrictDate(from_date,to_date)
+ {
+                      
+                from_date_arr = from_date.split('/');
+                to_date_arr = to_date.split('/');
+                from_back_days = '';
+               to_back_days ='';
+                d_from = new Date();
+                d_to = new Date();
+                
+                
+                 d_from.setFullYear(from_date_arr[2],parseInt(from_date_arr[1]),from_date_arr[0]);
+                
+                 d_to.setFullYear(to_date_arr[2],parseInt(to_date_arr[1]),to_date_arr[0]);
+                 if(from_date !== to_date){
+                 from_back_days = date_diff_indays(dateFormat(new Date(),'mm/dd/yy'),dateFormat(d_from,'mm/dd/yy'));
+                 to_back_days = date_diff_indays(dateFormat(d_to,'mm/dd/yy'),dateFormat(new Date(),'mm/dd/yy'));
+                }
+                else
+                {
+                    from_back_days = date_diff_indays(dateFormat(new Date(),'mm/dd/yy'),dateFormat(d_from,'mm/dd/yy'));
+                 to_back_days = date_diff_indays(dateFormat(new Date(),'mm/dd/yy'),dateFormat(d_to,'mm/dd/yy'));
+                }
+             
+                
+ }
+
+
+function FormAvailable(date) {
+      diffDate = new Date();
+        dmy = date.getDate() + "-" + (date.getMonth()+1) + "-" + date.getFullYear();
+        diffDate.setFullYear(date.getFullYear(),(date.getMonth()+1) ,date.getDate())
+              var cal_diff = date_diff_indays(dateFormat(new Date(),'mm/dd/yy'),dateFormat(diffDate,'mm/dd/yy'));
+ if (cal_diff <= from_back_days) {
+    return [false, "","Available"];
+  } else {
+    return [true,"","unAvailable"];
+  }
+}
+
+
+function toAvailable(date) {
+      diffDate = new Date();
+        dmy = date.getDate() + "-" + (date.getMonth()+1) + "-" + date.getFullYear();
+        diffDate.setFullYear(date.getFullYear(),(date.getMonth()+1) ,date.getDate())
+        if(from_back_days !== to_back_days)
+              var cal_diff = date_diff_indays(dateFormat(diffDate,'mm/dd/yy'),dateFormat(new Date(),'mm/dd/yy'));
+          else
+              var cal_diff = date_diff_indays(dateFormat(new Date(),'mm/dd/yy'),dateFormat(diffDate,'mm/dd/yy'));
+        
+ if (cal_diff <= to_back_days) {
+    return [false, "","Available"];
+  } else {
+    return [true,"","unAvailable"];
+  }
+}
+
+
+
+
+
+
+  var date_obj = {
+    dateFormat: 'dd/mm/yy',
+    changeMonth: true,
+    changeYear: true,
+  //  maxDate: new Date(),
+    beforeShowDay: FormAvailable
+  }  
+ 
+$('#start_date').datepicker(date_obj);
+
+  var date_obj = {
+    dateFormat: 'dd/mm/yy',
+    changeMonth: true,
+    changeYear: true,
+  //  maxDate: new Date(),
+    beforeShowDay: toAvailable
+    } 
+  
+   var date_diff_indays = function(date1, date2) {
+dt1 = new Date(date1);
+dt2 = new Date(date2);
+return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate()) ) /(1000 * 60 * 60 * 24));
+}
+
+var dateFormat = function (date1, format ='dd/mm/yy'){
+     var today = date1;
+var dd = today.getDate();
+var mm = today.getMonth()+1; //January is 0!
+var yyyy = today.getFullYear();
+if(dd<10) {
+dd='0'+dd
+}
+if(mm<10) {
+mm='0'+mm
+}
+today = mm+'/'+dd+'/'+yyyy;  
+return today;
+}
+    
+
+
+ 
+$('#end_date').datepicker(date_obj);
+
+
+</script>
+<!--<script>
+    $('body').on('change','#short_code',function()
+    {     
+       var short_id = $('#short_code').val();
+      // alert(short_id);
+       if(short_id !='')
+       {
+           getmaxdate();
+       }
+       
+    });  
+    
+    
+ </script>   -->
+
+
+<!--<script>
+//=======================================Edited(Date range validation in calendar 25-04-2019===================================================
+ $('body').on('change', '#short_code', function () {
+        var academic_year_id = $('#short_code').val();
+
+        
+        if (academic_year_id) {
+            /*ajax-get_term_lastdate */
+            $.ajax({
+                type: "POST",
+                url: ' //echo $this->mainconfig['host'] . 'master/ajax-get-term-max-date'; ?>',
+                data: {academic_year_id: academic_year_id}
+            }).done(function (data) {
+                result = $.parseJSON(data);
+                //=================================26-04-2019====================================
+                if(result['end_date'])
+                {
+                    alert("value exists!");
+                    alert(result['end_date']);
+                    restrictDate(result['end_date'],result['end_date']);
+                    
+                }  
+                else
+                {
+                    alert("value does not exist");
+                    
+                }
+                //====================================================================
+               if ((data != '')) {
+                    //alert(result['end_date']);
+                      //  restrictDate(result['end_date'],result['end_date']);
+                        
+    }
+              
+            });
+        }
+
+    });
+
+</script>    -->

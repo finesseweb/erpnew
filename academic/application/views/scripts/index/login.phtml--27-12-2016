@@ -1,0 +1,52 @@
+     <div class="container">
+	 <div class="profile clearfix">
+              <div class="profile_pic">
+                <img src="<?php echo $this->mainconfig['publicpath'];?>images/banner2.jpg" style="width:150%;margin-top:43%;padding:2%;border-radius:40px;" alt="..." class="">
+              </div>
+              
+            </div>
+	 </div>
+	  <div class="container">
+	  <div style="margin-left:35%;margin-top:-36%;">
+                  <h1><img src="<?php echo $this->mainconfig['publicpath'];?>images/dmi.png" style="" alt="..." class=""></h1>
+                  </div>
+				  <hr>
+				  </div>
+	 <div class="login_wrapper"  style="margin-left:65%;margin-top:-23%;">
+	
+        <div class="animate form login_form">
+          <section class="login_content">
+            <form method="post">
+              <h1>Login</h1>
+              <div>
+                <input type="text" class="form-control" name="admin_user_name" placeholder="Username" required="" />
+              </div>
+              <div>
+                <input type="password" class="form-control" name="password" placeholder="Password" required="" />
+              </div>
+              <div>
+                <button class="btn btn-default" type="submit">Log in</button>
+                <a class="reset_pass" style="color:#9b131f;text-shadow:0 0.5px 0 #9b131f;" href="#">Lost your password?</a>
+              </div>
+
+              <div class="clearfix"></div>
+			  
+			  <div class="separator">
+              
+
+                <div class="clearfix"></div>
+                <br />
+
+                
+              </div>
+            </form>
+			
+          </section>
+		  <div style="margin-top:40%;margin-left:-85%;">
+                  <p>©2016 All Rights Reserved.</p>
+                </div>
+        </div>
+
+      </div>
+	  
+              

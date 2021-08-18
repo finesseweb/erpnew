@@ -1,0 +1,15 @@
+DROP TABLE IF EXISTS `0_kv_allowances`;
+DROP TABLE IF EXISTS `0_kv_country`;
+DROP TABLE IF EXISTS `0_kv_departments`;
+DROP TABLE IF EXISTS `0_kv_empl_attendancee`;
+DROP TABLE IF EXISTS `0_kv_empl_cv`;
+DROP TABLE IF EXISTS `0_kv_empl_degree`;
+DROP TABLE IF EXISTS `0_kv_empl_experience`;
+DROP TABLE IF EXISTS `0_kv_empl_info`;
+DROP TABLE IF EXISTS `0_kv_empl_job`;
+DROP TABLE IF EXISTS `0_kv_empl_loan`;
+DROP TABLE IF EXISTS `0_kv_empl_option`;
+DROP TABLE IF EXISTS `0_kv_empl_salary`;
+DROP TABLE IF EXISTS `0_kv_empl_training`;
+DROP TABLE IF EXISTS `0_kv_loan_types`;
+DROP TABLE IF EXISTS `0_kv_hrm_tax`;

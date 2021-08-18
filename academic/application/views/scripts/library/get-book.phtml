@@ -1,0 +1,370 @@
+
+<style>
+    .link:link,
+    .link:visited{
+        position: relative;
+        display: inline-block;
+        padding:.2em 2em;
+        border-radius:100px;
+        /*  background-color:#faa2b1;*/
+        -webkit-transition: all .2s;
+        transition: all .2s;
+    }
+
+
+    .link::after{
+        content: "";
+        position:absolute;
+        top:0px;
+        left:0px;
+        background-color:#faa2b1; 
+        width:100%;
+        height:100%;
+        z-index:-1;
+        border-radius:100px;
+        -webkit-transition: all .2s;
+        transition: all .2s;
+    }
+
+
+
+    .link:hover{
+        box-shadow:0px 5px 6px #000;
+    }
+
+    .link:hover::after{
+        transform:scale(2,3);
+
+    }
+
+    .link:active{
+        box-shadow:0px 5px 1px #000;
+    }
+    input[type='checkbox']{display:none;}
+    .checkbox{
+        position:relative;
+        width:1.3em;
+        height:1.3em;
+        border:.1em solid #3C87F9;
+        color: #00c2c2;
+        border-radius: 3px;
+    }
+
+    .checkbox>i{
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform: translate(-50%, -50%);
+    }
+
+
+
+
+</style>
+<?php
+	if($_GET['action']=='remove'){
+		if(!empty($_SESSION["cart_item"])) {
+			foreach($_SESSION["cart_item"] as $k => $v) {
+					if($_GET["code"] == $k)
+						unset($_SESSION["cart_item"][$k]);				
+					if(empty($_SESSION["cart_item"]))
+						unset($_SESSION["cart_item"]);
+					echo "<script>
+								 window.history.go(-1);
+						 </script>";
+			}
+		}
+		
+	}
+
+	$book_count = $this->book_count;
+	$books = $this->books;
+	$isbn = $this->isbn;
+	$userHold = $this->userHold;
+?>
+<span class="isbnnum" style="display:none"><?php echo $isbn; ?></span>
+<div class="right_col">
+    <div class="">
+        <div class="">
+            <div class="panel panel-default">
+                <div class="x_content">
+					<div class="pull-left">
+                        <a href="<?php echo $this->mainconfig['host'].'library/book';?>"><span class="go-back">Go Back</span></a>
+                    </div>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<?php if($_SESSION["cart_item"]){ ?>
+                    <div class="pull-right">
+                        <span class="glyphicon glyphicon-shopping-cart cart_img"><?=$book_count?></span>
+                    </div>
+                    <div class="padding-md clearfix">
+                    	<?php
+                    	
+	                    	if($this->error !=''){
+	                    		 echo $this->error;
+	                    	}
+                    	?>
+						<table class="table table-striped table-bordered mb30 jambo_table bulk_action">
+							<thead>
+								<tr>
+									<th style="text-align:center;">Sl. No.</th>
+									<th style="text-align:center;">ISBN</th>
+									<th class='text-center'>Book Title</th>
+									<th style="text-align:center;">Author</th>
+									<th style="text-align:center;">Publisher</th>
+									<th style="text-align:center">Edition</th>
+									<th style="text-align:center">Copy Number</th>
+									<th style="text-align:center;">Remove</th>
+								</tr>
+							</thead>
+							<tbody style="text-align:center;">
+								<?php
+									$i=1;
+									foreach ($_SESSION["cart_item"] as $item){ ?>
+									
+									<tr>
+										<td><?php echo $i++; ?></td>
+										<td>
+											<?php echo $item["ISBN"]; ?>
+
+											<?php 
+												$isbn=$item["ISBN"];
+												$b_copies = $books->getBookcopiesNumber($isbn);
+												$no_copies=count($b_copies);
+												if($no_copies == 0){
+											?>
+													<span class="label label-danger">not available</span>
+												<?php } ?>
+										</td>
+										<td><?php echo $item["title"]; ?></td>
+										<td><?php echo $item["author"]; ?></td>
+										<td><?php echo $item["publisher"]; ?></td>
+										<td><?php echo $item["edition"]; ?></td>
+										<td><?php echo $item["copy_no"]; ?></td>
+										<td style="text-align:center;"><a href="?action=remove&code=<?php echo $item["ISBN"];?>" class="btnRemoveAction">Remove</a></td>
+									</tr>
+									<?php } ?>
+							</tbody>
+						</table>
+						
+							<!------User Book Data Get----->
+							<?php 
+							
+								if($_SESSION['admin_login']['admin_login']->student_id !=""){
+									$id="No-002";
+								}else{
+									$id="No-001";
+								}
+								
+								$get_holdDate = $books->getHoldBookList($id);
+								$get_IssueB = $books->getIssueBookList($id);
+								
+								$no_book= $get_holdDate[0]['no_book'];
+								$no_book_Is= $get_IssueB[0]['no_book'];
+								
+								
+								$re_date= $get_holdDate[0]['no_day'];
+								if(isset($_SESSION['admin_login']['admin_login']->id)){
+									$user_id=$_SESSION['admin_login']['admin_login']->id;
+								}else{
+									 $user_id=$_SESSION['admin_login']['admin_login']->user_id;
+								}
+								
+								$date = new DateTime('+'.$re_date.' days');
+								$book_issue_date=$date->format('Y-m-d');
+								
+								$user_book=$userHold->getHoldBookList2($user_id);
+								if(!empty($user_book)){
+									$u_hbook=count($user_book);
+								}
+								
+								if($u_hbook !=0){
+									$calculated_isbn_hold=$no_book-$u_hbook;
+								}
+							?>
+								
+								
+								<?php
+								    $userIssuebook=$userHold->getIssueBookList2($user_id);
+									if(!empty($userIssuebook)){
+									 $u_Issuebook=count($userIssuebook);
+									}
+									if($u_Issuebook !=0){
+										$calculated_isbn_issue=$no_book_Is-$u_Issuebook;
+									}
+								?>
+								<form name="booForm" method="POST" action="">
+								<?php 
+								
+								if($u_Issuebook !=0 || $book_count > $no_book_Is){
+								if($u_Issuebook >= $no_book_Is || $book_count > $calculated_isbn_issue){ ?>
+										<button type="button" class="btn btn-primary issuebook" data-toggle="modal" data-target="#issuebook">Click for Issue Book</button> 
+								<?php }else { ?>
+								
+								<?php 
+								foreach ($_SESSION["cart_item"] as $item){ ?>
+									<input type="hidden" name="ISBN[]" value="<?php echo $item["ISBN"]; ?>">
+									<input type="hidden" name="title[]" value="<?php echo $item["title"]; ?>">
+									<input type="hidden" name="author[]" value="<?php echo $item["author"]; ?>">
+									<input type="hidden" name="publisher[]" value="<?php echo $item["publisher"]; ?>">
+									<input type="hidden" name="edition[]" value="<?php echo $item["edition"]; ?>">
+									<input type="hidden" name="copy_no[]" value="<?php echo $item["copy_no"]; ?>">
+								<?php } ?>
+								<button type="submit" name="submit_form" class="btn btn-primary issue_bsec">Click for Issue Book</button> 
+								
+								<?php } }else { ?>
+								<form name="booForm" method="POST" action="">
+								<?php 
+								foreach ($_SESSION["cart_item"] as $item){ ?>
+									<input type="hidden" name="ISBN[]" value="<?php echo $item["ISBN"]; ?>">
+									<input type="hidden" name="title[]" value="<?php echo $item["title"]; ?>">
+									<input type="hidden" name="author[]" value="<?php echo $item["author"]; ?>">
+									<input type="hidden" name="publisher[]" value="<?php echo $item["publisher"]; ?>">
+									<input type="hidden" name="edition[]" value="<?php echo $item["edition"]; 
+									?>">
+									<input type="hidden" name="copy_no[]" value="<?php echo $item["copy_no"]; ?>">
+								<?php } ?>
+								<button type="submit" name="submit_form" class="btn btn-primary issue_bsec">Click for Issue Book</button> 
+								<?php } ?>
+								
+								|| <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Click for Hold Book</button>
+								</form>
+						<!---------------Issue Book---------------------------------->
+						<div class="modal fade" id="issuebook">
+							<div class="modal-dialog">
+								<div class="modal-content">
+								<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">Issue Book</h4>
+								
+								</div>
+								<div class="modal-body">
+									<?php echo " You Can't Issue More Than ".$no_book_Is." Book"; ?>
+								</div>
+								<div class="modal-footer">
+								<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+								</div>
+								</div>
+							</div>
+						</div>
+						<!------Hold Book-------------------------->
+								<div class="modal fade" id="myModal">
+									<div class="modal-dialog">
+										<div class="modal-content">
+										<!-- Modal Header -->
+										<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h4 class="modal-title">Hold Book</h4>
+										
+										</div>
+										<!-- Modal body -->
+										<div class="modal-body">
+										<?php if($u_hbook !=0 || $book_count > $no_book){ ?>
+											<?php if($no_book == $u_hbook || $book_count > $calculated_isbn_hold){ ?>
+											<?php echo " You Can't Hold More Than ".$no_book." Book"; ?>
+											<?php }else { ?>
+												<form name="booForm" method="POST" action="">
+													<?php 
+													foreach ($_SESSION["cart_item"] as $item){ ?>
+														<input type="hidden" name="ISBN[]" value="<?php echo $item["ISBN"]; ?>">
+														<input type="hidden" name="title[]" value="<?php echo $item["title"]; ?>">
+														<input type="hidden" name="author[]" value="<?php echo $item["author"]; ?>">
+														<input type="hidden" name="publisher[]" value="<?php echo $item["publisher"]; ?>">
+														<input type="hidden" name="edition[]" value="<?php echo $item["edition"]; ?>">
+														<input type="hidden" name="copy_no[]" value="<?php echo $item["copy_no"]; ?>">
+													<?php } ?>
+													<div class="form-group">
+													  <label for="pwd">Hold Date:</label>
+													  <input type="date" class="form-control" id="txtDate" name="hold_date" onchange="getdate()" required>
+													</div>
+													<div class="form-group">
+													  <label for="pwd">Issue Book Before:</label>
+													  <input type="text" class="form-control" name="hold_exp" id="follow_Date" value="" readonly required>
+													</div>
+													<button type="submit" name="hold_book" class="btn btn-primary">Submit</button>
+											</form>
+													
+										<?php } } else{ ?>
+												<form name="booForm" method="POST" action="">
+													<?php 
+													foreach ($_SESSION["cart_item"] as $item){ ?>
+													
+														<input type="hidden" name="ISBN[]" value="<?php echo $item["ISBN"]; ?>">
+														<input type="hidden" name="title[]" value="<?php echo $item["title"]; ?>">
+														<input type="hidden" name="author[]" value="<?php echo $item["author"]; ?>">
+														<input type="hidden" name="publisher[]" value="<?php echo $item["publisher"]; ?>">
+														<input type="hidden" name="edition[]" value="<?php echo $item["edition"]; ?>">
+														<input type="hidden" name="copy_no[]" value="<?php echo $item["copy_no"]; ?>">
+													<?php } ?>
+													<div class="form-group">
+													  <label for="pwd">Hold Date:</label>
+													  <input type="date" class="form-control" id="txtDate" name="hold_date" onchange="getdate()" required>
+													</div>
+													<div class="form-group">
+													  <label for="pwd">Issue Book Before:</label>
+													  <input type="text" class="form-control" name="hold_exp" id="follow_Date" value="" readonly required>
+													</div>
+													<button type="submit" name="hold_book" class="btn btn-primary">Submit</button>
+												</form>
+											<?php } ?>
+										</div>
+										<!-- Modal footer -->
+										<div class="modal-footer">
+											<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+										</div>
+										</div>
+									</div>
+								</div>
+								<!------------End Hold Book------------->
+                    </div><!-- /.padding-md -->
+					<?php }else { ?>
+					  <div class="text_content_cart">
+						Your Cart is Empty!!
+					  </div>
+					</div>
+					<?php } ?> 
+                        </div><!-- /panel -->
+                    </div>
+            </div>
+        </div><!-- /.padding-md -->	
+    </div>
+	
+	<script>
+	
+	function getdate() {
+	    var tt = document.getElementById('txtDate').value;
+		var date = new Date(tt);
+		var newdate = new Date(date);
+		var def_noDay=<?php echo $re_date ?>;
+		newdate.setDate(newdate.getDate() + def_noDay);
+		var dd = newdate.getDate();
+		var mm = newdate.getMonth() + 1;
+		var y = newdate.getFullYear();
+		var someFormattedDate = dd + ' / ' + mm + ' / ' + y;
+		document.getElementById('follow_Date').value = someFormattedDate;
+	}
+	
+	</script>
+    <style>
+	.glyphicon.glyphicon-shopping-cart.cart_img {
+		font-size: 30px;
+	}
+   .text_content_cart {
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size:18px;
+	}
+	.go-back {
+		color:blue;
+		font-size:18px
+	}
+    </style>
+
+ 
+
+
+

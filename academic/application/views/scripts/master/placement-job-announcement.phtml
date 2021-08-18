@@ -1,0 +1,511 @@
+  <style>
+/*     satyam 03-04-2019 && 04-04-2019*/
+ 
+
+tr:nth-child(even){background-color: #f2f2f2}
+    @media print {
+                    table td:nth-child(6)
+                     {
+                         display:none;
+                     }
+                     table th:nth-child(6)
+                     {
+                         display:none;
+                     }
+/*                     .htt
+                     {
+                         display:none;                         
+                     }
+                     */
+                     *{
+                        visibility:hidden;
+                     }
+                     table,th,td 
+                     {
+                         visibility:visible;                    
+                     } 
+                     .title1
+                     {
+                        visibility:visible; 
+                     }
+                    
+/*                     .t12{
+                         visibility: visible;
+                     }*/
+/*                      table  
+                     {
+	               display: none;
+	             }	*/
+                   
+
+                }
+</style>
+<script src="<?php echo $this->mainconfig['publicpath'];?>vendors/select2/dist/js/select2.full.min.js"></script>
+<script src="<?php echo $this->mainconfig['publicpath'];?>js/jquery-ui.min.js"></script>
+<div class="right_col">
+<?php if ($this->type) { ?>
+<div class="padding-md">
+	<div class="row">
+		
+		<div class="col-md-12">
+		<h3 class="page-title txt-color-blueDark htt">
+			<div><i class="fa fa-eye"> Job Announcement</i></div>
+		</h3>
+			<div class="panel panel-default">
+				<form class="no-margin" id="formValidate1" action="<?php echo $this->form->getAction() ?>" method="post" data-validate="parsley" >
+					
+					<div class="panel-body">
+						<div class="row masterbox">									
+						<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label"> Job Announcement ID <span class="asterisk">*</span></label>  
+
+	 						                 <?php  
+                               if ($this->type == 'add') { 
+                                 $placement_model = new Application_Model_JobAnnouncement();
+                                $result = $placement_model->getMaxRegistration();
+                              
+                                if ($result['max_id']==0) { 
+                                
+                                	$new_id =0;                               
+                                 preg_match_all("|(\d+)|", $new_id, $input);
+                                 $new_id = $input[0][0]+1;
+
+                                 $str = ''; 
+                                 for($i = strlen($new_id); $i<strlen($input[0][0]);$i++){
+                                 		$str .='0';
+                                 }
+                                 $new_id ='Jb -'.$str.$new_id;
+                                }
+                                if ($result['max_id']) {
+                               
+                                	$new_id =$result['max_id'];                               
+                                 preg_match_all("|(\d+)|", $new_id, $input);
+                                 $new_id = $input[0][0]+1;
+
+                                 $str = '';
+                                 for($i = strlen($new_id); $i<strlen($input[0][0]);$i++){
+                                 		$str .='0';
+                                 }
+                                 $new_id ='Jb -'.$str.$new_id;
+                                }
+                                ?>  
+ 
+                                <input type='text' class='form-control' value ='<?=$new_id;?>' name='job_announcement_id'  id='job_announcement_id' readonly />
+                            	<?php 
+                            	}else
+                            	{
+                            		 ?>
+                    		 <?php echo $this->form->job_announcement_id ; ?>
+                            	 
+                            <?php } ?>
+                            </div>
+                          </div> 
+
+							            <div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label"> Organization Name <span class="asterisk">*</span></label>
+                                <?php echo $this->form->organization_name; ?>
+                            </div>
+                          </div> 
+                            <div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label"> Job Title/Name<span class="asterisk">*</span></label>
+                                <?php echo $this->form->job_title; ?>                                
+                            </div>
+                          </div>   									
+														
+							<div class="col-sm-3 employee_class">
+								<div class="form-group">
+                              <label class="control-label"> No. of Position Offered<span class="asterisk">*</span></label> 
+                                <?php echo $this->form->no_of_position_offered; ?>
+                                <span id="job_offered" class="text-danger"></span>
+
+                            </div> 
+                          </div>
+                      </div>
+							<div class="row masterbox">
+							            <div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label"> Functional Area<span class="asterisk">*</span></label>
+                                <?php echo $this->form->functional_area; ?>
+                            </div>
+                          </div>
+                          	<div class="col-sm-3 employee_class">
+                              <div class="form-group">
+                              <label class="control-label"> Required Skill Set <span class="asterisk">*</span></label>
+                                <?php echo $this->form->required_skill_set; ?>
+                            </div>
+                           </div>
+                          	<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label"> Salary (Annual/CTC)  <span class="asterisk">*</span></label>
+                                <?php echo $this->form->salary; ?>
+                            </div>
+                           </div>
+                          	<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label"> Looking to Hire for <span class="asterisk">*</span></label>
+                                <?php echo $this->form->looking_to_hire_for; ?>
+                            </div>
+                          </div>
+                      </div>
+                          <div class="row masterbox">
+                          	<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label"> Initial Place of Position<span class="asterisk">*</span></label>
+                                <?php echo $this->form->initial_place_of_position; ?>
+                                  <span id="errnumber" style="color:red;"></span>
+                            </div>
+                          </div>
+
+                          	<div class="col-sm-3 employee_class">
+                              <div class="form-group">
+                                <label class="control-label"> Published Date<span class="asterisk">*</span></label>
+                                  <?php echo $this->form->published_date; ?>
+                                  <span id="erremail" style="color:red;"></span>
+                              </div>
+                            </div>
+ 
+                         	 <div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Status<span class="asterisk">*</span></label>
+                                <?php echo $this->form->status; ?>
+                            </div>
+                         </div>
+ 					          	</div><br>
+						
+						<div class="panel-footer">									
+							<div class="row">
+								<div class="col-sm-7 col-sm-offset-5">
+									<?php if ($this->type == 'add') { ?> 
+										<div style="float:left;margin-right:2px;">
+										<button class="btn btn-primary submit" onclick="return confirm();">Submit</button>
+										</div>
+										<div style="float:left;padding:0px 10px;">
+										<button type="reset" class="btn btn-danger btn-default">Reset</button>
+										</div>
+									<?php } else { ?>
+										<div style="float:left;">
+										<button class="btn btn-primary submit">Update</button>
+										</div>
+										<div style="float:left;">
+										<a class="btn btn-primary" href="<?php echo $this->mainconfig['host']; ?>master/placement-job-announcement">Back</a>
+										</div>
+									<?php } ?>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div><!-- /panel -->
+		</div><!-- /.col-->				
+	</div><!-- /.row -->
+	
+</div><!-- /.padding-md -->	
+<?php } else { ?>
+  
+<?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+<div class="alert alert-success">
+<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+<?php echo $this->escape($message); ?>
+</div>
+ <?php } } ?>
+ <!-- widget grid -->
+<div class="">
+	<div class="">
+		<div class="row">
+			
+			<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+		<h3 class="page-title txt-color-blueDark htt">
+			<i class="fa fa-bars "> Job Announcement </i>
+				
+		</h3>
+	</div>
+			
+		<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">	 
+			
+			<a class="btn btn-primary pull-right" style="margin-top: 25px;" href="<?php echo $this->mainconfig['host']; ?>master/placement-job-announcement/type/add">Add </a>
+		</div>
+		</div>
+		
+		<div class="x_panel">
+               
+                    <div class="x_title">
+                    <h2 class="title1"> Job Announcement </h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown ">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                       </li>
+                      <li><a class=""><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+<div class="x_content">
+		
+		<div class="padding-md clearfix">
+                    <div class="col-sm-0" style="float:right";style="overflow-x:auto";>
+                                   <!-- <a class="btn btn-primary" target="_blank" href="#<?php //echo $this->mainconfig['host']; ?>fee-structure/structure-pdf/id/<?php //echo $this->structure_id; ?>">Print</a>--><a class="btn btn-link" role="button" href="#" id="print"><span class='glyphicon glyphicon-print'></span></a></div>
+
+			<table class="table table-striped table-bordered  mb30 jambo_table bulk_action t12 "  id="datatable-responsive">
+				<thead>
+					<tr>
+						<th style="text-align:center;">S. No.</th>												
+						<th style="text-align:center;">Job Announcement Id</th>												
+						<th style="text-align:center;">Organization Name</th>
+						<th style="text-align:center;">Job Title/Name</th>
+						<th style="text-align:center;">No. of Position Offered</th>
+						<th style="text-align:center;">Functional Area</th>
+						<th style="text-align:center;">Required Skill Set</th>
+						<th style="text-align:center;">Salary (Annual/CTC)  </th>
+						<th style="text-align:center;">Looking to Hire for </th>
+						<th style="text-align:center;">Initial Place of Position</th>
+						<th style="text-align:center;">Published Date</th>						 
+						<th style="text-align:center;">Status</th>					 
+						<th style="text-align:center;">Action</th>
+					</tr>
+				</thead>
+				<tbody style="text-align:center;">
+					<?php
+
+						$i = 1;
+						$pagination_tr = '';
+						if (count($this->paginator) != 0) {
+
+						foreach ($this->paginator as $results) {
+						//print_r($results);die;
+
+					?>
+							<tr>
+								<td><?php echo $i;
+
+									$i++; ?>
+								</td>						
+								
+								<td><?php echo $results['job_announcement_id']; ?></td>
+								<td><?php echo $results['organization_name']; ?></td>
+								<td><?php echo $results['job_title']; ?></td>
+								<td><?php echo $results['no_of_position_offered']; ?></td>
+								<td><?php echo $results['functional_area']; ?></td>
+								<td><?php echo $results['required_skill_set']; ?></td>
+								<td><?php echo $results['salary']; ?></td>
+								<td><?php echo $results['looking_to_hire_for']; ?></td>
+								<td><?php echo $results['initial_place_of_position']; ?></td>
+								<td><?php echo $results['published_date']; ?></td>
+								<td><?php echo $results['status']; ?></td>
+                
+								 
+								<!-- <td><?php //echo $results['tot_no_of_credits']; ?></td> -->
+								<td><a href="<?php echo $this->mainconfig['host']; ?>master/placement-job-announcement/type/edit/id/<?php echo $results['id']; ?>" class="edit" title="Edit"><span class="fa fa-edit fa-lg"></span></a>&nbsp; | &nbsp;  <a href="<?php echo $this->mainconfig['host']; ?>master/placement-job-announcement/type/delete/id/<?php echo $results['id']; ?>" onclick="return ConfirmDelete();" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a></td>
+
+							</tr>            
+
+						<?php }
+						$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+						} ?>
+
+				</tbody>
+			</table>
+			 <?php echo $pagination_tr; ?>
+		</div><!-- /.padding-md -->
+	</div><!-- /panel -->
+	</div>
+	</div>
+</div><!-- /.padding-md -->		
+<?php } ?>
+</div>
+
+<script>	
+
+$("#contact_no").keyup(function(){
+	  
+	 var contact_no=$("#contact_no").val();
+		
+		if(!isNaN(contact_no))
+		{
+		
+			if(contact_no.length <11){
+			   return true;
+			}
+			else{
+				// $('#errnumber').text("Mobile Number Should be less than 10 digits");
+				alert("Mobile Number Should be less than 11 digits");
+				$("#contact_no").val("");
+			}
+		}
+		else{
+			// $('#errnumber').text("Mobile Number Should be Numeric Only");
+		    alert("Mobile Number Should be Numeric Only");
+			$("#contact_no").val("");
+		}
+	
+  });
+  
+  $('body').on('keyup','#email_id',function () {
+   
+		var email = $("#email_id").val();
+
+		var isValid = isEmailValid(email);
+		if(isValid == false){
+			//alert("sdffs");
+			$('#erremail').text("Please enter valid email");
+			// $('#to_email').focus();
+			$('#email_id').text("");
+			return false;
+		}else{
+			$('#erremail').text("");
+			return true;
+		}
+}); 
+
+
+    $('body').on('change','#country',function () {
+      var country_id=$(this).val();
+            $.ajax({
+                type: "POST",
+                url: '<?php echo $this->mainconfig['host'] . 'master/ajax-get-state'; ?>',
+                data: {country_id: country_id}
+            }).done(function (data) {
+                //alert(data);
+                $('#state').empty('');
+                $('#state').html(data);
+                $("#state").trigger("chosen:updated");
+            })
+        
+    });
+
+
+
+
+        $('body').on('change','#state',function () {
+      var state_id=$(this).val();
+            $.ajax({
+                type: "POST",
+                url: '<?php echo $this->mainconfig['host'] . 'master/ajax-get-city'; ?>',
+                data: {state_id: state_id}
+            }).done(function (data) {
+                //alert(data);
+                $('#city').empty('');
+                $('#city').html(data);
+                $("#city").trigger("chosen:updated");
+            })
+        
+    });
+
+
+$(document).ready(function() {	
+ $(".chosen").chosen();	
+	$("#from_date").datepicker({ dateFormat: 'dd/mm/yy' }); 
+  $("#published_date").datepicker({ dateFormat: 'dd/mm/yy' }); 
+	$("#to_date").datepicker({ dateFormat: 'dd/mm/yy' });  
+}); 
+	
+	function ConfirmDelete()
+	{
+	var x = confirm("Are you sure you want to delete?");
+	if(x)
+		return true;
+	else
+		return false;
+	}
+	
+	
+$('body').on('change', '#to_date', function() {
+
+	var from_date=$('#from_date').val();
+	var dateParts = from_date.split("/");
+	var checkindate = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+	var to_date=$('#to_date').val();
+	var datePart = to_date.split("/");
+	var check = new Date(datePart[2], datePart[1] - 1, datePart[0]);
+	var difference = check - checkindate;
+	var num_years = Math.floor(difference/31536000000);
+	var num_months = (difference % 31536000000)/2628000000;
+	var days = Math.floor(difference / (1000 * 3600 * 24));
+	var diffWeeks = Math.floor(difference / (1000 * 60 * 60 * 24 * 7));
+	//alert(num_years);
+	//alert(num_months);
+	//if(days <= 731)
+        if(days <= 1465)
+{
+	//alert('Course Sholud be 2 Years');
+}
+else
+{
+	alert('Course Sholud not be More Than 4 Years');
+	$('#to_date').val("");
+	
+}  
+
+});
+
+
+//*---------------[Confirm passwor dfunctrion]--------------------//
+
+$('#password,#confirm_password').keyup(function(){
+blur_pass_value=$('#password').val();
+		blur_confim_pass_value=$('#confirm_password').val();
+		
+		//alert(blur_confim_pass_value+blur_pass_value);
+		$('#confirm_password').parent('.form-group').find('div').remove();
+	if (blur_pass_value!=blur_confim_pass_value) {
+			$('#confirm_password').parent('.form-group').append('<div class="form-control-static text-danger">password does not match !</div>');
+		}
+		else  {
+			 $('#confirm_password').parent('.form-group').find('div').remove();
+		}
+});
+	
+	function confirm(){
+
+blur_pass_value=$('#password').val();
+		blur_confim_pass_value=$('#confirm_password').val();
+		if (blur_pass_value==blur_confim_pass_value) {
+			return true;
+		}
+return false;
+	
+}
+ 
+//---------------------[End Function] -----------------------------//
+	
+$('body').on('change', '#to_date', function() {
+	
+	var from_date=$('#from_date').val();
+	var dateParts = from_date.split("/");
+	var checkindate = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+	
+	
+	var to_date=$('#to_date').val();
+	var datePart = to_date.split("/");
+	var check = new Date(datePart[2], datePart[1] - 1, datePart[0]);
+	var difference = check - checkindate;
+	var days = Math.floor(difference / (1000 * 3600 * 24)) + 1;
+	var diffWeeks = Math.floor(difference / (1000 * 60 * 60 * 24 * 7)) ;
+	
+$('#days').html(days);
+$('#week').html(diffWeeks);
+});
+
+	var from_date=$('#from_date').val();
+	var dateParts = from_date.split("/");
+	var checkindate = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+	
+	
+	var to_date=$('#to_date').val();
+	var datePart = to_date.split("/");
+	var check = new Date(datePart[2], datePart[1] - 1, datePart[0]);
+	var difference = check - checkindate;
+	var days = Math.floor(difference / (1000 * 3600 * 24)) +1;
+	var diffWeeks = Math.floor(difference / (1000 * 60 * 60 * 24 * 7));
+	
+$('#days').html(days);
+$('#week').html(diffWeeks);	
+
+
+ 
+</script>

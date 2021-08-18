@@ -1,0 +1,159 @@
+<?php 
+$subProInfo = $this->subProgramInfo;
+//print_r($subProInfo);die;
+if(isset($subProInfo)){
+	$i = 1;
+	foreach($subProInfo as $k=>$val){ //print_r($val); die;
+?>
+  <?php if($i==1){?>
+	<div class="row field-margin" style="clear:both;">
+		<div class="col-sm-3 ">
+			<label class="control-label"></label>
+			<select type="text" name="fees[fees_type][<?php echo $val['program_id'];?>][]" class="form-control label_rawmclass" >
+				<option value="">Select Type</option>
+				<?php foreach($this->fees_type as $k=>$value){?>
+				<option value="<?php echo $k;?>"><?php echo $value;?></option>
+				<?php }?>
+			</select>
+		</div>
+	 	<div class="col-sm-2">
+			<div class="form-group">
+				<label class="control-label"></label>
+				<input type="text"  class="form-control" name="fees[fees_type_amount][<?php echo $val['program_id'];?>][]" placeholder=""value=""/> 
+			</div>
+		</div> 
+		<div class="width10ps">
+			<input type="button" style="margin:18px 15px 0px; padding: 7px 19px!important;" value="+" onclick="FeesButton(<?php echo $val['program_id'];?>)" id="FeesButton<?php echo $val['program_id'];?>" class="btn btn-primary adjust-size"> 
+		</div> 
+	</div>
+	<div id="FeesFields<?php echo $val['program_id'];?>"></div>
+	<?php } ?>
+	
+	<div class="row field-margin feecalculation" >
+		<div class="col-sm-2 ">
+			<div class="form-group">
+				<label class="control-label">Subprogram</label>
+				<input type="text"  class="form-control" value="<?php echo $val['subprogram_name']; ?>" placeholder=""/>
+				<input type="hidden"  class="form-control" name="fees[sub_program][<?php echo $val['program_id'];?>][]" value="<?php echo $val['subprogram_id']; ?>" placeholder=""/>	
+			</div>
+		</div>
+		<div class="col-sm-2 ">
+			<label class="control-label">Frequency</label>
+			<select type="text" name="fees[frequency][<?php echo $val['program_id'];?>][]" class="form-control " >
+				<option value="">Select Frequency</option>
+				<?php foreach($this->frequency as $k=>$value){
+					$selected = '';
+					//if($k == $val['frequency']){
+					//$selected = 'selected'; }?>
+				 
+				<option value="<?php echo $k;?>" <?php //echo $selected ?>><?php echo $value;?></option>
+				<?php } ?>
+			</select>
+		</div>  
+		<div class="col-sm-2 ">
+			<div class="form-group">
+				<label class="control-label">Auxillary Fee</label>
+				<input type="text"  class="form-control"  onchange="auxillary_fee(<?php echo $val['program_id'];?>,<?php echo $val['subprogram_id'];?>)" label="auxillaryFees<?php echo $val['subprogram_id']; ?>" name="fees[auxillary_fees][<?php echo $val['program_id'];?>][]" value="<?php //echo $val['monthly_fees']; ?>" placeholder=""/> 
+			</div>
+		</div>
+		<div class="col-sm-2 ">
+			<div class="form-group">
+				<label class="control-label">Tution Care Fee</label>
+				<input type="text"  class="form-control"  onchange="tutuion_care_fee(<?php echo $val['program_id'];?>,<?php echo $val['subprogram_id'];?>)" label="tutioncareFees<?php echo $val['subprogram_id']; ?>" name="fees[tution_care_fees][<?php echo $val['program_id'];?>][]" value="<?php //echo $val['monthly_fees']; ?>" placeholder=""/> 
+			</div>
+		</div>
+		<div class="col-sm-2 ">
+			<div class="form-group">
+				<label class="control-label">Monthly Fee</label>
+				<input type="text"  class="form-control"  onchange="monthlyFees(<?php echo $val['program_id'];?>,<?php echo $val['subprogram_id'];?>)" label="monthFees<?php echo $val['subprogram_id']; ?>" name="fees[monthly_fees][<?php echo $val['program_id'];?>][]" value="<?php //echo $val['monthly_fees']; ?>" placeholder=""/> 
+			</div>
+		</div>
+		<div class="col-sm-2 ">
+			<div class="form-group">
+				<label class="control-label">Bi-Monthly Fee</label>
+				<input type="text"  class="form-control"  onchange="bimonthlyFees(<?php echo $val['program_id'];?>,<?php echo $val['subprogram_id'];?>)" label="bimonthlyFees<?php echo $val['subprogram_id']; ?>" name="fees[bi_monthly_fees][<?php echo $val['program_id'];?>][]" value="<?php //echo $val['bi_monthly_fees']; ?>" placeholder=""/> 
+			</div>
+		</div>
+		<div class="col-sm-2 ">
+			<div class="form-group">
+				<label class="control-label">Quarterly Fee</label>
+				<input type="text"  class="form-control"  onchange="quarterlyFees(<?php echo $val['program_id'];?>,<?php echo $val['subprogram_id'];?>)" label="quaterlyFees<?php echo $val['subprogram_id']; ?>" name="fees[quarterly_fees][<?php echo $val['program_id'];?>][]" value="<?php //echo $val['quarterly_fees']; ?>" placeholder=""/> 
+			</div>
+		</div>
+		<div class="col-sm-2 ">
+			<div class="form-group">
+				<label class="control-label">Term Fee</label>
+				<input type="text"  class="form-control"  name="fees[term_fees][<?php echo $val['program_id'];?>][]" label="termFees<?php echo $val['subprogram_id']; ?>" value="<?php //echo $val['term_fees']; ?>" placeholder=""/> 
+			</div>
+		</div>
+		<div class="col-sm-2 ">
+			<div class="form-group">
+				<label class="control-label">Half Annual Fee</label>
+				<input type="text"  class="form-control half_yearly_fee<?php echo $val['program_id'];?>"   name="fees[half_yearly_fees][<?php echo $val['program_id'];?>][]" label="halfyearFees<?php echo $val['subprogram_id']; ?>" value="<?php //echo $val['half_yearly_fees']; ?>"  placeholder=""/> 
+			</div>
+		</div>
+		<div class="col-sm-2 ">
+			<div class="form-group">
+				<label class="control-label">Annual Fee</label>
+				<input type="text"  class="form-control yearly_fee<?php echo $val['program_id'];?>"   name="fees[yearly_fees][<?php echo $val['program_id'];?>][]" label="yearFees<?php echo $val['subprogram_id']; ?>" value="<?php //echo $val['yearly_fees']; ?>"  placeholder=""/> 
+			</div>
+		</div>
+		<div class="col-sm-2">
+			<div class="form-group">
+				<label class="control-label">Concession Amount</label>
+				<input type="text"  class="form-control  concession_fees<?php echo $val['program_id'];?>_<?php echo $i;?>"  name="fees[concession_fees][<?php echo $val['program_id'];?>][]" value="<?php //echo $val['concession_fees']; ?>" label="concessionFees<?php echo $val['subprogram_id']; ?>" placeholder=""/> 
+			</div>
+		</div>
+		<div class="col-sm-1 ">
+			<div class="form-group">
+				<label class="control-label">Total Seats</label>
+				<input type="text"  class="form-control" name="fees[total_seats][<?php echo $val['program_id'];?>][]" value="<?php //echo $val['total_seats'];?>" placeholder=""/> 
+			</div>
+		</div>
+		<a  class="removeclass btn btn-primary remove_class" style="margin:24px 15px 0px; padding: 7px 19px!important;"href="#">-</a>
+	</div>
+	<div style="display:none" class="select_data" >        
+		 <div class="row appended_row getprogramid padding-top field-margin"  id="appended_row2" style="margin-bottom:5px;">
+		<div class="col-sm-3 ">
+			<label class="control-label"> &nbsp;</label>
+			<select type="text" id="label_fees_type" class="form-control label_rawmclass" >
+				<option value="">Select Type</option>
+				<?php foreach($this->fees_type as $k=>$val){?>
+				<option value="<?php echo $k;?>"><?php echo $val;?></option>
+				<?php }?>
+			</select>
+		</div>
+		<div class="col-sm-2 ">
+			<div class="form-group">
+				<!-- <label class="control-label">Amount</label> -->
+				<input type="text" style="margin:24px 0px 0px;" class="form-control" id="label_fees_type_amount" placeholder=""/> 
+			</div>
+		</div> 
+			<a href="#" style="margin:24px 15px 0px; padding: 7px 19px!important;" class="removeclass btn btn-primary remove_class" >-</a>
+	   </div>  
+		
+	</div>
+<?php  
+$i++;
+} 
+
+} ?>
+<script>
+function  FeesButton(program){
+	 //var count = $('#count_val').val();
+	$( "#appended_row2:last" ).clone().find("input:text").val("").end().appendTo( "#FeesFields"+program );			
+			$('#label_fees_type').attr('name', 'fees[fees_type]['+program+'][]');
+			$('#label_fees_type_amount').attr('name', 'fees[fees_type_amount]['+program+'][]');
+			//var count_val = count++;
+			//var concession = $('#concession').val();
+			//$('#count_val').val(count_val);	
+          return false;		  
+    }
+
+    $("body").on("click",".removeclass", function(e){
+                   $(this).parent('div').remove(); 
+               return false;
+    });
+	
+
+</script>					

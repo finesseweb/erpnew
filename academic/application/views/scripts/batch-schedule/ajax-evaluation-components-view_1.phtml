@@ -1,0 +1,919 @@
+
+<?php
+$item_result = $this->result;
+//echo '<pre>'; print_r($item_result); die;  
+?>
+<?php $x=''; ?>
+    <div class="col-sm-0" style="float:right; overflow-y: hidden;">
+                                   <!-- <a class="btn btn-primary" target="_blank" href="#<?php //echo $this->mainconfig['host']; ?>fee-structure/structure-pdf/id/<?php //echo $this->structure_id; ?>">Print</a>--><a class="btn btn-link" role="button" href="#" id="print"><span class='glyphicon glyphicon-print'></span></a></div>
+<?php if($item_result['day_diff']>0){?>
+<table class="my table table-striped table-bordered mb30 jambo_table bulk_action" style="width:100%;" id="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:center;">Date </th>	
+                                        <th style="text-align:center;">Day</th>
+                                        <th style="text-align:center;">Day count</th>
+                                        <th style="text-align:center;">Class I</th>
+                                        <th style="text-align:center;">Class II</th>
+                                        <th style="text-align:center;">Class III</th>
+                                        <th style="text-align:center;">Class IV</th>
+                                        <th style="text-align:center;">Class V</th>
+                                    </tr>
+                                </thead>
+                                <?php $j=0;?>
+                                <?php $l=0; ?>
+                              
+                               
+                             <?php $date = strtr($item_result['start_date'], '/', '-') ?>
+                                <tbody style="text-align:center;">
+                                   <?php for($i=0; $i<=$item_result['day_diff']; $i++ ):?> 
+                                    <?php $inc_date = date("d-m-Y",strtotime($date. ' + '.$i.' days'));?>
+                                    <tr>
+                                        <?php $k=0; ?>
+                                        <?php $holiday_name = ''; ?>
+                                        <?php $background_color =''; ?>
+                                        <?php $text_color = 'red'; ?>
+                                        <?php $border_color =''; ?>
+                                        <?php for($holi =0; $holi<count($item_result['holidays']); $holi++): ?>
+                                        <?php if(strtotime($date. ' + '.$i.' days') >= strtotime(date("m/d/Y", strtotime($item_result['holidays'][$holi]['start']))) AND 
+                                                (strtotime($date. ' + '.$i.' days') <= strtotime(date("m/d/Y", strtotime($item_result['holidays'][$holi]['end']))))){ ?>
+                                                     <?php $k=1; ?>   
+                                                     <?php $holiday_name = $item_result['holidays'][$holi]['title']; ?>
+                                                     <?php $background_color = $item_result['holidays'][$holi]['backgroundColor']; ?>
+                                                     <?php $text_color = $item_result['holidays'][$holi]['textColor']; ?>
+                                                     <?php $border_color = $item_result['holidays'][$holi]['borderColor']; ?>
+                                                     <?php break; ?>
+                                                <?php }endfor; ?>
+                                                <?php if (in_array(date('D', strtotime($inc_date)),$item_result['weekends']) || $k == 1) { ?>
+                                         <input type="text" value="<?=$inc_date;?>" style="display:none" name="date[]">
+                                         <input type="text" value="<?=date('l', strtotime($inc_date));?>" style="display:none;" name="days[]">
+                                         <td style="box-shadow:2px 2px 4px <?=$border_color;?>;  border:2px dashed <?= $border_color; ?>; background-color:<?=$background_color;?>; text-align: center; color:<?=$text_color;?>; font-weight: bold; font-size:130%;"><?=$inc_date;?></td>
+                                         <td colspan='2' style="border:2px dashed <?= $border_color; ?>; background-color:<?=$background_color;?>; text-align: center; color:<?=$text_color;?>; font-weight: bold; font-size:130%;"><?=date('l', strtotime($inc_date))." ".$holiday_name;?></td>
+                                              <td style="border:2px dashed <?= $border_color; ?>; background-color:<?=$background_color;?>; text-align: center; color:<?=$text_color;?>; font-weight: bold; font-size:130%;" >
+                                            <table class="my table table-striped table-bordered mb30 jambo_table bulk_action">
+                                                <thead>
+                                                </thead>
+                                                <tbody>
+                                                      <?php $disable =""; ?>
+                                                <?php  for ($attendance=0; $attendance<count($item_result['Attendance_result']); $attendance++):?>    
+                                                 <?php if($item_result['Attendance_result'][$attendance]['date']==$item_result['class_value'][$l]['date' ]&& $item_result['Attendance_result'][$attendance]['class_1'] != '0') :?>
+                                                   <?php  $disable = "disabled"; ?>
+                                                    <?php break; ?>
+                                            <?php endif; ?>
+                                        
+                                            <?php endfor; ?>
+                                            
+                                           <?php  if($disable == 'disabled') {?>
+                                                  <tr>
+                                                      
+                                                <select class="form-control hidden_select" name='class1[]' style="display:none" >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_1']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select>
+                                                <input style="display:none;"  type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_1']; ?>' name="Extra1[]" />
+                                                      
+                                                      
+                                                      
+                                                    <td>  
+                                                        <select class="form-control show_select"  <?=$disable;?> >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_1']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select></td>
+                                                        <td class='col-md-4'><input <?=$disable; ?> type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_1']; ?>'  /></td>
+                                            
+                                       <?php }else{ ?>
+                                           
+                                            <td>  
+                                                        <select class="form-control show_select" name='class1[]'  >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_1']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select></td>
+                                                        <td class='col-md-4'><input  type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_1']; ?>' name="Extra1[]" /></td>
+                                           
+                                           
+                                       <?php  } ?>
+                                            </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        
+                                        
+                                        <td style="border:2px dashed <?= $border_color; ?>; background-color:<?=$background_color;?>; text-align: center; color:<?=$text_color;?>; font-weight: bold; font-size:130%;">
+                                            <table class="my table table-striped table-bordered mb30 jambo_table bulk_action">
+                                                <thead>
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                         <?php $disable =""; ?>
+                                                <?php  for ($attendance=0; $attendance<count($item_result['Attendance_result']); $attendance++):?>    
+                                                 <?php if($item_result['Attendance_result'][$attendance]['date']==$item_result['class_value'][$l]['date' ]&& $item_result['Attendance_result'][$attendance]['class_2'] != '0') :?>
+                                                   <?php  $disable = "disabled"; ?>
+                                                    <?php break; ?>
+                                            <?php endif; ?>
+                                        
+                                            <?php endfor; ?>  
+                                       <?php  if($disable == 'disabled') {?>
+                                                  <tr>
+                                                      
+                                                <select class="form-control hidden_select" name='class2[]' style="display:none" >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_2']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select>
+                                                <input style="display:none;"  type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_2']; ?>' name="Extra2[]" />
+                                                      
+                                                      
+                                                      
+                                                    <td>  
+                                                        <select class="form-control show_select"  <?=$disable;?> >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_2']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select></td>
+                                                        <td class='col-md-4'><input <?=$disable; ?> type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_2']; ?>'  /></td>
+                                            
+                                       <?php }else{ ?>
+                                           
+                                            <td>  
+                                                        <select class="form-control show_select" name='class2[]'  >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_2']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select></td>
+                                                        <td class='col-md-4'><input  type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_2']; ?>' name="Extra2[]" /></td>
+                                           
+                                           
+                                       <?php  } ?>
+                                            </tr>
+                                                </tbody>
+                                            </table>
+                                            
+                                        </td>
+                                        <td style="border:2px dashed <?= $border_color; ?>; background-color:<?=$background_color;?>; text-align: center; color:<?=$text_color;?>; font-weight: bold; font-size:130%;">
+                                               <table class="my table table-striped table-bordered mb30 jambo_table bulk_action">
+                                                   <thead>
+                                                       
+                                                   </thead>
+                                                   <tbody>
+                                                       
+                                                             <?php $disable =""; ?>
+                                                <?php  for ($attendance=0; $attendance<count($item_result['Attendance_result']); $attendance++):?>    
+                                                 <?php if($item_result['Attendance_result'][$attendance]['date']==$item_result['class_value'][$l]['date' ]&& $item_result['Attendance_result'][$attendance]['class_3'] != '0') :?>
+                                                   <?php  $disable = "disabled"; ?>
+                                                    <?php break; ?>
+                                            <?php endif; ?>
+                                        
+                                            <?php endfor; ?>
+                                                 <?php  if($disable == 'disabled') {?>
+                                                  <tr>
+                                                      
+                                                <select class="form-control hidden_select" name='class3[]' style="display:none" >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_3']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select>
+                                                <input style="display:none;"  type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_3']; ?>' name="Extra3[]" />
+                                                      
+                                                      
+                                                      
+                                                    <td>  
+                                                        <select class="form-control show_select"  <?=$disable;?> >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_3']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select></td>
+                                                        <td class='col-md-4'><input <?=$disable; ?> type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_3']; ?>'  /></td>
+                                            
+                                       <?php }else{ ?>
+                                           
+                                            <td>  
+                                                        <select class="form-control show_select" name='class3[]'  >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_3']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select></td>
+                                                        <td class='col-md-4'><input  type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_3']; ?>' name="Extra3[]" /></td>
+                                           
+                                           
+                                       <?php  } ?>
+                                            </tr>    
+                                                   </tbody>
+                                            </table>
+                                        </td>
+                                        <td style="border:2px dashed <?= $border_color; ?>; background-color:<?=$background_color;?>; text-align: center; color:<?=$text_color;?>; font-weight: bold; font-size:130%;">
+                                             <table class="my table table-striped table-bordered mb30 jambo_table bulk_action">
+                                                 <thead>
+                                                 <thead>
+                                                 <tbody>
+                                                            <?php $disable =""; ?>
+                                                <?php  for ($attendance=0; $attendance<count($item_result['Attendance_result']); $attendance++):?>    
+                                                 <?php if($item_result['Attendance_result'][$attendance]['date']==$item_result['class_value'][$l]['date' ]&& $item_result['Attendance_result'][$attendance]['class_4'] != '0') :?>
+                                                   <?php  $disable = "disabled"; ?>
+                                                    <?php break; ?>
+                                            <?php endif; ?>
+                                        
+                                            <?php endfor; ?>
+                                                     
+                                                     
+                                                <?php  if($disable == 'disabled') {?>
+                                                  <tr>
+                                                      
+                                                <select class="form-control hidden_select" name='class4[]' style="display:none" >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_4']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select>
+                                                <input style="display:none;"  type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_4']; ?>' name="Extra4[]" />
+                                                      
+                                                      
+                                                      
+                                                    <td>  
+                                                        <select class="form-control show_select"  <?=$disable;?> >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_4']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select></td>
+                                                        <td class='col-md-4'><input <?=$disable; ?> type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_4']; ?>'  /></td>
+                                            
+                                       <?php }else{ ?>
+                                           
+                                            <td>  
+                                                        <select class="form-control show_select" name='class4[]'  >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_4']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select></td>
+                                                        <td class='col-md-4'><input  type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_4']; ?>' name="Extra4[]" /></td>
+                                           
+                                           
+                                       <?php  } ?>
+                                            
+                                            </tr>
+                                                 </tbody>
+                                            </table>
+                                        </td>
+                                        <td style="border:2px dashed <?= $border_color; ?>; background-color:<?=$background_color;?>; text-align: center; color:<?=$text_color;?>; font-weight: bold; font-size:130%;">
+                                             <table class="my table table-striped table-bordered mb30 jambo_table bulk_action">
+                                                 <thead>
+                                               
+                                                 </thead>
+                                                 <tbody>
+                                                     
+                                                         <?php $disable =""; ?>
+                                                <?php  for ($attendance=0; $attendance<count($item_result['Attendance_result']); $attendance++):?>    
+                                                 <?php if($item_result['Attendance_result'][$attendance]['date']==$item_result['class_value'][$l]['date' ]&& $item_result['Attendance_result'][$attendance]['class_5'] != '0') :?>
+                                                   <?php  $disable = "disabled"; ?>
+                                                    <?php break; ?>
+                                            <?php endif; ?>
+                                        
+                                            <?php endfor; ?>
+                                                     
+                                                 <?php  if($disable == 'disabled') {?>
+                                                  <tr>
+                                                      
+                                                <select class="form-control hidden_select" name='class5[]' style="display:none" >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_5']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select>
+                                                <input style="display:none;"  type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_5']; ?>' name="Extra5[]" />
+                                                      
+                                                      
+                                                      
+                                                    <td>  
+                                                        <select class="form-control show_select"  <?=$disable;?> >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_5']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select></td>
+                                                        <td class='col-md-4'><input <?=$disable; ?> type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_5']; ?>'  /></td>
+                                            
+                                       <?php }else{ ?>
+                                           
+                                            <td>  
+                                                        <select class="form-control show_select" name='class5[]'  >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_5']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select></td>
+                                                        <td class='col-md-4'><input  type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_5']; ?>' name="Extra5[]" /></td>
+                                           
+                                           
+                                       <?php  } ?>
+                                            </tr>
+                                                 </tbody>
+                                            </table>
+                                        </td>
+                                       <?php }else{?>
+                                        <?php //if(date('l', strtotime($inc_date)) != 'Sunday' AND $k==0) {?>
+                                         <input type="text" value="<?=$inc_date;?>" style="display:none" name="date[]">
+                                                 <td><?=$inc_date;?></td>
+                                        <input type="text" value="<?=date('l', strtotime($inc_date));?>" style="display:none;" name="days[]">
+                                        <td><?=date('l', strtotime($inc_date));?></td>
+                                        <td><?=++$j?></td>
+                                        <input type="text" value="<?=$j;?>" style="display:none" name="day_count[]">
+                                        
+                                        <td style="text-align:center;">
+                                            <table class="my table table-striped table-bordered mb30 jambo_table bulk_action">
+                                                <thead>
+                                                </thead>
+                                                <tbody>
+                                                      <?php $disable =""; ?>
+                                                <?php  for ($attendance=0; $attendance<count($item_result['Attendance_result']); $attendance++):?>    
+                                                 <?php if($item_result['Attendance_result'][$attendance]['date']==$item_result['class_value'][$l]['date' ]&& $item_result['Attendance_result'][$attendance]['class_1'] != '0') :?>
+                                                   <?php  $disable = "disabled"; ?>
+                                                    <?php break; ?>
+                                            <?php endif; ?>
+                                        
+                                            <?php endfor; ?>
+                                            
+                                           <?php  if($disable == 'disabled') {?>
+                                                  <tr>
+                                                      
+                                                <select class="form-control hidden_select" name='class1[]' style="display:none" >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_1']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select>
+                                                <input style="display:none;"  type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_1']; ?>' name="Extra1[]" />
+                                                      
+                                                      
+                                                      
+                                                    <td>  
+                                                        <select class="form-control show_select"  <?=$disable;?> >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_1']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select></td>
+                                                        <td class='col-md-4'><input <?=$disable; ?> type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_1']; ?>'  /></td>
+                                            
+                                       <?php }else{ ?>
+                                           
+                                            <td>  
+                                                        <select class="form-control show_select" name='class1[]'  >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_1']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select></td>
+                                                        <td class='col-md-4'><input  type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_1']; ?>' name="Extra1[]" /></td>
+                                           
+                                           
+                                       <?php  } ?>
+                                            </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        
+                                        
+                                        <td>
+                                            <table class="my table table-striped table-bordered mb30 jambo_table bulk_action">
+                                                <thead>
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                         <?php $disable =""; ?>
+                                                <?php  for ($attendance=0; $attendance<count($item_result['Attendance_result']); $attendance++):?>    
+                                                 <?php if($item_result['Attendance_result'][$attendance]['date']==$item_result['class_value'][$l]['date' ]&& $item_result['Attendance_result'][$attendance]['class_2'] != '0') :?>
+                                                   <?php  $disable = "disabled"; ?>
+                                                    <?php break; ?>
+                                            <?php endif; ?>
+                                        
+                                            <?php endfor; ?>  
+                                       <?php  if($disable == 'disabled') {?>
+                                                  <tr>
+                                                      
+                                                <select class="form-control hidden_select" name='class2[]' style="display:none" >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_2']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select>
+                                                <input style="display:none;"  type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_2']; ?>' name="Extra2[]" />
+                                                      
+                                                      
+                                                      
+                                                    <td>  
+                                                        <select class="form-control show_select"  <?=$disable;?> >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_2']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select></td>
+                                                        <td class='col-md-4'><input <?=$disable; ?> type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_2']; ?>'  /></td>
+                                            
+                                       <?php }else{ ?>
+                                           
+                                            <td>  
+                                                        <select class="form-control show_select" name='class2[]'  >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_2']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select></td>
+                                                        <td class='col-md-4'><input  type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_2']; ?>' name="Extra2[]" /></td>
+                                           
+                                           
+                                       <?php  } ?>
+                                            </tr>
+                                                </tbody>
+                                            </table>
+                                            
+                                        </td>
+                                        <td>
+                                               <table class="my table table-striped table-bordered mb30 jambo_table bulk_action">
+                                                   <thead>
+                                                       
+                                                   </thead>
+                                                   <tbody>
+                                                       
+                                                             <?php $disable =""; ?>
+                                                <?php  for ($attendance=0; $attendance<count($item_result['Attendance_result']); $attendance++):?>    
+                                                 <?php if($item_result['Attendance_result'][$attendance]['date']==$item_result['class_value'][$l]['date' ]&& $item_result['Attendance_result'][$attendance]['class_3'] != '0') :?>
+                                                   <?php  $disable = "disabled"; ?>
+                                                    <?php break; ?>
+                                            <?php endif; ?>
+                                        
+                                            <?php endfor; ?>
+                                                 <?php  if($disable == 'disabled') {?>
+                                                  <tr>
+                                                      
+                                                <select class="form-control hidden_select" name='class3[]' style="display:none" >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_3']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select>
+                                                <input style="display:none;"  type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_3']; ?>' name="Extra3[]" />
+                                                      
+                                                      
+                                                      
+                                                    <td>  
+                                                        <select class="form-control show_select"  <?=$disable;?> >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_3']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select></td>
+                                                        <td class='col-md-4'><input <?=$disable; ?> type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_3']; ?>'  /></td>
+                                            
+                                       <?php }else{ ?>
+                                           
+                                            <td>  
+                                                        <select class="form-control show_select" name='class3[]'  >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_3']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select></td>
+                                                        <td class='col-md-4'><input  type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_3']; ?>' name="Extra3[]" /></td>
+                                           
+                                           
+                                       <?php  } ?>
+                                            </tr>    
+                                                   </tbody>
+                                            </table>
+                                        </td>
+                                        <td>
+                                             <table class="my table table-striped table-bordered mb30 jambo_table bulk_action">
+                                                 <thead>
+                                                 <thead>
+                                                 <tbody>
+                                                            <?php $disable =""; ?>
+                                                <?php  for ($attendance=0; $attendance<count($item_result['Attendance_result']); $attendance++):?>    
+                                                 <?php if($item_result['Attendance_result'][$attendance]['date']==$item_result['class_value'][$l]['date' ]&& $item_result['Attendance_result'][$attendance]['class_4'] != '0') :?>
+                                                   <?php  $disable = "disabled"; ?>
+                                                    <?php break; ?>
+                                            <?php endif; ?>
+                                        
+                                            <?php endfor; ?>
+                                                     
+                                                     
+                                                <?php  if($disable == 'disabled') {?>
+                                                  <tr>
+                                                      
+                                                <select class="form-control hidden_select" name='class4[]' style="display:none" >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_4']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select>
+                                                <input style="display:none;"  type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_4']; ?>' name="Extra4[]" />
+                                                      
+                                                      
+                                                      
+                                                    <td>  
+                                                        <select class="form-control show_select"  <?=$disable;?> >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_4']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select></td>
+                                                        <td class='col-md-4'><input <?=$disable; ?> type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_4']; ?>'  /></td>
+                                            
+                                       <?php }else{ ?>
+                                           
+                                            <td>  
+                                                        <select class="form-control show_select" name='class4[]'  >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_4']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select></td>
+                                                        <td class='col-md-4'><input  type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_4']; ?>' name="Extra4[]" /></td>
+                                           
+                                           
+                                       <?php  } ?>
+                                            
+                                            </tr>
+                                                 </tbody>
+                                            </table>
+                                        </td>
+                                        <td>
+                                             <table class="my table table-striped table-bordered mb30 jambo_table bulk_action">
+                                                 <thead>
+                                               
+                                                 </thead>
+                                                 <tbody>
+                                                     
+                                                         <?php $disable =""; ?>
+                                                <?php  for ($attendance=0; $attendance<count($item_result['Attendance_result']); $attendance++):?>    
+                                                 <?php if($item_result['Attendance_result'][$attendance]['date']==$item_result['class_value'][$l]['date' ]&& $item_result['Attendance_result'][$attendance]['class_5'] != '0') :?>
+                                                   <?php  $disable = "disabled"; ?>
+                                                    <?php break; ?>
+                                            <?php endif; ?>
+                                        
+                                            <?php endfor; ?>
+                                                     
+                                                 <?php  if($disable == 'disabled') {?>
+                                                  <tr>
+                                                      
+                                                <select class="form-control hidden_select" name='class5[]' style="display:none" >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_5']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select>
+                                                <input style="display:none;"  type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_5']; ?>' name="Extra5[]" />
+                                                      
+                                                      
+                                                      
+                                                    <td>  
+                                                        <select class="form-control show_select"  <?=$disable;?> >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_5']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select></td>
+                                                        <td class='col-md-4'><input <?=$disable; ?> type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_5']; ?>'  /></td>
+                                            
+                                       <?php }else{ ?>
+                                           
+                                            <td>  
+                                                        <select class="form-control show_select" name='class5[]'  >
+                                                <option value="">--Select--</option>
+                                                <?php for($course_result =0 ; $course_result<count($item_result['course_result']); $course_result++): ?>
+                                                               <?php if($this->result['course_result'][$course_result]['course_id']==$this->result['class_value'][$l]['class_5']){ ?>
+         
+                                                <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>" selected><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }else {?>
+                                                        <option value ="<?=$this->result['course_result'][$course_result]['course_id']?>"><?=$this->result['course_result'][$course_result]['course_code']?></option>
+                                                    <?php }?>
+                                                    <?php endfor; ?>
+                                                        </select></td>
+                                                        <td class='col-md-4'><input  type="text" size="5" class="form-control" value ='<?php if(!empty($this->result['class_value']))echo $this->result['class_value'][$l]['description_5']; ?>' name="Extra5[]" /></td>
+                                           
+                                           
+                                       <?php  } ?>
+                                            </tr>
+                                                 </tbody>
+                                            </table>
+                                        </td>
+                                       
+                                        <?php } ?>
+                                         <?php $l++; ?>
+                                    </tr>
+                                    
+                                    <?php endfor; ?>
+                                </tbody>
+</table>
+
+<?php }else{?>
+    <table class="my table table-striped table-bordered mb30 jambo_table bulk_action" style="width:100%;" id="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:center;">Date </th>	
+                                        <th style="text-align:center;">Day</th>
+                                        <th style="text-align:center;">Day count</th>
+                                        <th style="text-align:center;">I</th>
+                                        <th style="text-align:center;">II</th>
+                                        <th style="text-align:center;">III</th>
+                                        <th style="text-align:center;">IV</th>
+                                        <th style="text-align:center;">V</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="8" style='text-align: center;'> <?='no data found';?></td>
+                                    </tr>
+                                </tbody>
+    </table>
+<?php } ?>
+<script>
+    $(".close_tr").click(function() {
+            $( ".sub" ).hide();
+     });
+     
+$('#print').click(function(){
+window.print('#grade_data');
+});
+
+
+  my_arr = new Array();
+
+    
+    
+    $(".close_tr").click(function() {
+            $( ".sub" ).hide();
+     });  
+     
+  let prev = '';
+  $('#dataTable select.show_select').click(function(){
+      prev = $(this).val();
+      prev_course_name = $(this).text();
+  });
+  
+  
+$('#dataTable select.show_select').change(function(){
+    var matching_dd = [];
+    var sel_course = $(this).val();
+    var sel_course_name ='';
+    var sel_course_name1 ='';
+    var set_count = 0;
+    var set_count1 = 0;
+     var matching_dd2 = [];
+    var sel_course2 = prev;
+       
+    var matching_dd3 = [];
+    var sel_course3 = prev;
+       
+        var matching_dd1 = [];
+    var sel_course1 = $(this).val();
+
+        
+  $('#dataTable select.show_select').each(function(i, sel){
+    var selectedVal = $(sel).val();
+    if(sel_course == selectedVal && sel_course!==''){
+        matching_dd.push(sel);
+    }
+
+    if(sel_course2 == selectedVal && sel_course2!==''){
+    matching_dd2.push(sel);
+    }
+
+});
+
+//setting of current value
+    set_count = matching_dd.length;
+$.each(matching_dd,function(i, sel){
+sel_course_name = $(matching_dd).val();
+    $(sel).parent().next('td').children().attr('value',i+1);
+
+  
+});
+ 
+//seting of previous value
+   set_count1 = matching_dd2.length;
+$.each(matching_dd2,function(i, sel){
+    sel_course_name1 = $(matching_dd2).val();
+    $(sel).parent().next('td').children().attr('value',i+1);
+
+      
+});
+
+ 
+
+$('#dataTable select.hidden_select').each(function(i, sel){
+    var selectedVal = $(sel).val();
+    if(sel_course1 == selectedVal && sel_course1 !== ''){
+        matching_dd1.push(sel); 
+    }
+     if(sel_course3 == selectedVal && sel_course3 !==''){
+    matching_dd3.push(sel);
+    }
+});
+//getCourseNameOnlyAction
+//seting of disable value;
+
+$.each(matching_dd1,function(i, sel){
+    sel_course_name = $(matching_dd1).val();
+   $(sel).next('input').attr('value',i+1);
+ 
+   
+});
+
+//setting on previous value
+
+$.each(matching_dd3,function(i, sel){
+ sel_course_name1 = $(matching_dd3).val();
+   $(sel).next('input').attr('value',i+1);
+
+   
+});
+
+
+     for (i = 0; i < $('#session_head th').length; i++) {
+            if (sel_course_name == $('#course_' + i).data('id')) {
+                $('#course_' + i).empty();
+                $('#course_' + i).text(set_count);
+                $('#course_' + i).next('th').children("input").attr('value', set_count);
+                 $('#course1_' + i).empty();
+                $('#course1_' + i).text(set_count);
+            
+            }
+
+        }
+
+
+        for (i = 0; i < $('#session_head th').length; i++) {
+            if (sel_course_name1 == $('#course_' + i).data('id')) {
+                $('#course_' + i).empty();
+                $('#course_' + i).text(set_count1);
+                $('#course_' + i).next('th').children("input").attr('value', set_count1);
+                  $('#course1_' + i).empty();
+                $('#course1_' + i).text(set_count1);
+            }
+
+        }
+
+});
+
+
+
+
+</script>

@@ -1,0 +1,333 @@
+<style type="text/css">
+* {
+	margin: 0px;
+	padding: 0px;
+	font-family: Arial, sans-serif;
+	font-weight: 300;
+	
+}
+.credit table {
+	border-collapse: collapse;
+	width: 100%;
+}
+.credit table, th {
+	border: 1px solid black;
+	padding: 2px;
+	
+	
+}
+.credit {
+	width: 100%;
+	height: auto;
+	margin: 0px auto;
+	float: left;
+	border: 1px solid #000;
+}
+table {
+	border-collapse: collapse;
+	width: 100%;
+	border: 1px solid #000;
+}
+table, th, td {
+	border: 1px solid black;
+	padding: 5px;
+	font-size: 20px !important;
+	
+}
+</style>
+<!-- widget grid -->
+<section id="widget-grid" class="">	
+	<!-- row -->
+	<div class="row">
+		
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2></h2>
+
+				</header>
+
+				<!-- widget div-->
+				<div>		
+					<!-- widget content -->
+						<div class="widget-body">
+							<div class="table-responsive">								
+								<table style="margin-bottom:0px !important;" class="table table-bordered">
+									<tr>
+										<td colspan="2" style="text-align:center;">Trading Account</td>
+									</tr>
+									<tr>
+										<td style="text-align:center;">Account</td>
+										<td style="text-align:center;">Sales</td>										
+									</tr>
+									<tr>
+									<td>
+										<table style="margin-bottom:0px !important;" class="table table-bordered ">
+											<thead>										
+												
+												<tr>
+													<!--<th style="text-align:center;">S.No.</th> -->
+													<td style="text-align:center;">Account Name</td>
+													<td style="text-align:center;">Balance</td>
+														
+												</tr>
+											</thead>
+											<tbody>
+												<?php //print_r($this->opening_balance); 
+												$total_items = 0;
+												$total_credit = 0;
+												$total_debit = 0;
+																						
+												$i = 0;
+												$days_count = 0;										
+												?>
+												
+												<?php 
+												$account_statement = $this->account_statement;
+												if ( count($account_statement) > 0 ) {
+													?>											  
+													<?php
+													$total_items = count($account_statement);
+													$k = 0;
+													foreach ($account_statement as $account) {
+														$i++;												
+														?>
+														<tr>
+															<td>
+															<?php echo $account['name']; ?>
+															</td>													
+															<td style="text-align:right;width:15%;">
+															<?php
+																
+																	$debit_amount = 0;
+																	$credit_amount = 0;
+																	if($account['operator'] == 2){	
+																		$debit_amount = ($account['payment_amount']  + $account['debit_amount']);
+																		$credit_amount = $account['receipt_amount'] + $account['credit_amount'] + $account['opening_balance'];
+																	}else{
+																		$debit_amount = ($account['payment_amount']  + $account['debit_amount'] + $account['opening_balance']);
+																		$credit_amount = $account['receipt_amount'] + $account['credit_amount'];
+																	}
+																	
+																	$total_account_amt	= 0;
+																	if( $debit_amount > $credit_amount){								
+																		$total_account_amt = $debit_amount - $credit_amount;
+																	}
+																	
+																	if( $credit_amount > $debit_amount){
+																		$total_account_amt = $credit_amount - $debit_amount;
+																	}
+																	echo number_format(($total_account_amt),2);
+																	$total_debit += ($total_account_amt);
+																
+																
+																?>
+															</td>													
+														</tr>
+														<?php
+														// } //End
+													}																							
+													/*
+													 * Vendor Pyments end
+													 */
+													?>
+													<?php
+													}											
+													?>
+												
+												
+													<?php 
+													$purchase_statement = $this->purchase_statement;
+													if ( count($purchase_statement) > 0 ) {
+													?>											  
+													<?php
+													$total_items = count($purchase_statement);
+													$k = 0;
+													$debit_amount = 0;
+													$amount = 0;
+													foreach ($purchase_statement as $purchase) {
+														
+														$amount += $purchase['paid_amount'];
+													}
+														$i++;												
+														?>
+														<tr>
+															<!-- <td><?php //echo $i; ?></td> -->
+															<td>
+															<?php echo 'PURCHASE'; ?>
+															</td>													
+															<td style="text-align:right;width:15%;">
+															<?php
+																//echo $debit_amount;
+																
+																	
+																	echo number_format(($amount),2);
+																	$total_debit += ($amount);
+																
+																
+																?>
+															</td>												
+														</tr>
+													<?php
+													}											
+													?>											
+												</tbody>
+											</table>
+										</td>
+										<td>
+										<table style="margin-bottom:0px !important;" class="table table-bordered ">
+											<thead>	
+												<tr>													
+													<td style="text-align:center;">Account Name</td>
+													<td style="text-align:center;">Balance</td>
+												</tr>
+											</thead>
+											<tbody>
+											<?php 
+											$waybill_statement = $this->waybill_statement;
+											if ( count($waybill_statement) > 0 ) {
+											?>											  
+											<?php
+											$total_items = count($waybill_statement);
+											$k = 0;
+											$debit_amount = 0;
+											foreach ($waybill_statement as $waybill) {
+												
+												$amount = $waybill['waybill_amount'];
+											}
+												$i++;												
+												?>
+												<tr>
+												<!--	<td><?php //echo $i; ?></td> -->
+													<td>
+													<?php echo 'DIRECT EXPORT'; ?>
+													</td>													
+													<td style="text-align:right;width:15%;">
+													<?php
+														//echo $debit_amount;
+														
+															
+															echo number_format(($amount),2);
+															$total_credit += ($amount);
+														
+														
+														?>
+													</td>												
+												</tr>
+											<?php
+											}											
+											?>
+											<?php 
+											$sales_statement = $this->sales_statement;
+											if ( count($sales_statement) > 0 ) {
+											?>											  
+											<?php
+											$total_items = count($sales_statement);
+											foreach ($sales_statement as $sales) {
+											$amount = $sales['paid_amount'];
+											}															
+												$i++;																						
+											/*
+											 * Vendor Pyments end
+											 */
+											?>
+												<tr>
+												<!--	<td><?php //echo $i; ?></td> -->
+													<td>
+													<?php echo 'INDIRECT EXPORT'; ?>
+													</td>													
+													<td style="text-align:right;width:15%;">
+													<?php
+					
+											
+															echo number_format(($amount),2);
+															$total_credit += ($amount);
+														
+														
+														?>
+													</td>													
+												</tr>
+												
+											<?php
+											}											
+											?>
+
+
+										<?php 
+											$retail_statement = $this->retail_statement;
+											if ( count($retail_statement) > 0 ) {
+											?>											  
+											<?php
+											$total_items = count($retail_statement);
+											foreach ($retail_statement as $retail) {
+											$amount = $retail['paid_amount'];
+											}															
+												$i++;																						
+											/*
+											 * Vendor Pyments end
+											 */
+											?>
+												<tr>
+												<!--	<td><?php //echo $i; ?></td> -->
+													<td>
+													<?php echo 'AUTO AND DV'; ?>
+													</td>													
+													<td style="text-align:right;width:15%;">
+													<?php
+					
+											
+															echo number_format(($amount),2);
+															$total_credit += $amount;
+														
+														
+														?>
+													</td>													
+												</tr>
+												
+											<?php
+											}											
+											?>
+											<tr>
+												<td>
+												<strong><?php echo 'Total'; ?></strong>
+												</td>													
+												<td style="text-align:right;width:15%;">
+												<strong> <?php echo number_format( round($total_credit), 2); ?> </strong>
+												</td>													
+											</tr>											
+										</tbody>
+									</table>
+									</td>
+									</tr>										
+									<tr>
+										<?php  $gross_profit = $total_credit * 17.05 / 100; ?>
+										<td style="">Gross Profit <span style="float:right;"><?php echo number_format($gross_profit, 2); ?><span/></td>
+										<td style="border-left:0px !important;">Closing Stock <span style="float:right;"><?php 
+											$closing_Stock = ($total_debit + $gross_profit) - $total_credit;
+											echo number_format(round($closing_Stock),2);
+										?><span/></td>	
+									</tr>
+									<tr>
+										<td><b>Total<b/><span style="float:right;text-align:right;" align="right"><?php echo number_format( round($gross_profit+$total_debit), 2); ?><span/></td>	
+										<td align="right"><b><?php echo number_format( round($total_credit+$closing_Stock), 2); ?></td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- WIDGET END -->
+	</div>
+	
+	<!-- end row -->
+</section>
+<!-- end widget grid -->

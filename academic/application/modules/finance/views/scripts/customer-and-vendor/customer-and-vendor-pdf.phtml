@@ -1,0 +1,445 @@
+<style type="text/css">
+* {
+	margin: 0px;
+	padding: 0px;
+	font-family: Arial, sans-serif;
+	font-weight: 300;
+	
+}
+.credit table {
+	border-collapse: collapse;
+	width: 100%;
+}
+.credit table, th {
+	border: 1px solid black;
+	padding: 2px;
+	
+	
+}
+.credit {
+	width: 100%;
+	height: auto;
+	margin: 0px auto;
+	float: left;
+	border: 1px solid #000;
+}
+table {
+	border-collapse: collapse;
+	width: 100%;
+	border: 1px solid #000;
+}
+table, th, td {
+	border: 1px solid black;
+	padding: 5px;
+	font-size: 20px !important;
+	
+}
+</style>
+
+<!-- widget grid -->
+<section id="widget-grid" class="">	
+	<!-- row -->
+	<div class="row">
+		
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2></h2>
+
+				</header>
+
+				<!-- widget div-->
+				<div>		
+					<!-- widget content -->
+						<div class="widget-body">
+							<div class="table-responsive">
+								<?php /* if(!empty($this->party_name)){
+								
+								?>
+									<form id="basicForm" action="<?php echo $this->mainconfig['host']; ?>finance/journal/invoice-statement/save" method="post" class="form">
+									 <div style="width:10%; z-index:999; float:right !important; position:fixed; margin-left:71%; margin-top:22%;">
+											<textarea name="statement_remarks" required="required" rows="4" cols="50" style="resize:none;"><?php //echo $this->statement_remarks; ?></textarea>
+											<input type="hidden" name="start_date" value="<?php echo $this->start_date; ?>" />
+											<input type="hidden" name="end_date" value="<?php echo $this->enddate; ?>" />	
+											<input type="hidden" name="party_name" value="<?php echo $this->party_name; ?>" />				
+											<input type="submit" name="save" class="btn btn-primary" value="Save" />
+									</div>		
+									<?php } */ ?>
+								<table style="margin-bottom:0px !important;" class="table table-bordered ">
+									<thead>										
+										<tr>											
+											<th colspan="2"></th>
+											<th colspan="2" style="text-align:center;">Balance</th>
+										</tr>
+										<tr>
+											<th style="text-align:center;">S.No.</th>
+											<th style="text-align:center;">Account Name</th>
+											<th style="text-align:center;">Debit</th>
+											<th style="text-align:center;">Credit</th>	
+										</tr>
+									</thead>
+									<?php if( isset($this->searchby) && $this->searchby == '1'){ ?>
+									<tbody>
+										<?php //print_r($this->opening_balance); 
+										$total_items = 0;
+										$total_credit = 0;
+										$total_debit = 0;
+																				
+										$i = 0;
+										$days_count = 0;										
+										$dealer_statement = $this->dealer_statement;
+										if ( count($dealer_statement) > 0 ) {
+											?>											  
+											<?php
+											$total_items = count($dealer_statement);
+											$k = 0;
+											foreach ($dealer_statement as $customer) {													
+												if($customer['operator'] == 2){
+													$debit_amount = $customer['sales_amount'] + $customer['waybill_amount'] + $customer['debit_amount']; 
+													$credit_amount = $customer['receipt_amount'] + $customer['credit_amount'] + $customer['payment_amount'] + $customer['start_balance'];
+												}else{
+													$debit_amount = $customer['sales_amount'] + $customer['waybill_amount'] + $customer['debit_amount'] + $customer['start_balance']; 
+													$credit_amount = $customer['receipt_amount'] + $customer['credit_amount'] + $customer['payment_amount'];
+												}
+												
+												//Empty rows removed
+												if( ($credit_amount > $debit_amount) ){
+												$i++;
+												?>
+												<tr>
+													<td><?php echo $i; ?></td>
+													<td>
+													<?php echo $customer['name']; ?>
+													</td>													
+													<td style="text-align:right;width:15%;">
+													<?php																									
+														//echo $debit_amount;
+														if( $debit_amount > $credit_amount){
+															//echo round($debit_amount - $credit_amount);
+															echo number_format( ($debit_amount - $credit_amount),2);
+															$total_debit += $debit_amount - $credit_amount;
+														}
+														
+														?>
+													</td>
+													<td style="text-align:right;width:15%;">
+													
+													</td>													
+												</tr>
+												<?php
+												} //End
+											}
+										}	
+										$vendor_statement = $this->vendor_statement;
+										if ( count($vendor_statement) > 0 ) {
+											?>											  
+											<?php
+											$total_items = count($vendor_statement);
+											$k = 0;
+											foreach ($vendor_statement as $vendor) {
+												
+												if($vendor['operator'] == 2){
+													$debit_amount = $vendor['payment_amount']  + $vendor['debit_amount'] + $vendor['receipt_amount']; 
+													$credit_amount = $vendor['pcm_amount'] + $vendor['credit_amount'] + $vendor['start_balance']  + $vendor['purchase_amount'];
+												}else{
+													$debit_amount = $vendor['receipt_amount'] + $vendor['payment_amount'] + $vendor['debit_amount']  + $vendor['start_balance']; 
+													$credit_amount = $vendor['credit_amount'] + $vendor['pcm_amount'] + $vendor['purchase_amount'];
+												}
+												//Empty Rows removed
+												if( ($credit_amount > $debit_amount) ){
+												$i++;												
+												?>
+												<tr>
+													<td><?php echo $i; ?></td>
+													<td>
+													<?php echo $vendor['name']; ?>
+													</td>													
+													<td style="text-align:right;width:15%;">
+													
+													</td>
+													<td style="text-align:right;width:15%;">
+													<?php
+														//echo $credit_amount; 
+														if( $credit_amount > $debit_amount){		
+															//echo round($credit_amount - $debit_amount);
+															echo number_format( round($credit_amount - $debit_amount),2);
+															$total_credit += $credit_amount - $debit_amount;
+														}
+														?>
+													</td>													
+												</tr>
+												<?php
+												} //End
+											}																							
+											/*
+											 * Vendor Pyments end
+											 */
+											?>
+											<?php
+											}											
+											?>
+																				
+										<tr>
+											<td style=" border-right:0px !important;"><b>Total<b/></td>
+											<td style="text-align:right; border-left:0px !important;"><b><?php echo $i; //$total_items; ?><b/></td>
+											<td style="text-align:right; border-left:0px !important;"><b><?php //echo number_format(round($total_debit), 2); ?><b/></td>
+											<td style="text-align:right; border-left:0px !important;"><b><?php echo number_format(round($total_credit), 2); ?><b/></td>	
+										</tr>
+										
+									</tbody>									
+									<?php }elseif( isset($this->searchby) && $this->searchby == '2'){ ?>
+									<tbody>
+										<?php //print_r($this->opening_balance); 
+										$total_items = 0;
+										$total_credit = 0;
+										$total_debit = 0;
+																				
+										$i = 0;
+										$days_count = 0;										
+										$dealer_statement = $this->dealer_statement;
+										if ( count($dealer_statement) > 0 ) {
+											?>											  
+											<?php
+											$total_items = count($dealer_statement);
+											$k = 0;
+											foreach ($dealer_statement as $customer) {													
+												if($customer['operator'] == 2){
+													$debit_amount = $customer['sales_amount'] + $customer['waybill_amount'] + $customer['debit_amount']; 
+													$credit_amount = $customer['receipt_amount'] + $customer['credit_amount'] + $customer['payment_amount'] + $customer['start_balance'];
+												}else{
+													$debit_amount = $customer['sales_amount'] + $customer['waybill_amount'] + $customer['debit_amount'] + $customer['start_balance']; 
+													$credit_amount = $customer['receipt_amount'] + $customer['credit_amount'] + $customer['payment_amount'];
+												}
+												
+												//Empty rows removed
+												if( ($debit_amount > $credit_amount)){
+												$i++;
+												?>
+												<tr>
+													<td><?php echo $i; ?></td>
+													<td>
+													<?php echo $customer['name']; ?>
+													</td>													
+													<td style="text-align:right;width:15%;">
+													<?php
+																												
+														//echo $debit_amount;
+														if( $debit_amount > $credit_amount){
+															//echo round($debit_amount - $credit_amount);
+															echo number_format( ($debit_amount - $credit_amount),2);
+															$total_debit += $debit_amount - $credit_amount;
+														}
+														
+														?>
+													</td>
+													<td style="text-align:right;width:15%;">
+													
+													</td>													
+												</tr>
+												<?php
+												} //End
+											}
+										}	
+										$vendor_statement = $this->vendor_statement;
+										if ( count($vendor_statement) > 0 ) {
+											?>											  
+											<?php
+											$total_items = count($vendor_statement);
+											$k = 0;
+											foreach ($vendor_statement as $vendor) {
+												
+												if($vendor['operator'] == 2){
+													$debit_amount = $vendor['payment_amount']  + $vendor['debit_amount'] + $vendor['receipt_amount']; 
+													$credit_amount = $vendor['pcm_amount'] + $vendor['credit_amount'] + $vendor['start_balance']  + $vendor['purchase_amount'];
+												}else{
+													$debit_amount = $vendor['receipt_amount'] + $vendor['payment_amount'] + $vendor['debit_amount']  + $vendor['start_balance']; 
+													$credit_amount = $vendor['credit_amount'] + $vendor['pcm_amount'] + $vendor['purchase_amount'];
+												}
+												//Empty Rows removed
+												if( ($debit_amount > $credit_amount) ){
+												$i++;												
+												?>
+												<tr>
+													<td><?php echo $i; ?></td>
+													<td>
+													<?php echo $vendor['name']; ?>
+													</td>													
+													<td style="text-align:right;width:15%;">
+													<?php													
+														//echo $debit_amount;
+														if( $debit_amount > $credit_amount){
+															//echo round($debit_amount - $credit_amount);
+															echo number_format( ($debit_amount - $credit_amount),2);
+															$total_debit += $debit_amount - $credit_amount;
+														}
+														
+														?>
+													</td>
+													<td style="text-align:right;width:15%;">
+													</td>													
+												</tr>
+												<?php
+												} //End
+											}																							
+											/*
+											 * Vendor Pyments end
+											 */
+											?>
+											<?php
+											}											
+											?>
+																				
+										<tr>
+											<td style=" border-right:0px !important;"><b>Total<b/></td>
+											<td style="text-align:right; border-left:0px !important;"><b><?php echo $i; //$total_items; ?><b/></td>
+											<td style="text-align:right; border-left:0px !important;"><b><?php echo number_format(round($total_debit), 2); ?><b/></td>
+											<td style="text-align:right; border-left:0px !important;"><b><?php //echo number_format(round($total_credit), 2); ?><b/></td>	
+										</tr>
+										
+									</tbody>
+									<?php }else{ ?>
+									<tbody>
+										<?php //print_r($this->opening_balance); 
+										$total_items = 0;
+										$total_credit = 0;
+										$total_debit = 0;
+																				
+										$i = 0;
+										$days_count = 0;										
+										$dealer_statement = $this->dealer_statement;
+										if ( count($dealer_statement) > 0 ) {
+											?>											  
+											<?php
+											$total_items = count($dealer_statement);
+											$k = 0;
+											foreach ($dealer_statement as $customer) {													
+												if($customer['operator'] == 2){
+													$debit_amount = $customer['sales_amount'] + $customer['waybill_amount'] + $customer['debit_amount']; 
+													$credit_amount = $customer['receipt_amount'] + $customer['credit_amount'] + $customer['payment_amount'] + $customer['start_balance'];
+												}else{
+													$debit_amount = $customer['sales_amount'] + $customer['waybill_amount'] + $customer['debit_amount'] + $customer['start_balance']; 
+													$credit_amount = $customer['receipt_amount'] + $customer['credit_amount'] + $customer['payment_amount'];
+												}
+												
+												//Empty rows removed
+												if( ($debit_amount > $credit_amount) || ($credit_amount > $debit_amount) ){
+												$i++;
+												?>
+												<tr>
+													<td><?php echo $i; ?></td>
+													<td>
+													<?php echo $customer['name']; ?>
+													</td>													
+													<td style="text-align:right;width:15%;">
+													<?php
+																												
+														//echo $debit_amount;
+														if( $debit_amount > $credit_amount){
+															//echo round($debit_amount - $credit_amount);
+															echo number_format( ($debit_amount - $credit_amount),2);
+															$total_debit += $debit_amount - $credit_amount;
+														}
+														
+														?>
+													</td>
+													<td style="text-align:right;width:15%;">
+													<?php
+														//echo $credit_amount; 
+														if( $credit_amount > $debit_amount){		
+															//echo round($credit_amount - $debit_amount);
+															echo number_format( ($credit_amount - $debit_amount),2);
+															$total_credit += $credit_amount - $debit_amount;
+														}
+														?>
+													</td>													
+												</tr>
+												<?php
+												} //End
+											}
+										}	
+										$vendor_statement = $this->vendor_statement;
+										if ( count($vendor_statement) > 0 ) {
+											?>											  
+											<?php
+											$total_items = count($vendor_statement);
+											$k = 0;
+											foreach ($vendor_statement as $vendor) {
+												
+												if($vendor['operator'] == 2){
+													$debit_amount = $vendor['payment_amount']  + $vendor['debit_amount'] + $vendor['receipt_amount']; 
+													$credit_amount = $vendor['pcm_amount'] + $vendor['credit_amount'] + $vendor['start_balance']  + $vendor['purchase_amount'];
+												}else{
+													$debit_amount = $vendor['receipt_amount'] + $vendor['payment_amount'] + $vendor['debit_amount']  + $vendor['start_balance']; 
+													$credit_amount = $vendor['credit_amount'] + $vendor['pcm_amount'] + $vendor['purchase_amount'];
+												}
+												//Empty Rows removed
+												if( ($debit_amount > $credit_amount) || ($credit_amount > $debit_amount) ){
+												$i++;												
+												?>
+												<tr>
+													<td><?php echo $i; ?></td>
+													<td>
+													<?php echo $vendor['name']; ?>
+													</td>													
+													<td style="text-align:right;width:15%;">
+													<?php													
+														//echo $debit_amount;
+														if( $debit_amount > $credit_amount){
+															//echo round($debit_amount - $credit_amount);
+															echo number_format( ($debit_amount - $credit_amount),2);
+															$total_debit += $debit_amount - $credit_amount;
+														}
+														
+														?>
+													</td>
+													<td style="text-align:right;width:15%;">
+													<?php
+														//echo $credit_amount; 
+														if( $credit_amount > $debit_amount){		
+															//echo round($credit_amount - $debit_amount);
+															echo number_format( round($credit_amount - $debit_amount),2);
+															$total_credit += $credit_amount - $debit_amount;
+														}
+														?>
+													</td>													
+												</tr>
+												<?php
+												} //End
+											}																							
+											/*
+											 * Vendor Pyments end
+											 */
+											?>
+											<?php
+											}											
+											?>
+																				
+										<tr>
+											<td style=" border-right:0px !important;"><b>Total<b/></td>
+											<td style="text-align:right; border-left:0px !important;"><b><?php echo $i; //$total_items; ?><b/></td>
+											<td style="text-align:right; border-left:0px !important;"><b><?php echo number_format(round($total_debit), 2); ?><b/></td>
+											<td style="text-align:right; border-left:0px !important;"><b><?php echo number_format(round($total_credit), 2); ?><b/></td>	
+										</tr>
+										
+									</tbody>
+									<?php } ?>
+								</table>
+							</div>
+						</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- WIDGET END -->
+	</div>
+	
+	<!-- end row -->
+</section>
+<!-- end widget grid -->

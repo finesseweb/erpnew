@@ -1,0 +1,79 @@
+<?php
+$no_of_classes = $this->no_of_classes;
+$new_faculty_routine = $this->faculty_routine;
+$extras = $this->result;
+//echo "<pre>";print_r($new_faculty_routine);exit;
+?>
+
+
+
+                <table class="my table table-striped table-bordered mb30 jambo_table bulk_action" style="width:100%;" id="dataTable">
+                        <thead>
+                            <tr>
+                                <th class='text-center' style='padding:1.5em !important; width:1em !important; '>Weeks</th>
+                            <?php for($class = 1; $class<=$no_of_classes; $class++){?>
+                                <th class="text-center" style='padding:1.5em !important; width:1em !important; '><?=$this->classrecords[$no_of_classes - $class];?></th>
+                            <?php }?>
+                                </tr>
+                            
+                        </thead>
+                        <tbody >
+                      
+                            <?php foreach($extras['days'] as $key => $value ) {
+                                $border_color = '#44eabc';
+
+                                 ?>
+                              <tr>
+                                 <?php if(!in_array($key, $extras['weekends'])){ ?>
+                                <th class='text-center' style='width:1em !important;  background: #3C87F9;color:#FFF0F0;'  >
+                                    <strong><?php echo strtoupper($key); 
+                                    
+                                    ?></strong>
+                                </th> 
+                                <?php }
+                                else { ?>
+                                 <th class='text-center' style='width:1em !important;  background: #efa1ce; color:#FFF0F0;'  >
+                                    <strong><?php echo strtoupper($key); 
+                                    $border_color = '#efa1ce';
+                                    ?></strong>
+                                </th> 
+                                <?php } ?>
+                                <?php for($class = 1; $class<=$no_of_classes; $class++){?>
+                                
+                                <th class='text-center'>
+                                    <?php if(!empty($new_faculty_routine[$key][$class]['course_code'][0]) ){?>
+                                    <table class="my table table-striped table-bordered mb30 jambo_table bulk_action"  style="width:100%; border: .3em solid <?=$border_color;?>" id="dataTable">
+                                                    <thead>
+                                            <tr>
+                                            <th style="padding:0.5em !important">Course</th>
+                                            <!--<th style="padding:0.5em !important">Batch</th>-->
+                                           <!-- <th style="padding:0.5em !important">Term</th> -->
+                                           <!-- <th style="padding:0.5em !important">Section</th> -->
+                                            <th style="padding:0.5em !important">Time</th>
+                                            <th style="padding:0.5em !important">Room</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach($new_faculty_routine[$key][$class]['course_code'] as $code_key => $code_value ){ ?>
+                                            <?php if(!empty($code_value)){ ?>
+                                            <tr>
+                                                <th style="padding:0.5em !important"><?=$code_value;?></th>
+                                                <!--<th style="padding:0.5em !important"><?=$new_faculty_routine[$key][$class]['batch'][$code_key] ;?></th>-->
+                                                <!--<th style="padding:0.5em !important"><?=$new_faculty_routine[$key][$class]['term'][$code_key];?></th>-->
+                                                <!--<th style="padding:0.5em !important"><?= $new_faculty_routine[$key][$class]['section'][$code_key];?></th>-->
+                                                <th style="padding:0.5em !important"><?=$new_faculty_routine[$key][$class]['time'][$code_key] ;?></th>
+                                                <th style="padding:0.5em !important"><?=$new_faculty_routine[$key][$class]['room'][$code_key] ;?></th>
+                                            </tr>
+                                            <?php } }?>
+                                        </tbody>
+                                    </table>
+                                    <?php }else{ echo " -- "; } ?>
+                                </th>
+                                
+                            
+                                <?php } ?>
+                                </tr>
+                         <?php   } ?>
+                        </tbody>
+                        
+                    </table>

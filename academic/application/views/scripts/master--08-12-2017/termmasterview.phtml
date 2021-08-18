@@ -1,0 +1,96 @@
+<div class="padding-md right_col">
+	<div class="row">
+		<div class="col-md-12">
+		<h3 class="page-title txt-color-blueDark" >
+			<div><i class="fa fa-eye">  Term Master View</i></div>
+		</h3>
+			<div class="panel panel-default">
+				<form class="no-margin" id="formValidate1" action="<?php echo $this->form->getAction() ?>" method="post" data-validate="parsley" >
+					
+					<div class="panel-body">
+							<div class="row">
+															
+							<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Batch<span class="asterisk">*</span></label>
+                                <?php echo $this->form->academic_year_id; ?>
+                            </div>
+							</div> 
+							<div class="col-sm-3">
+							<div class="form-group">
+                              <label class="control-label">&nbsp;</label>
+							<input type="text" id="batch" class="form-control" style="background-color:#fdf59a;"  readonly />
+							</div>
+							</div>
+							<div id="payslipData" class="col-sm-12">
+									</div>
+							</div>
+							
+							</div>
+						
+				</form>
+			</div><!-- /panel -->
+		</div><!-- /.col-->				
+	</div><!-- /.row -->
+	
+</div><!-- /.padding-md -->	
+
+
+<script>
+
+
+
+
+ jQuery(document).ready(function() {
+		$('#batch').hide();
+        $('body').on('change', '#academic_year_id', function() {
+			//alert("hello");
+            getprogramDetails();
+			
+
+        });
+
+ });
+ 
+	
+    function getprogramDetails() {
+        
+        $url = '<?php echo $this->mainconfig['host']; ?>master/get-term-view';
+        
+        $.post($url,
+                {
+                    
+                    'academicid': $('#academic_year_id').val()
+
+
+                })
+                .done(function(data) {
+                  // alert(data);
+                    //$('#payslipData').html('');
+					
+						$('#payslipData').html(data);
+			    });
+
+    }
+	
+	
+$('body').on('change', '#academic_year_id', function() {		
+
+var academic_id=$('#academic_year_id').val();
+   if(academic_id){
+   $('#batch').show();
+	$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-batch-code';?>',
+			data: {academic_id:academic_id}
+		}).done(function( data ) {
+			var result = $.parseJSON(data);
+			if((data!='')){
+				$('#batch').val(result['short_code']);
+			}
+	  });
+	 }
+	 
+ });
+
+</script>

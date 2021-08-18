@@ -1,0 +1,415 @@
+<?php
+//echo "<pre>";print_r($this->form);exit;
+?>
+
+<style>
+    .my.table>tbody>tr>td, .my.table>tbody>tr>th, .my.table>tfoot>tr>td, .my.table>tfoot>tr>th, .my.table>thead>tr>td, .my.table>thead>tr>th {
+       /* padding: 0px !important;*/
+        line-height: 1.42857143;
+        vertical-align: middle !important;
+        border-top: 1px solid #ddd;
+    }
+
+
+    .my.table{
+        margin-bottom:0px;
+    }
+
+    .pane>div{
+        position:absolute;
+    }
+    .nav-tabs{
+        background: #3C87F9;
+
+    }
+    .nav-tabs>li>a{
+        color:#fff;  
+    }
+</style>  
+<div class="right_col table-responsive">
+
+    <div class="padding-md ">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="page-title txt-color-blueDark" >
+                    <div><i class="fa fa-eye">Routine</i></div>
+                </h3>
+                <div class="panel panel-default">
+                    <div class='panel-body'> 
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="academic_year_id">Batch</label>
+                                    <?= $this->common_field->academic_year_id; ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="term_id">Term</label>
+                                    <?= $this->common_field->term_id; ?>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row" >
+                            <div class="col-sm-12">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab" href="#weekly" aria-expanded="true">Weekly Routine</a></li>
+                                    <li><a data-toggle="tab" href="#facultywise">Faculty Wise</a></li>
+                                    <li><a data-toggle="tab" href="#room">Room Wise</a></li>
+                                    <li><a data-toggle="tab" href="#course">Course Wise</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">	
+                <div class="tab-content">
+
+                    <div id="weekly" class="tab-pane fade in active">
+                        <div class="col-sm-3 employee_class">
+
+                        </div>
+                    </div>
+                    <div id="facultywise" class="tab-pane fade">
+                        <div class="col-sm-3 employee_class">
+                            <div class="form-group">
+
+
+                                <label class="control-label">Faculty<span class="asterisk">*</span></label>
+                                <?php echo $this->form->faculty; ?>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div id="room" class="tab-pane fade">
+                        <div class="col-sm-3 employee_class">
+                            <div class="form-group">
+
+
+                                <label class="control-label">Department<span class="asterisk">*</span></label>
+                                <?php echo $this->form->department; ?>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                                <label class="control-label">Room<span class="asterisk">*</span></label>
+                                <?php echo $this->form->room_id; ?>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div id="course" class="tab-pane fade">
+                        <div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                                <label class="control-label">Course<span class="asterisk">*</span></label>
+                                <?php echo $this->form->course_id; ?> 
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+        <div class="row">
+            <div class='col-md-12 text-center'>
+                <h4>Weekly Routine</h4>
+            </div>
+            <div  id ='grade_data'>
+
+            </div> 
+        </diV> 
+    </div> 
+
+    <script> 
+
+        var academic_id = $('#academic_year_id').val();
+        displayTerms(academic_id);
+        $("#academic_year_id").change(function () {
+            var academic_id = $('#academic_year_id').val();
+            displayTerms(academic_id);
+        });
+ 
+     var dept = $('#department').val();
+
+
+      if(dept){
+          $.ajax({
+                type: "POST",
+                url: '<?php echo $this->mainconfig['host'] . 'timetable/ajax-get-room'; ?>',
+                data: {department: dept}
+            }).done(function (data) {
+
+                $('#room_id').empty('');
+                $('#room_id').html(data);
+              
+                clickableFun(2);
+            });
+      }
+ 
+
+        function displayTerms(academic_id) {
+            var fetch_terms = 'batch-schedule/ajax-get-terms-name';
+            
+            <?php if($_SESSION['admin_login']['admin_login']->role_id == 0) {?>
+                   var fetch_terms = "student-portal/ajax-get-terms-default";
+            <?php } ?>
+            if (academic_id) {
+                $.ajax({
+                    type: "POST",
+                    url: '<?php echo $this->mainconfig['host'] ; ?>'+fetch_terms,
+                    data: {academic_year_id: academic_id}
+
+                }).done(function (data) {
+                    //alert(data);
+                    $('#term_id').empty('');
+                    $('#term_id').html(data);
+
+                    // $('#term_id>option:nth-child(1)').remove();
+                    // $('#term_id>option:nth-child(1)').attr('selected', true);
+
+                    // $('[data-toggle="tab"]').each(function (e) {
+                    //     if (e == 0) {                            
+                    //         $.ajax({
+                    //             type: "POST",
+                    //             url: '<?php echo $this->mainconfig['host'] . 'timetable/ajax-get-week-wise-view'; ?>',
+                    //             data: {batch: $('#academic_year_id').val(), term_id: $('#term_id').val()}
+                    //         }).done(function (data) {
+                    //             $('#grade_data').empty('');
+                    //             $('#grade_data').html(data);
+                    //         });
+                    //     }
+                    // });
+
+                    
+                });
+            }
+        }
+
+
+
+
+
+        $("#term_id").change(function () {
+            var term_id = $('#term_id').val();
+            var academic_id = $('#academic_year_id').val();
+            // alert(academic_id);
+             if (term_id) {
+            $.ajax({
+
+                type: "POST",
+                url: '<?php echo $this->mainconfig['host'] . 'attendance/ajax-get-course'; ?>',
+                data: {academic_year_id: academic_id, term_id: term_id}
+
+
+            }).done(function (data) {
+                //alert(data);
+                $('#course_id').empty('');
+                $('#course_id').html(data);
+               //clickableFun(3);
+            });
+        }else{
+          $('#course_id').html(data);   
+        }
+            var id = $('a[aria-expanded="true"]').attr('href');
+            if (id == '#weekly')
+                clickableFun(0);
+            else if (id == '#facultywise')
+                clickableFun(1);
+            else if (id == '#room')
+             clickableFun(2);
+        });
+
+
+        $("#faculty").change(function () {
+            var faculty = $('#faculty').val();
+
+            $.ajax({
+                type: "POST",
+                url: '<?php echo $this->mainconfig['host'] . 'timetable/ajax-get-faculty-wise-view'; ?>',
+                data: {faculty: faculty, batch: $('#academic_year_id').val(), term_id: $('#term_id').val()}
+            }).done(function (data) {
+                $('#grade_data').empty(''); 
+                $('#grade_data').html(data);
+            });
+        });
+
+        // $("#department").change(function () {
+        $('#department').change(function () {
+            var department_id = $('#department').val();
+            $.ajax({
+                type: "POST",
+                url: '<?php echo $this->mainconfig['host'] . 'timetable/ajax-get-room'; ?>',
+                data: {department: department_id}
+            }).done(function (data) {
+
+                $('#room_id').empty('');
+                $('#room_id').html(data);
+              
+                clickableFun(2);
+            });
+        });
+
+        $('#academic_year_id').change(function () {
+
+             var term_id = $('#term_id').val();
+             var academic_id = $('#academic_year_id').val();
+            // alert(academic_id);
+             if (term_id) {
+            $.ajax({
+                type: "POST",
+                url: '<?php echo $this->mainconfig['host'] . 'attendance/ajax-get-course'; ?>',
+                data: {academic_year_id: academic_id, term_id: term_id}
+
+
+            }).done(function (data) {
+                //alert(data);
+                $('#course_id').empty('');
+                $('#course_id').html(data);
+            });
+        }else{
+          $('#course_id').html(data);   
+        }
+
+            var department_id = $('#academic_year_id').val();
+            $.ajax({
+                type: "POST",
+                url: '<?php echo $this->mainconfig['host'] . 'batch-schedule/ajax-get-terms-name'; ?>',
+                data: {academic_year_id: $(this).val()}
+            }).done(function (data) {
+
+                $('#term_id').empty('');
+                $('#term_id').html(data);
+
+            });
+        });
+
+
+        $('#room_id').change(function () {
+            var room_id = $('#room_id').val();
+            $.ajax({
+                type: "POST",
+                url: '<?php echo $this->mainconfig['host'] . 'timetable/ajax-get-room-wise-view'; ?>',
+                data: {room: room_id, batch: $('#academic_year_id').val(), term_id: $('#term_id').val()}
+            }).done(function (data) {
+
+                $('#grade_data').empty('');
+                $('#grade_data').html(data);
+
+            });
+        });
+
+
+
+
+
+        $('#course_id'). change(function () {
+            var course_id = $('#course_id').val();
+            $.ajax({
+                type: "POST",
+                url: '<?php echo $this->mainconfig['host'] . 'timetable/ajax-get-course-wise-view'; ?>',
+                data: {course_id: course_id}
+            }).done(function (data) {
+
+                $('#grade_data').empty('');
+                $('#grade_data').html(data);
+
+            });
+        });
+
+        $('[data-toggle="tab"]').click(function () {
+            var clickable = $(this).parent('li').index();
+            clickableFun(clickable);
+
+        }); 
+
+
+
+
+ 
+
+        function clickableFun(clickable=0) {
+            if (clickable == 0) {
+                $.ajax({
+                    type: "POST",
+                    url: '<?php echo $this->mainconfig['host'] . 'timetable/ajax-get-week-wise-view'; ?>',
+                    data: {batch: $('#academic_year_id').val(), term_id: $('#term_id').val()}
+                }).done(function (data) {
+                    $('#grade_data').empty('');
+                    $('#grade_data').html(data);
+
+                });
+            } else if (clickable == 1) {
+
+                var faculty = $('#faculty').val();
+                if (faculty) {
+                    $.ajax({
+                        type: "POST",
+                        url: '<?php echo $this->mainconfig['host'] . 'timetable/ajax-get-faculty-wise-view'; ?>',
+                        data: {faculty: faculty, batch: $('#academic_year_id').val(), term_id: $('#term_id').val()}
+                    }).done(function (data) { 
+                        $('#grade_data').empty('');
+                        $('#grade_data').html(data);
+                    });
+                }
+            } else if (clickable == 2) {
+                var room_id = $('#room_id').val();
+               if (room_id) {
+                    $.ajax({
+                        type: "POST",
+                        url: '<?php echo $this->mainconfig['host'] . 'timetable/ajax-get-room-wise-view'; ?>',
+                        data: {room: room_id, batch: $('#academic_year_id').val(), term_id: $('#term_id').val()}
+                    }).done(function (data) {
+
+                        $('#grade_data').empty('');
+                        $('#grade_data').html(data);
+
+                    });
+              }
+            } else if (clickable == 3) {
+
+                   var term_id = $('#term_id').val();
+            var academic_id = $('#academic_year_id').val();
+            // alert(academic_id);
+
+            if (term_id) {
+            $.ajax({
+                type: "POST",
+                url: '<?php echo $this->mainconfig['host'] . 'attendance/ajax-get-course'; ?>',
+                data: {academic_year_id: academic_id, term_id: term_id}
+            }).done(function (data) {
+                //alert(data);
+                $('#course_id').empty('');
+                $('#course_id').html(data);
+            });
+        }
+        else{
+            $('#course_id').empty(''); 
+
+
+        } 
+
+                var course_id = $('#course_id').val();
+                if (course_id||term_id) {
+                    $.ajax({
+                        type: "POST",
+                        url: '<?php echo $this->mainconfig['host'] . 'timetable/ajax-get-course-wise-view'; ?>',
+                        data: {course_id: course_id}
+                    }).done(function (data) {
+                        $('#grade_data').empty('');
+                        $('#grade_data').html(data);
+
+                    });
+                }
+            }
+        }
+    </script>
+
+
+
+
+
+
+

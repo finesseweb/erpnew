@@ -1,0 +1,447 @@
+<style>
+.panel-body{padding: 15px 10px 0 10px;}
+.form-control{width:95%;}
+textarea{resize:none;}
+</style>
+<script src="<?php echo $this->mainconfig['publicpath'];?>js/jquery-ui.min.js"></script>
+	  
+<?php //print_r($this->academics_data);die;?>
+<?php
+error_reporting(0);
+$date = new Zend_Date();
+?>
+<tr class="purchase-quatation-items-close ">
+<td colspan="6">
+<div class="purchase-quatation-items" style="display: block;"><div class="col-sm-12 " >
+      <div id="log1">  
+<div class="panel panel-default bor" >
+ <div class="panel-body" style="">
+     <div>
+         <div class="col-sm-12" width="99%"><center>
+                 <div class="form-group bor" style="">
+                     
+                     <label class="control-label"><strong>Elective Details</strong></label>
+                 </div></center>
+         </div>
+		
+     </div>
+    </div>
+     <div class="row" style="margin-bottom:5px;" >
+         <div class="col-sm-12">
+             <div class="form-group bor" >
+                 <table width="99%" class="table table-striped table-bordered mb30 jambo_table bulk_action" border="0" >
+				 <thead>
+                     <tr align="center">
+                         <th rowspan="2">S. No.</th>
+						 <th rowspan="2">Particulars</th> 
+						 <th colspan="3">First Year</th> 
+                         <th colspan="2">Second Year</th>
+						 <th rowspan="3">Total</th>
+							</tr>
+							<tr>
+						<th>Term 1</th>
+						 <th>Term 2</th>
+                         <th>Term 3</th>
+						 <th>Term 4</th> 
+						 <th>Term 5</th> 
+                     </tr>
+					 <tr>
+					 <td colspan="2">Due Date for Payment</td>
+					 <td></td>
+					 <td></td>
+					 <td></td>
+					 <td></td>
+					 <td></td>
+					 
+					 </tr>
+						</thead>
+                     <tbody>
+                         <?php
+                        // print_r($this->academics_data);
+                         $i=1; 
+					 if(!empty($this->academics_data)){
+							
+					//	echo '<pre>'; print_r($this->academics_data); die;	 
+                       foreach ($this->academics_data as $keys=>$elective_result){ 
+					  // echo '<pre>'; print_r($elective_result); die;
+                     ?>
+								
+				       	<tr>
+						   <td align="center"><?php echo $i++;?></td>
+						   <td align="left" id="students_id" name="students_id"><?php
+						     $st = $this->student_data;
+							foreach($st as $k1=>$student){
+							//print_r($student['student_id']);die;
+							if($elective_result['students_id'] == $student['student_id']){
+						     echo $student['students'];
+						    ?>
+						   <input type="hidden" name="Elective[students_id][]" id="students_id" value="<?php echo $student['student_id'];?>" />
+						   <?php }
+						   } ?></td> 
+						   <td>
+						   <select name="Elective[elective_t4_1][]" class="form-control">
+						   <?php $e1 = $this->electives;
+						  // print_r($e1);
+						   foreach($e1 as $k2=>$val1){ 
+						  
+						    $selected='';
+									 if($k2 == $elective_result['elective_t4_1']){
+										 $selected="selected";
+									 } ?>
+						   <option value="<?php echo $k2;?>"<?php echo $selected;?>><?php echo $val1;?></option>
+						   <?php  } ?>
+						   </select>
+						   </td> 
+						  <td>
+						  <select name="Elective[elective_t4_2][]" class="form-control">
+						   <?php $e2 = $this->electives;
+						  // print_r($e1);
+						   foreach($e2 as $k3=>$val2){ 
+						  
+						    $selected='';
+									 if($k3 == $elective_result['elective_t4_2']){
+										 $selected="selected";
+									 } ?>
+						   <option value="<?php echo $k3;?>"<?php echo $selected;?>><?php echo $val2;?></option>
+						   <?php } ?>
+						   </select>
+						  </td> 
+						  <td> <select name="Elective[elective_t5_1][]" class="form-control">
+						   <?php $e21 = $this->electives;
+						  // print_r($e1);
+						   foreach($e21 as $k4=>$val3){ 
+						  
+						    $selected='';
+									 if($k4 == $elective_result['elective_t5_1']){
+										 $selected="selected";
+									 } ?>
+						   <option value="<?php echo $k4;?>"<?php echo $selected;?>><?php echo $val3;?></option>
+						   <?php } ?>
+						   </select></td> 
+						  <td> <select name="Elective[elective_t5_2][]" class="form-control">
+						   <?php $e22 = $this->electives;
+						  // print_r($e1);
+						   foreach($e22 as $k5=>$val4){ 
+						  
+						    $selected='';
+									 if($k5 == $elective_result['elective_t5_2']){
+										 $selected="selected";
+									 } ?>
+						   <option value="<?php echo $k5;?>"<?php echo $selected;?>><?php echo $val4;?></option>
+						   <?php } ?>
+						   </select></td> 
+						  <td> <select name="Elective[elective_t5_3][]" class="form-control">
+						   <?php $e23 = $this->electives;
+						  // print_r($e1);
+						   foreach($e23 as $k6=>$val5){ 
+						  
+						    $selected='';
+									 if($k6 == $elective_result['elective_t5_3']){
+										 $selected="selected";
+									 } ?>
+						   <option value="<?php echo $k6;?>"<?php echo $selected;?>><?php echo $val5;?></option>
+						   <?php } ?>
+						   </select></td> 
+						  <td> <select name="Elective[elective_t5_4][]" class="form-control">
+						  <?php $e24 = $this->electives;
+						  // print_r($e1);
+						   foreach($e24 as $k7=>$val6){ 
+						  
+						    $selected='';
+									 if($k7 == $elective_result['elective_t5_4']){
+										 $selected="selected";
+									 } ?>
+						   <option value="<?php echo $k7;?>"<?php echo $selected;?>><?php echo $val6;?></option>
+						   <?php } ?>
+						   </select></td> 
+						  
+						</tr>
+								 <?php  } ?>
+						 
+						 
+						 
+						 
+						 
+                         <?php
+                        // print_r($this->academics_data);
+                         }
+					 else{	
+						$i=1;					
+					 if(($this->student_data) >0){
+							
+						//echo '<pre>'; print_r($this->student_data); die;	 
+                       foreach ($this->student_data as $student_names){ 
+                     ?>
+								
+				       	<tr>
+						   <td align="center"><?php echo $i++;?></td>
+						   <td align="left" id="students_id" name="students_id"><?php echo $student_names['students'];?>
+						   <input type="hidden" name="Elective[students_id][]" id="students_id" value="<?php echo $student_names['student_id'];?>" /></td> 
+						   <td>
+						   <select name="Elective[elective_t4_1][]" class="form-control">
+						   <?php foreach($this->electives as $k=>$val){ ?>
+						   <option value="<?php echo $k;?>"><?php echo $val;?></option>
+						   <?php } ?>
+						   </select>
+						   </td> 
+						  <td>
+						  <select name="Elective[elective_t4_2][]" class="form-control">
+						   <?php foreach($this->electives as $k=>$val){ ?>
+						   <option value="<?php echo $k;?>"><?php echo $val;?></option>
+						   <?php } ?>
+						   </select>
+						  </td> 
+						  <td> <select name="Elective[elective_t5_1][]" class="form-control">
+						   <?php foreach($this->electives as $k=>$val){ ?>
+						   <option value="<?php echo $k;?>"><?php echo $val;?></option>
+						   <?php } ?>
+						   </select></td> 
+						  <td> <select name="Elective[elective_t5_2][]" class="form-control">
+						   <?php foreach($this->electives as $k=>$val){ ?>
+						   <option value="<?php echo $k;?>"><?php echo $val;?></option>
+						   <?php } ?>
+						   </select></td> 
+						  <td> <select name="Elective[elective_t5_3][]" class="form-control">
+						   <?php foreach($this->electives as $k=>$val){ ?>
+						   <option value="<?php echo $k;?>"><?php echo $val;?></option>
+						   <?php } ?>
+						   </select></td> 
+						  <td> <select name="Elective[elective_t5_4][]" class="form-control">
+						   <?php foreach($this->electives as $k=>$val){ ?>
+						   <option value="<?php echo $k;?>"><?php echo $val;?></option>
+						   <?php } ?>
+						   </select></td> 
+						  
+						</tr>
+								 <?php  } ?>
+		
+								 <?php } } //else { ?>
+						<!-- 	 <tr><td colspan="4"><center><strong>No Data Available</strong></center></td></tr>  -->
+								 <?php //} ?>	
+					 </tbody>
+                 </table>
+             </div>
+         </div>
+     </div>
+
+    
+     </div>
+ </div>
+</div>
+
+       </div>
+ </div>
+</td>
+</tr>
+
+<style type="text/css">
+/*  .bor {border:1px solid #ccc; } */
+    .table { margin-bottom: 0px !important;width: 100%;}
+    .employee_class {margin-left: 4% !important;margin-right: 4% !important;}
+    .panel-footer {padding: 5px;}
+    .panel {margin-bottom: 10px !important;}
+	a:hover{cursor:pointer;}
+</style>
+
+<script>
+    $(".close_tr").click(function() {
+            $( ".purchase-order-items-close" ).hide();
+     });
+  
+ /* $('#form_date').datepicker({
+	dateFormat: 'dd-mm-yy',
+	prevText: '<i class="fa fa-chevron-left"></i>',
+	nextText: '<i class="fa fa-chevron-right"><i>' 
+}); */
+
+  //$('body').on('change','#label_date', function() { 
+  
+
+ // })
+</script>
+<script type="text/javascript">
+$(document).ready(function() {
+
+var count = $('#count_val1').val();
+     $("body").on("click","#AddButton", function(e){   
+	 
+      $( "#appended_row3" ).clone().find("input:text").val("").end().appendTo( "#fields" );
+			var count_val = count++;
+			
+			//alert(count_val);
+			$('#count_val').val(count_val);
+		//	$('#label_uom').attr('label', 'uom_'+count_val);
+		//	$('#label_uom').attr('data-options', count_val);
+			$('#label_code').attr('label', 'itemcode_'+count_val);
+			$('#label_code').attr('data-options', count_val);			
+			$('#label_product').attr('onchange', 'select_rawm('+count_val+')');
+			$('#label_product').attr('label', 'productid'+count_val);
+			$('#label_tprice').attr('label', 'tprice_'+count_val);
+			$('#product_qty1').attr('label', 'actqty_'+count_val);
+		   //$('#item_qty11').attr('label', 'tprice_'+count_val);
+			$('#product_qty1').attr('onchange', 'select_qty('+count_val+')');
+			//$('#product_qty1').attr('onkeyup', 'select_qty('+count_val+')');				
+			$('#label_uprices').attr('label', 'vehicle_'+count_val);		
+			$('#label_uprices').attr('onkeyup', 'validations('+count_val+')');		
+			$('#label_date').attr('label', 'vehicledate_'+count_val);
+			$('#label_date').attr('onchange', 'mydate1('+count_val+')');
+$('#bill').attr('label', 'bill_'+count_val);	
+$('#brate').attr('label', 'baserate_'+count_val);	
+$('#t_value').attr('label', 'total_value_'+count_val);
+$('#transporter').attr('label', 'transporter_'+count_val);
+$('#freight').attr('label', 'freight_'+count_val);	
+$('#remark').attr('label', 'remarks_'+count_val);
+		//	$('#label_uprice').attr('onchange', 'select_quantity('+count_val+')');
+			//$('#label_uprice').attr('onkeyup', 'select_quantity('+count_val+')');
+	     	//$('#item_qty12').attr('onchange', 'select_reject_qty(this.value,'+count_val+')');			
+			// Validate 
+			$('#label_tprice').attr('required', 'required');
+		//	$('#label_uom').attr('required', 'required');
+			$('#label_product').attr('required', 'required');
+        
+   /* $("#basicForm input[label='vehicledate_"+count_val+"']").datepicker({
+	dateFormat: 'dd-mm-yy',
+	prevText: '<i class="fa fa-chevron-left"></i>',
+	nextText: '<i class="fa fa-chevron-right"><i>' 
+});   */
+//alert(count_val);
+ 
+  return false;
+	 });
+
+    $("body").on("click",".removeclass", function(e){
+                   $(this).parent('div').remove(); 
+	});
+});
+
+
+/* function mydate1(num) { //alert(num);
+ var d = $("#basicForm input[label='vehicledate_"+num+"']").val();
+ //alert(d);
+  //dt = d.getDate();
+ // alert(dt);
+ //var mn = d.getMonth();
+ //alert(mn);
+ // mn++; 
+ //var yy = d.getFullYear();
+ // alert(yy);
+ // var format = dt + "/" + mn + "/" + yy;
+  $("#basicForm input[label='vehicledate_"+num+"']").val(format);
+} */
+function  validations(vals){	
+	var value = $("#basicForm input[label='vehicle_"+vals+"']").val();	
+	//alert(value); 
+		len=value.length;
+		 n=value.charCodeAt(len-1);
+		 if(n<47||n>123||len>10)
+		 {
+		  p=value.substr(0,len-1);
+		 $("#basicForm input[label='vehicle_"+vals+"']").val(p);	
+		 }		 
+}
+
+
+
+function  select_rawm(vals){	
+	var id = $("#basicForm select[label='productid"+vals+"']").val();	
+	//alert(id);
+	var transaction = $('#transact_qty').val();
+	$.ajax({
+		type: "POST",
+		url:"<?php echo $this->mainconfig['host'].'vehicle-allocation/ajax-product-Details';?>",
+		data: { id: id,transaction_id:transaction }
+	}).done(function( data ) {
+	  var results = $.parseJSON(data)
+	//	$("#basicForm input[label='uom_"+vals+"']").val(results['uom']);
+		$("#basicForm input[label='baserate_"+vals+"']").val(results['unit_price'])
+	 });		
+}
+
+function  select_qty(vals){
+//alert('dsgsfg');	
+	var id = $("#basicForm select[label='productid"+vals+"']").val();
+	//alert(id);
+	var quantity = $("#basicForm input[label='actqty_"+vals+"']").val();
+	var qty_sent = $("#qty_"+id).val();
+	// alert(qty_sent);
+	 var total_limitqty=0;	
+	 var sent_qtyval=0;
+	var transaction = $('#transact_qty').val();
+	$.ajax({
+		type: "POST",
+		url:"<?php echo $this->mainconfig['host'].'vehicle-allocation/ajax-product-quantity';?>",
+		data: { id: id ,transaction_id:transaction}
+	}).done(function( data ) {
+		var results = $.parseJSON(data);
+		var qty = results['quantity'];
+		var products = results['product_id'];
+		//alert(products);
+		var brate = results['unit_price'];
+		//alert(brate);
+	//	$("#basicForm input[label='uom_"+vals+"']").val(results['uom']);
+		//var load=parseFloat(results['loading_amount']);
+		//alert(load);
+		//var excise=parseFloat(results['excise_amount']);
+		//alert(excise);
+		//var cst=parseFloat(results['cst_amount']);
+		//alert(cst);
+		var load=parseFloat(results['loading']);
+		// alert(load);
+		var load_amount=0;
+		//alert(load);
+		var excise=parseFloat(results['excise_amount']);
+		//alert(excise);
+		var cst=parseFloat(results['cst_amount']);
+		//alert(cst);
+		var total_quantity=0;
+		var total_price=0;
+		var total_val=0;
+		if(id == products){
+		
+	     $("#basicForm input[label='actqty_"+vals+"']").removeAttr("class");
+		 $("#basicForm input[label='actqty_"+vals+"']").attr("class");
+	     $("#basicForm input[label='actqty_"+vals+"']").addClass( "quantity_"+id );
+		 $("#basicForm input[label='actqty_"+vals+"']").addClass( "form-control" );
+		
+         var value=0;	
+         
+        	 
+		$('.quantity_'+id).each(function() {
+		value = parseFloat($(this).val());
+		
+       	if (!isNaN(value))
+		
+		total_quantity += value;
+		
+		
+		//total_price = value*brate;
+	//	load_amount=value*load;
+	//	total_val =  total_price+excise+cst+load_amount;
+	//	alert(total_val);
+	//	$("#basicForm input[label='total_value_"+vals+"']").val(total_val);
+	   sent_qtyval = 5;
+	   total_limitqty = parseInt(qty_sent)+parseInt(sent_qtyval);
+		// alert(total_limitqty);
+		if(total_quantity <= total_limitqty)
+		{
+		 // alert(qty_sent);
+		  total_price = total_quantity*brate;
+		 // alert(total_price);
+		  load_amount=total_quantity*load;
+		 // alert(load_amount);
+		  total_val = parseFloat(total_price)+parseFloat(excise)+parseFloat(cst)+parseFloat(load_amount);
+		//alert(total_val);
+		$("#basicForm input[label='total_value_"+vals+"']").val(total_val);
+		}
+		else{
+		//alert(total_limitqty);
+		 alert('Quantity should be less than Product Total Quantity');
+		 $("#basicForm input[label='actqty_"+vals+"']").val(0);
+	    }
+		});
+		 }
+		//$("#basicForm select[label='itemdata_"+vals+"']").html( data );
+	 }); 	
+}
+</script>
+

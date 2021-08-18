@@ -1,0 +1,26 @@
+      
+
+<?php
+                                $i = 0;
+                                $item_result = '';
+                                if (count($this->item_result) != 0) {
+                                    foreach ($this->item_result as $key => $results) {
+                                        echo "<tr>";
+                                                echo "<td>".++$i."</td>";
+                                                echo "<td>".$results['electives'][0]['course_name']."</td>";
+                                                echo "<td>".$results['credit_value']."</td>";
+                                        
+                                        
+                                        echo "</tr>";
+                                        ?>
+          
+    <?php
+    }
+}
+else{
+    
+    echo "<tr><td colspan = '2' class='text-center'>No data available in table</td></tr>";
+    
+}
+?>
+

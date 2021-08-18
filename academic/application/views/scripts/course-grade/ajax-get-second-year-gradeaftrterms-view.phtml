@@ -1,0 +1,217 @@
+<tr class="sub">
+<td colspan="4">
+
+         <div class="col-sm-2" style="float:right;"><button class="close_tr btn btn-primary">Close</button></div>
+<br></br>
+<?php 
+
+$term_result = $this->term_result;
+
+for($i=0;$i<count($term_result);$i++) {   ?>
+ <div class="box-body">
+	<h4 style="background-color:#3c8dbc;padding:8px 8px;color:white;"><?php echo $term_result[$i]['term_name'];?></h4>
+	<div style="overflow-x:scroll; width:1013px;">
+	<table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+<thead>
+					<tr>
+						<th rowspan="2">S. No.</th>
+						<th rowspan="2">Name of Participants</th>
+						<th rowspan="2">ID Number</th>
+						<th>Course</th>
+						<?php 
+						
+						$Corecourselearning_model =  new Application_Model_Corecourselearning();
+							$result = $Corecourselearning_model->getcorecourses($term_result[$i]['academic_year_id'],$term_result[$i]['term_id']);
+							
+							foreach($result as $k => $val) {
+							?>
+							<th><?php echo 	$val['course_name']; ?></th>
+							<?php } ?>
+							<?php  $ElectiveCourseLearning_model = new Application_Model_ElectiveCourseLearning();
+									$elective_count = $ElectiveCourseLearning_model->getCount($term_result[$i]['academic_year_id'],$term_result[$i]['term_id']); 
+									//$term_count = $elective_count['term_count'];
+						//for($count=1;$count<=$term_count;$count++){			?>
+						<?php $ElectiveCourseLearning_model =  new Application_Model_ElectiveCourseLearning();
+						$term_wise_electives = $ElectiveCourseLearning_model->getAllElectiveCourses($term_result[$i]['academic_year_id'],$term_result[$i]['term_id']);
+                       	foreach($term_wise_electives as $e => $term_els) { ?>
+						<th>
+						<?php echo $term_els['course_name']; ?>
+						</th>
+						<?php } ?>
+							
+						<th>Grade Point Average</th>
+					</tr>
+					<tr>	
+						<th>Credits</th>
+						<?php foreach($result as $k => $val) {
+							?>
+						<th><?php echo $val['credit_value']; ?></th>
+						<?php }
+						//for($count=1;$count<=$term_count;$count++){	
+                     foreach($term_wise_electives as $e => $term_els) {	?>
+						<th>
+						<?php echo $term_els['credit_value']; ?>
+						</th>
+						<?php } ?>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+				<?php $StudentPortal_model = new Application_Model_StudentPortal(); 
+				 $category_data=$StudentPortal_model->getstudentsdetails($term_result[$i]['academic_year_id']);
+				 $m = 1;
+				 $total = 0;
+				
+				 foreach($category_data as $stu_data) {  $flag = 0;	 ?>
+					
+							<tr>
+								<td><?php echo $m; ?></td>						
+								
+								<td><?php echo $stu_data['students']; ?></td>
+								
+							<input type="hidden" name="course[student_id_<?php echo $term_result[$i]['term_id'];?>][]" id="student_id" value="<?php echo $stu_data['student_id']; ?>" />
+								<td><?php echo $stu_data['stu_id']; ?></td>
+								<td></td>	
+								<?php 
+								      $total_credit_value = 0;
+									  $tot_grade = 0;
+									  $academic_courses = '';
+									  $academic_credits = '';
+									  $academic_grades = '';
+									  $total_grade = 0;
+									  $tot_grade_point =0;
+									foreach($result as $k => $val) {
+									$ElectivesGradeAllocationReport_model = new Application_Model_ElectivesGradeAllocationReport(); 
+									$grade_point = $ElectivesGradeAllocationReport_model->getGradePointValue($term_result[$i]['academic_year_id'],$term_result[$i]['term_id'],$val['course_id'],$stu_data['student_id']);
+									//echo'<pre>';print_r($grade_point['grade_point']);die;
+									$academic_courses = $academic_courses.$val['course_id'].",";
+									$academic_credits = $academic_credits.$val['credit_value'].",";
+									
+									
+									$Coursewisepenalties_model = new Application_Model_Coursewisepenalties();
+$absence_values = $Coursewisepenalties_model->getAbsenceValues($term_result[$i]['academic_year_id'],$term_result[$i]['term_id'],$stu_data['student_id']);
+$penalties_values = explode(',',$absence_values['absence']);
+//echo'<pre>';print_r($absence_values);die;
+									?>
+									<td><?php if($grade_point['grade_point'] == '')
+{ $grade = '0'; } else { $grade = $grade_point['grade_point'];  } echo $tot = $grade-$penalties_values[$k]; 
+
+$academic_grades = $academic_grades.$tot.",";
+										$total_grade += $tot*$val['credit_value']; 
+									
+							?></td>
+								<?php  
+								       
+									   $total_credit_value  += $val['credit_value']; 
+									   
+								
+								} $tot_grade += ($total_grade)/($total_credit_value); ?>
+							<?php  $CourseGrade_model = new Application_Model_CourseGrade();
+							$electives = $CourseGrade_model->getElectiveValues($term_result[$i]['academic_year_id'],$term_result[$i]['term_id'],$stu_data['student_id']);
+							
+							$electives_val=rtrim($electives['elective_values'],',');
+							
+								//print_r($electives);
+							//echo'<pre>';print_r($electives['elective_values']);die;
+						    $grade_elevalues = explode(',',$electives_val);
+							// echo'<pre>';print_r($electives);die;
+							
+							//$electives_id=rtrim($electives['academic_electives'],',');
+							$academic_elective_ids = explode(',',$electives['academic_electives']);
+							$TermMaster_model = new Application_Model_TermMaster();
+							$tot_elective_credit = $TermMaster_model->getElectiveCredit($term_result[$i]['academic_year_id'],$term_result[$i]['term_id']);
+							$count=0;
+						    $tot_elective_grade =0;
+							$total_elecredit_value =0;
+							$tot_elegrade =0;
+							$tot_ele=0;
+							$electives_ids = '';
+						    $tot_elective_and_course_credit = $tot_elective_credit['electives_credits']+$total_credit_value;
+//echo'<pre>';print_r($tot_elective_and_course_credit);die;							
+						    $academic_electives = '';
+							
+							$Coursewisepenalties_model = new Application_Model_Coursewisepenalties();
+$absence_values = $Coursewisepenalties_model->getAbsenceValues($term_result[$i]['academic_year_id'],$term_result[$i]['term_id'],$stu_data['student_id']);
+
+$electives_penaltyval=rtrim($absence_values['academic_electives'],',');
+$penalties_values = explode(',',$electives_penaltyval);
+//echo'<pre>';print_r($penalties_values);die;
+foreach($term_wise_electives as $e => $term_els) { 
+$flag=0;
+							foreach($grade_elevalues as $m => $els) { 
+							//echo'<pre>';print_r($academic_elective_ids[$m]);die;
+							//echo "<td>".count($grade_elevalues)."</td>";
+						   $count++;
+						   
+							 if($academic_elective_ids[$m] == $term_els['course_id'] ){ 
+                                 $flag=1;
+								 $ac_elective_ids = $academic_elective_ids[$m];
+							 $electives_ids = $electives_ids.$ac_elective_ids.',';
+							//echo'<pre>';print_r($electives_ids);die;
+							//$academic_electives = $academic_electives.$els['grade_point'].',';
+							?>
+							<?php if($els == ''){ 
+							$grade_elective = '0'; 
+							} else { 
+							$grade_elective = $els; 
+							} 
+							 $tot_ele = $grade_elective - $penalties_values[$m]; 
+							$tot_elective_grade += $term_els['credit_value']*($tot_ele); 
+							
+							$academic_electives = $academic_electives.$tot_ele.',';		
+							}  } 
+							  if($flag==1)
+								 {
+									  ?>
+									  <td><?php echo $tot_ele;
+									  
+									  ?></td><?php
+								 }
+								 else
+								 {
+									 ?><td>0</td><?php
+								 }
+			//	 $total_elecredit_value  += $val['credit_value']; 
+								//	   $tot_elegrade += ($tot_elective_grade)/($total_elecredit_value); */
+                                }
+						//	echo $total_grade;die;
+							/*if($count!=$term_count)
+							{
+								?>
+								<td><?php echo '0'; ?></td>
+								<?php
+							} */
+							?>
+					<td><?php  
+							  $tot_grade_point = ($tot_elective_grade+$total_grade)/($tot_elective_and_course_credit) ;
+								//echo ($tot_elective_grade+$total_grade);die;
+								 echo number_format($tot_grade_point,3); ?></td>   
+
+<input type="hidden" name="course[academic_courses_<?php echo $term_result[$i]['term_id']; ?>][]" id="academic_courses" value="<?php echo  $academic_courses; ?>" />
+<input type="hidden"  name="course[academic_credits_<?php echo $term_result[$i]['term_id'];?>][]"  id="academic_credits" value="<?php echo $academic_credits; ?>" />
+<input type="hidden" name="course[academic_grades_<?php echo $term_result[$i]['term_id'];?>][]" id="academic_grades" value="<?php echo $academic_grades; ?>" />
+<input type="hidden" name="course[total_academic_grade_<?php echo $term_result[$i]['term_id'];?>][]" id="total_academic_grade" value="<?php $gt_tot = number_format($tot_grade_point); echo $gt_tot; ?>" />
+<input type="hidden" name="course[academic_electives_<?php echo $term_result[$i]['term_id'];?>][]" id="academic_electives"
+value="<?php echo $academic_electives; ?>" />
+<input type="hidden" name="course[elective_ids_<?php echo $term_result[$i]['term_id'];?>][]" id="elective_ids"
+value="<?php echo $electives_ids; ?>" />
+
+							</tr>  
+				 <?php $m++; }  
+				 ?>	
+				</tbody>
+	</table>
+
+</div>
+</div>
+<?php }  ?>
+</td>
+</tr>
+<script>
+    $(".close_tr").click(function() {
+            $( ".sub" ).hide();
+     });
+      $('#print').click(function(){
+        window.print();
+    })
+</script>

@@ -1,0 +1,208 @@
+<?php if ($this->type == "add" || $this->type == "edit") { ?>
+    <div class="">
+        <form id="basicForm" action="<?php echo $this->ErpFinanceDailyBook_form->getAction() ?>" method="post" class="form">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Daily Book</h4>
+                </div>
+                <div class="panel-body"><div class="row">
+                        <div class="col-sm-5 employee_class">
+                            <div class="form-group">
+                                <label class="control-label">Transaction Type <span class="asterisk">*</span></label>
+                                <?php echo $this->ErpFinanceDailyBook_form->trasaction_type; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5 employee_class">
+                            <div class="form-group">
+                                <label class="control-label">Transaction Amount <span class="asterisk">*</span></label>
+                                <?php echo $this->ErpFinanceDailyBook_form->transaction_amount; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5 employee_class">
+                            <div class="form-group">
+                                <label class="control-label">Date <span class="asterisk">*</span></label>
+                                <?php echo $this->ErpFinanceDailyBook_form->transaction_date; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5 employee_class">
+                            <div class="form-group">
+                                <label class="control-label">Remarks <span class="asterisk">*</span></label>
+                                <?php echo $this->ErpFinanceDailyBook_form->remarks; ?>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-9 col-sm-offset-3">
+                            <button class="btn btn-primary">Submit</button>
+                            <button type="reset" class="btn btn-default">Reset</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+
+<?php } else if ($this->type == "import") { ?>
+    <div class="">
+        <form id="basicForm" action="<?php echo $this->ImportForm->getAction() ?>"  method="post" enctype="multipart/form-data" class="form">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-btns">
+
+                    </div>
+                    <h4 class="panel-title">Add Assets</h4>
+                </div>
+                <div class="panel-body">
+
+
+                    <div class="row">
+                        <div class="col-sm-2  " style="margin-left: 4%; width: 11%; ">
+                            <div class="form-group">
+                                <label class="control-label" style="margin-top: 6px;">Upload File</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 ">
+                            <div class="form-group">
+                                <?php echo $this->ImportForm->import; ?>
+                                <!--<input type="file" class="form-control" id="import" name="file" style="padding: 5px;">-->
+                            </div>
+                        </div>
+                        <div class="col-sm-1 ">
+                            <div class="form-group">
+
+                                <input type="submit" name="import" value="Import" onclick="fnimport();" class="btn btn-success" />
+                            </div>
+                        </div>
+                        <div class="col-sm-1  " >
+                            <div class="form-group">
+                                <label class="control-label" style="margin-top: 6px;">Download </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 ">
+                            <div class="form-group">
+
+                                <input type="submit" name="smaplefile"  value='Sample Excel File ' class="btn btn-success" >
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+                </div>
+                <div class="panel-footer">
+
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+
+    <script>
+        function fnimport()
+        {
+            var fup = document.getElementById('import');
+            var fileName = fup.value;
+            var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+            if (ext != "xls")
+            {
+                alert("Upload xls file!!");
+                fup.focus();
+                return false;
+            }
+        }
+    </script>
+
+<?php } else { ?>
+    <?php
+    if (count($this->messages)) {
+        foreach ($this->messages as $message) {
+            ?>
+            <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <?php echo $this->escape($message); ?></div>
+            <?php
+        }
+    }
+    ?>
+    <div class="pageheader">
+        <h2><i class="fa fa-bars"></i>Daily Book</h2>
+        <div  style="float: right; margin-top: -32px;"><a class="btn btn-warning" href="<?php echo $this->mainconfig['host']; ?>finance/daily-book/index/type/add">Add Note </a></div>
+    </div>
+
+    <div class="table-responsive">
+
+        <table class="table table-striped mb30" id="table2">
+            <thead>
+                <tr>
+                    <th>S. No</th>
+					<th>Transaction ID</th>
+                    <th>Transaction Type</th>
+                    <th>Transaction Amount</th>
+                    <th>Remarks</th>
+
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <?php
+                $i = 1;
+                if (count($this->paginator) != 0) {
+                    foreach ($this->paginator as $results) {
+                        ?>
+                        <tr>
+                            <td><?php
+                                echo $i;
+                                $i++;
+                                ?></td>
+								<td> <?php
+                                if (strlen($results['daily_book_id']) == 1) {
+                                    echo @(DAILY_BOOK_ID) . "000" . $results['daily_book_id'];
+                                } else
+                                if (strlen($results['daily_book_id']) == 2) {
+                                    echo @(DAILY_BOOK_ID) . "00" . $results['daily_book_id'];
+                                } else
+                                if (strlen($results['daily_book_id']) == 3) {
+                                    echo @(DAILY_BOOK_ID) . "0" . $results['daily_book_id'];
+                                } else {
+                                    echo @(DAILY_BOOK_ID) . "" . $results['daily_book_id'];
+                                }
+                                ?></td>
+                            <td><?php if ($results['trasaction_type'] == 1) echo "Credit";else if ($results['trasaction_type'] == 2) echo "Debit"; ?></td>
+                            <td><?php echo number_format($results['transaction_amount'], 2); ?></td>
+                            <td><?php
+                                echo substr($results['remarks'], 0, 30);
+                                if (strlen($results['remarks']) > 30)
+                                    echo '....';
+                                ?></td>
+                            <td><a href="<?php echo $this->mainconfig['host']; ?>finance/daily-book/index/type/edit/id/<?php echo $results['daily_book_id']; ?>">Edit</a> &nbsp; | &nbsp;  <a href="<?php echo $this->mainconfig['host']; ?>finance/daily-book/index/type/delete/id/<?php echo $results['daily_book_id']; ?>"> Delete </a></td>
+                        </tr>
+                    <?php } ?>
+                    <tr class="odd gradeX">
+                        <td colspan="6" align="center"> <?php echo $this->paginationControl($this->paginator, 'Sliding', array('pagination.phtml', 'default')); ?>
+                        </td></tr>
+                <?php } else { ?>
+                    <tr class="odd gradeX">
+                        <td colspan="6" align="center">No Results Found</td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
+
+<?php } ?>

@@ -1,0 +1,469 @@
+<div class="right_col">
+
+<?php if ($this->type) { ?>
+<div class="padding-md ">
+	<div class="row">
+		<div class="col-md-12">
+		<h3 class="page-title txt-color-blueDark" >
+			<div><i class="fa fa-eye">Grade Allocation</i></div>
+		</h3>
+			<div class="panel panel-default">
+
+				<form class="no-margin" id="formValidate1" action="<?php echo $this->form->getAction() ?>" method="post" data-validate="parsley" >
+					
+					<div class="panel-body">
+                                            <?php
+                                            $hide_filter_block = '"';
+                                            if(in_array($this->role_id, $this->administrator_role)){
+                                                $hide_filter_block = '';
+                                            }
+                                            ?>
+					<div class="row" <?php echo $hide_filter_block; ?> >
+						<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Batch<span class="asterisk">*</span></label>
+                                <?php echo $this->form->academic_id; ?>
+                            </div>
+							</div>
+							<?php /* <div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Year<span class="asterisk">*</span></label>
+                                <?php echo $this->form->year; ?>
+                            </div>
+							</div>	 */ ?>
+						<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Department<span class="asterisk">*</span></label>
+                                <?php echo $this->form->department_id; ?>
+                            </div>
+						</div>
+						<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Faculty<span class="asterisk">*</span></label>
+                                <?php echo $this->form->employee_id; ?>
+                            </div>
+						</div>	
+					<div id="term_ids"></div>						
+					</div>
+					<div class="row" <?php echo $hide_filter_block; ?>>
+							<div class="col-sm-3">
+							<div class="form-group">
+							<input type="text" id="batch" class="form-control"  style="background-color:#fdf59a;" readonly /></div>
+							</div>
+							</div>
+					<div class="row" <?php echo $hide_filter_block; ?>>
+					
+					<div id="course_ids"></div>
+					<div id="components_ids"></div>
+					</div>
+					<div class="" id="grade_data">
+					</div>
+				<input type="hidden" name="students_name" id="students_name" value="<?php echo $this->students_name;?>"/> 
+				<input type="hidden" name="grade_allocate_id" id="grade_allocate_id" value="<?php echo $this->grade_allocate_id; ?>" />
+ 			</div>
+			
+			<div class="panel-footer">									
+							<div class="row">
+								<div class="col-sm-7 col-sm-offset-5">
+									<?php if ($this->type == 'add') { ?> 
+										<div style="float:left;margin-right:2px;">
+										<button class="btn btn-primary submit">Submit</button>
+										</div>
+										<div style="float:left;padding:0px 10px;">
+										<button type="reset" class="btn btn-danger btn-default">Reset</button>
+										</div>
+									<?php } else { 
+                                                                            //1. Hide 'Update' button if GradeReport is generated
+                                                                            //2. Show 'Update' button a)to the faculty to whom this course is assigned. and b) only if the faculty has not submitted to DEAN
+                                                                            //3. Show 'Update' button a) if DEAN/Director is logged in b)GradeReport is not generated.
+                                                                            $login_empl_id = $this->login_storage->empl_id;
+                                                                            
+                                                                            
+                                                                            if(!$this->isGradeReportPublished){
+                                                                                if(($login_empl_id == $this->grade_detail['employee_id']) || in_array($this->role_id, $this->administrator_role)){
+                                                                            ?>
+                                                                    
+										<div style="float:left;">
+										<button class="btn btn-primary submit">Update</button>
+										</div>
+                                                                    <?php
+                                                                                }
+                                                                        }
+                                                                        else{
+                                                                            echo '<div class="pull-right font-weight-bold">Grade is already published. You can\'t edit it</div>';
+                                                                        }
+                                                                        ?>
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+										<div style="float:left;">
+										<a class="btn btn-primary" href="<?php echo $this->mainconfig['host']; ?>grade-allocation/index">Back</a>
+										</div>
+									<?php } ?>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div><!-- /panel -->
+		</div><!-- /.col-->				
+	</div><!-- /.row -->
+	
+</div><!-- /.padding-md -->	
+<?php } else { ?>
+  
+<?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+     <div class="alert alert-success ">
+<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+<?php echo $this->escape($message); ?>
+</div>
+ <?php } } ?>
+ <!-- widget grid -->
+<div class="">
+	<div class="">
+		<div class="row">
+			
+			<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+		<h3 class="page-title txt-color-blueDark">
+			<i class="fa fa-bars"> Grade Allocation</i>
+				
+		</h3>
+	</div>
+		<?php
+                                        //    if(in_array($this->role_id, $this->administrator_role)){
+                                            ?>		
+		<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">	 
+			
+			<a class="btn btn-primary pull-right" style="margin-top: 25px;" href="<?php echo $this->mainconfig['host']; ?>grade-allocation/index/type/add">Add </a>
+		</div>
+                    <?php
+                                          //  }
+                                            ?>
+		</div>
+		
+		<div class="x_panel">
+               
+                    <div class="x_title">
+                    <h2>Grade Details</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                       </li>
+                      <li><a class=""><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+
+<div class="x_content">
+		
+		<div class="padding-md clearfix">
+                      
+			<table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+				<thead>
+					<tr>
+						<th>S.  No.</th>
+						<th>Batch</th>
+						<th>Faculty</th>
+						<th>Term</th>
+						<th>Course</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+
+						$i = 1;
+						$pagination_tr = '';
+						if (count($this->paginator) != 0) {
+
+						foreach ($this->paginator as $results) {
+						//print_r($results);die;
+
+					?>
+							<tr>
+								<td><?php echo $i;
+
+									$i++; ?>
+								</td>						
+								
+								<td><?php echo $results['academic_year']; ?></td>
+								<?php $HRMModel_model = new Application_Model_HRMModel(); 
+								     $emp = $HRMModel_model->getEmployeeData($results['employee_id']);?>
+								<td><?php echo $emp['empl_firstname']; ?></td>
+								<td><?php echo $results['term_name']; ?></td>
+								<td><?php echo $results['course_name']; ?></td>
+								<td><a href="<?php echo $this->mainconfig['host']; ?>grade-allocation/index/type/edit/id/<?php echo $results['grade_id']; ?>" class="edit" title="Edit"><span class="fa fa-edit fa-lg"></span></a><?php if(in_array($this->role_id,$this->administrator_role)){?><!--&nbsp; | &nbsp;  <a href="<?php echo $this->mainconfig['host']; ?>grade-allocation/index/type/delete/id/<?php echo $results['grade_id']; ?>" onclick="return ConfirmDelete();" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a>--><?php } ?></td>
+
+							</tr>            
+
+						<?php }
+						$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+						} ?>
+
+				</tbody>
+			</table>
+			 <?php echo $pagination_tr; ?>
+		</div><!-- /.padding-md -->
+	</div><!-- /panel -->
+	</div>
+	</div>
+</div><!-- /.padding-md -->		
+<?php } ?>
+</div>
+<script>
+$(document).ready(function() {		
+	//$("#stu_dob").datepicker({ dateFormat: 'dd-mm-yy' });  
+	$('#stu_dob').datepicker( {format: 'dd-mm-yyyy'} );
+}); 
+
+
+	function ConfirmDelete()
+	{
+	var x = confirm("Are you sure you want to delete?");
+	if(x)
+		return true;
+	else
+		return false;
+	}
+	
+	
+ /* $("#year").change(function() {
+	 var academic_id=$("#academic_id").val();
+	 //alert(academic_id);
+	 var year=$("#year").val();
+	 $.ajax({ 
+			type: "POST",
+			url:"<?php echo $this->mainconfig['host'].'grade-allocation/ajax-get-grade-allocation';?>",
+			data: { academic_year_id : academic_id,year: year}
+		}).done( function( data ) { 
+	     //	alert(data);	
+			$("#grade_data").html(data);
+		});
+	
+}); */
+$('body').on('change','#department_id',function() { 
+		var department_id = $('#department_id').val();
+		$.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'grade-allocation/ajax-get-employee';?>',
+			data: {department_id : department_id}
+		}).done(function( data ) {
+			
+			$('#employee_id').empty('');
+			$('#employee_id').html(data);
+			
+		})	
+})	
+/* $('body').on('change','#employee_id',function() { 
+var academic_year_id = $('#academic_id').val();
+var department_id = $('#department_id').val();
+var employee_id = $('#employee_id').val();
+	
+	$.ajax({
+	type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'grade-allocation/ajax-get-employee-terms';?>',
+			data: {department_id : department_id,employee_id:employee_id,academic_year_id:academic_year_id}
+	
+	}).done(function( data ) {
+		
+		$('#grade_data').empty('');
+		$('#grade_data').html(data);
+	})
+}) */
+$('body').on('change','#employee_id',function() {  
+var employee_id = $('#employee_id').val();
+var department_id = $('#department_id').val();
+var academic_year_id = $('#academic_id').val();
+$.ajax({
+		type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'grade-allocation/ajax-get-terms';?>',
+			data: {employee_id : employee_id,department_id:department_id,academic_year_id:academic_year_id}
+		}).done(function( data ) {
+			//alert(data);
+			$('#term_ids').empty('');
+			$('#term_ids').html(data);
+	})
+})
+var employee_id = $('#employee_id option:selected').val();
+var department_id = $('#department_id option:selected').val();
+var academic_year_id = $('#academic_id option:selected').val();
+var grade_allocate_id = $('#grade_allocate_id').val();
+
+$.ajax({
+		type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'grade-allocation/ajax-get-terms';?>',
+			data: {employee_id : employee_id,department_id:department_id,academic_year_id:academic_year_id,grade_allocate_id:grade_allocate_id}
+		}).done(function( data ) {
+			//alert(data);
+			$('#term_ids').empty('');
+			$('#term_ids').html(data);
+			var term_id = $('#term_id option:selected').val();
+		$.ajax({
+				type: "POST",
+					url:'<?php echo $this->mainconfig['host'].'grade-allocation/ajax-get-courses-edit';?>',
+					data: {employee_id : employee_id,department_id:department_id,academic_year_id:academic_year_id,term_id:term_id,grade_allocate_id:grade_allocate_id}
+				}).done(function( data ) {
+					
+					$('#course_ids').empty('');
+					$('#course_ids').html(data);
+					
+					var course_id = $('#course_id option:selected').val();
+		/* $.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'grade-allocation/ajax-get-evaluation-components';?>',
+			data: {employee_id : employee_id,department_id:department_id,academic_year_id:academic_year_id,term_id:term_id,course_id:course_id,grade_allocate_id:grade_allocate_id}
+			}).done(function( data ) {
+			
+			$('#components_ids').empty('');
+			$('#components_ids').html(data);
+			
+			 var academic_id=$("#academic_id").val();
+	 var component_name = $('#component_id option:selected').text();
+	 //alert(component_name)
+	 var component_id = $('#component_id option:selected').val();
+	 //alert(academic_id); */
+	 if(course_id != ''){
+	  var academic_id=$("#academic_id").val();
+	 $.ajax({ 
+			type: "POST",
+			url:"<?php echo $this->mainconfig['host'].'grade-allocation/ajax-get-student-details';?>",
+			//data: { academic_year_id : academic_id,component_name:component_name,component_id:component_id,grade_allocate_id:grade_allocate_id,course_id:course_id}
+			data: { employee_id : employee_id,department_id:department_id,academic_year_id:academic_year_id,term_id:term_id,course_id:course_id,grade_allocate_id:grade_allocate_id}
+		}).done( function( data ) { 
+	     //	alert(data);	
+			$("#grade_data").html(data);
+		});
+	 }
+	
+		 // })
+					
+					
+		})
+			
+			
+		})
+$('body').on('change','#term_id',function() {  
+var employee_id = $('#employee_id').val();
+var department_id = $('#department_id').val();
+var academic_year_id = $('#academic_id').val();
+var term_id = $('#term_id').val();
+$.ajax({
+		type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'grade-allocation/ajax-get-courses';?>',
+			data: {employee_id : employee_id,department_id:department_id,academic_year_id:academic_year_id,term_id:term_id}
+		}).done(function( data ) {
+			
+			$('#course_ids').empty('');
+			$('#course_ids').html(data);
+			
+			
+
+	})
+
+})
+
+
+
+$('body').on('change','#course_id',function() {
+var employee_id = $('#employee_id').val();
+var department_id = $('#department_id').val();
+var academic_year_id = $('#academic_id').val();
+var term_id = $('#term_id').val();
+var course_id = $('#course_id').val();
+/*$.ajax({
+		type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'grade-allocation/ajax-get-grade-evaluation-components';?>',
+			data: {employee_id : employee_id,department_id:department_id,academic_year_id:academic_year_id,term_id:term_id,course_id:course_id}
+		}).done(function( data ) {
+			
+			$('#components_ids').empty('');
+			$('#components_ids').html(data);
+	}) */
+	
+	$.ajax({ 
+			type: "POST",
+			url:"<?php echo $this->mainconfig['host'].'grade-allocation/ajax-get-student-details';?>",
+			data: { employee_id : employee_id,department_id:department_id,academic_year_id:academic_year_id,term_id:term_id,course_id:course_id}
+		}).done( function( data ) { 
+	     //	alert(data);	
+			$("#grade_data").html(data);
+		});
+})
+
+
+$('body').on('change','#component_id',function() { 
+	 var academic_id=$("#academic_id").val();
+	 var component_name = $('#component_id option:selected').text();
+	 //alert(component_name)
+	 var component_id = $('#component_id option:selected').val();
+	 //alert(academic_id);
+	/* $.ajax({ 
+			type: "POST",
+			url:"<?php echo $this->mainconfig['host'].'grade-allocation/ajax-get-student-details';?>",
+			data: { academic_year_id : academic_id,component_name:component_name,component_id:component_id}
+		}).done( function( data ) { 
+	     //	alert(data);	
+			$("#grade_data").html(data);
+		}); */
+	
+});
+
+
+$('body').on('change', '#academic_id', function() {		
+var academic_id=$('#academic_id').val();
+   if(academic_id){
+   $('#batch').show();
+	$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-batch-code';?>',
+			data: {academic_id:academic_id}
+		}).done(function( data ) {
+			var result = $.parseJSON(data);
+			if((data!='')){
+				$('#batch').val(result['short_code']);
+			}
+	  });
+	 }
+	 
+ }); 
+ 
+var academic_id=$('#academic_id option:selected').val();
+   if(academic_id){
+   $('#batch').show();
+	$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-batch-code';?>',
+			data: {academic_id:academic_id}
+		}).done(function( data ) {
+			var result = $.parseJSON(data);
+			if((data!='')){
+				$('#batch').val(result['short_code']);
+			}
+	  });
+	 }
+	else{
+$('#batch').hide();
+}
+/*
+$('#btnFinalPublish').click(function(){
+    if(confirm("Once published, the data cannot be modified further")){
+         $('#final_submit').val(1);
+        return true;
+    }
+    else{
+        return false;
+    }
+   
+});
+*/$('#print').click(function(){
+window.print('#grade_data');
+});
+
+ $('#dataTable').DataTable();
+
+</script>

@@ -1,0 +1,302 @@
+<?php $term_result = $this->term_result;
+$academic_id = $this->academic_id;
+$year_id = $this->year_id; 
+$course_grades_after_penalties = $this->course_grades_after_penalties;
+$exp_course_grades_after_penalties = $this->exp_course_grades_after_penalties;
+
+$expr_result = $this->expr_result;
+?>
+<?php
+$table_header_displayed = FALSE;
+$width_col1 = '61%';
+$width_col2 = '13%';
+$width_col3 = '26%';
+
+$width_col3_1 = '13%';
+$width_col3_2 = '13%';
+?>
+<?=$this->render('inc/gradesheet-header.inc.phtml');?>
+ <?php 
+ $exp_grade_shown_arr = array();
+$cummulative_credits = 0;
+$cummulative_grades = 0;
+$expr_grades = 0;
+$expr_credits = 0;
+for($i=0;$i<count($term_result);$i++){ 
+if(!empty($this->term_id) && ($term_result[$i]['term_id'] != $this->term_id)){//If this request is only for one term
+    continue;
+}
+//$ExperientialLearning_model = new Application_Model_ExperientialLearning();
+//$expr_result = $ExperientialLearning_model->getExpCourseRecords($academic_id,$year_id); 
+//echo '<pre>'; print_r($expr_result); die;
+if(empty($this->term_id)){//EL will be printed only if report is generating for one year
+for($j=0;$j<count($expr_result);$j++){
+    if(in_array($expr_result[$j]['elc_id'], $exp_grade_shown_arr)){//If this experiential courses is already shown
+        continue;
+    }
+//if($expr_result[$j]['terms_id'] == $term_result[$i]['term_id']) {
+//$ExprCourseGradeAfterPenalties_model = new Application_Model_ExprCourseGradeAftrPenalties();
+//$expr_grade_result = $ExprCourseGradeAfterPenalties_model->getGrades($academic_id,$year_id,$expr_result[$j]['elc_id'],$this->stu_result['student_id']);
+//$GradeAllocation_model = new Application_Model_ExperientialGradeAllocation();
+//$expr_grade_result = $GradeAllocation_model->getGradeRecords($academic_id,$expr_result[$j]['elc_id'],$this->stu_result['student_id']);
+
+//Filter grades of current terms in the loop
+
+$expr_grade_result = '';
+foreach($exp_course_grades_after_penalties as $row_grade){    
+    if($row_grade['course_id'] == $expr_result[$j]['elc_id']){       
+        $expr_grade_result = $row_grade;
+    }
+}
+
+ ?>
+
+    <?php
+    if(!$table_header_displayed){
+        $table_header_displayed = TRUE;
+    ?>
+<div class="sub grade-data-container" style="margin-top:10px;">
+<table class="tablestyle1" width="100%">
+<tr>
+<th rowspan="2" class="sub" width="<?php echo $width_col1; ?>">Course / Segment</th>
+<th rowspan="2" class="sub" width="<?php echo $width_col2; ?>">Credits</th>
+<th colspan="2" class="sub" width="<?php echo $width_col3; ?>">Grade</th>
+</tr>
+<tr>
+<th class="sub" width="<?php echo $width_col3_1; ?>">Point</th>
+<th class="sub" width="<?php echo $width_col3_2; ?>">Letter</th>
+</tr>
+</table>
+</div>
+<?php
+    }
+    ?>
+<div class="sub grade-data-container" style="margin-top:10px;">
+<table class="tablestyle1" width="100%">
+<tr class="sub">
+<th class="sub" width="<?php echo $width_col1; ?>" align="left">Experiential Learning Segment</th>
+<th class="sub" align="center" colspan="3"><?php if(($expr_result[$j]['start_date'] !='') && ($expr_result[$j]['end_date'] !='')){
+$st_date = $expr_result[$j]['start_date'];
+$st_month = substr($st_date, 3, 2);
+$st_year = substr($st_date, 6,4);
+//print_r($st_month);die;
+//$start_date = date('MY', strtotime(date( $st_month )));
+$start_date = date("M Y", mktime(0, 0, 0, $st_month, 1,$st_year));
+$en_date = $expr_result[$j]['end_date'];
+$en_month = substr($en_date, 3, 2);
+$ending_year = substr($st_date, 6,4);
+$end_date = date("M Y", mktime(0, 0, 0, $en_month, 1,$ending_year));
+ echo $start_date.' - '.$end_date;
+ } ?></th>
+</tr>
+<tr class="sub">
+<td class="sub" ><?php echo $expr_result[$j]['elc_name']; ?></td>
+<td class="sub" style="text-align:center;"  width="<?php echo $width_col2; ?>"><?php echo $expr_result[$j]['credit_value'];?></td>
+<td class="sub" style="text-align:center;"  width="<?php echo $width_col2; ?>"><?php $grade_avg =  $expr_grade_result['final_grade_point']; echo number_format($grade_avg, 2); ?></td>
+<td class="sub" style="text-align:center;"  width="<?php echo $width_col2; ?>"><?php if($grade_avg>3.54){
+echo "A";
+} else if($grade_avg>2.54){
+echo "B";
+}
+else if($grade_avg>1.54){
+echo "C";
+}else if($grade_avg>0.54){
+echo "D";
+}else if($grade_avg>=0){
+echo "F";
+} ?></td>
+<?php $expr_grades += $grade_avg*$expr_result[$j]['credit_value'];
+$expr_credits += $expr_result[$j]['credit_value']; ?>
+</td>
+</tr>
+
+<tr>
+<td class="sub right-bold">CGPA at the End of the Term</td>
+<td></td>
+<td style="text-align:center;"><?php  $expr_cgpa = (($expr_grades)+($cummulative_grades))/($expr_credits+$cummulative_credits); echo number_format($expr_cgpa,2);?></td>
+<td class="sub" style="text-align:center;"><?php if($expr_cgpa>3.54){
+echo "A";
+} else if($expr_cgpa>2.54){
+echo "B";
+}
+else if($expr_cgpa>1.54){
+echo "C";
+}else if($expr_cgpa>0.54){
+echo "D";
+}else if($expr_cgpa>=0){
+echo "F";
+} ?></td>
+</tr>
+</table>
+</div>
+<?php  
+$exp_grade_shown_arr[] = $expr_result[$j]['elc_id'];
+
+} } ?>
+<?php //print_r($term_result); ?>
+<!--- Courses Names -->
+	
+
+    <?php
+    if(!$table_header_displayed){
+        $table_header_displayed = TRUE;
+    ?>
+<div class="sub grade-data-container" style="margin-top:10px;">
+<table class="tablestyle1" width="100%">
+<tr>
+<th rowspan="2" class="sub" width="<?php echo $width_col1; ?>">Course / Segment</th>
+<th rowspan="2" class="sub" width="<?php echo $width_col2; ?>">Credits</th>
+<th colspan="2" class="sub" width="<?php echo $width_col3; ?>">Grade</th>
+</tr>
+<tr>
+<th class="sub" width="<?php echo $width_col3_1; ?>">Point</th>
+<th class="sub" width="<?php echo $width_col3_2; ?>">Letter</th>
+</tr>
+</table>
+</div>
+<?php
+    }
+    ?>
+<div class="sub grade-data-container" style="margin-top:10px;">
+<table class="tablestyle1" width="100%">
+<!-- Display Term Names -->
+<tr class="sub">
+<th class="sub"  width="<?php echo $width_col1; ?>" align="left">Interactive Learning <?php echo $term_result[$i]['term_name'];?></th>
+<th class="sub" align="center" colspan="3">
+<?php if(($term_result[$i]['start_date'] !='') && ($term_result[$i]['end_date'] !='')){
+$st_date = $term_result[$i]['start_date'];
+$st_month = substr($st_date, 3, 2);
+$start_dtyr = substr($st_date,6,4);
+$start_date = date("M Y", mktime(0, 0, 0, $st_month, 1,$start_dtyr));
+$en_date = $term_result[$i]['end_date'];
+$en_month = substr($en_date, 3, 2);
+$end_dtyr = substr($en_date,6,4);
+$ending_date = date("M Y", mktime(0, 0, 0, $en_month, 1,$end_dtyr));
+
+ echo $start_date.' - '.$ending_date;
+ } ?>
+</th>
+</tr>
+<!-- Display Term values and credits -->
+<?php //$CourseGradeAfterpenalties_model =  new Application_Model_CourseGradeAfterpenalties();
+//Filter grades of current terms in the loop
+$term_batch_id = '';
+$term_student_id = '';
+$courses_result = '';
+//print_r($course_grades_after_penalties);echo 'hello';
+foreach($course_grades_after_penalties as $row_grade){
+    //echo $term_result[$i]['term_id'];
+    if($row_grade['term_id'] == $term_result[$i]['term_id']){
+        $term_batch_id = $row_grade['academic_id'];
+        $term_student_id = $row_grade['student_id'];
+        $courses_result = $row_grade;
+    }
+    
+}
+//$courses_result = $CourseGradeAfterpenalties_model->getAllGrades($academic_id,$year_id,$term_result[$i]['term_id'],$this->stu_result['student_id']); 
+
+//echo '<pre>'; print_r($courses_result); die;
+/**
+ * If Grade exist in Direct_final_grade table, we will fetch from this, else fetch from course_grade_after_penalties table
+ * 
+ */
+$DirectFinalGrade_model = new Application_Model_DirectFinalGrade();
+$direct_grade = $DirectFinalGrade_model->fetchCourseGrades($term_batch_id, $term_result[$i]['term_id'], $term_student_id);
+$courses_ids  = explode(',',rtrim($courses_result['academic_courses'],","));
+$courses_credits = explode(',', rtrim($courses_result['academic_credits'],","));
+$tot_credits = array_sum($courses_credits);
+$courses_grades = explode(',',rtrim($courses_result['academic_grades'],",")); 
+$final_grade = 0;
+foreach($courses_ids as $k => $course_id){
+    $direct_grade_point = 0;
+    
+    foreach($direct_grade as $course_grade_row){//Take 'Direct Grade' if exist
+        if($course_grade_row['course_id'] == $course_id){
+            $direct_grade_point = $course_grade_row['final_grade'];
+        }
+    }
+    if($direct_grade_point == 0){
+        $direct_grade_point = $courses_grades[$k];
+    }    
+$final_grade += (($direct_grade_point)*($courses_credits[$k]));
+$Course_model = new Application_Model_Course();
+$course_name = $Course_model->getRecord($course_id);?>
+<tr class="sub">
+<td class="sub" ><?php echo $course_name['course_name']; ?></td>
+<td class="sub" style="text-align:center;" width="<?php echo $width_col2; ?>"><?php echo $courses_credits[$k];?></td>
+<td class="sub" style="text-align:center;" width="<?php echo $width_col2; ?>"><?php echo number_format($direct_grade_point, 2);?></td>
+<td class="sub" style="text-align:center;" width="<?php echo $width_col2; ?>"><?php if($courses_grades[$k]>3.54){
+echo "A";
+} else if($direct_grade_point>2.54){
+echo "B";
+}
+else if($direct_grade_point>1.54){
+echo "C";
+}else if($direct_grade_point>0.54){
+echo "D";
+}else if($direct_grade_point>=0){
+echo "F";
+} ?></td>
+</tr>
+
+<?php } ?>
+<tr class="sub">
+<td class="sub">Grade Point Average(GPA) For the Term </td>
+<td class="sub" style="text-align:center;"><?php echo  $tot_credits; ?></td>
+<td class="sub" style="text-align:center;"><?php $avg_grade = number_format(($final_grade)/($tot_credits),2);
+echo $avg_grade; ?></td>
+<td class="sub" style="text-align:center;"><?php if($avg_grade>3.54){
+ echo "A";
+} else if($avg_grade>2.54){
+ echo "B";
+}
+else if($avg_grade>1.54){
+ echo "C";
+}else if($avg_grade>0.54){
+ echo "D";
+}else if($avg_grade>=0){
+ echo "F";
+} ?></td>
+</tr>
+<?php 
+$cummulative_grades += $avg_grade*$tot_credits;
+$cummulative_credits += $tot_credits;
+if(empty($this->term_id)){//CGPA will be printed only if report is generating for full year
+?>
+<tr class="sub">
+<td class="sub right-bold">CGPA at the End of the Term </td>
+<td class="sub"></td>
+<td class="sub" style="text-align:center;"><?php 
+//echo $totals_credit;
+$tot_cumm_grade = ($cummulative_grades+$expr_grades)/($cummulative_credits+$expr_credits);
+//echo $cummulative_grades.'-'.$expr_grades.'-'.$cummulative_credits.'-'.$expr_credits;
+echo number_format($tot_cumm_grade,2); 
+//echo $expr_grades.'__'.$expr_credits;?></td>
+<td class="sub" style="text-align:center;"><?php if($tot_cumm_grade>3.54){
+echo "A";
+} else if($tot_cumm_grade>2.54){
+echo "B";
+}
+else if($tot_cumm_grade>1.54){
+echo "C";
+}else if($tot_cumm_grade>0.54){
+echo "D";
+}else if($tot_cumm_grade>=0){
+echo "F";
+} ?></td>
+</tr>
+<?php
+}
+?>
+
+</table>
+</div>
+
+	<?php
+}	
+?>
+</div>
+</center>
+</body>
+
+</html>

@@ -1,0 +1,1190 @@
+<style>
+.timewidth { width: 9.5% ;padding-right:0px;}
+.midmeal { margin-left:2%;}
+.lunch { margin-left:2%;}
+.dinner { margin-left:2%;}
+</style>
+<?php if ($this->type) { ?>
+<div class="padding-md">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<form class="no-margin" id="formValidate1" action="<?php echo $this->FoodTimeTable_form->getAction() ?>" method="post" data-validate="parsley" novalidate>
+					<div class="panel-heading">									
+						 <h4>Food Time Table</h4> 
+					</div>
+					<div class="panel-body">
+						<div class="row">	
+							<?php if ($this->type != 'edit') { ?>
+							<div class="col-sm-3" style="margin-left: 75%;">	
+								<div class="form-group">
+									<label class="control-label">Dump From</label>
+									<?php echo $this->FoodTimeTable_form->dump_from; ?>
+								</div>										
+							</div>
+							<?php }  ?>
+
+						</div>
+						<div class="row">
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">Country <span class="asterisk">*</span></label>
+										<?php echo $this->FoodTimeTable_form->country; ?>
+									</div>											
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">State <span class="asterisk">*</span></label>
+										<?php echo $this->FoodTimeTable_form->state; ?>
+									</div>											
+								</div>
+								<div id="city"></div>
+								<div id="location"></div>
+								<div id="branch_ids"></div>
+								<?php /* <div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">City <span class="asterisk">*</span></label>
+										<?php echo $this->FoodTimeTable_form->city; ?>
+									</div>											
+								</div>
+								<div class="col-sm-3">	
+									<div class="form-group">
+										<label class="control-label">Location Name <span class="asterisk">*</span></label>
+										<?php echo $this->FoodTimeTable_form->location_id; ?>
+									</div>										
+								</div>
+							</div> */ ?>
+					<?php /* 	<div class="row">
+							<div class="col-sm-3" style="height: 100px;overflow-y: scroll;margin-top:20px">
+							<label  class="control-label">Branch</label>
+							<?php foreach($this->branch as $k=>$val){ //print_r($val); die; ?>
+							<label class="label-checkbox" style="padding-left:0px; margin:8px;" >
+							<input type="checkbox" name="branch_id[]" id="branch_id" class="checkbox" <?php
+										if(!empty($this->result['branch_id'])){ 
+												$data = explode(',',$this->result['branch_id']);
+												foreach($data as $key=>$Val){
+													$checked = '';
+													if($k == $Val)
+													echo $checked = 'checked';
+													} } ?> value="<?php echo $k;?>" />
+							<span class="custom-checkbox" style="float:left;"></span> </label> <?php echo $val; ?>
+							<?php } ?>
+						 </div>	 
+					 </div>	 */?>
+</div>					 <input type="hidden" name="foodtimetable_id" id="foodtimetable_id" value="<?php echo $this->result['foodtimetable_id'];?>" />
+					<input type="hidden" name="cities" id="cities" value="<?php echo $this->result['city_id'];?>" />
+					<input type="hidden" name="locations" id="locations" value="<?php echo $this->result['location_id'];?>" />
+					<input type="hidden" name="branches" id="branches" value="<?php echo $this->result['branch_id'];?>" />
+					<input type="hidden" name="count" id="count" value="<?php echo $this->result['count'];?>" />
+						<div class="row">	
+							<div class="padding-md">
+								<h4 class="headline">
+									Year Food Time Table List
+									<span class="line"></span>
+								</h4>
+								<div id="hideTimeMenu">
+									<div class="row ">
+										<div class="col-sm-2 timewidth" >	
+											<div class="form-group">
+												<label class="control-label">Breakfast From</label>
+												<div class="input-group bootstrap-timepicker">
+													<?php echo $this->FoodTimeTable_form->breakfast_time; ?>
+													
+												</div>
+											</div>										
+										</div>
+										<div class="col-sm-2 timewidth" >	
+											<div class="form-group">
+												<label class="control-label">Breakfast To</label>
+												<div class="input-group bootstrap-timepicker">
+													<?php echo $this->FoodTimeTable_form->breakfast_to; ?>
+													
+												</div>
+											</div>										
+										</div>
+										<div class="col-sm-2 timewidth" >	
+											<div class="form-group">
+												<label class="control-label">Mid Meal From</label>
+												<div class="input-group bootstrap-timepicker">
+													<?php echo $this->FoodTimeTable_form->midmeal_time; ?>
+													
+												</div>
+											</div>										
+										</div>
+										<div class="col-sm-2 timewidth" >	
+											<div class="form-group">
+												<label class="control-label">Mid Meal To</label>
+												<div class="input-group bootstrap-timepicker">
+													<?php echo $this->FoodTimeTable_form->midmeal_to; ?>
+													
+												</div>
+											</div>										
+										</div>
+										<div class="col-sm-2 timewidth" >	
+											<div class="form-group">
+												<label class="control-label">Lunch From</label>
+												<div class="input-group bootstrap-timepicker">
+													<?php echo $this->FoodTimeTable_form->lunch_time; ?>
+													
+												</div>
+											</div>										
+										</div>
+										<div class="col-sm-2 timewidth" >	
+											<div class="form-group">
+												<label class="control-label">Lunch To</label>
+												<div class="input-group bootstrap-timepicker">
+													<?php echo $this->FoodTimeTable_form->lunch_to; ?>
+													
+												</div>
+											</div>										
+										</div>
+										<div class="col-sm-2 timewidth" >	
+											<div class="form-group">
+												<label class="control-label">Snacks From</label>
+												<div class="input-group bootstrap-timepicker">
+													<?php echo $this->FoodTimeTable_form->snacks_time; ?>
+													
+												</div>
+											</div>										
+										</div>
+										<div class="col-sm-2 timewidth" >	
+											<div class="form-group">
+												<label class="control-label">Snacks To</label>
+												<div class="input-group bootstrap-timepicker">
+													<?php echo $this->FoodTimeTable_form->snacks_to; ?>
+													
+												</div>
+											</div>										
+										</div>
+										<div class="col-sm-2 timewidth" >	
+											<div class="form-group">
+												<label class="control-label">Dinner From</label>
+												<div class="input-group bootstrap-timepicker">
+													<?php echo $this->FoodTimeTable_form->dinner_time; ?>
+													
+												</div>
+											</div>										
+										</div>
+										<div class="col-sm-2 timewidth" >	
+											<div class="form-group">
+												<label class="control-label">Dinner To</label>
+												<div class="input-group bootstrap-timepicker">
+													<?php echo $this->FoodTimeTable_form->dinner_to; ?>
+													
+												</div>
+											</div>										
+										</div>
+									</div>	
+									<div class="row" style="margin-left: 28px;">
+										<div class="col-sm-2 ">	
+											<div class="form-group">
+												<input type="text" readonly class="form-control" value="Breakfast"> 
+												<input type="hidden"  class="form-control" value="1" name="breakfast_menu" placeholder=""/>  
+											</div>
+										</div>
+										<div class="col-sm-2 lunch">	
+											<div class="form-group">
+												<input type="text" readonly class="form-control" value="Mid Meal"> 
+												<input type="hidden"  class="form-control" value="2" name="midmeal_menu" placeholder=""/>  
+											</div>
+										</div>
+										<div class="col-sm-2 dinner">	
+											<div class="form-group">
+												<input type="text" readonly class="form-control" value="Lunch"> 
+												<input type="hidden"  class="form-control" value="3" name="lunch_menu" placeholder=""/>  
+											</div>
+										</div>
+										<div class="col-sm-2 dinner">	
+											<div class="form-group">
+												<input type="text" readonly class="form-control" value="Snacks"> 
+												<input type="hidden"  class="form-control" value="5" name="snacks_menu" placeholder=""/>  
+											</div>
+										</div>
+										<div class="col-sm-2 dinner">	
+											<div class="form-group">
+												<input type="text" readonly class="form-control" value="Dinner"> 
+												<input type="hidden"  class="form-control" value="4" name="dinner_menu" placeholder=""/>  
+											</div>
+										</div>
+									</div>
+								</div>
+								<?php 	
+									 $ResultCount = $this->result['count'];
+									 
+									$itemResult = $this->itemResult;
+									if(count($itemResult)>0){
+									//echo '<pre>';print_r($itemResult);die;
+								 ?>	
+								<div class="row">		
+									<div class="col-sm-12">
+										<div class="dd" id="nestable" style="max-width:100%;">
+											<ol class="dd-list">
+												<?php 	
+												$dayCount =1;
+												$monthCount =6;
+												$yearCount = date('Y');	
+												$date = $yearCount . '-' . $monthCount . '-' . $dayCount;
+												for($i=1;$i<=$ResultCount ;$i++){ ?>
+												<li class="dd-item itemCount" id="week_item<?php echo $i; ?>" data-id="<?php 	echo $i;?>">
+												<?php /* <input type="hidden" id="count" name="count" value="<?php echo $i;?>">  */ ?>
+													<div class="dd-handle">Week-<?php echo $i;?></div>
+													<ol class="dd-list" <?php if($i > 1){ echo 'style="display:none;"';
+														}?> >
+													 
+														<?php for($day=1;$day<8;$day++){
+
+														if((($monthCount == 1) ||($monthCount == 3) ||($monthCount == 5)||($monthCount == 7)||($monthCount == 8)||($monthCount == 10)||($monthCount == 12)) && ($dayCount == 32)){  
+														$dayCount =1;
+														$monthCount =$monthCount+1;
+														if($monthCount ==13){
+															$yearCount = $yearCount+1;
+															$monthCount =1;
+														}
+														}
+														if((($monthCount == 4) ||($monthCount == 6) ||($monthCount == 9)||($monthCount == 11)) && ($dayCount == 31)){ 
+															$dayCount =1;
+															$monthCount =$monthCount+1;
+														if($monthCount ==13){
+															$yearCount = $yearCount+1;
+															$monthCount =1;
+														}
+														}
+														if(($monthCount == 2) && ($dayCount == 29)){ 
+															$dayCount =1;
+															$monthCount =$monthCount+1;
+														if($monthCount ==13){
+															$yearCount = $yearCount+1;
+															$monthCount =1;
+														}
+														}
+														?>
+														
+														<li class="dd-item" data-id="<?php echo $i;?>" style=	"margin-bottom:20px;">
+															<div class="dd-handle"><?php 
+																$date = $day . '-' . $monthCount . '-' . $yearCount;
+																$dynamic_days =  date('l', strtotime( $date) );
+																echo $dynamic_days;
+																/* if($day==1){ echo 'Sunday';}
+																if($day==2){ echo 'Monday';}
+																if($day==3){ echo 'Tuesday';}
+																if($day==4){ echo 'Wednesday';}
+																if($day==5){ echo 'Thursday';}
+																if($day==6){ echo 'Friday';}
+																if($day==7){ echo 'Saturday';} */
+														
+																$MonthDay = strlen($monthCount);
+																if($MonthDay == 1){
+																	$Month = '0'.$monthCount;
+																}else{
+																	$Month = $monthCount;
+																}
+														
+																$MonthDay = strlen($dayCount);
+																if($MonthDay == 1){
+																	$MonthDay = '0'.$dayCount;
+																}else{
+																	$MonthDay = $dayCount;
+																}
+																$dateCount = $yearCount.'-'.$Month.'-'.$MonthDay;
+																$date_format = $MonthDay . '-' . $Month . '-' . $yearCount;
+																//echo $dateCount;
+																$holiday = $this->Holidays;
+																$Events = $this->Events;
+																//echo '<pre>';print_r($Events);die;
+																$countofDate =1;
+																//if((count($holiday) || count($Events) )>0) {
+															
+																if(count($holiday)>0){
+																	foreach($holiday as $val){
+																		if($countofDate ==1){ ?>
+																			&nbsp&nbsp&nbsp&nbsp
+																			<?php echo 'Date : '.$date_format;
+																		}
+																		if(($dateCount == $val['holiday_start_date']) || ($dateCount == $val['holiday_end_date'])){ ?>
+																		<span style="color:red">&nbsp&nbsp&nbsp&nbsp <?php echo $val['holiday_name']; ?> &nbsp&nbsp&nbsp&nbsp<?php echo'Holiday';  ?>
+																		</span>	
+																	<?php }
+																	$countofDate++;}
+																}
+																if(count($Events)>0){
+																	foreach($Events as $Event){ //print_r($Event);die;
+																		if($countofDate ==1){ ?>&nbsp&nbsp&nbsp&nbsp
+																			<?php echo 'Date : '.$date_format;
+																		}
+																		if(($dateCount == $Event['event_date']) || ($dateCount == $Event['event_end_date'])){ ?><span style="color:green">&nbsp&nbsp&nbsp&nbsp
+																		<?php 	echo $Event['event_name'];?>&nbsp&nbsp&nbsp&nbsp <?php echo 'Event'; ?>
+																		</span>
+																		<?php	}
+																	$countofDate++;}
+																}?> 
+															</div>
+															<?php 
+															$DateObjectRecord = $this->DateObjectRecord;
+															//print_r($DateObjectRecord);die;
+															if( !empty($DateObjectRecord[$dateCount]) ){ //echo 'asdfsdf';
+															
+																foreach($DateObjectRecord as $date => $vals){
+																
+																	if($vals['day_date'] == $dateCount){
+																	//print_r($dateval);
+																		?>
+															<div class="row">
+																<div class="col-sm-2 " style="height: 150px;overflow-y: scroll;margin-top:20px">
+																<?php foreach($this->DropDownMenuItems as $k=>$val){ ?>
+																<label class="label-checkbox"> 
+																	<input type="checkbox"  name="menu[week<?php echo $i;?>][<?php echo $dynamic_days;
+																?><?php echo $i;?>][<?php echo $dateCount;?>][breakfast_item][]" class="form-control" value="<?php echo $k;?>"
+																		
+																			
+																		 
+																	<?php	$checked = '';
+																			//if($k == $this->result['breakfast_item'])
+																			$checked = 'checked';?>
+																		
+																										
+																		 <?php 
+																		if(!empty($vals['breakfast_item'])){ 
+																		$sun_breakfast_item = explode(',',$vals['breakfast_item']);
+															
+																		foreach($sun_breakfast_item as $itemKey=>$itemVal){
+																				$checked = '';
+																				if($k == $itemVal)
+																				echo $checked = 'checked';
+																		} } ?>><span class="custom-checkbox" style="float:left;" ></span><?php echo $val;?>
+																		<?php }?>
+																		</label>
+																		
+																</div>
+																<div class="col-sm-2 midmeal" style="height: 150px;overflow-y: scroll;margin-top:20px">
+																	<?php foreach($this->DropDownMenuItems as $k=>$val){
+																		?>										
+																		<label class="label-checkbox"><input type="checkbox"  name="menu[week<?php echo $i;?>][<?php echo $dynamic_days; ?><?php echo $i;?>][<?php echo $dateCount;?>][midmeal_item][]" class="form-control"  value="<?php echo $k;?>" <?php 
+																		if(!empty($vals['midmeal_item'])){ 
+																		$sun_breakfast_item = explode(',',$vals['midmeal_item']);
+															
+																		foreach($sun_breakfast_item as $itemKey=>$itemVal){
+																				$checked = '';
+																				if($k == $itemVal)
+																				echo $checked = 'checked';
+																		} } ?>><span class="custom-checkbox" style="float:left;" ></span><?php echo $val;?>
+																		<?php }?>
+																	</label>
+																</div>
+															
+																<div class="col-sm-2 lunch" style="height: 150px;overflow-y: scroll;margin-top:20px">
+																<?php foreach($this->DropDownMenuItems as $k=>$val){
+																		?>
+																		<label class="label-checkbox"> 
+																		<input type="checkbox"  name="menu[week<?php echo $i;?>][<?php echo $dynamic_days;?><?php echo $i;?>][<?php echo $dateCount;?>][lunch_item][]" class="form-control" value="<?php echo $k;?>"
+																												
+																		<?php 
+																		if(!empty($vals['lunch_item'])){ 
+																		$sun_breakfast_item = explode(',',$vals['lunch_item']);
+															
+																		foreach($sun_breakfast_item as $itemKey=>$itemVal){
+																				$checked = '';
+																				if($k == $itemVal)
+																				echo $checked = 'checked';
+																		} } ?>><span class="custom-checkbox" style="float:left;" ></span><?php echo $val;?>
+																		<?php }?>
+																	</label>
+																</div>
+																<div class="col-sm-2 lunch" style="height: 150px;overflow-y: scroll;margin-top:20px" >
+																<?php foreach($this->DropDownMenuItems as $k=>$val){
+																		?>
+																		<label class="label-checkbox"> 
+																		<input type="checkbox" name="menu[week<?php echo $i;?>][<?php echo $dynamic_days;
+																?><?php echo $i;?>][<?php echo $dateCount;?>][snacks_item][]" class="form-control" value="<?php echo $k;?>"
+																											
+																		 <?php 
+																		if(!empty($vals['snacks_item'])){ 
+																		$sun_breakfast_item = explode(',',$vals['snacks_item']);
+															
+																		foreach($sun_breakfast_item as $itemKey=>$itemVal){
+																				$checked = '';
+																				if($k == $itemVal)
+																				echo $checked = 'checked';
+																		} } ?>><span class="custom-checkbox" style="float:left;" ></span>
+																		<?php echo $val;?>
+																		<?php }?>
+																		</label>
+													
+																</div>
+																<div class="col-sm-2 dinner" style="height: 150px;overflow-y: scroll;margin-top:20px">
+																<?php foreach($this->DropDownMenuItems as $k=>$val){
+																		?>	
+																		<label class="label-checkbox">
+																			<input type="checkbox"  name="menu[week<?php echo $i;?>][<?php echo $dynamic_days;?><?php echo $i;?>][<?php echo $dateCount;?>][dinner_item][]" class="form-control" value="<?php echo $k;?>"
+																		
+																												
+																		 <?php 
+																		if(!empty($vals['dinner_item'])){ 
+																		$sun_breakfast_item = explode(',',$vals['dinner_item']);
+															
+																		foreach($sun_breakfast_item as $itemKey=>$itemVal){
+																				$checked = '';
+																				if($k == $itemVal)
+																				echo $checked = 'checked';
+																		} } ?>><span class="custom-checkbox" style="float:left;" ></span><?php echo $val;?>
+																		<?php }?>
+																	</label>
+																</div>
+															</div>
+															<?php 
+																}	
+																} 
+															}else{  ?>
+															<div class="row">
+																<div class="col-sm-2 " style="height: 150px;overflow-y: scroll;margin-top:20px" >
+																<?php foreach($this->DropDownMenuItems as $k=>$val){
+																		$checked = '';
+																		$checked = 'checked';
+																			
+																		?>
+																		<label class="label-checkbox">
+																	<input type="checkbox"  name="menu[week<?php echo $i;?>][<?php 
+																		echo $dynamic_days;
+																		?><?php echo $i;?>][<?php echo $dateCount;?>][breakfast_item][]" class="form-control" value="<?php echo $k;?>">
+																		<span class="custom-checkbox" style="float:left;"></span>
+																		<?php echo $val;?>
+																		
+																		<?php }?>
+																		</label>
+																</div>
+															
+																<div class="col-sm-2 midmeal" style="height: 150px;overflow-y: scroll;margin-top:20px" >
+																<?php foreach($this->DropDownMenuItems as $k=>$val){
+																		$checked = '';
+																		$checked = 'checked';
+																		?>
+																		<label class="label-checkbox">
+																	<input type="checkbox"  name="menu[week<?php echo $i;?>][<?php 																		echo $dynamic_days;
+																		?><?php echo $i;?>][<?php echo $dateCount;?>][midmeal_item][]" class="form-control" value="<?php echo $k;?>">
+																			<span class="custom-checkbox" style="float:left;" ></span>
+																		<?php echo $val;?>
+																		
+																		<?php }?>
+																		</label>
+																</div>
+												
+																<div class="col-sm-2 lunch" style="height: 150px;overflow-y: scroll;margin-top:20px" >
+																<?php foreach($this->DropDownMenuItems as $k=>$val){
+																		$checked = '';
+																		$checked = 'checked';
+																		?>
+																		<label class="label-checkbox">
+																	<input type="checkbox"  name="menu[week<?php echo $i;?>][<?php 
+																		echo $dynamic_days;
+																		?><?php echo $i;?>][<?php echo $dateCount;?>][lunch_item][]" class="form-control" value="<?php echo $k;?>">
+																			<span class="custom-checkbox" style="float:left;" ></span>							
+																		<?php echo $val;?>
+																		
+																		<?php }?>
+																		</label>
+																</div>
+																<div class="col-sm-2 lunch" style="height: 150px;overflow-y: scroll;margin-top:20px" >
+																<?php foreach($this->DropDownMenuItems as $k=>$val){
+																	$checked = '';
+																	$checked = 'checked'; 
+																		?>
+																		<label class="label-checkbox">
+																	<input type="checkbox"  name="menu[week<?php echo $i;?>][<?php 
+																		echo $dynamic_days;
+																		?><?php echo $i;?>][<?php echo $dateCount;?>][snacks_item][]" class="form-control" value="<?php echo $k;?>">
+																				<span class="custom-checkbox" style="float:left;" ></span>		
+																		<?php echo $val;?>
+																		
+																		<?php }?>
+																		</label>
+																</div>
+																<div class="col-sm-2 dinner" style="height: 150px;overflow-y: scroll;margin-top:20px" >
+																<?php foreach($this->DropDownMenuItems as $k=>$val){
+																		$checked = '';
+																		$checked = 'checked';
+																		?>
+																		<label class="label-checkbox">
+																	<input  type="checkbox"  name="menu[week<?php echo $i;?>][<?php 
+																		echo $dynamic_days;
+																		?><?php echo $i;?>][<?php echo $dateCount;?>][dinner_item][]" class="form-control" value="<?php echo $k;?>">
+																				<span class="custom-checkbox" style="float:left;" ></span>									
+																		<?php echo $val;?>
+																		
+																		<?php }?>
+																		</label>
+																</div>
+															</div>	
+															<?php }	 ?>
+															
+														</li>
+														
+													<?php  $dayCount++; } ?>
+													</ol>
+												</li>
+												<?php } ?>												
+											</ol>
+										</div><!-- dd -->
+									</div><!-- /.col -->
+										
+								</div><!-- /.row --> 
+								</div><!-- /.row -->
+								<div id="weeks_dump"></div>
+								<div class="row">
+									<div class="col-sm-2">
+										<select type="text" multiple name="dum_weeks[]" id="dum_weeks" class="form-control">
+											<option value="">Select Weeks</option>
+											<option value="1">Week-1</option>
+											<option value="2">Week-2</option>
+											<option value="3">Week-3</option>
+											<option value="4">Week-4</option>
+											<option value="5">Week-5</option>
+											<option value="6">Week-6</option>
+											<option value="7">Week-7</option>
+											<option value="8">Week-8</option>
+											<option value="9">Week-9</option>
+											<option value="10">Week-10</option>
+											<option value="11">Week-11</option>
+											<option value="12">Week-12</option>
+											<option value="13">Week-13</option>
+											<option value="14">Week-14</option>
+											<option value="15">Week-15</option>
+											<option value="16">Week-16</option>
+											<option value="17">Week-17</option>
+											<option value="18">Week-18</option>
+											<option value="19">Week-19</option>
+											<option value="20">Week-20</option>
+										</select>
+									</div>
+								</div>
+								<?php } else{?>	
+								<div class="row locationDump">		
+									<div class="col-sm-12">
+										
+										<div class="dd" id="nestable" style="max-width:100%;">
+											<ol class="dd-list">												
+												
+												<?php 
+												
+												/* function getNoOfWeek($startDate, $endDate){
+												  // convert date in valid format
+												  $startDate = date("Y-m-d", strtotime($startDate));
+												  $endDate = date("Y-m-d", strtotime($endDate));
+												  $yearEndDay = 31;
+												  $weekArr = array();
+												  $startYear = date("Y", strtotime($startDate));
+												  $endYear = date("Y", strtotime($endDate));
+
+												  if($startYear != $endYear) {
+													$newStartDate = $startDate;
+
+													for($i = $startYear; $i <= $endYear; $i++) {													
+													  if($endYear == $i) {
+														$newEndDate = $endDate;
+													  } else {
+														$newEndDate = $i."-12-".$yearEndDay;
+													  }
+													  $startWeek = date("W", strtotime($newStartDate));
+													  $endWeek = date("W", strtotime($newEndDate));
+													  if($endWeek == 1){
+														$endWeek = date("W", strtotime($i."-12-".($yearEndDay-7)));
+													  }
+													  $tempWeekArr = range($startWeek, $endWeek);
+													  array_walk($tempWeekArr, "week_text_alter", 
+														 array('pre' => 'Week ', 'post' => " '". substr($i, 2, 2) ));
+													  $weekArr = array_merge($weekArr, $tempWeekArr);
+
+													  $newStartDate = date("Y-m-d", strtotime($newEndDate . "+1 days"));
+													}
+													print_r($weekArr); die;
+												  } else {													
+													$startWeek = date("W", strtotime($startDate));
+													$endWeek = date("W", strtotime($endDate));
+													$endWeekMonth = date("m", strtotime($endDate));
+													if($endWeek == 1 && $endWeekMonth == 12){
+													  $endWeek = date("W", strtotime($endYear."-12-".($yearEndDay-7)));
+													}
+													$weekArr = range($startWeek, $endWeek);
+													array_walk($weekArr, "week_text_alter", 
+													   array('pre' => 'Week ', 'post' => " '". substr($startYear, 2, 2)));
+												  }
+												  $weekArr = array_fill_keys($weekArr, 0);
+												  return $weekArr;
+												}
+
+												function week_text_alter(&$item1, $key, $prefix)
+												{													
+												  //$item1 = $prefix['pre']. $item1 . $prefix['post'];
+												  $item1 = $item1;
+												}
+												
+												$weekArr = getNoOfWeek('2015-06-01', '2016-05-31');
+												//die;
+												print_r($weekArr); die;
+												*/ 	
+												$dayCount =1;
+												$monthCount =6;
+												$yearCount = date('Y');	
+												$date = $yearCount . '-' . $monthCount . '-' . $dayCount;												
+												//echo $dayCount; die;
+												for($i=1;$i<21;$i++){
+												?>
+												<li class="dd-item itemCount" id="week_item<?php echo $i; ?>" data-id="<?php echo $i;?>">
+											<?php	/* <input type="hidden" id="count" name="count" value="<?php echo $i;?>"> */ ?>
+													<div class="dd-handle">Week-<?php echo $i;?></div>
+													<ol class="dd-list" <?php if($i > 1){ echo 'style="display:none;"';
+													 }?> >
+													 
+													 <?php for($day=1;$day<8;$day++){
+
+													 if((($monthCount == 1) ||($monthCount == 3) ||($monthCount == 5)||($monthCount == 7)||($monthCount == 8)||($monthCount == 10)||($monthCount == 12)) && ($dayCount == 32)){  
+														$dayCount =1;
+														$monthCount =$monthCount+1;
+														if($monthCount ==13){
+															$yearCount = $yearCount+1;
+															$monthCount =1;
+														}
+														}
+														if((($monthCount == 4) ||($monthCount == 6) ||($monthCount == 9)||($monthCount == 11)) && ($dayCount == 31)){ 
+															$dayCount =1;
+															$monthCount =$monthCount+1;
+														if($monthCount ==13){
+															$yearCount = $yearCount+1;
+															$monthCount =1;
+														}
+														}
+														if(($monthCount == 2) && ($dayCount == 29)){ 
+															$dayCount =1;
+															$monthCount =$monthCount+1;
+														if($monthCount ==13){
+															$yearCount = $yearCount+1;
+															$monthCount =1;
+														}
+														}
+														?>
+														
+														<li class="dd-item" data-id="<?php echo $i;?>" style="margin-bottom:100px;"><div class="dd-handle"><?php
+													$date = $day . '-' . $monthCount . '-' . $yearCount;
+													$dynamic_days =  date('l', strtotime( $date) );
+													echo $dynamic_days;
+													/* if($day==1){ echo 'Sunday'; }
+													if($day==2){ echo 'Monday';}
+													if($day==3){ echo 'Tuesday';}
+													if($day==4){ echo 'Wednesday';}
+													if($day==5){ echo 'Thursday';}
+													if($day==6){ echo 'Friday';}
+													if($day==7){ echo 'Saturday';} */
+													
+													$MonthDay = strlen($monthCount);
+													if($MonthDay == 1){
+														$Month = '0'.$monthCount;
+													}else{
+														$Month = $monthCount;
+													}
+													
+													$MonthDay = strlen($dayCount);
+													if($MonthDay == 1){
+														$MonthDay = '0'.$dayCount;
+													}else{
+														$MonthDay = $dayCount;
+													}
+													$date_format = $MonthDay . '-' . $Month . '-' . $yearCount;
+													$dateCount = $yearCount.'-'.$Month.'-'.$MonthDay;
+													//echo $dateCount;
+													$holiday = $this->Holidays;
+													$Events = $this->Events;
+													//echo '<pre>';print_r($Events);die;
+													$countofDate =1;
+													//if((count($holiday) || count($Events) )>0) {														
+														if(count($holiday)>0){
+															foreach($holiday as $val){
+																if($countofDate ==1){ ?>
+																&nbsp&nbsp&nbsp&nbsp
+																	<?php echo 'Date : '.$date_format;
+																}
+																if(($dateCount == $val['holiday_start_date']) || ($dateCount == $val['holiday_end_date'])){ ?>
+																	<span style="color:red">&nbsp&nbsp&nbsp&nbsp <?php echo $val['holiday_name']; ?> &nbsp&nbsp&nbsp&nbsp<?php echo'Holiday';  ?>
+																	</span>	
+																<?php }
+															$countofDate++;}
+														}
+														if(count($Events)>0){
+															foreach($Events as $Event){ //print_r($Event);die;
+																if($countofDate ==1){ ?>&nbsp&nbsp&nbsp&nbsp
+																	<?php echo 'Date : '.$date_format;
+																}
+																if(($dateCount == $Event['event_date']) || ($dateCount == $Event['event_end_date'])){ ?><span style="color:green">&nbsp&nbsp&nbsp&nbsp
+																<?php 	echo $Event['event_name'];?>&nbsp&nbsp&nbsp&nbsp <?php echo 'Event'; ?>
+																</span>
+																<?php	}
+															$countofDate++;}
+														}
+													//}
+													?> </div>
+															<div class="col-sm-2" style="height: 150px;overflow-y: scroll;margin-top:20px">
+																<?php foreach($this->DropDownMenuItems as $k=>$val){
+																		$checked = '';
+																		if($k == $this->result['breakfast_item'])
+																		$checked = 'checked';
+																	?>	
+																	<label class="label-checkbox">
+																	<input type="checkbox" name="menu[week<?php echo $i;?>][<?php echo $dynamic_days; ?><?php echo $i;?>][<?php echo $dateCount;?>][breakfast_item][]" class="form-control" value="<?php echo $k;?>" <?php //echo $selected;?>> <span class="custom-checkbox" style="float:left;"></span><?php echo $val;?>
+																
+																	<?php }?>
+																		</label>
+															 </div>
+															
+															<div class="col-sm-2 midmeal" style="height: 150px;overflow-y: scroll;margin-top:20px">
+															<?php foreach($this->DropDownMenuItems as $k=>$val){ 
+																	//$checked = '';
+														
+																	//$checked = 'checked';
+																	?>
+																	<label class="label-checkbox">
+																<input type="checkbox" name="menu[week<?php echo $i;?>][<?php echo $dynamic_days;
+																	?><?php echo $i;?>][<?php echo $dateCount;?>][midmeal_item][]" class="form-control"  value="<?php echo $k;?>" >
+																		<span class="custom-checkbox" style="float:left;"></span>						
+																	 <?php echo $val;?>
+																	
+																	<?php }?>
+																	</label>
+															</div>
+															
+															<div class="col-sm-2 lunch" style="height: 150px;overflow-y: scroll;margin-top:20px">
+															<?php foreach($this->DropDownMenuItems as $k=>$val){
+																	//$checked = '';
+																	//$chekced = 'checked';
+																	?>
+																	<label class="custom-checkbox">
+																<input type="checkbox"  name="menu[week<?php echo $i;?>][<?php 
+																	echo $dynamic_days;
+																	?><?php echo $i;?>][<?php echo $dateCount;?>][lunch_item][]" class="form-control" value="<?php echo $k;?>" >
+															
+										
+																		<span class="custom-checkbox" style="float:left;"></span>
+																	<?php echo $val;?>
+																	
+																	<?php }?>
+																	</label>
+															</div>
+															<div class="col-sm-2 lunch" style="height: 150px;overflow-y: scroll;margin-top:20px">
+															<?php foreach($this->DropDownMenuItems as $k=>$val){
+																	?>
+																	<label class="custom-checkbox">
+																<input  type="checkbox"  name="menu[week<?php echo $i;?>][<?php echo $dynamic_days;
+																	?><?php echo $i;?>][<?php echo $dateCount;?>][snacks_item][]" class="form-control" value="<?php echo $k;?>">
+																		<span class="custom-checkbox" style="float:left;"></span>
+																										
+																	<?php echo $val;?>
+																	
+																	<?php }?>
+																</label>
+															</div>
+															<div class="col-sm-2 dinner" style="height: 150px;overflow-y: scroll;margin-top:20px">
+															<?php foreach($this->DropDownMenuItems as $k=>$val){
+																	?>
+																	<label class="custom-checkbox">
+																<input type="checkbox"  name="menu[week<?php echo $i;?>][<?php 
+																	echo $dynamic_days;
+																	?><?php echo $i;?>][<?php echo $dateCount;?>][dinner_item][]" class="form-control" value="<?php echo $k;?>">
+																		<span class="custom-checkbox" style="float:left;"></span>
+																	<?php echo $val;?>
+																	
+																	<?php }?>
+																</label>
+															</div>
+														</li>
+														<?php $dayCount++; 
+														}  ?>
+														
+														
+													</ol>
+													
+												</li>
+												<?php  }  ?>
+												<input type="hidden" name="count" id="count" value="<?php echo ($dayCount++)+1; ?>" />
+											</ol>
+										</div><!-- dd -->
+									</div><!-- /.col -->								
+								
+								<?php }?>
+							</div><!-- /.padding-md -->
+						</div>
+						<div class="panel-footer ">									
+							<div class="row">
+								<div class="col-sm-7 col-sm-offset-5">
+									<?php if ($this->type == 'add') { ?> 
+										<div style="float:left;margin-right:2px;">
+										<button class="btn btn-primary submit">Submit</button>
+										</div>
+										<div style="float:left;padding:0px 10px;">
+										<button type="reset" class="btn btn-danger btn-default">Reset</button>
+										</div>
+									<?php } else { ?>
+										<div >
+										<button class="btn btn-primary submit">Update</button>
+										</div>
+									<?php } ?>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div><!-- /panel -->
+		</div><!-- /.col-->				
+	</div><!-- /.row -->
+</div><!-- /.padding-md -->	
+<?php } else { ?>
+  
+<?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+     <div class="alert alert-success ">
+<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+<?php echo $this->escape($message); ?>
+</div>
+ <?php } } ?>
+ <!-- widget grid -->
+<div class="padding-md">
+	<div class="panel panel-default table-responsive">
+		<div class="panel-heading">
+			 Food Time Table
+			<a class="btn btn-primary pull-right" style="margin-top: -9px;" href="<?php echo $this->mainconfig['host']; ?>master/foodtimetable/type/add">Add Food Time Table</a>
+		</div>
+		<div class="padding-md clearfix">
+			<table class="table table-striped" id="dataTable">
+				<thead>
+					<tr>
+						<th>S. No</th>
+						<th>Location</th>	
+						<th>Action</th>   
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+
+						$i = 1;
+						$pagination_tr = '';
+						if (count($this->paginator) != 0) {
+
+						foreach ($this->paginator as $results) {
+
+					?>
+					<tr>
+						<td><?php echo $i;
+
+							$i++; ?>
+						</td>
+						<td><?php echo $results['location_name']; ?></td>
+						<td> <a href="<?php echo $this->mainconfig['host']; ?>master/foodtimetable/type/edit/id/<?php echo $results['foodtimetable_id']; ?>" class="edit" title="Edit"><span class="fa fa-edit fa-lg"></span></a> &nbsp; | &nbsp;  <a href="<?php echo $this->mainconfig['host']; ?>master/foodtimetable/type/delete/id/<?php echo $results['foodtimetable_id']; ?>" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a>  </td>
+
+					</tr>            
+
+								<?php }
+								$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+								} ?>
+
+				</tbody>
+			</table>
+			 <?php echo $pagination_tr; ?>
+		</div><!-- /.padding-md -->
+	</div><!-- /panel -->
+</div><!-- /.padding-md -->		
+<?php } ?>
+
+<script type="text/javascript">
+
+$('body').on('change', '#country', function() {
+	var id = $(this).val();		
+		$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-state';?>',
+			data: {id:id}
+		}).done(function( data ) {
+			$( "#state").html( data );
+		 });
+});
+$('body').on('change','#state', function() {
+	var id = $(this).val();
+	var foodtimetable_id = $('#foodtimetable_id').val();
+
+		$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-city-food';?>',
+			data: {id:id,foodtimetable_id:foodtimetable_id}
+		}).done(function( data ) { 
+			$( "#city").html( data );
+		 });
+});
+var foodtimetable_id = $('#foodtimetable_id').val();
+var id = $('#state option:selected').val();
+if(id){
+			//alert(selectedLocation);
+				$.ajax({ 
+						type: "POST",
+						url:'<?php echo $this->mainconfig['host'].'master/ajax-get-city-food';?>',
+						data: {id:id,foodtimetable_id:foodtimetable_id}
+					}).done(function( data ) {
+						$("#city").html( data );
+						//alter(branch_id);
+					 });
+			}
+$('body').on('change','#city_id', function() { 
+	var selectedCity = new Array();
+	var foodtimetable_id = $('#foodtimetable_id').val();
+	//alert('ss'); die;
+	$('input[name="city_id[]"]:checked').each(function() {
+	selectedCity.push(this.value);
+	//alert(selectedCity);
+	});
+//alert(selectedLanguage);
+			if(selectedCity){
+			//alert(selectedLocation);
+				$.ajax({ 
+						type: "POST",
+						url:'<?php echo $this->mainconfig['host'].'master/ajax-get-location-food';?>',
+						data: {selectedCity:selectedCity,foodtimetable_id:foodtimetable_id}
+					}).done(function( data ) {
+						$("#location").html( data );
+						//alter(branch_id);
+					 });
+			}
+});
+var foodtimetable_id = $('#foodtimetable_id').val();
+var selectedCity = $('#cities').val();
+if(selectedCity){
+			//alert(selectedLocation);
+				$.ajax({ 
+						type: "POST",
+						url:'<?php echo $this->mainconfig['host'].'master/ajax-get-location-food';?>',
+						data: {selectedCity:selectedCity,foodtimetable_id:foodtimetable_id}
+					}).done(function( data ) {
+						$("#location").html( data );
+						//alter(branch_id);
+					 });
+			}
+$('body').on('change','#location_id', function() { 
+	var selectedLocation = new Array();
+	var foodtimetable_id = $('#foodtimetable_id').val();
+	//alert('ss'); die;
+	$('input[name="location_id[]"]:checked').each(function() {
+	selectedLocation.push(this.value);
+	//alert(selectedCity);
+	});
+//alert(selectedLanguage);
+			if(selectedLocation){
+			//alert(selectedLocation);
+				$.ajax({ 
+						type: "POST",
+						url:'<?php echo $this->mainconfig['host'].'master/ajax-get-branch-food';?>',
+						data: {selectedLocation:selectedLocation,foodtimetable_id:foodtimetable_id}
+					}).done(function( data ) {
+						$("#branch_ids").html( data );
+						//alter(branch_id);
+					 });
+			}
+});
+var foodtimetable_id = $('#foodtimetable_id').val();
+var selectedLocation = $('#locations').val();
+if(selectedLocation){
+			//alert(selectedLocation);
+				$.ajax({ 
+						type: "POST",
+						url:'<?php echo $this->mainconfig['host'].'master/ajax-get-branch-food';?>',
+						data: {selectedLocation:selectedLocation,foodtimetable_id:foodtimetable_id}
+					}).done(function( data ) {
+						$("#branch_ids").html( data );
+						//alter(branch_id);
+					 });
+			}
+
+$("body").on("change", "#dump_from", function(event) {         
+	var location_id = $(this).val();		   
+	$.ajax({
+		type: "POST",
+		url:"<?php echo $this->mainconfig['host'].'master/ajax-dump-location';?>",
+		data: { id: location_id }
+	}).done(function(data) { 
+		$( "#hideTimeMenu" ).hide( );
+		$( ".locationDump" ).html( data );
+		
+	});
+});
+   
+//Dump the weeks data
+$("body").on("change", "#dum_weeks", function(event) {         
+	var week_ids = $(this).val();
+	//alert(week_ids);
+	
+	var location_id = $('#locations').val();
+	//alert(week_ids);
+	$.ajax({
+		type: "POST",
+		url:"<?php echo $this->mainconfig['host'].'master/ajax-dump-weeks';?>",
+		data: { id: location_id, week:week_ids }
+	}).done(function(data) { 
+		$( "#weeks_dump" ).html('');
+		$( "#weeks_dump" ).html( data );
+		
+	}); 
+});
+$(document).ready(function() {         
+	var week_ids = $('#dum_weeks option:selected').val();
+	var location_id = $('#location_id option:selected').val();
+	//alert(week_ids);
+	$.ajax({
+		type: "POST",
+		url:"<?php echo $this->mainconfig['host'].'master/ajax-dump-weeks';?>",
+		data: { id: location_id, week:week_ids }
+	}).done(function(data) { 
+		$( "#weeks_dump" ).html('');
+		$( "#weeks_dump" ).html( data );
+		
+	}); 
+});
+
+$(document).ready(function() {	
+	// Timepicker
+	$('.timepicker').timepicker();
+	//$('.timepicker_to_time').timepicker();
+});	
+	
+/*	$('.dd').nestable();
+	var i = 1;
+	$(".itemCount").each(function () {
+		//alert(i);
+		var id=$(this).attr("data-id"); 
+		if( id > 1){
+			$('.collapse').attr('data-action', "expand");
+			$('.expand').attr('data-action', "collapse");
+		}else{
+			$('.collapse').attr('data-action', "collapse");
+			$('.expand').attr('data-action', "expand");
+		}
+		//$('.collapse').attr('data-action', "expand");
+	i++;});
+	
+*/
+$(function()	{
+		$('.dd').nestable();
+		
+	});
+	
+// Extension for Date
+/* var today = new Date("8-9-2015 12:00");
+var Christmas = new Date("8-9-2015 12:00");
+var diffMs = (Christmas - today); // milliseconds between now & Christmas
+var diffDays = Math.round(diffMs / 86400000); // days
+var diffHrs = Math.round((diffMs % 86400000) / 3600000); // hours
+var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
+alert(diffDays + " days, " + diffHrs + " hours, " + diffMins + " minutes until Christmas 2009 =)");
+// var no_fo_years = dateDiffInYears(); 
+ //function dateDiffInYears() {
+	var dateold = new Date('2015-06-01');
+	var datenew = new Date('2020-06-01');		
+	var ynew = datenew.getFullYear();	
+	var mnew = datenew.getMonth();
+	var dnew = datenew.getDate();
+	var yold = dateold.getFullYear();
+	var mold = dateold.getMonth();
+	var dold = dateold.getDate();
+	var diff = ynew - yold;
+	if (mold > mnew) diff--;
+	else {
+		if (mold == mnew) {
+			if (dold > dnew) diff--;
+		}
+	}
+	
+	alert(diff); */
+	//return diff;
+//}
+$('body').on('click','#select1',function() {
+//alert('sdsd'); 
+var id = $('#select1').val();
+  if(id == 'Select All') {
+      // Iterate each checkbox
+      $('.checkbox1').each(function() {
+          this.checked = true;
+      });
+  }
+  else {
+    $('.checkbox1').each(function() {
+          this.checked = false;
+      });
+  }
+}); 
+$('body').on('click','#unselect1',function() {
+var id = $('#unselect1').val();
+//alert(id);
+  if(id == 'Unselect All') {
+      // Iterate each checkbox
+      $('.checkbox1').each(function() {
+          this.checked = false;
+      });
+  }
+  else {
+    $('.checkbox1').each(function() {
+          this.checked = true;
+      });
+  }
+});
+$('body').on('click','#select2',function() {
+//alert('sdsd'); 
+var id = $('#select2').val();
+  if(id == 'Select All') {
+      // Iterate each checkbox
+      $('.checkbox2').each(function() {
+          this.checked = true;
+      });
+  }
+  else {
+    $('.checkbox2').each(function() {
+          this.checked = false;
+      });
+  }
+}); 
+$('body').on('click','#unselect2',function() {
+var id = $('#unselect2').val();
+//alert(id);
+  if(id == 'Unselect All') {
+      // Iterate each checkbox
+      $('.checkbox2').each(function() {
+          this.checked = false;
+      });
+  }
+  else {
+    $('.checkbox2').each(function() {
+          this.checked = true;
+      });
+  }
+});
+$('body').on('click','#select3',function() {
+//alert('sdsd'); 
+var id = $('#select3').val();
+  if(id == 'Select All') {
+      // Iterate each checkbox
+      $('.checkbox3').each(function() {
+          this.checked = true;
+      });
+  }
+  else {
+    $('.checkbox3').each(function() {
+          this.checked = false;
+      });
+  }
+}); 
+$('body').on('click','#unselect3',function() {
+var id = $('#unselect3').val();
+//alert(id);
+  if(id == 'Unselect All') {
+      // Iterate each checkbox
+      $('.checkbox3').each(function() {
+          this.checked = false;
+      });
+  }
+  else {
+    $('.checkbox3').each(function() {
+          this.checked = true;
+      });
+  }
+});
+
+</script>

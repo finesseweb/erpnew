@@ -1,0 +1,185 @@
+<style>
+table {border-collapse: collapse;width:100%;font-weight:normal; font-family:Arial, Helvetica, sans-serif;}
+table, th, td {text-align:left;border: 1px solid black; font-size:12px; padding:4px;}
+p{text-align:left; font-weight:normal;}
+table.table-bordered td:last-child{border-right:1px !important;}
+</style>
+<?php
+$invoiceData = $this->invoiceData;
+
+$cmpDetail = $this->cmpDetail;
+$cmpAddress = '';
+if (isset($cmpDetail)) {
+    $cmpAddress .='<h5>' . $cmpDetail['company_name'] . '</h5>';
+    $cmpAddress .='<p>' . $cmpDetail['company_address1'] . '</p>';
+}
+?>
+
+<div class="table-responsive employee_class purchase-quatation-items">
+   <h3 align="center">PURCHASE VOUCHER</h3><br>
+<h4>No.<u><strong>
+                            <?php if ($invoiceData['purchase_invoice_id'] > 0) { ?>
+                                <?php
+                                if (strlen($invoiceData['purchase_invoice_id']) == 1) {
+                                    echo $invoiceData['purchase_invoice_id'] = @INVAL_PREFIX . "000" . $invoiceData['purchase_invoice_id'];
+                                } else
+                                if (strlen($invoiceData['purchase_invoice_id']) == 2) {
+                                    echo $invoiceData['purchase_invoice_id'] = @INVAL_PREFIX . "00" . $invoiceData['purchase_invoice_id'];
+                                } else
+                                if (strlen($invoiceData['purchase_invoice_id']) == 3) {
+                                    echo $invoiceData['purchase_invoice_id'] = @INVAL_PREFIX . "0" . $invoiceData['purchase_invoice_id'];
+                                } else {
+                                    echo $invoiceData['purchase_invoice_id'] = @INVAL_PREFIX . $invoiceData['purchase_invoice_id'];
+                                }
+                            }
+                            ?></strong></u>&nbsp;  Date:<u> <strong><?php
+                            if (isset($invoiceData['purchase_invoice_id'])) {
+                                echo $invoiceData['invoice_date'];
+                            } else
+                                echo 'Not submited';
+                            ?></strong></u>&nbsp;B.No./Date_____________________&nbsp;&nbsp;&nbsp;Due Date_____________________</h4>
+<table colspan="4" border="1px solid black" style="border-collapse:collapse;" width="100%">
+<tbody>
+<tr>
+<td colspan="4"><br>
+<h4><?php echo $invoiceData['vendor_name']; ?> </h4>
+<?php echo $invoiceData['vendor_address1']; ?></td>
+<td colspan="4"></td>
+</tr>
+<tr>
+
+<th colspan="4" style="text-align:center;">HEAD OF ACCOUNT</th>
+<th colspan="4" style="text-align:center;">Amount (Rs.)</th>
+</tr>
+<?php if($this->itemInvoiceData >0){ 
+	$productDetails = $this->itemInvoiceData; 
+	$grand = 0;
+	 foreach ($productDetails as $item) {
+		$total = ($item['purchase_invoice_item_price'] * $item['purchase_invoice_item_approved_quantity']);?>
+<tr colspan="4">
+
+<td colspan="4"><?php echo $item['item_name']; ?></td>
+<td colspan="4" style="text-align:center;"><?php echo number_format($total, 2); 
+$grand+=$total; ?></td>
+</tr>
+<?php } 
+}?>
+
+<tr>
+<td colspan="4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total</b></td>
+<td colspan="4" style="text-align:center;"><?php echo CURRENCY_SYMBOL;?>  <?php echo number_format($grand, 2); ?></td>
+</tr>
+</tbody>
+</table>
+<table colspan="4" border="1px solid black" style="border-collapse:collapse;" width="100%">
+<tr>
+<td width="20%">Remarks_________________________________________________________<br>__________________________________________________________________<br>__________________________________________________________________</td>
+<td><br><br><br>Prepared by</td>
+
+<td><br><br><br>Passed by</td>
+
+<td><br><br><br>Approved by</td>
+</tr>
+</table>
+</div>
+
+
+
+<?php
+
+function no_to_words($no) {
+    $words = array('0' => '', '1' => 'one', '2' => 'two', '3' => 'three', '4' => 'four', '5' => 'five', '6' => 'six', '7' => 'seven', '8' => 'eight', '9' => 'nine', '10' => 'ten', '11' => 'eleven', '12' => 'twelve', '13' => 'thirteen', '14' => 'fouteen', '15' => 'fifteen', '16' => 'sixteen', '17' => 'seventeen', '18' => 'eighteen', '19' => 'nineteen', '20' => 'twenty', '30' => 'thirty', '40' => 'fourty', '50' => 'fifty', '60' => 'sixty', '70' => 'seventy', '80' => 'eighty', '90' => 'ninty', '100' => 'hundred &', '1000' => 'thousand', '100000' => 'lakh', '10000000' => 'crore');
+    if ($no == 0)
+        return ' ';
+    else {
+        $novalue = '';
+        $highno = $no;
+        $remainno = 0;
+        $value = 100;
+        $value1 = 1000;
+        while ($no >= 100) {
+            if (($value <= $no) && ($no < $value1)) {
+                $novalue = $words["$value"];
+                $highno = (int) ($no / $value);
+                $remainno = $no % $value;
+                break;
+            }
+            $value = $value1;
+            $value1 = $value * 100;
+        }
+        if (array_key_exists("$highno", $words))
+            return $words["$highno"] . " " . $novalue . " " . no_to_words($remainno);
+        else {
+            $unit = $highno % 10;
+            $ten = (int) ($highno / 10) * 10;
+            return $words["$ten"] . " " . $words["$unit"] . " " . $novalue . " " . no_to_words($remainno);
+        }
+    }
+}
+
+function convert_number($number) {
+    if (($number < 0) || ($number > 999999999)) {
+        throw new Exception("Number is out of range");
+    }
+
+    $Gn = floor($number / 100000);  /* Millions (giga) */
+    $number -= $Gn * 100000;
+    $kn = floor($number / 1000);     /* Thousands (kilo) */
+    $number -= $kn * 1000;
+    $Hn = floor($number / 100);      /* Hundreds (hecto) */
+    $number -= $Hn * 100;
+    $Dn = floor($number / 10);       /* Tens (deca) */
+    $n = $number % 10;               /* Ones */
+
+    $res = "";
+
+    if ($Gn) {
+        $res .= convert_number($Gn) . " Lacs";
+    }
+
+    if ($kn) {
+        $res .= (empty($res) ? "" : " ") .
+                convert_number($kn) . " Thousand";
+    }
+
+    if ($Hn) {
+        $res .= (empty($res) ? "" : " ") .
+                convert_number($Hn) . " Hundred";
+    }
+
+    $ones = array("", "One", "Two", "Three", "Four", "Five", "Six",
+        "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen",
+        "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eightteen",
+        "Nineteen");
+    $tens = array("", "", "Twenty", "Thirty", "Fourty", "Fifty", "Sixty",
+        "Seventy", "Eigthy", "Ninety");
+
+    if ($Dn || $n) {
+        if (!empty($res)) {
+            $res .= " and ";
+        }
+
+        if ($Dn < 2) {
+            $res .= $ones[$Dn * 10 + $n];
+        } else {
+            $res .= $tens[$Dn];
+
+            if ($n) {
+                $res .= "-" . $ones[$n];
+            }
+        }
+    }
+
+    if (empty($res)) {
+        $res = "zero";
+    }
+
+    return $res;
+}
+?>
+<script>
+    function closeInvoice() {
+
+        $("tr.invoicedata").remove();
+    }
+</script>

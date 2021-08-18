@@ -1,0 +1,32 @@
+<?php
+$item_result = $this->result;
+//echo '<pre>'; print_r($item_result); die;
+$i = 1;
+ foreach($item_result as $k => $result) {  ?>
+
+ <div class="box-body">
+	<h4 style="background-color:#3c8dbc;padding:8px 8px;color:white;"><?php echo $result['term_name'].'-'.$result['course_name']; ?></h4>
+	<div class="row">
+	<input type="hidden" name="count_val" id="count_val_<?php echo $i;?>" value="1" class="count_val" />
+	<input type="hidden" name="component[term_id][]" id="term_id" value="<?php echo $result['term_id']; ?>" />
+	<input type="hidden" name="component[course_id][]" id="course_id" value="<?php echo $result['course_id']; ?>" />
+	<div class="form-group">
+	<div class="col-sm-3">
+	<label class="control-label">Component Name</label>
+	<input type="text" name="component[component_name][<?php echo $result['term_id']; ?>][]" id="component_name_<?php echo $result['term_id']; ?>_0" class="form-control" />
+	</div>
+	</div>
+	<div class="form-group">
+	<div class="col-sm-3">
+	<label class="control-label">Weightage</label>
+	<input type="text" name="component[weightage][<?php echo $result['term_id']; ?>][]" id="weightage_<?php echo $result['term_id'];?>_0"  class="form-control"/>
+	</div>
+	</div>
+	 <div class="col-md-1" style="">					   
+																<input type="button" value="+" id="AddButton1" style="margin-top:24px;" class="btn btn-primary" onclick="addMore(<?php echo $i;?>,<?php echo $result['term_id'];?>);" > 
+															</div> 
+	</div>
+	</div>
+	<div id="addmore_items_<?php echo $i;?>"></div>
+				<br>
+<?php $i++; } ?>

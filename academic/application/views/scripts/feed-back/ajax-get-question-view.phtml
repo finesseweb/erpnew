@@ -1,0 +1,20 @@
+<?php $item_result = $this->result;?>
+
+
+<table class="my table table-striped table-bordered mb30 jambo_table bulk_action" style="width:100%;" id="dataTable">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Questions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($item_result as $key => $value){ ?>
+        <tr>
+            <td><input type='checkbox' name='questionBox[]' value='<?=$value['Auto_no'];?>'></td>
+            <td><?=$value['text_filed']; ?></td>
+        </tr>      
+        <?php }?>
+        
+    </tbody> 
+</table>

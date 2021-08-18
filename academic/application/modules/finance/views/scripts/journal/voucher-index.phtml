@@ -1,0 +1,385 @@
+<style>
+.panel-body {
+	padding: 15px 10px 0 10px;
+}
+</style>
+<div id="content" class="right_col">
+<?php  if($this->type){ ?>
+<section id="widget-grid" class="">
+		<!-- row -->
+	<div class="row">
+		<!-- NEW WIDGET START -->
+  		<article class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+		<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget" id="wid-id" data-widget-colorbutton="false" data-widget-editbutton="false">
+				<header>
+					
+						<h2><span class="widget-icon"> <i class="fa fa-eye"></i> </span> Add Account  </h2>
+				</header>
+			<!-- widget div-->
+				<div>				
+					<div class="widget-body">
+						<form id="basicForm" action="<?php echo $this->form->getAction(); ?>" method="post" class="form">	   <div class="panel panel-default">
+								<div class="panel-body">
+								<?php if(count($this->edit_records)>0){ 
+								$i=0;?>
+								<input type="hidden" name="count_val" id="count_val" value="<?php echo (count($this->edit_records) +1 ); ?>" class="count_val">
+								<?php 
+									foreach($this->edit_records as $k=>$value){
+								?>
+									<div  class="row appended_row padding-top" style="">
+										<input type="hidden" name="count_val" id="count_val" value="1" class="count_val">
+										<div class="col-sm-3">
+												<label class="control-label">Date</label>
+												<input type="text" name="voucher[date][]" required="required" value="<?php echo $value['date']?>" id="voucher_date" class="form-control voucher_date">
+										</div>
+										
+										<div class="col-sm-3">
+											 <label class="control-label">Party Name</label>
+											 <select type="text" name="voucher[dealer_id][]" required="required" class="form-control">
+													<option value="">Select</option>
+														<?php foreach($this->customer as $k=>$val){
+															$selected = '';
+															$cus_val = $value['dealer_id'].':;'.$value['credit_party_type'];
+															if($k == $cus_val)
+															$selected = 'selected';
+														?>
+													<option value="<?php echo $k;?>" <?php echo $selected;?>><?php echo $val;?></option>
+													<?php }?>
+											</select>
+										</div> 
+										<div class="col-sm-3">
+											<label class="control-label">Credit</label>
+											<input type="text"  class="form-control " required="required" name="voucher[credit_amount][]" value="<?php echo $value['credit_amount']?>" label="amount_<?php echo $i;?>" onchange="amount(this.value, <?php echo $i;?>)" onkeypress="amount(this.value, <?php echo $i;?>)" onkeyup="amount(this.value, <?php echo $i;?>)" /> 
+										</div>  
+										
+										<div class="col-sm-3">
+											<label class="control-label">Remarks</label>
+											<input type="text"  class="form-control" name="voucher[remarks][]" value="<?php echo $value['remarks']?>" id="remarks" onchange="remarks1(this.value, <?php echo $i;?>)" onkeypress="remarks1(this.value, <?php echo $i;?>)" onkeyup="remarks1(this.value, <?php echo $i;?>)" label="remarks_<?php echo $i;?>" /> 
+										</div>
+										<div class="col-sm-3">
+											<label class="control-label">Debit</label>
+											<input type="text" class="form-control" required="required" name="voucher[debit_amount][]" value="<?php echo $value['debit_amount']?>" onchange="debitAmount(this.value, <?php echo $i;?>)" onkeypress="debitAmount(this.value, <?php echo $i;?>)" onkeyup="debitAmount(this.value, <?php echo $i;?>)" label="debitAmount_<?php echo $i;?>" /> 
+										</div>
+										
+										<div class="col-sm-3">
+											 <label class="control-label">Party Name</label>
+											 <select type="text" name="voucher[vendor_id][]" required="required" class="form-control">
+													<option value="">Select</option>
+														<?php foreach($this->vendor as $k=>$val){
+														$selected = '';
+														$vendor_val = $value['vendor_id'].':;'.$value['debit_party_type'];
+														if($k == $vendor_val)
+														$selected = 'selected';?>
+													<option value="<?php echo $k;?>"<?php echo $selected;?>><?php echo $val;?></option>
+													<?php }?>
+											</select>
+										</div> 
+										<div class="col-sm-3">
+											<label class="control-label">Remarks</label>
+											<input type="text" class="form-control " name="voucher[remark1][]" value="<?php echo $value['remark1']?>" id="remark1" onchange="remarks2(this.value, <?php echo $i;?>)" onkeypress="remarks2(this.value, <?php echo $i;?>)" onkeyup="remarks2(this.value, <?php echo $i;?>)" label="remarks1_<?php echo $i;?>" /> 
+										</div> 
+										<?php if($i==0){?>
+										<div style="">
+											<input type="button" value="+"  class=" AddButton btn btn-primary adjust-size" style="padding:7px 15px;margin:24px 15px;"> 
+										<?php }else{ ?>
+										<a href="#" class="removeclass btn btn-primary remove_class" style="   margin-top: 20px;margin-left: 10px;">-</a>
+										<?php } ?>
+										</div>
+									</div>					
+								<?php $i++;} }else{?>
+									<div  class="row padding-top" style="">
+										<input type="hidden" name="count_val" id="count_val" value="1" class="count_val">
+										<div class="col-sm-3">
+										
+												<label class="control-label">Date</label>
+												<input type="text" name="voucher[date][]" id="voucher_date" class="form-control voucher_date" required="required">
+											
+										</div>
+										
+										<div class="col-sm-3">
+											 <label class="control-label">Party Name</label>
+											 <select type="text" name="voucher[dealer_id][]" required="required" class="form-control">
+													<option value="">Select</option>
+														<?php foreach($this->customer as $k=>$val){?>
+													<option value="<?php echo $k;?>"><?php echo $val;?></option>
+													<?php }?>
+											</select>
+										</div> 
+										<div class="col-sm-3">
+											<label class="control-label">Credit</label>
+											<input type="text" required="required" class="form-control " label="amount_0" onchange="amount(this.value, 0)" onkeypress="amount(this.value, 0)" onkeyup="amount(this.value, 0)" name="voucher[credit_amount][]" /> 
+										</div>  
+										
+										<div class="col-sm-3">
+											<label class="control-label">Remarks</label>
+											<input type="text"  class="form-control" name="voucher[remarks][]" id="remarks" onchange="remarks1(this.value, 0)" onkeypress="remarks1(this.value, 0)" onkeyup="remarks1(this.value, 0)" label="remarks_0"/> 
+										</div>
+										<div class="col-sm-3">
+											<label class="control-label">Debit</label>
+											<input type="text" required="required" class="form-control"  onchange="debitAmount(this.value, 0)" label="debitAmount_0" onkeypress="debitAmount(this.value, 0)" onkeyup="debitAmount(this.value, 0)" name="voucher[debit_amount][]"  /> 
+										</div>
+										<div class="col-sm-3">
+											 <label class="control-label">Party Name</label>
+											 <select type="text" required="required" name="voucher[vendor_id][]" class="form-control">
+													<option value="">Select</option>
+														<?php foreach($this->vendor as $k=>$val){?>
+													<option value="<?php echo $k;?>"><?php echo $val;?></option>
+													<?php }?>
+											</select>
+										</div> 
+										<div class="col-sm-3">
+											<label class="control-label">Remarks</label>
+											<input type="text" class="form-control " name="voucher[remark1][]" id="remark1" onchange="remarks2(this.value, 0)" onkeypress="remarks2(this.value, 0)" onkeyup="remarks2(this.value, 0)" label="remarks1_0"/> 
+										</div>
+									
+										<div>
+											<input type="button" value="+"  class=" AddButton btn btn-primary" style="padding:7px 15px;margin:24px 15px;"> 
+										</div>
+										</div>
+								<?php } ?>
+								<div id="fields">
+									<div class="padding-top"></div>
+								</div>
+								<div style="display:none" class="select_data" >             
+									<div class="row padding-top"  id="appended_row1" style="">
+										<div class="col-sm-3">
+												<label class="control-label">Date</label>
+												<input type="text" name="voucher[date][]" id="voucherDate" class="form-control voucher_date">
+											</div>
+										
+										<div class="col-sm-3">
+											 <label class="control-label">Party Name</label>
+											 <select type="text" name="voucher[dealer_id][]" id="dealer_id" class="form-control">
+													<option value="">Select</option>
+														<?php foreach($this->customer as $k=>$val){?>
+													<option value="<?php echo $k;?>"><?php echo $val;?></option>
+													<?php }?>
+											</select>
+										</div> 
+										<div class="col-sm-3">
+											<label class="control-label">Credit</label>
+											<input type="text"  class="form-control " id="credit_amount" name="voucher[credit_amount][]" /> 
+										</div>  
+										
+										<div class="col-sm-3">
+											<label class="control-label">Remarks</label>
+											<input type="text"  class="form-control" name="voucher[remarks][]" id="moreRemark1" /> 
+										</div>
+										<div class="col-sm-3">
+											<label class="control-label">Debit</label>
+											<input type="text" class="form-control" id="debit_amount" name="voucher[debit_amount][]"  /> 
+										</div>
+										<div class="col-sm-3">
+											 <label class="control-label">Party Name</label>
+											 <select type="text" name="voucher[vendor_id][]" id="vendor_id" class="form-control">
+													<option value="">Select</option>
+														<?php foreach($this->vendor as $k=>$val){?>
+													<option value="<?php echo $k;?>"><?php echo $val;?></option>
+													<?php }?>
+											</select>
+										</div> 
+										<div class="col-sm-3">
+											<label class="control-label">Remarks</label>
+											<input type="text" class="form-control " name="voucher[remark1][]" id="moreRemark2"/> 
+										</div> 	
+										<a href="#" class="removeclass btn btn-primary remove_class" style="margin: 24px 15px;padding: 7px 15px;">-</a>
+									</div>
+								</div>
+							</div>
+								<div class="panel-footer">
+									<div class="row" align="center">
+										<div class="">
+											<?Php if($this->type == 'add') { ?>
+											<button class="btn btn-primary">Submit</button>
+											<button type="reset" class="btn btn-danger btn-default">Reset</button>
+											<?php } elseif($this->type == 'edit') {?>
+											<button class="btn btn-primary">Update</button>
+											<?php } ?>
+										</div>
+									</div>
+								</div>
+							</div>	
+						</form>
+					</div>
+				</div>
+			</div>								<!-- end widget div -->
+		</article>
+	</div>			<!-- end widget -->
+</section>
+<?php } else {?>
+<?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+     <div class="alert alert-success">
+<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+<?php echo $this->escape($message); ?>
+</div>
+ <?php } } ?>
+<!-- Row -->
+<div class="row">
+	<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+		<h3 class="page-title txt-color-blueDark">
+			<i class="fa fa-bars"> Journal Voucher  List</i>
+				
+		</h3>
+	</div>
+	<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
+				<a class="btn btn-primary pull-right" style="margin-top:25px;" href="<?php echo $this->mainconfig['host'];?>finance/journal/voucher-index/type/add">Add  </a>
+		
+	</div>
+</div>
+<!-- End row -->
+ <!-- widget grid -->
+	<section id="widget-grid" class="">	
+		<div class="row">
+			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+						
+					<div>
+						<div class="widget-body">
+							<div class="table-responsive">
+								<div class="x_panel">
+               
+                    <div class="x_title">
+                       <h2>Journal Voucher List</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                       </li>
+                      <li><a class=""><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+				<div class="x_content">
+					<table class="table table-striped table-bordered mb30 jambo_table bulk_action">
+									<thead>
+										<tr>
+											<th>S.No.</th>
+											<th>Date</th> 											
+											<th>Party Name</th> 											
+											<th>Credit</th> 											
+											<th>Remarks</th> 											
+											<th>Debit</th> 											
+											<th>Party Name</th> 											
+											<th>Remarks</th> 											
+											<th style=" width: 80px;">Action</th>  
+
+										</tr>
+
+									</thead>
+									<tbody>
+										<?php $i=1; 
+									//	echo '<pre>';
+									//print_r($this->paginator); die;
+										if(count($this->paginator) !=0){
+										foreach ($this->paginator as $results){	?>
+										<tr>
+
+											<td><?php echo $i; $i++;?></td>
+											<td><?php echo $results['date'];?></td> 
+											<td><?php echo $results['dealer_id'];?></td> 
+											<td><?php echo $results['credit_amount'];?></td> 
+											<td><?php echo $results['remarks'];?></td> 
+											<td><?php echo $results['debit_amount'];?></td> 
+											<td><?php echo $results['vendor_id'];?></td> 
+											<td><?php echo $results['remark1'];?></td> 
+											<td><a href="<?php echo $this->mainconfig['host'];?>finance/journal/voucher-index/type/edit/id/<?php echo $results['voucher_id']; ?>" title="Edit"><span class="glyphicon glyphicon-pencil"></span></a> &nbsp; | &nbsp;  <a href="<?php echo $this->mainconfig['host'];?>finance/journal/voucher-index/type/delete/id/<?php echo $results['voucher_id'];?>" class="delete" title="Delete"> <span class="glyphicon glyphicon-trash"></span> </a></td>
+										</tr>
+										<?php }?>
+										<tr class="odd gradeX">
+											<td colspan="9" align="center"> <?php  echo $this->paginationControl($this->paginator, 'Sliding', array('pagination.phtml', 'default')); ?>
+											</td>
+										</tr>
+										<?php } else {?>
+										<tr class="odd gradeX">
+											<td colspan="9" align="center">No Results Found</td>
+										</tr>
+										<?php }?>
+									</tbody>
+								</table>
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- end widget -->
+			</article>
+			<!-- WIDGET END -->
+		</div>
+		<!-- end row -->
+	</section>
+	<!-- end widget grid -->
+<?php } ?>
+</div>
+<script>
+$('.voucher_date').datepicker({
+	dateFormat: 'yy-mm-dd',
+	prevText: '<i class="fa fa-chevron-left"></i>',
+	nextText: '<i class="fa fa-chevron-right"></i>' 
+});
+/* $('#voucherDate').datepicker({
+	dateFormat: 'yy-mm-dd',
+	prevText: '<i class="fa fa-chevron-left"></i>',
+	nextText: '<i class="fa fa-chevron-right"></i>' 
+}); */
+
+var count = $('#count_val').val();
+     $("body").on("click",".AddButton", function(e){     
+      $( "#appended_row1" ).clone().find("input:text").val("").end().appendTo( "#fields" );
+			var count_val = count++;			
+			$('#credit_amount').attr('onchange', 'amount(this.value,'+count_val+')');
+			$('#credit_amount').attr('onkeypress', 'amount(this.value,'+count_val+')');
+			$('#credit_amount').attr('onkeyup', 'amount(this.value,'+count_val+')');
+			$('#debit_amount').attr('onchange', 'debitAmount(this.value,'+count_val+')');
+			$('#debit_amount').attr('onkeypress', 'debitAmount(this.value,'+count_val+')');
+			$('#debit_amount').attr('onkeyup', 'debitAmount(this.value,'+count_val+')');
+			$('#moreRemark1').attr('onchange', 'remarks1(this.value,'+count_val+')');
+			$('#moreRemark1').attr('onkeypress', 'remarks1(this.value,'+count_val+')');
+			$('#moreRemark1').attr('onkeyup', 'remarks1(this.value,'+count_val+')');
+			$('#moreRemark2').attr('onchange', 'remarks2(this.value,'+count_val+')');
+			$('#moreRemark2').attr('onkeypress', 'remarks2(this.value,'+count_val+')');
+			$('#moreRemark2').attr('onkeyup', 'remarks2(this.value,'+count_val+')');
+			
+			$('#moreRemark1').attr('label', 'remarks_'+count_val);
+			$('#moreRemark2').attr('label', 'remarks1_'+count_val);
+			$('#credit_amount').attr('label','amount_'+count_val);
+			$('#debit_amount').attr('label','debitAmount_'+count_val);
+			$('#remarks1').attr('label','remarks1_'+count_val);
+			$('.voucher_date').attr('class','voucher_date form-control');
+			$('#voucherDate').attr('required','required');
+			$('#dealer_id').attr('required','required');
+			$('#debit_amount').attr('required','required');
+			$('#credit_amount').attr('required','required');
+			$('#vendor_id').attr('required','required');
+			$('#count_val').val(count_val);
+			
+			$('.voucher_date').datepicker({
+				dateFormat: 'yy-mm-dd',
+				prevText: '<i class="fa fa-chevron-left"></i>',
+				nextText: '<i class="fa fa-chevron-right"></i>' 
+			});
+          return false;
+    });
+	
+	$("body").on("click",".removeclass", function(e){
+	   $(this).parent('div').remove(); 
+   return false;
+    });
+	
+function amount(amount,num){
+	 $("#basicForm input[label='debitAmount_"+num+"']").val(amount);
+}
+function debitAmount(amount,num){
+	 $("#basicForm input[label='amount_"+num+"']").val(amount);
+}
+function remarks1(val,num){ 
+	 $("#basicForm input[label='remarks1_"+num+"']").val(val);
+}
+function remarks2(val,num){
+	 $("#basicForm input[label='remarks_"+num+"']").val(val);
+}	
+</script>

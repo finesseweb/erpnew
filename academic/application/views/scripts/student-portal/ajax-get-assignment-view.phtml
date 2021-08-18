@@ -1,0 +1,73 @@
+<?php
+$i = 1;
+$pagination_tr = '';
+if (count($this->paginator) != 0) {
+    
+                                         //   echo "<pre>"; print_r($this->paginator);exit;
+    foreach ($this->paginator as $results) {
+        ?>
+        <tr>
+
+            <?php if ($results['assignment_status'] != 'Completed') { ?>
+                <td>
+                    <input type="checkbox" name='selected_id[]' value='<?= $results['submitted_id']; ?>' id="selected_id<?= $i; ?>" />
+                    <label for="selected_id<?= $i; ?>" class='checkbox' id="checkbox_id<?= $i; ?>" ><i class=''></i></label>
+                </td>
+            <?php } else { ?>
+                <td><i class='glyphicon glyphicon-ok'></i></td>
+            <?php } ?>
+        <script>
+            $("#checkbox_id<?= $i; ?>").click(function () {
+                if ($("#selected_id<?= $i; ?>").prop("checked") == false) {
+                    $("#checkbox_id<?= $i; ?> > i").attr("class", 'glyphicon glyphicon-ok');
+                } else if ($("#selected_id<?= $i; ?>").prop("checked") == true)
+                {
+                    $("#checkbox_id<?= $i; ?> > i").attr("class", '');
+                }
+            });
+
+        </script>
+        <td><?php
+            echo $i;
+
+            $i++;
+            ?>
+        </td>						
+        <td><?php echo $results['course_id']['course_code']; ?></td>
+
+        <td><?php echo $results['document_title']; ?></td>
+
+        <td><a href='<?= $this->baseUrl($results['filename']); ?>' class='link' download><?php echo $results['filename2']; ?></a></td>
+        <td><?php echo $results['remarks']; ?></td>
+        <td><?= $results['updated_date']; ?></td>
+        <td><?= $results['due_date']; ?></td>
+
+        <?php if ($results['assignment_status'] != 'Completed') { ?>
+            <td><input type='file'  name='uploadFile_<?= $results['submitted_id']; ?>' id='uploadFile2' /></td>
+        <?php } else { ?>
+            <td><a href='<?= $this->baseUrl($results['upload_file']); ?>' class='link' download><?= $results['filename1']; ?></a></td>
+        <?php } ?>
+        <td><textarea class="form-control" name='description_<?= $results['submitted_id']; ?>' id ='description'></textarea></td>
+        <?php if ($results['assignment_status'] != 'Completed') { ?>
+            <td>
+                <select name='assignment_status_<?= $results['submitted_id']; ?>' class="form-control" id='status_id'>
+                    <option value='0'>Incomplete</option>
+                    <option value='1'>Completed</option>
+                </select>
+            </td>
+        <?php } else { ?>
+            <td>Completed</td>
+        <?php } ?>
+        </tr>   
+
+
+        <?php
+    }
+} else {
+    ?>
+    <tr>
+        <td colspan="11">No Records</td>
+    </tr>
+<?php }
+?>
+

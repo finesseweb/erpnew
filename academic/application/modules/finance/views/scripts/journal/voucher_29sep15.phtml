@@ -1,0 +1,241 @@
+<!--
+<!--
+The ID "widget-grid" will start to initialize all widgets below
+You do not need to use widgets if you dont want to. Simply remove
+the <section></section> and you can use wells or panels instead
+-->
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+	<!-- row -->
+	<div class="row">
+
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<table id="jqgrid"></table>
+			<div id="pjqgrid"></div>
+
+
+
+		</article>
+		<!-- WIDGET END -->
+
+	</div>
+
+	<!-- end row -->
+
+</section>
+<!-- end widget grid -->
+<?php 
+//header("Content-type: application/json");
+//print_r($get_datas); 
+$json_encode = json_encode($this->result);
+//echo '<pre>';print_r($json_encode);die;
+$data1 = array();
+$data1[''] = 'Select Name';
+foreach($this->customer as $key => $val){	
+ $data1[$key] = $val; 
+}
+$customer = json_encode($data1);
+//echo '<pre>';print_r($customer);die;
+$data = array();
+$data[''] = 'Select Name';
+//print_r();die;
+foreach($this->vendor as $key => $val){	
+ $data[$key] = $val; 
+}
+$vendor = json_encode($data);
+
+$bank_data = array();
+$bank_data[''] = 'Select Bank';
+//print_r();die;
+foreach($this->bank as $key => $val){	
+ $bank_data[$val] = $val; 
+}
+$bank = json_encode($bank_data);
+//echo '<pre>';print_r($vendor);die;
+//$array_data = preg_replace('/"([a-zA-Z_]+[a-zA-Z0-9_]*)":/','$1:',$json_encode);
+//print_r($array_data);
+?>
+
+		<!-- PAGE RELATED PLUGIN(S)
+		<script src="..."></script>-->
+
+		<script src="<?php echo $this->mainconfig['host'];?>public/js/plugin/jqgrid/jquery.jqGrid.min.js"></script>
+		<script src="<?php echo $this->mainconfig['host'];?>public/js/plugin/jqgrid/grid.locale-en.min.js"></script>
+
+		<script type="text/javascript">
+			$(document).ready(function() {
+				pageSetUp();
+				
+				var jqgrid_data = <?php echo($json_encode); ?>;
+				
+				jQuery("#jqgrid").jqGrid({
+					data : jqgrid_data,
+					datatype : "local",
+					height : 'auto',
+					colNames : ['Actions', 'Journal Voucher ID', 'Date', 'Party Name', 'Credit', 'Remarks', 'Debit', 'Party Name', 'Remarks'],
+					colModel : [{
+						name : 'act',
+						index : 'act',
+						sortable : false
+					}, {
+						name : 'id',
+						index : 'id',
+						editable : false,
+						hidden: true
+					},
+					{
+						name : 'date',
+						index : 'date',
+						editable : true,
+						editoptions: { dataInit: function (elem) { $(elem).datepicker({dateFormat:'yy-mm-dd'}); }},
+						editrules: { required: true }
+					},{
+						name : 'dealer_id',
+						index : 'dealer_id',
+						editable : true,
+						edittype: 'select',	
+						editoptions: { value: <?php print_r($customer); ?>},
+						editrules: { required: false }
+					}, {
+						name : 'credit_amount',
+						index : 'credit_amount',
+						editable : true,
+						editrules: { required: false },
+						editoptions: {  dataEvents: [
+									  {  type: 'change',
+										 fn: function(e) {
+											$('input#debit_amount').val(this.value);
+										 }
+									  }
+								   ]
+						}
+					}, {
+						name : 'remarks',
+						index : 'remarks',
+						editable : true,
+						editrules: { required: false }
+					}, {
+						name : 'debit_amount',
+						index : 'debit_amount',
+						editable : true,
+						dataEvents: [
+						   {
+							   type: 'change',
+							   fn: function(e) {
+									var v=$(e.target).val();
+									alert(v); // do something with selected item value
+							   }
+						   }
+						]
+						editrules: { required: false }						
+					}, {
+						name : 'vendor_id',
+						index : 'vendor_id',
+						editable : true,
+						edittype: 'select',	
+						editoptions: { value: <?php print_r($vendor); ?>},
+						editrules: { required: false }
+					}, {
+						name : 'remark1',
+						index : 'remark1',
+						editable : true,
+						editrules: { required: false }
+					}],
+					rowNum : 10,
+					rowList : [10, 20, 30],
+					pager : '#pjqgrid',
+					sortname : 'id',
+					toolbarfilter : true,
+					viewrecords : true,
+					sortorder : "desc",
+					gridComplete : function() {
+						var ids = jQuery("#jqgrid").jqGrid('getDataIDs');
+						for (var i = 0; i < ids.length; i++) {
+							var cl = ids[i];
+							be = "<button class='btn btn-xs btn-default' style='width:20px;' data-original-title='Edit Row' onclick=\"jQuery('#jqgrid').editRow('" + cl + "');\"><i class='fa fa-pencil'></i></button>";
+							se = "<button class='btn btn-xs btn-default' style='width:20px;' data-original-title='Save Row' onclick=\"jQuery('#jqgrid').saveRow('" + cl + "');\"><i class='fa fa-save'></i></button>";
+							ca = "<button class='btn btn-xs btn-default' style='width:20px;' data-original-title='Cancel' onclick=\"jQuery('#jqgrid').restoreRow('" + cl + "');\"><i class='fa fa-times'></i></button>";
+							//ce = "<button class='btn btn-xs btn-default' onclick=\"jQuery('#jqgrid').restoreRow('"+cl+"');\"><i class='fa fa-times'></i></button>";
+							//jQuery("#jqgrid").jqGrid('setRowData',ids[i],{act:be+se+ce});
+							jQuery("#jqgrid").jqGrid('setRowData', ids[i], {
+								act : be + se + ca
+							});
+						}
+					},
+					editurl : "<?php echo $this->mainconfig['host'].'finance/journal/ajax-voucher'; ?>",
+					caption : "",
+					multiselect : true,
+					autowidth : true,
+
+				});
+				jQuery("#jqgrid").jqGrid('navGrid', "#pjqgrid", {
+					edit : false,
+					add : false,
+					del : true
+				});
+				jQuery("#jqgrid").jqGrid('inlineNav', "#pjqgrid");
+				/* Add tooltips */
+				$('.navtable .ui-pg-button').tooltip({
+					container : 'body'
+				});
+
+				jQuery("#m1").click(function() {
+					var s;
+					s = jQuery("#jqgrid").jqGrid('getGridParam', 'selarrrow');
+					alert(s);
+				});
+				jQuery("#m1s").click(function() {
+					jQuery("#jqgrid").jqGrid('setSelection', "13");
+				});
+
+				// remove classes
+				$(".ui-jqgrid").removeClass("ui-widget ui-widget-content");
+				$(".ui-jqgrid-view").children().removeClass("ui-widget-header ui-state-default");
+				$(".ui-jqgrid-labels, .ui-search-toolbar").children().removeClass("ui-state-default ui-th-column ui-th-ltr");
+				$(".ui-jqgrid-pager").removeClass("ui-state-default");
+				$(".ui-jqgrid").removeClass("ui-widget-content");
+
+				// add classes
+				$(".ui-jqgrid-htable").addClass("table table-bordered table-hover");
+				$(".ui-jqgrid-btable").addClass("table table-bordered table-striped");
+
+				$(".ui-pg-div").removeClass().addClass("btn btn-sm btn-primary");
+				$(".ui-icon.ui-icon-plus").removeClass().addClass("fa fa-plus");
+				$(".ui-icon.ui-icon-pencil").removeClass().addClass("fa fa-pencil");
+				$(".ui-icon.ui-icon-trash").removeClass().addClass("fa fa-trash-o");
+				$(".ui-icon.ui-icon-search").removeClass().addClass("fa fa-search");
+				$(".ui-icon.ui-icon-refresh").removeClass().addClass("fa fa-refresh");
+				$(".ui-icon.ui-icon-disk").removeClass().addClass("fa fa-save").parent(".btn-primary").removeClass("btn-primary").addClass("btn-success");
+				$(".ui-icon.ui-icon-cancel").removeClass().addClass("fa fa-times").parent(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
+
+				$(".ui-icon.ui-icon-seek-prev").wrap("<div class='btn btn-sm btn-default'></div>");
+				$(".ui-icon.ui-icon-seek-prev").removeClass().addClass("fa fa-backward");
+
+				$(".ui-icon.ui-icon-seek-first").wrap("<div class='btn btn-sm btn-default'></div>");
+				$(".ui-icon.ui-icon-seek-first").removeClass().addClass("fa fa-fast-backward");
+
+				$(".ui-icon.ui-icon-seek-next").wrap("<div class='btn btn-sm btn-default'></div>");
+				$(".ui-icon.ui-icon-seek-next").removeClass().addClass("fa fa-forward");
+
+				$(".ui-icon.ui-icon-seek-end").wrap("<div class='btn btn-sm btn-default'></div>");
+				$(".ui-icon.ui-icon-seek-end").removeClass().addClass("fa fa-fast-forward");
+
+			})
+
+			$(window).on('resize.jqGrid', function() {
+				$("#jqgrid").jqGrid('setGridWidth', $("#content").width());
+			})
+		/*
+		{
+			name : 'payment_type',
+			index : 'payment_type',
+			editable : true,
+			edittype: 'select',	
+			editoptions: { value: "'':Select Payment Type;Credit:Credit;Debit:Debit"},
+			editrules: { required: false }
+		},  */
+		</script>

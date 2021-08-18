@@ -1,0 +1,828 @@
+<style>
+.col-md-3:hover{
+    box-shadow: 0 8px 6px -6px black;
+	-webkit-transition: 0.4s;
+}
+.row{margin-bottom:10px;}
+</style>
+
+<div id="content" class="right_col">
+<div class="row">
+	<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+	<h3 class="page-title txt-color-blueDark" >
+		<div><i class="fa fa-bars"> Maintenance Dashboard</i></div>
+    </h3>
+	</div>
+</div>
+ 
+<?php 
+	$storage = new Zend_Session_Namespace("admin_login");
+	$data = $storage->admin_login;
+	//echo $data->role_id;
+?>
+<?php 					
+if( ( $data->role_id =='1' ) ){ /* ?>
+
+<div class="contentpanel">
+    <div class="row">
+          <div class="col-sm-6 col-md-3">
+        <a href="<?php echo $this->mainconfig['publicpath'].'sales/sales-enquiry'; ?>">
+          <div class="panel panel-success panel-stat">
+            <div class="panel-heading" style="background:#000080;">
+              <div class="stat">
+                <div class="row">
+                  <div class="col-xs-4" style=" padding-bottom:40px;">
+                    <img src="images/is-user.png" alt="" />
+                  </div>
+                  <div class="col-xs-8">
+                    <small class="stat-label" style="color:#fff;">Sales Enquiry</small>
+                    <h1 style="color:#fff;"><?php //echo $this->SalesEnquiryCount; ?></h1>
+                  </div>
+                </div><!-- row -->
+                
+                <div class="mb15"></div>
+              </div>
+              
+            </div><!-- panel-heading -->
+          </div>
+          </a>
+        </div><!-- col-sm-6 -->
+        
+        <div class="col-sm-6 col-md-3">
+		<a href="<?php echo $this->mainconfig['host']; ?>sales/sales-quotation">
+          <div class="panel panel-danger panel-stat">
+            <div class="panel-heading">
+              <div class="stat">
+                <div class="row">
+                  <div class="col-xs-4" style=" padding-bottom:40px;">
+                    <img src="images/is-document.png" alt="" />
+                  </div>
+                  <div class="col-xs-8">
+                    <small class="stat-label"> Sales Quotation</small>
+                    <h1><?php //echo $this->SalesQuotationCount;	?></h1>
+                  </div>
+                </div><!-- row -->
+                
+                <div class="mb15"></div>
+               
+                  
+              </div><!-- stat -->
+              
+            </div><!-- panel-heading -->
+          </div><!-- panel -->
+        </div><!-- col-sm-6 -->
+        
+        <div class="col-sm-6 col-md-3">
+		<a href="<?php echo $this->mainconfig['host']; ?>sales/sales-order">
+          <div class="panel panel-primary panel-stat">
+            <div class="panel-heading">
+              <div class="stat">
+                <div class="row">
+                  <div class="col-xs-4" style=" padding-bottom:40px;">
+                    <img src="images/is-document.png" alt="" />
+                  </div>
+                  <div class="col-xs-8">
+                    <small class="stat-label">Sales Order</small>
+                    <h1><?php //echo $this->SalesOrderCount; ?></h1>
+                  </div>
+                </div><!-- row -->
+                
+                <div class="mb15"></div>
+                
+               
+                  
+              </div><!-- stat -->
+              
+            </div><!-- panel-heading -->
+          </div><!-- panel -->
+        </div><!-- col-sm-6 -->
+		<div class="col-sm-6 col-md-3">
+		<a href="<?php echo $this->mainconfig['host']; ?>sales/proforma-invoice">
+		<div class="panel panel-dark panel-stat">
+            <div class="panel-heading" style="background:#f63;">
+              <div class="stat">
+                <div class="row">
+                  <div class="col-xs-4" style=" padding-bottom:40px;">
+                    <img alt="" src="images/is-money.png">
+                  </div>
+                  <div class="col-xs-8">
+                    <small class="stat-label" style="color:#fff;">Sales Proforma Invoice</small>
+                    <h1 style="color:#fff;"><?php //echo $this->SalesInvoiceCount; ?></h1>
+                  </div>
+                </div><!-- row -->
+                
+                <div class="mb15"></div>
+                
+                  
+              </div><!-- stat -->
+              
+            </div><!-- panel-heading -->
+          </div><!-- panel -->
+        </div>
+        
+      </div><!-- row -->
+      <div class="row">
+        
+        <div class="col-sm-6 col-md-3">
+        <a href="<?php echo $this->mainconfig['host']; ?>sales/commercial-invoice">
+          <div class="panel panel-success panel-stat">
+            <div class="panel-heading" style="background:#080808;">
+              <div class="stat">
+                <div class="row">
+                  <div class="col-xs-4" style=" padding-bottom:40px;">
+                    <img src="images/is-money.png" alt="" />
+                  </div>
+                  <div class="col-xs-8">
+                    <small class="stat-label" style="color:#fff;">Sales Commercial Invoice</small>
+                    <h1 style="color:#fff;"><?php
+						//echo $this->SalesCommercialCount;					
+					?></h1>
+                  </div>
+                </div><!-- row -->
+                
+                <div class="mb15"></div>
+              </div>
+              
+            </div><!-- panel-heading -->
+          </div>
+          </a>
+        </div><!-- col-sm-6 -->
+        
+        <div class="col-sm-6 col-md-3">
+		<a href="<?php echo $this->mainconfig['host']; ?>sales/packing-list">
+          <div class="panel panel-danger panel-stat">
+            <div class="panel-heading" style="background:#ffa500;">
+              <div class="stat">
+                <div class="row">
+                  <div class="col-xs-4" style=" padding-bottom:40px;">
+                    <img src="images/is-document.png" alt="" />
+                  </div>
+                  <div class="col-xs-8">
+                    <small class="stat-label">Sales Packing List</small>
+                    <h1><?php 					
+						//echo $this->SalesPackingCount;
+					?></h1>
+                  </div>
+                </div><!-- row -->
+                
+                <div class="mb15"></div>
+               
+                  
+              </div><!-- stat -->
+              
+            </div><!-- panel-heading -->
+          </div><!-- panel -->
+		  </a>
+        </div><!-- col-sm-6 -->
+        
+        <div class="col-sm-6 col-md-3">
+		<a href="<?php echo $this->mainconfig['host']; ?>sales/invoice">
+          <div class="panel panel-primary panel-stat">
+            <div class="panel-heading" style="background:#0000ff;">
+              <div class="stat">
+                <div class="row">
+                  <div class="col-xs-4" style=" padding-bottom:40px;">
+                    <img src="images/is-money.png" alt="" />
+                  </div>
+                  <div class="col-xs-8">
+                    <small class="stat-label">Domestic Sales Invoice </small>
+                    <h1><?php 					
+						//echo  $this->SalesInvoiceCount ;?></h1>
+				
+                  </div>
+                </div><!-- row -->
+                
+                <div class="mb15"></div>
+                
+               
+                  
+              </div><!-- stat -->
+              
+            </div><!-- panel-heading -->
+          </div><!-- panel -->
+		  </a>
+        </div><!-- col-sm-6 -->
+		
+		<div class="col-sm-6 col-md-3">
+		<a href="<?php echo $this->mainconfig['host']; ?>purchase/order">
+          <div class="panel panel-primary panel-stat">
+            <div class="panel-heading" style="background:#00ffff;">
+              <div class="stat">
+                <div class="row">
+                  <div class="col-xs-4" style=" padding-bottom:40px;">
+                    <img src="images/is-document.png" alt="" />
+                  </div>
+                  <div class="col-xs-8">
+                    <small class="stat-label" style="color:#080808">Domestic Purchase Bill </small>
+                    <h1 style="color:#080808"><?php 
+						//echo $this->PurchaseOrderCount;					
+					?></h1>
+                  </div>
+                </div><!-- row -->
+                
+                <div class="mb15"></div>
+                
+               
+                  
+              </div><!-- stat -->
+              
+            </div><!-- panel-heading -->
+          </div><!-- panel -->
+        </div><!-- col-sm-6 -->
+        
+        </a>
+      </div><!-- row -->
+		<div class="row">
+        <div class="col-sm-6 col-md-3">
+        <a href="<?php echo $this->mainconfig['host']; ?>invoice/purchase">
+          <div class="panel panel-success panel-stat">
+            <div class="panel-heading" style="background:#800000;">
+              <div class="stat">
+                <div class="row">
+                  <div class="col-xs-4" style=" padding-bottom:40px;">
+                    <img src="images/is-user.png" alt="" />
+                  </div>
+                  <div class="col-xs-8">
+                    <small class="stat-label" style="color:#fff">Domestic Purchase Invoice</small>
+                    <h1 style="color:#fff"><?php //echo $this->PurchaseInvoiceCount;?></h1>
+                  </div>
+                </div><!-- row -->
+                
+                <div class="mb15"></div>
+              </div>
+              
+            </div><!-- panel-heading -->
+          </div>
+          </a>
+        </div><!-- col-sm-6 -->
+        
+        <div class="col-sm-6 col-md-3">
+		<a href="<?php echo $this->mainconfig['host']; ?>purchase/proforma-invoice">
+          <div class="panel panel-danger panel-stat">
+            <div class="panel-heading" style="background:#660099;">
+              <div class="stat">
+                <div class="row">
+                  <div class="col-xs-4" style=" padding-bottom:40px;">
+                    <img src="images/is-document.png" alt="" />
+                  </div>
+                  <div class="col-xs-8">
+                    <small class="stat-label" style="color:#fff;"> Purchase Proforma Invoice</small>
+                    <h1 style="color:#fff;"><?php //echo $this->PurchaseProformaCount;?></h1>
+                  </div>
+                </div><!-- row -->
+                
+                <div class="mb15"></div>
+               
+                  
+              </div><!-- stat -->
+              
+            </div><!-- panel-heading -->
+          </div><!-- panel -->
+		  </a>
+        </div><!-- col-sm-6 -->
+        
+        <div class="col-sm-6 col-md-3">
+		<a href="<?php echo $this->mainconfig['host']; ?>purchase/commercial-invoice">
+          <div class="panel panel-primary panel-stat">
+            <div class="panel-heading" style="background:#008000;">
+              <div class="stat">
+                <div class="row">
+                  <div class="col-xs-4" style=" padding-bottom:40px;">
+                    <img src="images/is-document.png" alt="" />
+                  </div>
+                  <div class="col-xs-8">
+                    <small class="stat-label">Purchase Commercial Invoice</small>
+                    <h1><?php //echo $this->PurchaseCommercialCount;?></h1>
+                  </div>
+                </div><!-- row -->
+                
+                <div class="mb15"></div>
+                
+               
+                  
+              </div><!-- stat -->
+              
+            </div><!-- panel-heading -->
+          </div><!-- panel -->
+		  </a>
+        </div><!-- col-sm-6 --> 
+		
+		<div class="col-sm-6 col-md-3">
+		<a href="<?php echo $this->mainconfig['host']; ?>purchase/packing-list">
+          <div class="panel panel-primary panel-stat">
+            <div class="panel-heading" style="background:#00ff00;">
+              <div class="stat">
+                <div class="row">
+                  <div class="col-xs-4" style=" padding-bottom:40px;">
+                    <img alt="" src="images/is-money.png">
+                  </div>
+                  <div class="col-xs-8">
+                    <small class="stat-label">Purchase Packing List</small>
+                    <h1><?php //echo $this->PurchasePackingCount;?></h1>
+                  </div>
+                </div><!-- row -->
+                
+                <div class="mb15"></div>
+                
+               
+                  
+              </div><!-- stat -->
+              
+            </div><!-- panel-heading -->
+          </div><!-- panel -->
+		  </a>
+        </div><!-- col-sm-6 -->
+        
+        
+      </div><!-- row -->
+    </div> */ ?>
+<?php }else{
+?>
+<!-- <div class="row">	
+	<div class="col-xs-11">
+		<img src="images/logo.png" alt="" align="center"/>
+	 </div>
+</div> -->
+<?php
+}
+?>
+
+<?php 
+if( ( $data->role_id =='1' ) || ( $data->role_id =='7' ) ){ ?>
+<!-- <div class="row">
+    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+      <h1 class="page-title txt-color-blueDark"> <i class="fa fa-bars"> Preventive Maintenance</i> </h1>
+    </div>
+</div> -->
+<!-- widget grid -->
+	<!-- row -->
+	<div class="row">
+
+		<!-- NEW WIDGET START -->
+		<article class="col-sm-5 col-md-5 col-lg-5" style="width:50%;">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blue" id="wid-id-4440" data-widget-editbutton="false" data-widget-colorbutton="false"
+				data-widget-editbutton="false"
+				data-widget-togglebutton="false"
+				data-widget-deletebutton="false"
+				data-widget-fullscreenbutton="false"
+				data-widget-custombutton="false"
+				data-widget-collapsed="false" >
+				
+				<header>
+					
+					<h2><span class="widget-icon"> <i class="fa fa-table"></i> </span> Daily Preventive Maintenance </h2>
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+
+					</div>
+					<!-- end widget edit box -->
+
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<div class="table-responsive" style="background-color:#bdf5bd;">
+								
+							<table class="table table-hover">
+								<thead>												
+									<tr>
+										<th>S.No.</th>
+										<th>Machine Name</th>
+										<th>Daily</th>
+									</tr>												
+								</thead>												
+								<tbody>
+								<?php
+								$i=1; 
+								if(count($this->PlantMaintenance) !=0){
+									foreach ($this->PlantMaintenance as $results){ ?>
+									<tr>
+										<td><?php echo $i; ?></td>
+										<td><?php echo $results['machine_code']; ?></td>
+										<td><?php //echo $results['daily']; ?></td>
+									</tr>
+								<?php 
+									$i++;
+									} 
+								}else{
+								?>
+									<tr>
+										<td colspan="3">No Data Available.</td>										
+									</tr>
+								<?php } ?>
+								</tbody>
+							</table>
+							
+						</div>
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+			
+		</article>
+		<!-- WIDGET END -->
+		
+		<!-- NEW WIDGET START -->
+		<article class="col-sm-5 col-md-5 col-lg-5" style="width:50%;">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-greenDark" id="wid-id-4450" data-widget-editbutton="false" data-widget-colorbutton="false"
+				data-widget-editbutton="false"
+				data-widget-togglebutton="false"
+				data-widget-deletebutton="false"
+				data-widget-fullscreenbutton="false"
+				data-widget-custombutton="false"
+				data-widget-collapsed="false" >
+				
+				<header>
+					
+					<h2><span class="widget-icon"> <i class="fa fa-table"></i> </span> Weekly Preventive Maintenance </h2>
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+
+					</div>
+					<!-- end widget edit box -->
+
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<div class="table-responsive" style="background-color:#c0c0f1;">
+								
+							<table class="table table-hover">
+								<thead>												
+									<tr>
+										<th>S.No.</th>
+										<th>Machine Name</th>
+										<th>Weekly</th>
+									</tr>												
+								</thead>												
+								<tbody>
+								<?php
+								$i=1; 
+								if(count($this->PlantMaintenance) !=0){
+									foreach ($this->PlantMaintenance as $results){ ?>
+									<tr>
+										<td><?php echo $i; ?></td>
+										<td><?php echo $results['machine_code']; ?></td>
+										<td><?php //echo $results['weekly']; ?></td>
+									</tr>
+								<?php 
+									$i++;
+									} 
+								}else{
+								?>
+									<tr>
+										<td colspan="3">No Data Available.</td>										
+									</tr>
+								<?php } ?>
+								</tbody>
+							</table>
+							
+						</div>
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+			
+		</article>
+		<!-- WIDGET END -->
+		
+	</div>
+	<!-- end row -->
+	
+	<!-- row -->
+	<div class="row">
+
+		<!-- NEW WIDGET START -->
+		<article class="col-sm-5 col-md-5 col-lg-5" style="width:50%;">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-yellow" id="wid-id-3330" data-widget-editbutton="false" data-widget-colorbutton="false"
+				data-widget-editbutton="false"
+				data-widget-togglebutton="false"
+				data-widget-deletebutton="false"
+				data-widget-fullscreenbutton="false"
+				data-widget-custombutton="false"
+				data-widget-collapsed="false" >
+				
+				<header>
+					
+					<h2><span class="widget-icon"> <i class="fa fa-table"></i> </span> Monthly Preventive Maintenance </h2>
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+
+					</div>
+					<!-- end widget edit box -->
+
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<div class="table-responsive" style="background-color:#ffffb3;">
+								
+							<table class="table table-hover">
+								<thead>												
+									<tr>
+										<th>S.No.</th>
+										<th>Machine Name</th>
+										<th>Monthly</th>
+									</tr>												
+								</thead>												
+								<tbody>
+								<?php
+								$i=1; 
+								if(count($this->PlantMaintenance) !=0){
+									foreach ($this->PlantMaintenance as $results){ ?>
+									<tr>
+										<td><?php echo $i; ?></td>
+										<td><?php echo $results['machine_code']; ?></td>
+										<td><?php //echo $results['monthly']; ?></td>
+									</tr>
+								<?php 
+									$i++;
+									} 
+								}else{
+								?>
+									<tr>
+										<td colspan="3">No Data Available.</td>										
+									</tr>
+								<?php } ?>
+								</tbody>
+							</table>
+							
+						</div>
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+			
+		</article>
+		<!-- WIDGET END -->
+		
+		<!-- NEW WIDGET START -->
+		<article class="col-sm-5 col-md-5 col-lg-5" style="width:50%;">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-pink" id="wid-id-3330" data-widget-editbutton="false" data-widget-colorbutton="false"
+				data-widget-editbutton="false"
+				data-widget-togglebutton="false"
+				data-widget-deletebutton="false"
+				data-widget-fullscreenbutton="false"
+				data-widget-custombutton="false"
+				data-widget-collapsed="false" >
+				
+				<header>
+					
+					<h2><span class="widget-icon"> <i class="fa fa-table"></i> </span> Quarterly Preventive Maintenance </h2>
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+
+					</div>
+					<!-- end widget edit box -->
+
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<div class="table-responsive" style="background-color:#efd9c2;">
+								
+							<table class="table table-hover">
+								<thead>												
+									<tr>
+										<th>S.No.</th>
+										<th>Machine Name</th>
+										<th>Quarterly</th>
+									</tr>												
+								</thead>												
+								<tbody>
+								<?php
+								$i=1; 
+								if(count($this->PlantMaintenance) !=0){
+									foreach ($this->PlantMaintenance as $results){ ?>
+									<tr>
+										<td><?php echo $i; ?></td>
+										<td><?php echo $results['machine_code']; ?></td>
+										<td><?php //echo $results['quarterly']; ?></td>
+									</tr>
+								<?php 
+									$i++;
+									} 
+								}else{
+								?>
+									<tr>
+										<td colspan="3">No Data Available.</td>										
+									</tr>
+								<?php } ?>
+								</tbody>
+							</table>
+							
+						</div>
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+			
+		</article>
+		<!-- WIDGET END -->
+		
+	</div>
+	<!-- end row -->
+	
+	<!-- row -->
+	<div class="row">
+
+		<!-- NEW WIDGET START -->
+		<article class="col-sm-5 col-md-5 col-lg-5" style="width:50%;">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-orange" id="wid-id-3330" data-widget-editbutton="false" data-widget-colorbutton="false"
+				data-widget-editbutton="false"
+				data-widget-togglebutton="false"
+				data-widget-deletebutton="false"
+				data-widget-fullscreenbutton="false"
+				data-widget-custombutton="false"
+				data-widget-collapsed="false" >
+				
+				<header>
+					
+					<h2><span class="widget-icon"> <i class="fa fa-table"></i> </span> Half Yearly Preventive Maintenance </h2>
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+
+					</div>
+					<!-- end widget edit box -->
+
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<div class="table-responsive" style="background-color:#f0c2d1;">
+								
+							<table class="table table-hover">
+								<thead>												
+									<tr>
+										<th>S.No.</th>
+										<th>Machine Name</th>
+										<th>Half Yearly</th>
+									</tr>												
+								</thead>												
+								<tbody>
+								<?php
+								$i=1; 
+								if(count($this->PlantMaintenance) !=0){
+									foreach ($this->PlantMaintenance as $results){ ?>
+									<tr>
+										<td><?php echo $i; ?></td>
+										<td><?php echo $results['machine_code']; ?></td>
+										<td><?php //echo $results['halfyearly']; ?></td>
+									</tr>
+								<?php 
+									$i++;
+									} 
+								}else{
+								?>
+									<tr>
+										<td colspan="3">No Data Available.</td>										
+									</tr>
+								<?php } ?>
+								</tbody>
+							</table>
+							
+						</div>
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+			
+		</article>
+		<!-- WIDGET END -->
+		
+		<!-- NEW WIDGET START -->
+		<article class="col-sm-5 col-md-5 col-lg-5" style="width:50%;">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3330" data-widget-editbutton="false" data-widget-colorbutton="false"
+				data-widget-editbutton="false"
+				data-widget-togglebutton="false"
+				data-widget-deletebutton="false"
+				data-widget-fullscreenbutton="false"
+				data-widget-custombutton="false"
+				data-widget-collapsed="false">
+				
+				<header>
+					
+					<h2><span class="widget-icon"> <i class="fa fa-table"></i> </span> Yearly Preventive Maintenance </h2>
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+
+					</div>
+					<!-- end widget edit box -->
+
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<div class="table-responsive" style="background-color:#bee2dc;">
+								
+							<table class="table table-hover">
+								<thead>												
+									<tr>
+										<th>S.No.</th>
+										<th>Machine Name</th>
+										<th>Yearly</th>
+									</tr>												
+								</thead>												
+								<tbody>
+								<?php
+								$i=1; 
+								if(count($this->PlantMaintenance) !=0){
+									foreach ($this->PlantMaintenance as $results){ ?>
+									<tr>
+										<td><?php echo $i; ?></td>
+										<td><?php echo $results['machine_code']; ?></td>
+										<td><?php //echo $results['yearly']; ?></td>
+									</tr>
+								<?php 
+									$i++;
+									} 
+								}else{
+								?>
+									<tr>
+										<td colspan="3">No Data Available.</td>										
+									</tr>
+								<?php } ?>
+								</tbody>
+							</table>
+							
+						</div>
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+			
+		</article>
+		<!-- WIDGET END -->
+		
+	</div>
+	<!-- end row -->
+<?php
+} ?> 			
+</div>
+			

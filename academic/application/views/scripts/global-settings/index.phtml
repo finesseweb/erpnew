@@ -1,0 +1,224 @@
+<style type="text/css">
+    #gs_content{
+        height: 200px;
+    }
+</style>    
+
+<div class="right_col">
+    <?php if ($this->type) { ?>
+<div class="padding-md ">
+	<div class="row">
+		<div class="col-md-12">
+		<h3 class="page-title txt-color-blueDark" >
+			<div><i class="fa fa-eye"> Global Settings</i></div>
+		</h3>
+			<div class="panel panel-default">
+				<form class="no-margin" id="formValidate1" action="<?php echo $this->form->getAction() ?>" method="post" data-validate="parsley" >
+					
+					<div class="panel-body">
+                                            
+					<div class="row" >
+						<div class="col-sm-4 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Display Name<span class="asterisk">*</span></label>
+                                <?php echo $this->form->gs_display_name; ?>
+                            </div>
+							</div>
+							<?php /* <div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Year<span class="asterisk">*</span></label>
+                                <?php echo $this->form->year; ?>
+                            </div>
+							</div>	 */ ?>
+						<div class="col-sm-4 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">System Name<span class="asterisk">*</span></label>
+                                <?php echo $this->form->gs_system_name; ?>
+                            </div>
+						</div>
+                                            <div class="col-sm-4 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Category<span class="asterisk">*</span></label>
+                                <?php echo $this->form->gs_category; ?>
+                            </div>
+						</div>
+						<div class="col-sm-12 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Content<span class="asterisk">*</span></label>
+                                <?php echo $this->form->gs_content; ?>
+                            </div>
+						</div>
+                                            
+                                                 <div class="col-sm-4 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Default Time<span class="asterisk">*</span></label>
+                                <?php echo $this->form->gs_default_time; ?>
+                            </div>
+                                                 </div>
+                                                 <div class="col-sm-4 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Min Time<span class="asterisk">*</span></label>
+                                <?php echo $this->form->gs_min_time; ?>
+                            </div></div>
+                                                 <div class="col-sm-4 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Max Time<span class="asterisk">*</span></label>
+                                <?php echo $this->form->gs_max_time; ?>
+                            </div>
+                                      </div>      
+											
+					</div>
+					
+					
+					<div class="" id="grade_data">
+					</div>
+				
+				
+ 			</div>
+			
+			<div class="panel-footer">									
+							<div class="row">
+								<div class="col-sm-7 col-sm-offset-5">
+									<?php if ($this->type == 'add') { ?> 
+										<div style="float:left;margin-right:2px;">
+                                                                                    <a id="btnAdd" class="btn btn-primary submit">Submit</a>
+										</div>
+										<div style="float:left;padding:0px 10px;">
+										<button type="reset" class="btn btn-danger btn-default">Reset</button>
+										</div>
+									<?php } else { 
+                                                                            ?>
+                                                                            
+                                                                    
+										<div style="float:left;">
+										<button class="btn btn-primary submit">Update</button>
+										</div>
+                                                                    
+                                                                  
+                                                                    
+                                                                    
+                                                                    
+										<div style="float:left;">
+										<a class="btn btn-primary" href="<?php echo $this->mainconfig['host']; ?>global-settins/index">Back</a>
+										</div>
+									<?php } ?>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div><!-- /panel -->
+		</div><!-- /.col-->				
+	</div><!-- /.row -->
+	
+</div><!-- /.padding-md -->	
+<?php } else { ?>
+    <div class="">
+        <div class="">
+            <div class="row">
+
+                <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+                    <h3 class="page-title txt-color-blueDark">
+                        <i class="fa fa-bars"> Global Settings</i>
+
+                    </h3>
+                </div>
+                <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">	 
+			
+			<a class="btn btn-primary pull-right" style="margin-top: 25px;" href="<?php echo $this->mainconfig['host']; ?>global-settings/index/type/add">Add </a>
+		</div>
+            </div>
+
+            <div class="x_panel">
+
+                <div class="x_title">
+                    <h2>Global Settings</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        </li>
+                        <li><a class=""><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+
+                    <div class="padding-md clearfix">
+                        <form action="POST">
+                            <table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>System Name</th>
+                                        <th>Category</th>
+                                        <th>Value</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    foreach($this->result as $row){
+                                        ?>
+                                    <tr>
+                                        <td><?php echo $row['gs_display_name']; ?></td>
+                                        <td><?php echo $row['gs_system_name']; ?></td>
+                                        <td><?php echo $this->gs_category[$row['gs_category']]; ?></td>
+                                        <td><?php 
+                                              $gs_content = substr($row['gs_content'], 0, 100);
+                                              echo htmlspecialchars($gs_content); 
+                                        
+                                              ?></td>
+                                        <td><a href="<?php echo $this->mainconfig['host']; ?>global-settings/index/type/edit/id/<?php echo $row['global_setting_id']; ?>" class="edit" title="Edit"><span class="fa fa-edit fa-lg"></span></a></td>
+                                    </tr>
+                                    <?php
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div><!-- /.padding-md -->
+                </div><!-- /panel -->
+            </div>
+        </div>
+    </div>
+<?php
+}
+?>
+</div>
+<script type="text/javascript">
+$("#gs_system_name").on('keydown', function(evt) { 
+    var char = evt.keyCode;    
+    if ((char >= 65 && char <=90) || (char >= 96 && char <=105) || char == 189 || char == 8 || char == 16 ) {
+           
+        return true;
+    }
+    
+        return false;
+   
+    
+});
+$("#gs_system_name").on('keyup', function(evt) {
+    var gs_system_name = $("#gs_system_name").val();
+    $("#gs_system_name").val(gs_system_name.toUpperCase());
+}); 
+$('#btnAdd').click(function () {
+    var gs_system_name = $('#gs_system_name').val();
+    $.ajax({
+            type: "POST",
+            url:'<?php echo $this->mainconfig['host'].'global-settings/ajax-check-system-name';?>',
+            data: { gs_system_name: gs_system_name}
+    }).done(function( data ) {
+            if(data == 1){
+                alert("The entered System Name is already exist.");
+                return false;
+            }
+            else{
+                $('#formValidate1').submit();
+            }
+
+    })
+});
+</script>

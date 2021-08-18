@@ -1,0 +1,66 @@
+<style type="text/css">
+    #dataTable td{
+        text-align: center;
+    }
+</style>    
+
+<div class="padding-md clearfix table-responsive">
+			<table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+			
+				<thead>
+					<tr>
+                                            <th rowspan="2">S. No. </th>
+                                            <th rowspan="2">Participant ID </th>
+                                            <th rowspan="2">Participant Name</th>
+                                            <?php 
+                                            foreach($this->batch_map as $row){ 
+                                                echo '<th>GPA-'.$row['term_name'].'</th>';
+                                            }
+                                            foreach($this->batch_map as $row){ 
+                                                echo '<th>CGPA-'.$row['term_name'].'</th>';
+                                            }
+                                            ?>
+                                            
+					</tr>
+                                        <tr>
+                                            <?php 
+                                            foreach($this->batch_map as $row){ 
+                                                echo '<th>'.number_format($row['tot_no_of_credits'],2).'</th>';
+                                            }
+                                            $temp_credit = 0;
+                                            foreach($this->batch_map as $row){ 
+                                                $temp_credit = $temp_credit + $row['tot_no_of_credits'];
+                                                echo '<th>'. number_format($temp_credit,2).'</th>';
+                                            }
+                                            ?>
+                                            
+                                           
+                                        </tr>
+                                        
+                                        
+				</thead>
+				<tbody>
+                                    <?php
+                                    foreach($this->student_grades as $key => $row){
+                                        ?>
+                                    <tr>                                        
+                                        <?php 
+                                        echo '<td>'.($key+1).'</td>';
+                                        foreach($row as $key => $value){                                             
+                                                echo '<td>'.$value.'</td>';
+                                        }
+                                        
+                                        ?>
+                                    </tr>
+                                    <?php
+                                    }
+                                    ?>
+				<tbody>				
+				</tbody>
+			</table>
+			
+		</div><!-- /.padding-md -->
+                <script type="text/javascript">
+                    $('#dataTable').DataTable();
+                    
+                    </script>

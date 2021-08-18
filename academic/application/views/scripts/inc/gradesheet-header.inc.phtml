@@ -1,0 +1,84 @@
+<html>
+<style type="text/css">
+    @font-face {
+        font-family: Cambria;
+        src: url('<?php echo $this->mainconfig['publicpath'];?>fonts/cambria.ttf');
+    }
+    .red-heading{
+        color: #C00000;
+        font-family: Cambria;
+    }
+    .top-header-text1{
+        font-size:12px;
+        font-weight: bold;
+        font-family: Cambria;
+    }
+    .grade-data-container{
+            padding: 0 23px;
+            
+    }
+    .bg{
+     padding-top:95px;padding-left: 34px;padding-right: 24px;   
+    }
+    .heading1{
+        margin-top:-10px;
+        font-family: Cambria;
+    }
+    .tablestyle1{
+        font-size: 12px;
+    }
+    .tablestyle1 td,.tablestyle1 th{
+        padding:1px 10px;
+    }
+    .right-bold{
+     text-align:right;
+     font-weight:bold;
+    }
+    
+
+ tbody, td{
+}
+.sub table{
+	border:1px ridge #833C0B;
+	border-collapse:collapse;
+}
+.sub tr,.sub th,.sub td{
+	border:1px ridge #833C0B;
+	border-collapse:collapse;
+}
+</style>
+<body>
+<center>
+<!--<img style="padding-left:20%;padding-top:5%;" src="images/dmi.png">-->
+<div class="bg">
+    <table width="100%" class="top-header-text1">
+<tr>
+<td>Student ID: <?php echo $this->stu_result['stu_id']; 
+$batch_short_code = explode('-',$this->academic_data['short_code']);
+
+?></td>
+<td align="right">Sl. No.<?php echo $batch_short_code[2].'/'.str_pad($this->gradesheet_number,4,'0',STR_PAD_LEFT).'/'.str_pad($this->year_id,2,'0',STR_PAD_LEFT); ?></td>
+</tr>
+<tr>
+<td>Name: <?php echo $this->stu_result['stu_fname'].' '.$this->stu_result['stu_lname']; ?></td>
+<td align="right">Batch: <?php echo $this->academic_data['short_code']; ?></td>
+</tr>
+</table>
+    <h3 align="center" class="red-heading">Post-Graduate Diploma in Management (Development Management)</h3></td>
+<?php
+if(empty($this->term_id)){
+?>
+
+<h3 align="center" class="heading1">Academic Performance Statement ( <?php if($this->year_id == 1){
+  echo'First Year'; 
+ } else{
+  echo'Second Year';
+ } ?> )</h3>
+<?php
+}
+else{
+?>
+<h3 align="center" class="heading1">Provisional Certificate</h3>
+
+ <?php
+} 

@@ -1,0 +1,769 @@
+<style>
+.panel-body {
+	padding: 15px 0 0 10px;
+}
+a:hover {
+	cursor: pointer;
+}
+.row{margin-bottom:10px;}
+.employee_class {
+	margin-left: 0% !important;
+}
+.form-control {
+	width: 95%;
+}
+.employee_class {
+	margin-right: 0px !important;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+	border: 1px solid #ddd;
+}
+table>thead>tr>th {
+	text-align:center;
+}
+.employee_class{ margin-left:0% !important;}
+</style>
+<div id="content" class="right_col">
+<!-- end widget grid --> 
+ <?php
+  if($this->type == 'view'){ ?>
+  <section id="widget-grid" class=""> 
+    <!-- row -->
+    <div class="row"> 
+      
+      <!-- NEW WIDGET START -->
+      <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> 
+        
+        <!-- Widget ID (each widget will need unique ID)-->
+        <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+        <!-- widget options:
+					usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+					data-widget-colorbutton="false"
+					data-widget-editbutton="false"
+					data-widget-togglebutton="false"
+					data-widget-deletebutton="false"
+					data-widget-fullscreenbutton="false"
+					data-widget-custombutton="false"
+					data-widget-collapsed="true"
+					data-widget-sortable="false"
+
+					-->
+        <header> <span class="widget-icon"> <i class="fa fa-table"></i> </span> 
+          <!-- <h2>Sales Quotation List</h2> --> 
+        </header>
+        
+        <!-- widget div-->
+        <div> 
+          
+          <!-- widget content -->
+          <div class="widget-body">
+            <div class="table-responsive">
+			 <table class="table table-bordered">
+					<thead>
+					   <tr>
+						  <th>S.No.</th>
+						  <th>PI No.</th>
+						  <th>Payment by</th>						  
+						  <th>Paid Amount</th>
+						  <th>Date</th>										 										  
+					   </tr>
+					</thead>									
+					<tbody>
+					<?php
+					$viewpaymentRecord = $this->paginator; 
+					 if( count($viewpaymentRecord) > 0) {									
+						 $i=1;
+						 $pi_amount = 0;
+						 $total_paid_amount = 0;
+						foreach($viewpaymentRecord as $val){ 
+						$pi_amount = $val['grand_total'];
+						$total_paid_amount += $val['paid_amount'];
+						?>	
+							<tr>
+								<td><?php echo $i; ?></td>
+								<td><?php
+								$purchase_invoice_id = $val['purchase_invoice_id'];
+								if(strlen($purchase_invoice_id)==1){
+									$purchase_invoice_id = @(PI_PREFIX)."000".$purchase_invoice_id;
+								}else
+								 if(strlen($purchase_invoice_id)==2){
+									$purchase_invoice_id = @(PI_PREFIX)."00".$purchase_invoice_id;
+								}else
+								 if(strlen($i)==3){
+									$purchase_invoice_id = @(PI_PREFIX)."0".$purchase_invoice_id;
+								}
+								else{
+								$purchase_invoice_id = @(PI_PREFIX)."".$purchase_invoice_id;
+								}
+								echo $purchase_invoice_id;
+								?></td>
+								<td><?php echo $val['payment_by']; ?></td>								
+								<td><?php echo $val['paid_amount']; ?></td>
+								<td><?php echo date(@(DATE_PREFIX),strtotime($val['created_date'])); ?></td>
+							</tr>
+					<?php 
+					$i++;
+					} ?>
+							<tr>
+								<td colspan="3"></td>
+								<td colspan="2"><?php echo number_format( $total_paid_amount, 2); ?></td>
+							</tr>
+							<tr class="odd gradeX">
+								<td colspan="5" align="center"> <?php echo $this->paginationControl($this->paginator, 'Sliding', array('pagination.phtml', 'default')); ?></td>
+							</tr>
+					<?php } else {										
+					?>	
+						<tr>											
+							<td colspan="5">No Data Found</td>												
+						</tr>
+					<?php }  ?>
+				</table>
+              </div>
+            <!-- end widget content --> 
+            
+          </div>
+          <!-- end widget div --> 
+          
+        </div>
+        <!-- end widget --> 
+      </article>
+      <!-- WIDGET END --> 
+    </div>
+    
+    <!-- end row --> 
+  </section>
+  <!-- end widget grid -->
+
+<?php } elseif($this->type == 'add' || $this->type == 'edit'){ ?>
+  <section id="widget-grid" class=""> 
+    <!-- row -->
+    <div class="row"> 
+      <!-- NEW WIDGET START -->
+      <article class="col-sm-12 col-md-12 col-lg-12 col-xs-12"> 
+        <!-- Widget ID (each widget will need unique ID)-->
+        <div class="jarviswidget" id="wid-id-204" data-widget-colorbutton="false" data-widget-editbutton="false">
+          <header> 
+            <h2><span class="widget-icon"> <i class="fa fa-eye"></i> </span> Payment Voucher </h2>
+          </header>
+          <!-- widget div-->
+          <div> 
+            <!-- widget edit box -->
+            <div class="jarviswidget-editbox"> 
+              <!-- This area used as dropdown edit box --> 
+            </div>
+            <!-- end widget edit box --> 
+            <!-- widget content -->
+            <div class="">
+              <form id="basicForm" name="basicForm" action="<?php echo $this->form->getAction() ?>" method="post" class="form" enctype="multipart/form-data">
+                <input type="hidden" name="count_val" id="count_val" value="1" class="count_val">
+                <div class="panel panel-default">
+                  <div class="panel-body">
+				  <?php 
+				  $operator = 0;
+				  if( $this->result['operator'] ){
+					$operator = $this->result['operator'];
+				  }
+				  ?>
+				  <input type="hidden" name="operator" id="operator" value="<?php echo $operator; ?>"/>				 
+                    <div class="row" >
+                        <div class="col-sm-3 employee_class" >
+							<div class="form-group">
+								<label class="control-label">Vendor Name <span style="font-size:11px;">(International and Domestic)</span> <span class="asterisk">*</span></label>
+								<?php echo $this->form->vendor_id; ?>
+							</div>
+						</div>
+						</div>
+						<div class="row" >
+						<div class="col-sm-3 employee_class hide_field">
+							<div class="form-group">
+								<label class="control-label">Invoice ID<span class="asterisk">*</span></label>
+								<?php echo $this->form->invoice_id; ?>
+							</div>
+						</div>
+						<div class="col-sm-3 employee_class hide_field">
+							<div class="form-group">
+								<label class="control-label">Transaction Amount<span class="asterisk">*</span></label>
+								<?php echo $this->form->transaction_amount; ?>
+							</div>
+						</div>	
+						<div class="col-sm-3 employee_class hide_field">
+							<div class="form-group">
+								<label class="control-label">Total Amount<span class="asterisk">*</span></label>
+								<?php echo $this->form->total_amount; ?>
+							</div>
+						</div>						
+						<div class="col-sm-3 employee_class ">
+							<div class="form-group">
+							  <label class="control-label">Payment by</label>
+							  <?php echo $this->form->payment_by; ?> </div>
+						 </div>
+						<div class="col-sm-3 employee_class">
+							<div class="form-group">
+							  <label class="control-label">Payment</label>
+							  <?php echo $this->form->paid_amount; ?> </div>
+						</div>
+						 <div class="col-sm-3 employee_class">
+							<div class="form-group">
+							  <label class="control-label">Date<span class="asterisk">*</span></label>
+							  <?php echo $this->form->add_date; ?> </div>
+						 </div>
+						 <div class="col-sm-3 employee_class hide_field">
+							<div class="form-group">
+							  <label class="control-label">Balance</label>
+							  <?php echo $this->form->balance; ?> </div>
+						</div>
+						<div class="col-sm-2 employee_class hide_field">
+							<div class="form-group">
+							  <label class="control-label"><strong>Total Balance Amount</strong></label>
+							  <strong><input type="text" id="grand_total_amount" style="border:none"> </strong></div> 
+						</div>
+					</div>
+					<div class="row" id="bank_details">
+						<div class="col-sm-3 employee_class">
+							<div class="form-group">
+							  <label class="control-label">Bank Name</label>
+							  <?php echo $this->form->bank_id; ?> </div>
+						</div>
+						<div class="col-sm-3 employee_class">
+							<div class="form-group">
+							  <label class="control-label">Cheque No.</label>
+							  <?php echo $this->form->cheque_no; ?> </div>
+							  <span id="bank_cheque_not" style="color:red;"></span>
+						</div>
+						<div class="col-sm-4 employee_class" id="bank_details">
+						<div class="form-group">
+						
+						  <label class="control-label">File Upload</label>
+						  <?php echo $this->form->file_upload; ?>
+							<?php if(!empty($this->result['file_upload'])){ ?>
+						  <span style="float: center;"><?php echo $this->result['file_upload'];?><span>
+						  </div>
+					</div>
+					<div class="col-sm-2 employee_class" style="padding-top:3%;" id="bank_details">
+						<div class="form-group">						
+					<a href="<?php echo $this->mainconfig['host']; ?>finance/payment-voucher/index/type/download/file/<?php echo $this->result['file_upload']; ?>">Image View</a> <?php } ?>
+						</div>
+					</div>
+                    </div>					
+					<div class="row">
+						<div class="col-sm-3 employee_class">
+							<div class="form-group">
+							  <label class="control-label">Remarks</label>
+							  <?php echo $this->form->remarks; ?> </div>
+						</div>		
+                    
+					 
+                   </div> 
+                   <?php /* <div class="row">                       
+					  <div class="col-sm-3 employee_class">
+                        <div class="form-group">
+                          <label class="control-label">Authorized Signature</label>
+                          <?php echo $this->form->authorized_signature; ?> </div>
+                      </div>
+                    </div> */ ?>
+                  </div>
+                  <div class="panel-footer">
+                    <div class="row" align="center">
+                      <div class="">
+                        <?php if($this->type == 'add'){ ?>
+                          <button class="btn btn-primary">Submit</button>
+                          <button type="reset"  class="btn btn-danger btn-default">Reset</button>
+                        <?php } else { ?>
+                          <button class="btn btn-primary" >Update</button>
+                        <?php } ?>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <!-- end widget content --> 
+          </div>
+          <!-- end widget div --> 
+        </div>
+      </article>
+    </div>
+    <!-- end widget --> 
+  </section>
+  <?php } else {?>
+  <?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+  <div class="alert alert-success"> <a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a> <?php echo $this->escape($message); ?> </div>
+  <?php } } ?>
+  <div class="row">
+    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-5">
+      <h3 class="page-title txt-color-blueDark"> <i class="fa fa-bars"> Payment Voucher </i> </h3>
+    </div>
+	<div class="col-xs-12 col-sm-5 col-md-5 col-lg-7">
+				<a class="btn btn-primary pull-right" style="margin-top:25px;" href="<?php echo $this->mainconfig['host'];?>finance/payment-voucher/index/type/add">Add</a>
+				<a class="btn btn-primary pull-right" style="margin-top:25px;" href="<?php echo $this->mainconfig['host']; ?>invoice/purchase">Back to Invoice</a>				
+		
+    </div>
+  </div>
+	<!-- widget grid -->
+	<section id="widget-grid" class="">
+
+		<!-- row -->
+		<div class="row">
+
+			<!-- NEW WIDGET START -->
+			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+				<!-- Widget ID (each widget will need unique ID)-->
+				<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+					<!-- widget options:
+					usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+					data-widget-colorbutton="false"
+					data-widget-editbutton="false"
+					data-widget-togglebutton="false"
+					data-widget-deletebutton="false"
+					data-widget-fullscreenbutton="false"
+					data-widget-custombutton="false"
+					data-widget-collapsed="true"
+					data-widget-sortable="false"
+
+					-->
+					<!--<header>
+						<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+						<h2></h2>
+
+					</header>
+
+					<!-- widget div-->
+					<div>		
+
+						<!-- widget content -->
+						<div class="widget-body">
+							
+							
+							<div class="table-responsive">
+								<div class="x_panel">
+               
+                    <div class="x_title">
+                    
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                       </li>
+                      <li><a class=""><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+<div class="x_content">
+								<table class="table table-bordered jambo_table bulk_action">
+									<thead>
+										<tr>
+											<th style="text-align:left">S.No.</th>
+											<th style="text-align:left">Date</th>											
+											<th style="text-align:left">Vendor Name</th>
+											<th style="text-align:left">Invoice ID </th>
+											<th style="text-align:left">Total Amount</th>
+											<th style="text-align:left">Paid Amount</th>
+											<th style="text-align:left">Balance</th>
+											<th style="text-align:left">Payment By</th>
+											<th style="text-align:left">Bank Name/Cheque No.</th>
+											<th style="text-align:left">Remarks</th>
+											<th style="text-align:left">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+
+										<?php
+										$i = 1;
+										$financeDate = $this->financeDate;
+										if (count($this->paginator) != 0) {
+											foreach ($this->paginator as $results) {
+												?>
+												<tr class="row_id<?php echo $results['payment_voucher_id'];?>">
+													<td><?php
+														echo $i;														
+														?></td>
+													<td>
+													<?php echo $results['add_date']; ?>
+													</td>
+													<td>
+													<?php if($results['party_names'] == ''){ echo $results['vendor_name']; }else{echo $results['party_names']; }?>
+													</td>
+													<td>
+													<?php 
+													if(! empty($results['invoice_id']) ){
+														$invoice_id = $results['invoice_id'];
+														if($invoice_id != 0){
+														if(strlen($invoice_id)==1){
+															$invoiceid = @(PI_PREFIX)."000".$invoice_id;
+														}else
+														if(strlen($invoice_id)==2){
+															$invoiceid = @(PI_PREFIX)."00".$invoice_id;
+														}else
+														if(strlen($invoice_id)==3){
+															$invoiceid = @(PI_PREFIX)."0".$invoice_id;
+														}
+														else{
+															$invoiceid = @(PI_PREFIX)."".$invoice_id;
+														}
+														
+														echo $invoiceid;
+															}														
+													}else{													 
+														$id = $results['commercial_invoice_id'];
+														if($id != 0){
+														if(strlen($id)==1){
+															$commercial_invoice_id = @(PCI_PREFIX)."000".$id;
+														}else
+														 if(strlen($id)==2){
+														   $commercial_invoice_id = @(PCI_PREFIX)."00".$id;
+														}else
+														 if(strlen($id)==3){
+															$commercial_invoice_id = @(PCI_PREFIX)."0".$id;
+														}
+														else{
+															$commercial_invoice_id = @(PCI_PREFIX)."".$id;
+														}
+														
+														echo $commercial_invoice_id;
+														}
+													}
+													?>
+												</td>
+													<td style="text-align:right;"><?php echo $results['total_amount']; ?></td>
+													<td style="text-align:right;"><?php echo $results['paid_amount']; ?></td>
+													<td style="text-align:right;"><?php echo $results['balance']; ?></td>
+													<td><?php echo $results['payment_by']; ?></td>
+													<td width="10%">
+														<?php if( !empty($results['bank_name']) ) { ?>
+														<p><strong>Bank Name :</strong> <?php  echo $results['bank_name']; ?></p>
+														<p><strong>Cheque No. :</strong> <?php  echo $results['cheque_no']; ?></p>
+														
+														<?php } ?>
+													</td>												
+													<td width="10%"><?php echo nl2br( $results['remarks'] ); ?></td>
+													<td width="7%">
+													<?php if( empty($financeDate[$results['payment_voucher_id']]) ){ ?>
+														<?php /* <a class="record_view" recordid="<?php echo $results['payment_voucher_id'];?>"><i class="fa fa-weibo"></i></a>
+														&nbsp; | &nbsp; */ ?>
+														<a href="<?php echo $this->mainconfig['host']; ?>finance/payment-voucher/index/type/edit/id/<?php echo $results['payment_voucher_id']; ?>"><span class="glyphicon glyphicon-pencil"></span></a>
+													<?php 
+												if(!empty($results['file_upload'])){
+													?>
+														&nbsp; |&nbsp; 
+														<a href="<?php echo $this->mainconfig['host']; ?>finance/payment-voucher/index/type/download/file/<?php echo $results['file_upload']; ?>"> <span class="glyphicon glyphicon-circle-arrow-down"></span> </a>
+													<?php
+													}
+												?>
+														
+														<?php if($this->role_id == '5'){ ?> &nbsp; |&nbsp; 
+														<?php if($results['checked_status'] ==1 ){ echo 'Checked';}else{?>
+														
+														<label class="checkbox">
+															<input type="checkbox" id="checkbox" value="<?php echo $results['payment_voucher_id'];?>" name="checkbox" >
+														</label>
+														<?php } }else{ /* ?>
+														 &nbsp; | &nbsp; 
+														<a --href="<?php echo $this->mainconfig['host']; ?>finance/payment-voucher/index/type/delete/id/<?php echo $results['payment_voucher_id']; ?>" onclick="delete_all('<?php echo $results['payment_voucher_id']; ?>');"> <span class="glyphicon glyphicon-trash"></span> </a>
+													<?php  */ }}else{ 
+														echo 'Tallied';
+													}?>
+													</td>
+												</tr>
+											<?php 
+											$i++;
+											} ?>
+											<tr class="odd gradeX">
+												<td colspan="11" align="center"> <?php echo $this->paginationControl($this->paginator, 'Sliding', array('pagination.phtml', 'default')); ?>
+												</td></tr>
+										<?php } else { ?>
+											<tr class="odd gradeX">
+												<td colspan="11" align="center">No Results Found</td>
+											</tr>
+										<?php } ?>
+									</tbody>
+								</table>
+								</div>
+								</div>
+								
+							</div>
+						</div>
+						<!-- end widget content -->
+
+					</div>
+					<!-- end widget div -->
+
+				</div>
+				<!-- end widget -->
+			</article>
+			<!-- WIDGET END -->
+		</div>
+
+		<!-- end row -->
+	</section>
+	<!-- end widget grid -->
+  
+  <?php }?>
+</div>
+
+
+
+</div>
+
+<script>
+
+$(".record_view").click(function() {		
+	var id=$(this).attr("recordid");
+	//$("tr.row_id").remove();		
+	$.ajax({
+	  type: "POST",
+	   url:"<?php echo $this->mainconfig['host'].'finance/payment-voucher/record-view';?>",
+	  data: { id: id }
+	}).done(function(data) {
+		$(".record_close").hide();
+		$(data).insertAfter("tr.row_id"+id);
+	});
+});
+
+function delete_all(id){			
+	var r = confirm("Are you sure want to delete this record permanently.");
+	if (r == true) {
+		x = "You pressed OK!";
+		window.location.href = "<?php echo $this->mainconfig['host']; ?>finance/payment-voucher/index/type/delete/id/"+id;
+	} else {			
+		x = "You pressed Cancel!";			
+		return false;
+	}	
+} 
+/* function select_payment(amt){	
+	if(amt){
+		//alert(amt);
+		var total_amount = parseFloat( $("#total_amount").val() );
+		if(total_amount > 0){
+			$("#balance").val( total_amount - parseFloat(amt));
+		}else{	
+			$("#balance").val(total_amount + parseFloat(amt));		
+		}		
+	}else{
+		$("#balance").val('');
+	}	
+}   */
+function select_payment(amt){
+	var amt = parseFloat(amt);
+	if(amt){
+		var operator = parseFloat( $("#operator").val() );
+		var total_amount = parseFloat( $("#total_amount").val() );
+		var transaction_amount = parseFloat( $("#transaction_amount").val() );
+		var opening_balance1 = parseFloat( $("#opening_balance1").val() );
+		if(transaction_amount >= amt){
+			var grand_total = total_amount - amt;
+			$("#balance").val(grand_total);
+		}else{			
+			$("#balance").val(total_amount);
+			alert('Please enter amount less then transaction amount.');			
+		}
+		//if(operator == 1){	
+			//var grand_total = total_amount + amt;
+			//$("#balance").val(grand_total);					
+		// }else if(operator == 2){
+			//var grand_total = total_amount - amt;
+			//$("#balance").val(grand_total);
+		//}else{	
+			//$("#balance").val(total_amount + amt);
+		//} 		
+	}else{
+		$("#balance").val('');
+	}
+}
+
+/* if(operator == 1){	
+			var grand_total = total_amount - amt;
+			$("#balance").val(grand_total);					
+		 }else if(operator == 2){
+			var grand_total = total_amount + amt;
+			$("#balance").val(grand_total);
+		}else{	
+			$("#balance").val(total_amount - amt);
+		}  */
+
+$(document).ready(function() {
+	// START AND FINISH DATE
+	$('.datepicker').datepicker({
+		dateFormat: 'yy-mm-dd',
+		prevText: '<i class="fa fa-chevron-left"></i>',
+		nextText: '<i class="fa fa-chevron-right"></i>' 
+	});
+	
+	$("body").on("change", "#vendor_id", function(event) {		
+		var id = $(this).val();
+		var myarr = id.split(",");
+		var party_type = myarr[1];
+		var party_id = myarr[0];
+		if((party_type != 'V')){
+			$(".hide_field").hide();
+			$("#paid_amount").removeAttr('onchange');
+			$("#paid_amount").removeAttr('onkeyup');
+			$("#paid_amount").removeAttr('onkeypress');
+			$("#transaction_amount").removeAttr('required');
+			$("#total_amount").removeAttr('required');
+			$("#paid_amount").removeAttr('required');
+			$("#balance").removeAttr('required');	
+		}else{
+			//alert(id);
+			$(".hide_field").show();
+			$("#paid_amount").attr('onchange','select_payment(this.value)');
+			$("#paid_amount").attr('onkeyup','select_payment(this.value)');
+			$("#paid_amount").attr('onkeypress','select_payment(this.value)');	
+			$("#transaction_amount").attr('required','required');
+			$("#total_amount").attr('required','required');
+			$("#paid_amount").attr('required','required');
+			$("#balance").attr('required','required');
+		}		
+		if ((id) && (party_type == 'V')) {			
+			$.ajax({type: "POST", url: "<?php echo $this->mainconfig['host'] . 'finance/payment-voucher/get-invoice-id'; ?>",
+				data: {vendor_id: party_id}}).done(function(data) {
+				$("#invoice_id").html(data);
+			});
+			$.ajax({type: "POST", url: "<?php echo $this->mainconfig['host'] . 'finance/payment-voucher/get-total-invoice-amount'; ?>",
+			data: {vendor_id: party_id,party_type:party_type}}).done(function(response) {
+			var result = $.parseJSON( response );
+			//alert(result['grand_total']);
+			$('#grand_total_amount').val( result.toFixed(2) );
+			//$("#grand_total_amount").val(result['grand_total']- result['total_paid_amount']);			
+		});
+		}
+		
+	});
+	
+	//Invoice ID
+	$("body").on("change", "#invoice_id", function(event) {
+		var vendor_id = $("#vendor_id option:selected").val();
+		var id = $(this).val();	
+		var myarr = vendor_id.split(",");
+		var party_type = myarr[1];
+		var party_id = myarr[0];	
+		if ((id) && (party_type == 'V')) {	
+			//$(".pop-loading").show();
+			$.ajax({type: "POST", url: "<?php echo $this->mainconfig['host'] . 'finance/payment-voucher/vendor-by-amount'; ?>",
+				data: {vendor_id: party_id, invoice_id: id}}).done(function(data) {
+				var result = $.parseJSON( data );
+				$("#total_amount").val(result['total_amount']);
+				$("#transaction_amount").val(result['transaction_amount']);
+			});
+			
+			$.ajax({type: "POST", url: "<?php echo $this->mainconfig['host'] . 'finance/payment-voucher/vendor-operator'; ?>",
+				data: {vendor_id: party_id, invoice_id: id}}).done(function(data) {
+				var result = $.parseJSON( data );  
+				$("#operator").val(result['operator']);
+				/* if(result['operator'] == 1){
+					$("#symbol").html('+');
+				}else if(result['operator'] == 0){
+					$("#symbol").html('');
+				}else{
+					$("#symbol").html('-');
+				} */
+				$("#opening_balance1").val(result['opening_balance']);
+			});
+		}
+	});
+	
+});
+
+	$(".checkbox").click(function(){
+		
+		var r = confirm("Are you sure want to check this record.");
+		if (r == true) {
+			x = "You pressed OK!";
+			var id = $("input[name='checkbox']:checked").val();
+			if(id != ''){
+				$.ajax({
+				  type: "POST",
+					url:"<?php echo $this->mainconfig['host'].'finance/payment-voucher/ajax-changes-status';?>",
+				  data: { id: id }
+				}).done(function( data ) {
+				});
+			}
+			window.location.href=window.location.href;
+			//window.location.href = "<?php echo $this->mainconfig['host']; ?>sales/invoice/";
+		} else {			
+			x = "You pressed Cancel!";			
+			return false;
+		}	
+		
+	});
+//Enable the bank details
+$.select_id=$("#payment_by").val(); 
+if($.select_id){
+	var id=$.select_id;
+	if(id == 2){
+		$("#bank_details").show();
+	}else{
+		$("#bank_details").hide();
+	}
+}else{
+	$("#bank_details").hide();
+}
+ 
+$('#payment_by').on("change", function() {  
+	var id = $('#payment_by').val();	
+	if(id == 2){	
+		$("#bank_details").show();
+        $("#cheque_no").attr("required","required");
+        $("#bank_id").attr("required","required");	
+		//$("#file_upload").attr("required","required");		
+	}else{
+		$("#bank_details").hide();
+		$("#cheque_no").removeAttr("required","required");
+		$("#bank_id").removeAttr("required","required");
+		//$("#file_upload").removeAttr("required","required");
+	}
+});
+// Get check number
+$('#bank_id').on("change", function() {  
+	var id = $('#bank_id').val();	
+	if(id){	
+		$.ajax({
+		  type: "POST",
+		  url:"<?php echo $this->mainconfig['host'].'finance/payment-voucher/ajax-bank-detail';?>",
+		  data: { bank_id: id }
+		})
+		  .done(function( msg ) {
+			if( msg == 0) {
+				$( "#bank_cheque_not" ).html( 'Cheque Number Not Available' );
+				$( "#cheque_no" ).val( '' );
+				$("#cheque_no").attr("required","required");
+			} else {
+			$( "#bank_cheque_not" ).html( '' );
+			$( "#cheque_no" ).val( msg ); 
+			}
+		});	 
+	}
+});
+	var vendor_id = $("#vendor_id option:selected").val();
+		var myarr = vendor_id.split(",");
+		var party_type = myarr[1];
+		var party_id = myarr[0];	
+		if ((party_type != 'V')) {
+			
+			$(".hide_field").hide();
+			$("#paid_amount").removeAttr('onchange');
+			$("#paid_amount").removeAttr('onkeyup');
+			$("#paid_amount").removeAttr('onkeypress');
+								
+		}else{
+			$(".hide_field").show();
+			$("#paid_amount").attr('onchange','select_payment(this.value)');
+			$("#paid_amount").attr('onkeyup','select_payment(this.value)');
+			$("#paid_amount").attr('onkeypress','select_payment(this.value)');	
+			$("#transaction_amount").attr('required','required');
+			$("#total_amount").attr('required','required');
+			$("#paid_amount").attr('required','required');
+			$("#balance").attr('required','required');	
+			
+			$.ajax({type: "POST", url: "<?php echo $this->mainconfig['host'] . 'finance/payment-voucher/get-total-invoice-amount'; ?>",
+			data: {vendor_id: party_id,party_type:party_type}}).done(function(response) {
+			var result = $.parseJSON( response );
+			$('#grand_total_amount').val( result.toFixed(2) );	
+			});
+		}		
+</script>

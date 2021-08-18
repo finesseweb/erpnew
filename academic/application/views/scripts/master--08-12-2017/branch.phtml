@@ -1,0 +1,2205 @@
+<style>
+.masterbox{border:1px solid #ccc;width:99.5%; margin-left:0px; box-shadow: 0px 2px 10px #ccc;padding:10px;}
+<link href="<?php echo $this->mainconfig['publicpath'];?>css/style1.css" rel="stylesheet" />
+</style>
+<?php //echo $this->tax; die;//$service_tax = $this->service_tax; 
+//echo $service_tax;die;
+?>
+<?php if ($this->type) {  ?>
+<div class="padding-md right_col">
+	<div class="row">
+		<div class="col-md-12">
+		<h3 class="page-title txt-color-blueDark" >
+			<div><i class="fa fa-eye"> Branch</i></div>
+				
+		</h3>
+			<div class="panel panel-default">
+			
+				<form id="formValidate1" action="<?php echo $this->Branch_form->getAction() ?>" enctype="multipart/form-data" method="post" data-validate="parsley">
+					
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-sm-3"><h4><span style=" color:#777;">Geographical Details</span></h4></div>
+						</div>
+						<div style="border-bottom:1px dotted #ddd;"></div>
+						<div class="row masterbox">
+							<div class="row">	
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">Country<span class="asterisk">*</span></label>
+										<?php echo $this->Branch_form->country_id; ?>
+									</div>											
+								</div> 
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">State<span class="asterisk">*</span></label>
+										<?php echo $this->Branch_form->state_id; ?>
+									</div>											
+								</div> 
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">City<span class="asterisk">*</span></label>
+										<?php echo $this->Branch_form->city_id; ?>
+									</div>											
+								</div>
+								<div class="col-sm-3">	
+									<div class="form-group">
+										<label class="control-label">Location Name <span class="asterisk">*</span></label>
+										<?php echo $this->Branch_form->location_id; ?>
+									</div>										
+								</div>								
+								 
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-3"><h4><span style=" color:#777;">Branch Details</span></h4></div>
+						</div>
+						<div class="row masterbox">
+							<div class="row">
+								<div class="col-sm-3">	
+									<div class="form-group">
+										<label class="control-label">Branch Name <span class="asterisk">*</span></label>
+										<?php echo $this->Branch_form->branch_name; ?>
+									</div>										
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">Branch Type</label>
+										<?php echo $this->Branch_form->company; ?>
+									</div>											
+								</div>								
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">Branch Code <span class="asterisk">*</span></label>
+										<?php echo $this->Branch_form->branch_code; ?>
+									</div>											
+								</div>                          
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">Personal Email Address <span class="asterisk">*</span></label>
+										<?php echo $this->Branch_form->branch_email_id; ?>
+									</div>											
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">Primary Email Address <span class="asterisk">*</span></label>
+										<?php echo $this->Branch_form->primary_email_address; ?>
+									</div>											
+								</div>
+								
+								<?php
+							if(!empty($this->secondary_email_address)){
+											  $i=0; ?>
+									<input type="hidden" name="secondary_email" id="secondary_email" value="<?php echo (count($this->secondary_email_address) +1 ); ?>" class="secondary_email">
+									<?php
+									foreach($this->secondary_email_address as $val){
+									//print_r($val);die;
+									//$total_amount += $val['total_price'];
+									$i++;
+									?>
+										<div  class="row appended_row "style="margin:0px 1px;width:100%;">
+											<div class="col-sm-3">
+												<label class="control-label">Secondary Email Address</label>		
+												<input type="text" class="form-control " label="email_<?php echo $i; ?>" name="secondary_email_address[]" value="<?php echo $val ;?>"  />
+											</div>
+											<a  class="removeclass btn btn-primary remove_class" style="margin:24px 27px;padding:7px 19px!important;" href="#">-</a>
+											</div> 
+									<?php		} 
+											?>
+										<div  class="row appended_row " > <div class="col-sm-3"></div><div class="col-sm-3"></div><a id="AddButton" class="btn btn-primary" style="margin:24px 27px; padding: 7px 19px!important;">+</a> 
+										</div>
+									<?php } else { ?>
+									<div  class="row appended_row "style="margin:0px 1px;width:100%;">
+										<input type="hidden" name="secondary_email" id="secondary_email" value="1" class="secondary_email">
+											<div class="col-sm-3">
+											<div class="form-group">
+												<label class="control-label">Secondary Email Address</label>		
+												<input type="text" class="form-control" name="secondary_email_address[]"label="email_0"  />
+												</div>
+											</div>
+											<div class="col-sm-3">
+										<a id="AddButton" class="btn btn-primary" style="margin:24px 15px; padding: 7px 19px!important;">+</a> 
+										</div>
+									</div>
+										<?php } ?>
+									
+									<div  id="fields">
+										<div class="padding-top"></div>
+									</div>
+									</div>
+									<div class="row">
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">Username</label>
+											<input type="text" name="user_name" id="user_name"  class="form-control" readonly="readonly" value="<?php echo $this->result['user_name'];?>" />
+										</div>											
+									</div>
+									<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label"> Password <?php if($this->type !='edit'){ ?><span class="asterisk">*</span> <?php } ?> </label>
+										<?php //echo $this->Branch_form->branch_email_id; ?>
+										<input type="password" name="password" id="password" class="form-control" <?php if($this->type !='edit'){ ?> required="required" />  <?php }else {  ?> <input type="password" name="password" id="password" value="<?php echo $this->result['general_password']; ?>" class="form-control" readonly="readonly" />
+										<?php } ?>
+										
+									</div>											
+								</div> 
+								<div class="col-sm-3">
+									<div class="checkbox" style="margin-top: 27px;" >
+										<label class="label-checkbox" style="padding-left:0px;" >
+											<?php echo $this->Branch_form->show_password; ?>
+											<span class="custom-checkbox" ></span>
+											 Show Password<br>
+										</label>
+										
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">Confirm Password <?php if($this->type !='edit'){ ?><span class="asterisk">*</span> <?php } ?> </label>
+										<?php //echo $this->Branch_form->branch_email_id; ?>
+										<input type="password" name="confirm_password" id="confirm_password" value="" class="form-control" />
+									</div>											
+								</div>
+								
+									
+							</div>			          
+						</div>
+						<div style="border-bottom:1px dotted #ddd;"></div>
+						<div class="row">
+							<div class="col-sm-3"><h4><span style=" color:#777;">Branch Contact Details</span></h4></div>
+						</div>
+						<div class="row masterbox">
+							<div class="row">							
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">Contact Name <span class="asterisk">*</span></label>
+										<?php echo $this->Branch_form->branch_contact_person; ?>
+									</div>											
+								</div>  
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">Primary Mobile Number <span class="asterisk">*</span></label>
+										<?php echo $this->Branch_form->branch_mobile_no; ?>
+									</div>											
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">Secondary Mobile Number <span class="asterisk">*</span></label>
+										<?php echo $this->Branch_form->branch_secondary_mobile_no; ?>
+									</div>											
+								</div>	
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label"> Alternate Phone Number </label>
+										<?php echo $this->Branch_form->branch_phone_no1; ?>
+									</div>											
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">Address<span class="asterisk">*</span></label>
+										<?php echo $this->Branch_form->branch_address; ?>
+									</div>											
+								</div>
+								<?php /* <div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">Contact Person Phone Number <span class="asterisk">*</span></label>
+										<?php echo $this->Branch_form->branch_contact_person_phone; ?>
+									</div>											
+								</div>  */ ?>							
+							</div>
+						</div>
+						<div style="border-bottom:1px dotted #ddd;"></div>
+							
+						<div class="row">
+							<div class="col-sm-3"><h4><span style=" color:#777;">Bank Details</span></h4></div>
+						</div>							
+						<div class="row masterbox">
+							<div class="row">							
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">Name</label>
+										<?php echo $this->Branch_form->branch_bank_name; ?>
+									</div>											
+								</div>                          
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">Account  Name</label>
+										<?php echo $this->Branch_form->branch_bank_account_name; ?>
+									</div>											
+								</div> 
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">Account Number </label>
+										<?php echo $this->Branch_form->branch_bank_account_no; ?>
+									</div>											
+								</div> 		
+							</div>
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">Account Type</label>
+										<?php echo $this->Branch_form->branch_account_type; ?>
+									</div>											
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">IFSC Code</label>
+										<?php echo $this->Branch_form->ifsc_code; ?>
+									</div>											
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">Address</label>
+										<?php echo $this->Branch_form->bank_address; ?>
+									</div>											
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">MICR Code</label>
+										<?php echo $this->Branch_form->micr_code; ?>
+									</div>											
+								</div>
+													
+							</div>
+						</div>
+						<div style="border-bottom:1px dotted #ddd;"></div>
+						<div class="row">
+							<div class="col-sm-3"><h4><span style=" color:#777;">File Upload</span></h4></div>
+						</div>
+						<div class="row masterbox">
+							<div class="row">
+							
+							<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label"><h6>Admission Stage Title</h6></label>
+											<?php echo $this->Branch_form->admission_stage; ?>
+									</div>											
+								</div>	
+								
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label"><h6>Admission Stage</h6></label>
+											<input name="admission[]" id="file" type="file"  multiple="multiple" size="50" />
+											<span>MaxFileSize'30MB'</span>
+									</div>											
+								</div>	
+								
+								<?php if($this->type == 'edit'){ 
+								$admission_file = $this->result['admission_file_name'];
+								$files = explode(',',$admission_file);
+									
+						
+									foreach($files as $val => $admission){ 
+									echo $admission;  ?>
+								<?php /*	 <a href="<?php echo $this->mainconfig['host']; ?>public/documents/<?php echo strtolower($this->result['branch_name']); ?>/admission/<?php echo $admission ?>" title="Delete" class="delete_file" onClick="select_delete(<?php echo $admission?>)" > <span class="fa fa-trash-o fa-lg" ></span> </a> */ ?>
+								<a href="<?php echo $this->mainconfig['host']; ?>master/branch/type/filedelete/id/<?php echo $this->result['branch_id']; ?>/branch/<?php echo strtolower($this->result['branch_name']); ?>/class/admission/file/<?php echo $admission; ?>" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a>
+								<?php	}} ?>
+								</div>
+								<div class="row">
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label"><h6>Enquiry & Follow Up Stage Title</h6></label>
+											<?php echo $this->Branch_form->enquiry_followup_stage; ?>
+									</div>											
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label"><h6>Enquiry & Follow Up Stage</h6></label>
+										<div id="drop">
+										<input name="enquiry[]" id="file1" type="file" multiple="multiple" size="50" />	
+										</div>
+										<span>MaxFileSize'30MB'</span>
+										
+								<?php /*<ul class="auto_imageupload" style="border:1px solid #ddd; padding:15px;">
+								<!-- The file uploads will be shown here -->
+								</ul>*/?>
+								
+									</div>											
+								</div>
+								<?php if($this->type == 'edit'){ 
+								
+								$enquiry_files = $this->result['enquiry_file_name'];
+									$files = explode(',',$enquiry_files);
+								//echo '<pre>'; print_r($file); die;
+									foreach($files as $val => $enquiry){ 
+									echo $enquiry;  ?>
+								<?php /*	 <a href="<?php echo $this->mainconfig['host']; ?>public/documents/<?php echo strtolower($this->result['branch_name']); ?>/admission/<?php echo $admission ?>" title="Delete" class="delete_file" onClick="select_delete(<?php echo $admission?>)" > <span class="fa fa-trash-o fa-lg" ></span> </a> */ ?>
+							<a href="<?php echo $this->mainconfig['host']; ?>master/branch/type/filedelete/id/<?php echo $this->result['branch_id']; ?>/branch/<?php echo strtolower($this->result['branch_name']); ?>/class/enquiry/file/<?php echo $enquiry; ?>" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a>
+								<?php	}} ?>
+							</div>
+							<div class="row">				
+								<ul class="auto_imageupload" style="padding:15px; margin-top:80px;" >
+								<!-- The file uploads will be shown here -->
+								</ul>
+							</div>
+						</div>
+						<div style="border-bottom:1px dotted #ddd;"></div>
+							<div class="row">
+								<div class="col-sm-3"><h4><span style=" color:#777;">Birthday Vendor Details</span></h4></div>
+							</div>
+							<div class="row masterbox">
+								<div class="row">
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">Email ID<span  class="asterisk">*</span></label>
+											<?php echo $this->Branch_form->vendor_emailid; ?>
+										</div>											
+									</div>
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">Mobile No<span class="asterisk">*</span></label>
+											<?php echo $this->Branch_form->vendor_mobile_no; ?>
+										</div>											
+									</div>									
+								</div>
+							</div>
+						<div id="one">
+							<div style="border-bottom:1px dotted #ddd;"></div>
+							<div class="row">
+								<div class="col-sm-3"><h4><span style=" color:#777;">Discount & Cash Limits</span></h4></div>
+							</div>
+							<div class="row masterbox">
+								<div class="row">
+<div class="col-sm-3">	
+											<div class="form-group">
+												<label class="control-label">Discount Cap Start</label>									
+												<div class="input-group">			
+													<?php echo $this->Branch_form->discount_cap_from_date; ?>
+													<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+												</div>
+											</div>
+										</div>
+<div class="col-sm-3">	
+											<div class="form-group">
+												<label class="control-label">Discount Cap End</label>									
+												<div class="input-group">			
+													<?php echo $this->Branch_form->discount_cap_to_date; ?>
+													<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+												</div>
+											</div>
+										</div>
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">Discount Cap (Value in INR)</label>
+											<?php echo $this->Branch_form->target_amount; ?>
+										</div>											
+									</div>
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">Cash collection threshold per transaction </label>
+											<?php echo $this->Branch_form->cash_collection_threshold_per_transaction; ?>
+										</div>											
+									</div>
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">Referral Discount </label>
+											<?php echo $this->Branch_form->referal_discount; ?>
+										</div>											
+									</div>	
+								</div>
+							</div>
+						</div>
+						<div style="border-bottom:1px dotted #ddd;"></div>
+						<div class="row">
+							<div class="col-sm-3"><h4><span style=" color:#777;">CCTV Access</span></h4></div>
+						</div>
+						<div class="row masterbox">
+							<div class="row">							
+							<?php /*	<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">Maximum Amount Taken For Cash</label>
+										<?php echo $this->Branch_form->branch_amount_taken_by_cash; ?>
+									</div>											
+								</div> 	 */ ?>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">Branch CCTV Code</label>
+										<?php echo $this->Branch_form->branch_cctv_code; ?>
+									</div>											
+								</div> 
+							 
+							</div>
+						</div>
+						<div style="border-bottom:1px dotted #ddd;"></div>
+						<div class="row">
+							<div class="col-sm-3"><h4><span style=" color:#777;">Profit Sharing Percentage  </span></h4></div>
+						</div>
+						<div class="row masterbox">
+							<div class="row">							
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">Franchisor</label>
+										<?php echo $this->Branch_form->company_percentage; ?>
+									</div>											
+								</div> 
+								<div class="col-sm-1" >	
+									<div class="form-group" style="margin-top:20px;margin-left:-20px;">
+										<span>%</span>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">Franchisee</label>
+										<?php echo $this->Branch_form->franchisee_percentage; ?>
+									</div>											
+								</div> 
+								<div class="col-sm-1" >	
+									<div class="form-group" style="margin-top:20px;margin-left:-20px;">
+										<span>%</span>
+									</div>
+								</div>
+							</div>	
+						</div>
+						<div style="border-bottom:1px dotted #ddd;"></div>
+							<div class="row">
+							<div class="col-sm-3"><h4><span style=" color:#777;">Building Details</span></h4></div>
+							</div>
+							<div class="row masterbox">
+							<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group" style="margin-top:4px;">
+								<label class="control-label">Title</label>
+								<?php echo $this->Branch_form->route_map_field; ?>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group" style="margin-top:4px;">
+									<span>Route Map</span>
+								<input type="file" name="route_map" id="route_map" />
+								</div>
+							</div>
+							<?php if($this->type == 'edit'){ 
+								$route_map = $this->result['route_map_file'];
+									$files = explode(',',$route_map);
+								//echo '<pre>'; print_r($file); die;
+									foreach($files as $val => $route){ 
+									echo $route;  ?>
+									
+								<?php /*	 <a href="<?php echo $this->mainconfig['host']; ?>public/documents/<?php echo strtolower($this->result['branch_name']); ?>/admission/<?php echo $admission ?>" title="Delete" class="delete_file" onClick="select_delete(<?php echo $admission?>)" > <span class="fa fa-trash-o fa-lg" ></span> </a> */ ?>
+								<a href="<?php echo $this->mainconfig['host']; ?>master/branch/type/filedelete/id/<?php echo $this->result['branch_id']; ?>/branch/<?php echo strtolower($this->result['branch_name']); ?>/class/routemap/file/<?php echo $route; ?>" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a>
+								<?php	}} ?>
+							
+							</div>
+							<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<span>Area</span>
+									<?php  echo $this->Branch_form->area;  ?>
+								</div>
+							</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label"> Units </label>
+										<?php  echo $this->Branch_form->area_units;  ?>
+										
+									</div>											
+								</div>
+							
+								<div class="col-sm-3">
+									<div class="form-group" >
+										<label class="control-label" style="">Lease Duration </label>
+										<?php echo $this->Branch_form->lease_duration; ?>
+									</div>											
+								</div> 
+							</div>
+						</div>
+						
+						<div id="two">
+							<div style="border-bottom:1px dotted #ddd;"></div>
+								<div class="row">
+									<div class="col-sm-4" ><h4><span style=" color:#777;">Franchise Details and Background</span></h4></div>
+								</div>
+								<div class="row masterbox">
+									<div class="row">
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label class="control-label"><h6>Photo Title</h6></label>
+												<?php echo $this->Branch_form->photo_of_franchise; ?>
+											</div>
+										</div>									
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label class="control-label"><h6>Photo of Franchise</h6></label>
+												<input name="photo" id="file2" type="file" size="50"/>	
+											</div>
+										</div>
+									
+						<?php if($this->type == 'edit'){ 
+								
+									$photo = $this->result['photo_file_name'];
+									$files = explode(',',$photo);
+								//echo '<pre>'; print_r($file); die;
+									foreach($files as $val => $photo){ 
+									echo $photo;  ?>
+								<?php /*	 <a href="<?php echo $this->mainconfig['host']; ?>public/documents/<?php echo strtolower($this->result['branch_name']); ?>/admission/<?php echo $admission ?>" title="Delete" class="delete_file" onClick="select_delete(<?php echo $admission?>)" > <span class="fa fa-trash-o fa-lg" ></span> </a> */ ?>
+								<a href="<?php echo $this->mainconfig['host']; ?>master/branch/type/filedelete/id/<?php echo $this->result['branch_id']; ?>/branch/<?php echo strtolower($this->result['branch_name']); ?>/class/photo/file/<?php echo $photo; ?>" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a>
+								<?php	}} ?>
+						</div>
+					<div class="row">								
+										<div class="col-sm-3">	
+											<div class="form-group">
+												<label class="control-label"> Agreement Date</label>									
+												<div class="input-group">			
+													<?php echo $this->Branch_form->agreement_date; ?>
+													<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+												</div>
+											</div>
+										</div>
+										
+										<div class="col-sm-3">	
+											<div class="form-group">
+												<label class="control-label">School Launch Date</label>									
+												<div class="input-group">			
+													<?php echo $this->Branch_form->school_launch_date; ?>
+													<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-3">	
+											<div class="form-group">
+												<label class="control-label">Agreement Expired Date</label>									
+												<div class="input-group">			
+													<?php echo $this->Branch_form->expired_date; ?>
+													<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-3">	
+											<div class="form-group">
+												<label class="control-label">Agreement Duration(in Years)</label>
+												<?php echo $this->Branch_form->years; ?>
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label class="control-label">Franchisee Address(school address)</label>
+												<?php echo $this->Branch_form->franchisee_address; ?>
+											</div>											
+										</div>
+										<div class="col-sm-3">
+											<div class="col-lg-14" style="margin-top:22px;" >
+												<?php echo $this->Branch_form->franchisee_mr_mrs; ?>
+												
+											</div>
+										</div>	
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label class="control-label">Name of the Franchisee</label>
+												<?php echo $this->Branch_form->name_of_the_franchisee; ?>
+											</div>											
+										</div> 	
+										</div>
+										<div class="row">
+										<div class="col-sm-3">
+											<div class="col-lg-14" style="margin-top:22px;">
+												<?php echo $this->Branch_form->spouse_mr_mrs; ?>
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="form-group">
+											<label class="control-label">Spouse Name </label>
+											<?php echo $this->Branch_form->spouse_name; ?>
+											</div>
+										</div>
+										</div>
+										<div class="row">
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label class="control-label">Franchisee Background<span class="asterisk">*</span></label>
+												<?php echo $this->Branch_form->franchisee_background; ?>
+											</div>	
+										</div>
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label class="control-label">Franchisee Family Background</label>
+												<?php echo $this->Branch_form->franchisee_family_background; ?>
+											</div>	
+										</div>
+										</div>
+										<div class="row">
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label class="control-label">Franchisee Current Addresss</label>
+												<?php echo $this->Branch_form->franchisee_current_address; ?>
+											</div>	
+										</div>
+									<div class="col-sm-3" >
+									<div class="form-group">
+										<div class="checkbox" style="margin-top:35px;">
+											<label class="label-checkbox" style="padding-left:0px;">
+												<?php echo $this->Branch_form->getAddress; ?>
+												<span class="custom-checkbox" ></span>
+												Same as Present Address<br>
+											</label>
+											</div>
+										</div>
+									</div>
+								<?php /*	<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">Permanent Address</label>
+										<?php echo $this->Branch_form->franchisee_permanent_address; ?>
+									</div>											
+								</div> */ ?>
+									<?php
+							if(!empty($this->franchisee_permanent_address)){
+											  $i=0; ?>
+									<input type="hidden" name="permanent_address" id="permanent_address" value="<?php echo (count($this->franchisee_permanent_address) +1 ); ?>" class="permanent_address">
+									<?php
+									foreach($this->franchisee_permanent_address as $val){
+									//print_r($val);die;
+									//$total_amount += $val['total_price'];
+									
+									?>
+										<div  class="row appended_row "style="margin:0px 1px;">
+											<div class="col-sm-3">
+												<label class="control-label">Permanent Address</label>		
+												<input type="text"  class="form-control " label="address<?php echo $i; ?>" name="franchise_permanent_address[]" value="<?php echo $val ;?>"  />
+											</div>
+											<a  class="removeclass btn btn-primary remove_class" style="margin:24px 15px;padding:7px 19px!important;" href="#">-</a>
+											</div> 
+											
+									<?php	$i++;	}
+																		
+											?>
+										<div  class="row appended_row "><div class="col-sm-3"></div><div class="col-sm-3"></div><div class="col-sm-3"></div> <a id="AddButton1" class="btn btn-primary" style="margin:10px 0px;padding:7px 19px!important;">+</a> 
+										</div>
+									<?php } else { ?>
+									<div  class="row appended_row "style="margin:0px 1px;">
+										<input type="hidden" name="permanent_address" id="permanent_address" value="1" class="permanent_address">
+											<div class="col-sm-3">
+												<label class="control-label">Permanent Address</label>		
+												<input type="text"  class="form-control" name="franchise_permanent_address[]" label="address0"  />
+											</div>
+										<a id="AddButton1" class="btn btn-primary" style="margin:24px 15px; padding: 7px 19px!important;">+</a> 
+									</div>
+										<?php } ?>
+									
+									<div  id="fields1">
+										<div class="padding-top"></div>
+									</div>
+									</div>
+									<?php
+							if(!empty($this->franchisee_phone_no)){
+											  $i=0; ?>
+									<input type="hidden" name="franchisee_ph_no" id="franchisee_ph_no" value="<?php echo (count($this->franchisee_phone_no) +1 ); ?>" class="franchisee_ph_no">
+									<?php
+									foreach($this->franchisee_phone_no as $val){
+									//print_r($val);die;
+									//$total_amount += $val['total_price'];
+									$i++;
+									?>
+										<div  class="row appended_row ">
+											<div class="col-sm-3">
+												<label class="control-label">Phone Number</label>		
+												<input type="text"  class="form-control " label="phone<?php echo $i; ?>" name="franchise_phone_number[]" value="<?php echo $val ;?>"  />
+											</div>
+											<a  class="removeclass btn btn-primary remove_class" style="margin:24px 15px;padding:7px 19px!important;" href="#">-</a>
+											</div> 
+									<?php		} 
+											?>
+										<div  class="row appended_row "><div class="col-sm-3"></div> <a id="AddButton2" class="btn btn-primary" style="margin:24px 15px;padding:7px 19px!important;">+</a> 
+										</div>
+									<?php } else { ?>
+									<div  class="row appended_row ">
+										<input type="hidden" name="franchisee_ph_no" id="franchisee_ph_no" value="1" class="franchisee_ph_no">
+											<div class="col-sm-3">
+												<label class="control-label">Phone Number</label>		
+												<input type="text"  class="form-control" name="franchise_phone_number[]" label="phone0"  />
+											</div>
+										<a id="AddButton2" class="btn btn-primary" style="margin:24px 15px; padding: 7px 19px!important;">+</a> 
+									</div>
+										<?php } ?>
+									
+									<div  id="fields2">
+										<div class="padding-top"></div>
+									</div>
+							
+								
+								
+									</div>
+								
+							</div>
+							<div style="border-bottom:1px dotted #ddd;"></div>
+							<div class="row">
+							<div class="col-sm-3"><h4><span style=" color:#777;">Franchisee Documents</span></h4></div>
+							</div>
+							<div class="row masterbox">
+							<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label class="control-label">Franchise Agreement Title</label>
+										<?php echo $this->Branch_form->copy_of_the_franchisee_document; ?>
+								</div>											
+							</div>								
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label class="control-label">Copy of the Franchise Agreement</label>
+										<input name="copy_of_agreement" id="file3" type="file" size="50"/>
+								</div>											
+							</div>
+							<?php if($this->type == 'edit'){ 
+								$copy_of_the = $this->result['copy_of_the_franchisee_file'];
+									$files = explode(',',$copy_of_the);
+									
+								//echo '<pre>'; print_r($file); die;
+									foreach($files as $val => $copy){ 
+									echo $admission;  ?>
+								<?php /*	 <a href="<?php echo $this->mainconfig['host']; ?>public/documents/<?php echo strtolower($this->result['branch_name']); ?>/admission/<?php echo $admission ?>" title="Delete" class="delete_file" onClick="select_delete(<?php echo $admission?>)" > <span class="fa fa-trash-o fa-lg" ></span> </a> */ ?>
+								<a href="<?php echo $this->mainconfig['host']; ?>master/branch/type/filedelete/id/<?php echo $this->result['branch_id']; ?>/branch/<?php echo strtolower($this->result['branch_name']); ?>/class/copy of agreement/file/<?php echo $copy; ?>" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a>
+								<?php	}} ?>
+							</div>
+							<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label class="control-label">Lease Agreement Title</label>
+										<?php echo $this->Branch_form->buliding_lease_aggrement; ?>
+								</div>											
+							</div>	
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label class="control-label">Building Lease Agreement</label>
+									<input name="lease_agreement" id="file4" type="file" size="50"/>
+								</div>											
+							</div>
+							<?php if($this->type == 'edit'){ 
+								$lease_agreement = $this->result['lease_agreement_file'];
+									$files = explode(',',$lease_agreement);
+									
+								//echo '<pre>'; print_r($file); die;
+									foreach($files as $val => $lease){ 
+									echo $lease;  ?>
+								<?php /*	 <a href="<?php echo $this->mainconfig['host']; ?>public/documents/<?php echo strtolower($this->result['branch_name']); ?>/admission/<?php echo $admission ?>" title="Delete" class="delete_file" onClick="select_delete(<?php echo $admission?>)" > <span class="fa fa-trash-o fa-lg" ></span> </a> */ ?>
+								<a href="<?php echo $this->mainconfig['host']; ?>master/branch/type/filedelete/id/<?php echo $this->result['branch_id']; ?>/branch/<?php echo strtolower($this->result['branch_name']); ?>/class/lease agreement/file/<?php echo $lease; ?>" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a>
+								<?php	}} ?>
+							</div>
+							<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label class="control-label"><h6>2D+3D Title</h6></label>
+										<?php echo $this->Branch_form->twod_threed; ?>
+								</div>											
+							</div>	
+							
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label class="control-label"><h6>2D+3D</h6></label>
+									<input name="2d" id="file5" type="file" size="50"/>
+									
+								</div>											
+							</div>
+							<?php if($this->type == 'edit'){ 
+								$twod_file = $this->result['twod_threed_file'];
+									$files = explode(',',$twod_file);
+									
+								//echo '<pre>'; print_r($file); die;
+									foreach($files as $val => $twod){ 
+									echo $twod;  ?>
+								<?php /*	 <a href="<?php echo $this->mainconfig['host']; ?>public/documents/<?php echo strtolower($this->result['branch_name']); ?>/admission/<?php echo $admission ?>" title="Delete" class="delete_file" onClick="select_delete(<?php echo $admission?>)" > <span class="fa fa-trash-o fa-lg" ></span> </a> */ ?>
+								<a href="<?php echo $this->mainconfig['host']; ?>master/branch/type/filedelete/id/<?php echo $this->result['branch_id']; ?>/branch/<?php echo strtolower($this->result['branch_name']); ?>/class/2d&3d/file/<?php echo $twod; ?>" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a>
+								<?php	}} ?>
+							</div>
+							<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label class="control-label"><h6>Building Pictures Title</h6></label>
+										<?php echo $this->Branch_form->building_pictures_title; ?>
+								</div>											
+							</div>	
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label class="control-label"><h6>Building Pictures</h6></label>
+									<input name="building_pictures[]" id="file6" type="file" multiple="multiple" size="50"/>
+								</div>											
+							</div>
+								<?php if($this->type == 'edit'){ 
+								
+								$building_pictures = $this->result['building_pictures_file'];
+									$files = explode(',',$building_pictures);
+								
+							
+									foreach($files as $val => $building){ 
+									echo $building;  ?>
+								<?php /*	 <a href="<?php echo $this->mainconfig['host']; ?>public/documents/<?php echo strtolower($this->result['branch_name']); ?>/admission/<?php echo $admission ?>" title="Delete" class="delete_file" onClick="select_delete(<?php echo $admission?>)" > <span class="fa fa-trash-o fa-lg" ></span> </a> */ ?>
+								<a href="<?php echo $this->mainconfig['host']; ?>master/branch/type/filedelete/id/<?php echo $this->result['branch_id']; ?>/branch/<?php echo strtolower($this->result['branch_name']); ?>/class/building pictures/file/<?php echo $building; ?>" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a>
+								<?php	}} ?>
+							</div>
+						</div>
+							
+						<div style="border-bottom:1px dotted #ddd;"></div>
+								<div class="row">
+									<div class="col-sm-3" id="2"><h4><span style=" color:#777;">Franchisee Fee Heads</span></h4></div>
+								</div>
+								<div class="row masterbox">
+								<div class="row">
+								<div class="col-sm-3"><h4><span style=" color:#777;">Franchisee Fee</span></h4></div>
+								</div>
+							      <div class="row">
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label class="control-label">Franchisee Fee</label>
+												<?php echo $this->Branch_form->franchisee_fee; ?>
+											</div>											
+										</div>
+									</div>	
+									<div class="row">
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label class="control-label">Service Tax Percentage</label>
+												<input type="text" class="form-control" name="percentage" id="taxpercentage" readonly="readonly" value="<?php echo $this->result['percentage'];?>">
+											
+											</div>											
+										</div> 
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label class="control-label">Service Tax</label>
+												<?php echo $this->Branch_form->franchisee_service_tax; ?>
+											</div>											
+										</div> 
+									</div>
+									<div class="row">
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label"> Total </label>
+											<?php  echo $this->Branch_form->total;  ?>
+											
+										</div>											
+									</div>
+								</div>	
+								<div class="row">
+								<div class="col-sm-3"><h4><span style=" color:#777;">Royalty Percentage</span></h4></div>
+								</div>
+								<div class="row" style="padding-top:20px;">
+							<?php if(count($this->royaltydata)>0 ){ //print_r(count($this->royaltydata)); 
+							$i=1;
+								foreach($this->royaltydata as $key=>$value){ //print_r($value);die; ?>
+								<div class="row append_row" style="margin:0px 1px;">
+									<div class="col-sm-2">
+										<div class="form-group">
+										<label class="control-label"><span>Percentage</span></label>
+											<input type="text" class="form-control" id="royalty_percentage" name="royalty[royalty_percentage][]" value="<?php echo $value['percentage'];?>"/>
+										</div>											
+									</div>
+									<div class="col-sm-2">		
+										<div class="form-group">
+											<label class="control-label">From Date</label>
+											<div class="input-group">
+											<input type="text" class="form-control from_date1" id="from_date1" name="royalty[from_date1][]" value="<?php echo $value['from_date'];?>">
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+											</div>											
+										</div>											
+									</div>
+									<div class="col-sm-2 ">				
+										<div class="form-group">
+											<label class="control-label">To Date</label>
+											<div class="input-group">
+											<input type="text"  class="form-control to_date1 " id="to_date1" name="royalty[to_date1][]" value="<?php echo $value['to_date'];?>">
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+											</div>
+										</div>											
+									</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+									<label class="control-label">Service Tax</label>
+									<input type="text" class="form-control" name="royalty[percentage][]" id="taxpercentage1" value="<?php echo $value['percentage'];?>">
+									<?php //echo $this->Branch_form->percentage; ?>
+								</div>											
+							</div> 
+							<div class="col-sm-3">
+										<a href="#" style="margin:22px 15px; padding: 7px 19px!important;" class="removeclass btn btn-primary remove_class" >-</a>
+								</div>
+								</div>	
+								<?php $i++; } ?>
+							<div class="width10ps"><div class="col-sm-3"></div><div class="col-sm-3"></div><div class="col-sm-3"></div>
+							<input type="button" style="margin:10px 28px; padding: 7px 19px!important;" value="+" id="AddDate"  class="btn btn-primary adjust-size"/> 
+							</div>
+								
+							<div id="datefields"></div>
+							<?php }else{  ?>
+							<div class="row append_row" style="margin:0px 1px;">
+								<div class="col-sm-2">
+									<div class="form-group">
+									<label class="control-label"><span>Percentage</span></label>
+										<input type="text" class="form-control" id="royalty_percentage" name="royalty[royalty_percentage][]" />
+									</div>											
+								</div>
+								<div class="col-sm-2">				
+									<div class="form-group">
+										<label class="control-label">From Date</label>
+										<div class="input-group">
+										<input type="text" class="form-control from_date1" id="from_date1" name="royalty[from_date1][]" >
+										<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+										</div>											
+									</div>											
+								</div>
+								<div class="col-sm-2">				
+									<div class="form-group">
+										<label class="control-label">To Date</label>
+										<div class="input-group">
+										<input type="text"  class="form-control to_date1 " id="to_date1" name="royalty[to_date1][]" >
+										<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+										</div>
+									</div>											
+								</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label class="control-label">ServiceTax</label>
+									<input type="text" class="form-control" name="royalty[percentage][]" id="taxpercentage1">
+									<?php //echo $this->Branch_form->percentage; ?>
+								</div>											
+							</div> 
+								<div class="width10ps">
+								<input type="button" style="margin:24px 28px; padding: 7px 19px!important;" value="+" id="AddDate"  class="btn btn-primary adjust-size"> 
+								</div>
+							</div>	
+							<?php } ?>
+							<div id="datefields"></div>
+								<div style="display:none" class="select_data" >
+								<div class="row appended_row"  style="margin:0px 1px;"id="appended_row2" >
+									<div class="col-sm-2">
+										<div class="form-group">
+											<input type="text" class="form-control"  name="royalty[royalty_percentage][]" />
+										</div>											
+									</div>
+									<div class="col-sm-2">				
+										<div class="form-group">
+											<div class="input-group">
+											<input type="text" class="form-control from_date1" id="from_date1" name="royalty[from_date1][]" >
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+											</div>											
+										</div>											
+									</div>
+									<div class="col-sm-2 ">				
+										<div class="form-group">
+											<div class="input-group">
+											<input type="text"  class="form-control to_date1 " id="to_date1" name="royalty[to_date1][]" >
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+											</div>
+										</div>											
+									</div>
+								<div class="col-sm-3" style="display:none">
+									<div class="form-group">
+										<label class="control-label">ServiceTax</label>
+										<input type="text" class="form-control" name="royalty[percentage][]" id="taxpercentage1" >
+										<?php //echo $this->Branch_form->percentage; ?>
+									</div>											
+							</div> 
+							<div class="col-sm-3"></div>
+									<a  class="removeclass1 btn btn-primary remove_class" style="margin:0px 28px; padding: 7px 19px!important;" href="#">-</a>
+									
+									</div>									
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-3"><h4><span style=" color:#777;">License Extension Fee</span></h4></div>
+							</div>
+							<div class="row">
+								<div class="col-sm-2">				
+										<div class="form-group">
+											<label class="control-label">License Date of Extension</label>
+											<div class="input-group">
+											<?php echo $this->Branch_form->date_of_extension; ?>
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+											</div>											
+										</div>											
+								</div>
+						
+								<div class="col-sm-3">				
+										<div class="form-group">
+											<label class="control-label">License Extension Fee Percentage</label>
+											<?php echo $this->Branch_form->license_extension_percentage; ?>										
+										</div>											
+								</div>
+								<div class="col-sm-1">
+											<div class="form-group">
+												<label class="control-label">ServiceTax</label>
+												<input type="text" class="form-control tax_percentage" name="license_tax_percentage" id="taxpercentage0" readonly="readonly" value="<?php echo $this->result['license_tax_percentage'];?>" >
+												<?php //echo $this->Branch_form->percentage; ?>
+											</div>											
+								</div> 
+								<div class="col-sm-2 ">				
+											<div class="form-group">
+												<label class="control-label">Tax Amount</label>
+												<input type="text"  class="form-control tax_amount" id="tax_amount0" 
+												name="license_tax_amount" readonly="readonly" value="<?php echo $this->result['license_tax_amount']; ?>">
+											</div>											
+								</div>
+								 <div class="col-sm-3">				
+										<div class="form-group">
+											<label class="control-label">Total License Extension Fee</label>
+											<input type="text"  class="form-control final_amount" id="final_amount0" 
+											name="total_license_extension_fee" value="<?php echo $this->result['total_license_extension_fee']; ?>">
+										</div>											
+									</div>
+								<div class="col-sm-3">			
+										<div class="form-group">
+										<label class="control-label">License Renewal Date</label>
+										<div class="input-group">
+											<?php echo $this->Branch_form->license_renewal_date; ?>
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+											</div>
+										</div>											
+									</div>	
+							
+							</div> 
+						
+						
+								<div style="border-bottom:1px dotted #ddd;"></div>
+									<div class="row">
+									<div class="col-sm-5"><h4><span style=" color:#777;">License Renewal Status</span></h4></div>
+									</div>	
+									<div class="row masterbox" style="padding-top:20px;">
+									<div class="row">
+									<div class="col-sm-3 ">				
+										<div class="form-group">
+											<label class="control-label">License Renewal</label>
+											<select type="text" name="license_renewal" id="license_renewal" class="form-control">
+												<option value="">select</option>
+												<option value="1" <?php if($this->result['license_renewal'] == 1){ echo $selected = "selected"; } ?>>Yes</option>
+												<option value="2"  <?php if($this->result['license_renewal'] == 2){ echo $selected = "selected"; } ?>>No</option>
+											</select>
+										</div>
+									</div>
+									</div>
+									
+									<div id="license_renewal_status">
+									<?php if(count($this->licenseroyaltydata)>0 ){ //print_r(count($this->royaltydata)); 
+											$i=1;
+										foreach($this->licenseroyaltydata as $key=>$value){ //print_r($value);die; ?>
+								<div class="row">
+									<div class="col-sm-2">
+										<div class="form-group">
+										<label class="control-label"><span style="margin-left:4px;">Royalty Percentage</span></label>
+											<input type="text" class="form-control" id="royalty_percentage" name="license_royalty[royalty_percentage][]" value="<?php echo $value['royalty_percentage'];?>"/>
+										</div>											
+									</div>
+									<div class="col-sm-2">				
+										<div class="form-group" style="margin-top:5px;">
+											<label class="control-label">From Date</label>
+											<div class="input-group">
+											<input type="text" class="form-control from_date2" id="from_date2" name="license_royalty[from_date1][]" value="<?php echo $value['from_date'];?>">
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+											</div>											
+										</div>											
+									</div>
+									<div class="col-sm-2 " style=" width:15%;">				
+										<div class="form-group">
+											<label class="control-label">To Date</label>
+											<div class="input-group">
+											<input type="text"  class="form-control to_date2 " id="to_date2" name="license_royalty[to_date1][]" value="<?php echo $value['to_date'];?>">
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+											</div>
+										</div>											
+									</div>
+									<div class="col-sm-3">
+											<div class="form-group">
+											<label class="control-label">Service Tax</label>
+											<input type="text" class="form-control" name="license_royalty[percentage][]" id="taxpercentage2" value="<?php echo $value['percentage'];?>">
+											<?php //echo $this->Branch_form->percentage; ?>
+										</div>											
+									</div> 
+										<a href="#" style="margin-top: 25px;" class="removeclass btn btn-primary remove_class" >-</a>
+								</div>	
+								<?php $i++; } ?>
+							<div class="width10ps" style=" margin-top:-21px;  margin-left: 58.5%;">
+							<input type="button" value="+" id="AddRoyalty"  class="btn btn-primary adjust-size"/> 
+							</div>
+								
+							<div id="Royalty"></div>
+							<?php }else{  ?>
+							<div class="row">
+								<div class="col-sm-2">
+									<div class="form-group">
+									<label class="control-label">Royalty Percentage</label>
+										<input type="text" class="form-control" id="royalty_percentage" name="license_royalty[royalty_percentage][]" />
+									</div>											
+								</div>
+								<div class="col-sm-2">				
+									<div class="form-group">
+										<label class="control-label">From Date</label>
+										<div class="input-group">
+										<input type="text" class="form-control from_date2" id="from_date2" name="license_royalty[from_date1][]" >
+										<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+										</div>											
+									</div>											
+								</div>
+								<div class="col-sm-2">				
+									<div class="form-group">
+										<label class="control-label">To Date</label>
+										<div class="input-group">
+										<input type="text"  class="form-control to_date2 " id="to_date" name="license_royalty[to_date1][]" >
+										<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+										</div>
+									</div>											
+								</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label class="control-label">ServiceTax</label>
+									<input type="text" class="form-control" name="license_royalty[percentage][]" id="taxpercentage2" >
+									<?php //echo $this->Branch_form->percentage; ?>
+								</div>											
+							</div> 
+								<div class="width10ps">
+								<input type="button" value="+" style="margin:20px 15px 0px; padding: 7px 19px!important;" id="AddRoyalty"  class="btn btn-primary adjust-size"> 
+								
+								</div>
+							</div>	
+							<?php } ?>
+							<div id="Royalty"></div>
+							
+								<div style="display:none" class="select_data" >
+								<div class="row appended_row"  id="appended_row3" >
+									<div class="col-sm-2">
+										<div class="form-group">
+											<input type="text" class="form-control"  name="license_royalty[royalty_percentage][]" />
+										</div>											
+									</div>
+									<div class="col-sm-2">				
+										<div class="form-group">
+											<div class="input-group">
+											<input type="text" class="form-control from_date2" id="from_date2" name="license_royalty[from_date1][]" >
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+											</div>											
+										</div>											
+									</div>
+									<div class="col-sm-2 ">				
+										<div class="form-group">
+											<div class="input-group">
+											<input type="text"  class="form-control to_date2 " id="to_date2" name="license_royalty[to_date1][]" >
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+											</div>
+										</div>											
+									</div>
+								<div class="col-sm-3" style="display:none">
+									<div class="form-group">
+										<label class="control-label">ServiceTax</label>
+										<input type="text" class="form-control" name="license_royalty[percentage][]" id="taxpercentage" value="<?php echo $this->tax;?>">
+										<?php //echo $this->Branch_form->percentage; ?>
+									</div>											
+								</div> 
+								<div class="col-sm-3"></div>
+									<a  class="removeclass1 btn btn-primary remove_class"style="margin:0px 18px; padding: 7px 19px!important;" href="#">-</a>
+									</div>									
+								</div>
+						<div class="row">
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">New Renewal Agreement Date</h6></label>
+											<div class="input-group">									
+												<input type="text" class="form-control" id="new_renewal_agreement_date" name="new_renewal_agreement_date" value="<?php echo $this->result['new_renewal_agreement_date'];?>" />
+												<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+											</div>	
+										</div>											
+									</div>	
+										
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">Agreement Expiry Date</h6></label>					
+												<?php echo $this->Branch_form->agreement_expiry_date; ?>
+										</div>											
+									</div>	
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label class="control-label">Agreement Duration</h6></label>					
+												<?php echo $this->Branch_form->agreement_duration; ?>
+										</div>											
+									</div>	
+									<div class="col-sm-3">				
+										<div class="form-group">
+											<label class="control-label">License Renewal Amount</label>
+												<?php echo $this->Branch_form->license_renewal_amount; ?>
+											</div>
+										</div>										
+									</div>
+									<div class="row">
+									<div class="col-sm-2">
+										<div class="form-group" >
+										<label class="control-label">Discount/Waiver</label>
+										<input type="text" class="form-control" onkeypress="select_renewalpercentage(this.value, 0);" onchange="select_renewalpercentage(this.value, 0);" name="discount" id="discountpercentage0" value="<?php echo $this->result['discount'];?>" >
+										</div>											
+									</div> 
+									<div class="col-sm-2">				
+										<div class="form-group">
+											<label class="control-label">Service Tax</label>
+											<input type="text"  class="form-control" id="taxpercentage3" name="service_tax_percentage" readonly= "readonly" value="<?php echo $this->result['service_tax_percentage']; ?>" >
+										</div>											
+									</div>
+								<div class="col-sm-2"> 
+									<div class="form-group">
+										<label class="control-label">Service Tax Amount</label>
+										<input type="text" class="form-control" name="service_tax_amount" id="service_tax_amount" readonly= "readonly"value="<?php echo $this->result['service_tax_amount'];?>">
+										</div>											
+									</div> 
+									<div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">Total License Renewal Amount</label>
+										<input type="text" class="form-control" name="total_license_renewal_amount" id="total_license_renewal_amount" readonly= "readonly" value="<?php echo $this->result['total_license_renewal_amount'];?>" >
+										</div>											
+									</div>
+									<div class="col-sm-2" >				
+											<div class="form-group">
+												<label class="control-label">Remarks</label>
+												<input type="text" class="form-control" id="remarks" name="remarks" value="<?php echo $this->result['remarks'];?>"/>
+											</div>											
+									</div>
+								</div>
+								</div> 
+								</div>
+									
+								<div style="border-bottom:1px dotted #ddd;"></div>
+									<div class="row">
+									<div class="col-sm-5"><h4><span style=" color:#777;">Academic Assessment Frequency</span></h4></div>
+									</div>
+								<div class="row masterbox" style="padding-top:20px;">
+									<div class="col-sm-3 ">				
+										<div class="form-group">
+											<label class="control-label">Academic Assessment Frequency<span class="asterisk">*</span></label>
+											<?php echo $this->Branch_form->academic_assessment_frequency; ?>
+										</div>											
+									</div>
+								</div>	
+									
+							
+</div>								
+							</div>
+					
+						<div class="panel-footer">									
+							<div class="row">
+								<div class="col-sm-7 col-sm-offset-5">
+									<?php if ($this->type == 'add') { ?>
+										<div style="float:left;margin-right:2px;">
+										<button class="btn btn-primary submit">Submit</button>
+										</div>
+										<div style="float:left;margin:0px 8px;">
+										<button type="reset" class="btn btn-danger btn-default">Reset</button>
+										</div>
+									<?php } else { ?>
+										<div >
+										<button class="btn btn-primary submit">Update</button>
+										</div>
+									<?php } ?>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+				</form>
+			</div><!-- /panel -->
+		</div><!-- /.col-->				
+	</div><!-- /.row -->
+</div><!-- /.padding-md -->
+<?php } else { ?>
+  
+<?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+     <div class="alert alert-success ">
+<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+<?php echo $this->escape($message); ?>
+</div>
+ <?php } } ?>
+<!-- widget grid -->	
+<div class="right_col">
+	<div class="">
+		<?php if($this->role_id ==''){ ?>
+			<!--<div class="panel-heading">
+				 Branch
+				<a class="btn btn-primary pull-right" style="margin-top: -9px;" href="<?php //echo $this->mainconfig['host']; ?>master/branch/type/add">Add Branch </a>
+			</div> -->
+			
+		<?php } ?>
+		<div class="row">
+	<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+		<h3 class="page-title txt-color-blueDark">
+			<i class="fa fa-bars"> Branch</i>
+				
+		</h3>
+	</div>
+	<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
+		
+			<a class="btn btn-primary pull-right" style="margin-top:25px;" href="<?php echo $this->mainconfig['host']; ?>master/branch/type/add">Add Branch </a>
+			
+	</div>
+</div>
+	<div class="x_panel">
+               
+                    <div class="x_title">
+                    <h2>Branch</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                       </li>
+                      <li><a class=""><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+<div class="x_content">
+		
+		<div class="padding-md clearfix">
+			<table class="table table-striped table-bordered jambo_table bulk_action" id="dataTable">
+				<thead>
+					<tr>
+						<th>S.No</th>											
+						<th>Branch Name</th> 
+						<th>Address</th>
+						<th>Email</th> 
+						<th>Mobile Number</th> 
+						<th>Action</th>    
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+
+						$i = 1;
+						$pagination_tr = '';
+						if (count($this->paginator) != 0) {
+
+						foreach ($this->paginator as $results) {
+
+					?>
+					<tr>
+						<td><?php echo $i;
+
+							$i++; ?>
+						</td>
+						<td><?php echo $results['branch_name']; ?></td>
+						<td><?php 
+						$SubString = substr($results['branch_address'],0,50);
+						if(strlen($results['branch_address']) >100){
+							echo $SubString.'...';
+						}else{
+							echo $SubString;
+						}
+						 ?>
+						
+						
+						<?php //echo $results['branch_address']; ?></td>
+						<td><?php echo $results['branch_email_id']; ?></td> 
+						<td><?php echo $results['branch_mobile_no']; ?></td> 
+						<td><a href="<?php echo $this->mainconfig['host']; ?>master/branch/type/edit/id/<?php echo $results['branch_id']; ?>" class="edit" title="Edit"><span class="fa fa-edit fa-lg"></span></a>
+						<?php if($this->role_id == 1){ ?>
+						&nbsp; | &nbsp;  <a href="<?php echo $this->mainconfig['host']; ?>master/branch/type/delete/id/<?php echo $results['branch_id']; ?>" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a>
+						<?php } ?>
+						</td>
+
+					</tr>            
+
+								<?php }
+								$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+								} ?>
+
+				</tbody>
+			</table>
+			 <?php echo $pagination_tr; ?>
+		</div><!-- /.padding-md -->
+	</div><!-- /panel -->
+</div>
+</div><!-- /.padding-md -->
+</div>		
+<?php } ?>
+<script>
+$(document).ready(function() {	
+	var id =$('#location_id option:selected').val();	
+	//alert(id);
+	//alert(password);
+	$("#password1").hide();
+	
+	});	
+	$('body').on('change', '#show_password', function() {
+		
+		//var id = $(this).val();
+		
+		var id = $("#show_password").is(':checked') ? 1 : 0;
+		//alert(id);
+		if(id == '1'){
+			$("#password").removeAttr("type");
+			$("#password").attr("type","text");
+		}else{
+			$("#password").removeAttr("type");
+			$("#password").attr("type","password");
+		}
+			
+		var password = $('#password').val();
+		//alert(password);
+		//$("#password").toggle();
+		//$("#password1").toggle();	
+		$("#password").val(password);	
+	});
+
+	$('body').on('change','#confirm_password', function() {	
+		var id = $(this).val();
+		//alert(id);
+		var password = $('#password').val();
+		var confirm_password = $('#confirm_password').val();
+		if($('#password').val() == $('#confirm_password').val()) {
+				//alert("Password and Confirm Password  matched");
+		}
+		else if($('#password').val() != $('#confirm_password').val()) {
+			
+				$('#confirm_password').val('');
+				alert("Password and Confirm Password not match");
+		}
+	});
+	        
+      $(document).ready(function() {		
+	// Datepicker
+		//var date='2016-05-26';
+//alert(date); 
+		
+		$('#agreement_date').datepicker({format: 'yyyy-mm-dd'});
+		$('#expired_date').datepicker({});
+		$('#agreement_expiry_date').datepicker({ format: 'yyyy-mm-dd' });
+		$('#school_launch_date').datepicker({ format: 'yyyy-mm-dd' });
+		$('#from_date').datepicker({format: 'yyyy-mm-dd'});
+		$('#to_date').datepicker({format: 'yyyy-mm-dd'});
+		$('.from_date1').datepicker( {format: 'yyyy-mm-dd'} );
+		$('.to_date1').datepicker( {format: 'yyyy-mm-dd'} );
+		$('.from_date2').datepicker( {format: 'yyyy-mm-dd'} );
+		$('.to_date2').datepicker( {format: 'yyyy-mm-dd'} );
+		$('#date_of_renewal').datepicker( {format: 'yyyy-mm-dd'} );
+		$('#expired_date_of_renewal').datepicker( {format: 'yyyy-mm-dd'} );
+		$('#date_of_extension').datepicker( {format: 'yyyy-mm-dd'} );
+$('#discount_cap_from_date').datepicker( {format: 'yyyy-mm-dd'} );
+$('#discount_cap_to_date').datepicker( {format: 'yyyy-mm-dd'} );
+	
+		
+ 
+	/* $('#new_renewal_agreement_date').datepicker({
+	        format: 'yyyy-mm-dd',
+			
+			
+	});  */
+	
+		$('#license_renewal_date').datepicker( {format: 'yyyy-mm-dd'} );
+		
+	});
+	$('body').on('change', '#getAddress', function() {	
+	//var id = $(this).val();	
+	//alert(id);
+		var id = $("#getAddress").is(':checked') ? 1 : 0;
+		//alert(id);
+		if(id == 1){
+	var franchisee_current_address = $('#franchisee_current_address').val()
+	
+	
+		//$("#franchise_permanent_address").val(franchisee_current_address);
+			$("#formValidate1 input[label='address0']").val(franchisee_current_address);
+		}
+		else{
+			$("#formValidate1 input[label='address0']").val('');
+		}		
+		
+		 
+	});
+		var value = $("#getAddress").is(':checked') ? 1 : 0;
+		//alert(value);
+			if(value == 1){
+			var franchisee_current_address = $('#franchisee_current_address').val()
+	
+	
+		//$("#franchise_permanent_address").val(franchisee_current_address);
+			$("#formValidate1 input[label='address0']").val(franchisee_current_address);
+		}
+		else{
+			$("#formValidate1 input[label='address0']").val('');
+		}	
+		
+		$("body").on("click","#Add", function(e){
+			//$("#phone").show();
+			$( "#appended_row1:last" ).clone().find("input:text").val("").end().appendTo( "#phone" );			
+		//$( "#phone").show();
+		
+	});
+	 $("body").on("click",".removeclass", function(e){	 
+		   $(this).parent('div').remove(); 
+               return false;
+                 
+    });
+	$("body").on("click","#AddDate", function(e){		
+		//$( "#datefields").show();
+		$( "#appended_row2:last" ).clone().find("input:text").end().appendTo( "#datefields" );
+		$(".to_date1").datepicker( {format: 'yyyy-mm-dd'} );
+		$(".from_date1").datepicker( {format: 'yyyy-mm-dd'} );
+		
+	});
+	$("body").on("click",".removeclass1", function(e){	 
+		   $(this).parent('div').remove(); 
+               return false;
+                 
+    });
+	$("body").on("click","#AddRoyalty", function(e){		
+		//$( "#datefields").show();
+		$( "#appended_row3:last" ).clone().find("input:text").end().appendTo( "#Royalty" );
+		$(".to_date2").datepicker( {format: 'yyyy-mm-dd'} );
+		$(".from_date2").datepicker( {format: 'yyyy-mm-dd'} );
+		
+	});
+	/* $("body").on("click","#Addlicense", function(e){		
+		//$( "#datefields").show();
+		$( "#appended_row3:last" ).clone().find("input:text").end().appendTo( "#licensefields" );
+		
+	}); */
+	 /* $("body").on("click",".removeclass", function(e){	 
+		   $(this).parent('div').remove(); 
+               return false;
+                 
+    }); */
+	/*$("body").on("click","#Addrenewal", function(e){		
+		//$( "#datefields").show();
+		$( "#appended_row4:last" ).clone().find("input:text").end().appendTo( "#renewalfields" );
+		$('.date_of_renewal').datepicker( {format: 'yyyy-mm-dd'} );
+		$('.expired_date_of_renewal').datepicker( {format: 'yyyy-mm-dd'} );
+		
+		
+	});*/
+	$('body').on('change','#franchisee_fee', function() {	
+		//var id = $(this).val();
+		//alert(id);
+		var franchisee_fee = $('#franchisee_fee').val();
+		//alert(franchisee_fee);
+		var percentage = $('#taxpercentage').val();
+		//alert(percentage);
+		var total =   (parseInt(franchisee_fee)/100)* parseInt(percentage);
+	//alert(total);
+		 $("#franchisee_service_tax").val(total);
+		 $("#franchisee_service_tax").attr("value",total);
+		var value = parseInt(franchisee_fee) + total;
+		$("#total").val(value);
+		 $("#total").attr("value",value);
+	/* var service_tax = $('#taxpercentage').val();
+	
+	//alert(service_tax);
+	var share = (franchisee_fee/100)*service_tax;
+	//alert(franchisee_fee); die;
+	//alert(share);
+	var value = total+ share;
+	$("#total").val(value); */
+	});
+
+	/* $('body').on('focus','#years', function() {	
+		var date1 = new Date($('#agreement_date').val());
+		//alert(date1);
+		var date2 = new Date($('#expired_date').val());
+		//alert(date2);
+		 var timediff = date2 - date1;
+		//alert(timediff); die;
+		
+		var dateold =date1; //new Date('2015-06-01');
+		var datenew = date2; //new Date('2020-06-01');		
+		var ynew = datenew.getFullYear();	
+		var mnew = datenew.getMonth();
+		var dnew = datenew.getDate();
+		var yold = dateold.getFullYear();
+		var mold = dateold.getMonth();
+		var dold = dateold.getDate();
+		var diff = ynew - yold;
+		if (mold > mnew) diff--;
+		else {
+			if (mold == mnew) {
+				if (dold > dnew) diff--;
+			}
+		}
+		$('#years').attr('value',diff);
+		$('#years').val(diff);
+		
+		//alert(diff);
+	
+	}); */
+	
+	function select_liamount(amt, num) {		
+		var amount = parseFloat(amt);
+		//alert(amount);
+		var percentage = $('#percentage'+num).val();
+		//alert(percentage);
+		var total =   (parseInt(amount)/100)* parseInt(percentage);
+		//alert(total);
+		 $("#total_amount"+num).val(total);
+		 $("#total_amount"+num).attr("value",total);
+		var taxpercentage = $('.tax_percentage').val(); 
+		var val = (parseInt(amount)/100)* parseInt(taxpercentage);
+		//alert(val);
+		 $("#tax_amount"+num).val(val);
+		$("#tax_amount"+num).attr("value",val);
+		var value =  total + val;
+		 $("#final_amount"+num).val(value);
+		$("#final_amount"+num).attr("value",value);
+	
+	}
+	
+	
+	/*  $('body').on('change', '#company',function() {
+	var id = $(this).val();		
+	//alert(id);
+	if(id == 1){
+		$("#one").hide();
+		$("#two").hide();
+		$("#three").hide();
+		$("#four").hide();
+		$("#five").hide();
+		$("#six").hide();
+		$("#seven").hide();
+		$('#franchisee_background').removeAttr('required','required');
+	}else{
+		$("#one").show();
+		$("#two").show();
+		$("#three").show();
+		$("#four").show();
+		$("#five").show();
+		$("#six").show();
+		$("#seven").show();
+		$('#franchisee_background').attr('required','required');
+	}
+	});
+	$(document).ready(function() {	
+	var id =$(' #company option:selected').val();	
+	//alert(id);
+	if(id == 1){
+		$("#one").hide();
+		$("#two").hide();
+		$("#three").hide();
+		$("#four").hide();
+		$("#five").hide();
+		$("#six").hide();
+		$("#seven").hide();
+		$('#franchisee_background').removeAttr('required','required');
+	}else{
+		$("#one").show();
+		$("#two").show();
+		$("#three").show();
+		$("#four").show();
+		$("#five").show();
+		$("#six").show();
+		$("#seven").show();
+		$('#franchisee_background').attr('required','required');
+	}
+	}); */
+	function select_renewalpercentage(amt, num) {		
+	var renewal_amount = $('#renewal_amount'+num).val();
+	var discountpercentage = parseFloat(amt);
+	//alert(discountpercentage); 
+	var total =  (parseInt(renewal_amount)/100)* parseInt(discountpercentage);
+	//alert(total);
+	 $("#renewal_total"+num).val(total);
+	// $('#renewal_total'+num).attr('value',total);
+	var taxpercentage = $('#taxpercentage').val(); 
+	var val = (parseInt(renewal_amount)/100)* parseInt(taxpercentage);
+	 $("#renewal_tax_amount"+num).val(val);
+	$('#renewal_tax_amount'+num).attr('value',val);
+	var value =  total + val;
+	 $("#renewal_total_amount"+num).val(value);
+	 
+	 $("#renewal_total"+num).attr("value",total);
+	 $('#renewal_tax_amount'+num).attr('value',val);
+	 $('#renewal_total_amount'+num).attr('value',value);
+	 };
+
+var total_count_value = $('#total_count_value').val();
+//alert(total_count_value);
+var count=total_count_value; //setTimeout(total_count_value,500);
+//alert(count);
+  $("body").on("click","#Addlicense",function(event){
+		
+		//alert(count);
+		append_html = '<div id="remove_addlicense_'+count+'" class="row">';
+		 append_html +='<div class="row">';
+       append_html += '<div class="col-sm-2 employee_class" style="margin-left:300px;"><div class="form-group"><label class="control-label">Percentage</label><input name="license[percentage][]"  type="text" class="form-control valid number_validation percentage" id="percentage'+count+'"></div></div>';
+	   append_html += '<div style="margin-top:30px;"><span>%</span></div>';
+		append_html += '<div class="col-sm-2 employee_class"style="margin-top:-50px"><div class="form-group"><label class="control-label">Amount</label><input name="license[amount][]"  type="text" class="form-control valid number_validation amount" onkeypress="select_liamount(this.value, '+count+');" onchange="select_liamount(this.value,'+count+');" id="amount'+count+'"></div></div>';
+		append_html += '<div class="col-sm-2 employee_class" style="margin-top:-50px"><div class="form-group"><label class="control-label">Total</label><input name="license[total][]"  type="text" class="form-control total_amount" id="total_amount'+count+'"></div></div>';
+		append_html += '</div>';
+		append_html += '<div class="row">';
+		append_html += '<div class="col-sm-2 employee_class" style="margin-left:300px"><div class="form-group"><label class="control-label">Service Tax</label><input name="license[tax_percentage][]"  type="text" class="form-control valid number_validation tax_percentage" value="<?php echo $this->tax; ?>" id="tax_percentage'+count+'"></div></div>';
+		append_html += '<div class="col-sm-2 employee_class"><div class="form-group"><label class="control-label">Tax Amount</label><input name="license[tax_amount][]"  type="text" class="form-control valid number_validation tax_amount" id="tax_amount'+count+'"></div></div>';
+		append_html += '</div>'
+		append_html += '<div class="col-sm-2 employee_class" style="margin-left:500px" ><div class="form-group"><label class="control-label">Total Amount</label><input name="license[final_amount][]"  type="text" class="form-control valid number_validation final_amount" id="final_amount'+count+'"></div></div>';
+		/*append_html += '<div class="col-sm-2 employee_class"><div class="form-group"><label class="control-label">Rate per Unit<span class="asterisk">*</span></label><input name="sales_items[sales_product_unit_price][]" id="rate_of_unit'+count+'" type="text" class="form-control valid number_validation" required="required"></div></div>';*/
+		append_html += '<div class="col-sm-2 employee_class"><div class="form-group"><span style="margin-left:10px; margin-top: 25px; width:80%;" class="removeclass btn btn-primary" id="'+count+'">Remove</span></div></div>';
+		append_html += '</div>';
+		$('#licensefields').append(append_html);
+		
+		count++;
+     
+    });    
+	    
+
+
+$("body").on("keypress",".number_validation",function(e){  
+	if  (e.which < 48 || e.which > 57) {
+	//  jQuery("#errmsg").html("Enter Numbers Only").show().fadeOut(3000);
+	   return false;
+	}
+});    
+     
+$("body").on("click",".removeclass",function(event){        
+    $('#remove_addlicense_'+this.id).remove();
+});	
+var total_value = $('#total_value').val();
+//alert(total_count_value);
+var count1=total_value; //setTimeout(total_count_value,500);
+//alert(count);license
+  $("body").on("click","#Addrenewal",function(event){		
+		append_html = '<div id="remove_addrenewal_'+count1+'" class="row">';
+		 append_html +='<div class="row">';
+       append_html += '<div class="col-sm-2 employee_class" style="margin-left:20px"><div class="form-group"><label class="control-label">Date of Renewal</label> <div class="input-group"><input name="amount[date_of_renewal][]"  type="text" class="form-control  date_of_renewal" id="date_of_renewal'+count1+'"><span class="input-group-addon"><i class="fa fa-calendar"></i></span></div></div></div>';
+       append_html += '<div class="col-sm-2 employee_class"><div class="form-group"><label class="control-label">Expired Date of Renewal</label> <div class="input-group"><input name="amount[expired_date_of_renewal][]"  type="text" class="form-control  expired_date_of_renewal" id="expired_of_renewal'+count1+'"><span class="input-group-addon"><i class="fa fa-calendar"></i></span></div></div></div>';
+		append_html += '<div class="col-sm-2 employee_class"><div class="form-group"><label class="control-label">Renewal Amount</label><input name="amount[renewal_amount][]"  type="text" class="form-control valid number_validation amount"  id="renewal_amount'+count1+'"></div></div>';
+		 append_html += '<div style="margin-top:30px;"><span>Discount/Waiver</span></div>';
+		 append_html += '<div class="col-sm-2 employee_class"style="margin-left:100px;margin-top:-50px"><div class="form-group"><label class="control-label">Percentage</label><input name="amount[discount_percentage][]"  type="text" class="form-control valid number_validation amount" onkeypress="select_renewalpercentage(this.value, '+count1+');" onchange="select_renewalpercentage(this.value,'+count1+');" id="discount_percentage'+count1+'"></div></div>';
+		append_html += '<div class="col-sm-2 employee_class" style="margin-top:-50px"><div class="form-group"><label class="control-label">Total</label><input name="amount[renewal_total][]"  type="text" class="form-control renewal_total" id="renewal_total'+count1+'"></div></div>';
+		append_html += '</div>';
+		append_html += '<div class="row">';
+		append_html += '<div class="col-sm-2 employee_class"><div class="form-group"><label class="control-label">Remarks</label><input name="amount[remarks][]"  type="text" class="form-control renewal_total" id="remarks"></div></div>';
+		append_html += '<div class="col-sm-2 employee_class" style="margin-left:300px"><div class="form-group"><label class="control-label">Service Tax</label><input name="amount[service_tax][]"  type="text" class="form-control valid number_validation tax_percentage" value="<?php echo $this->tax; ?>" id="taxpercentage'+count1+'"></div></div>';
+		append_html += '<div class="col-sm-2 employee_class"><div class="form-group"><label class="control-label"> Renewal Tax Amount</label><input name="amount[renewal_tax_amount][]"  type="text" class="form-control valid number_validation renewal_tax_amount" id="renewal_tax_amount'+count1+'"></div></div>';
+		append_html += '</div>'
+		append_html += '<div class="col-sm-2 employee_class" style="margin-left:500px" ><div class="form-group"><label class="control-label">Total Amount</label><input name="amount[renewal_total_amount][]"  type="text" class="form-control valid number_validation final_amount" id="renewal_total_amount'+count1+'"></div></div>';
+		/*append_html += '<div class="col-sm-2 employee_class"><div class="form-group"><label class="control-label">Rate per Unit<span class="asterisk">*</span></label><input name="sales_items[sales_product_unit_price][]" id="rate_of_unit'+count+'" type="text" class="form-control valid number_validation" required="required"></div></div>';*/
+		append_html += '<div class="col-sm-2 employee_class"><div class="form-group"><span style="margin-left:10px; margin-top: 25px; width:80%;" class="removeclass btn btn-primary" id="'+count1+'">Remove</span></div></div>';
+		append_html += '</div>';
+		$('#renewalfields').append(append_html)
+		$('.date_of_renewal').datepicker( {format: 'yyyy-mm-dd'} );
+		$('.expired_date_of_renewal').datepicker( {format: 'yyyy-mm-dd'} );
+     count1++;
+    });    
+$("body").on("keypress",".number_validation",function(e){  
+	if  (e.which < 48 || e.which > 57) {
+	//  jQuery("#errmsg").html("Enter Numbers Only").show().fadeOut(3000);
+	   return false;
+	}
+});    
+     
+$("body").on("click",".removeclass",function(event){        
+    $('#remove_addrenewal_'+this.id).remove();
+});	
+$('body').on('change','#country_id', function() {
+	var id = $(this).val();		
+		$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-state';?>',
+			data: {id:id}
+		}).done(function( data ) {
+			$( "#state_id").html( data );
+		 });
+});
+
+$('body').on('change', '#state_id', function() {
+	var id = $(this).val();		
+		$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-city';?>',
+			data: {id:id}
+		}).done(function( data ) { 
+			$( "#city_id").html( data );
+		 });
+});
+$('body').on('change', '#city_id', function() {
+	var id = $(this).val();		
+		$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-location';?>',
+			data: {id:id}
+		}).done(function( data ) { 
+			$( "#location_id").html( data );
+		 });
+});
+		var count = $('#secondary_email').val();
+		$("body").on("click","#AddButton",function(event){
+		var value1 = count++;
+			append_html = '<div class="row" style="margin:0px 1px;width:100%;">';
+			append_html += '<div class="col-sm-3"></div>';
+			append_html += '<div class="col-sm-3 employee_class"><label class="control-label">Secondary Email Address</label><input type="text" class="form-control" label="email_'+value1+'" name="secondary_email_address[]"  style=" background:#FFFFFF;"/></div>';		
+			append_html += '<a href="#" class="removeclass btn btn-primary remove_class" style="margin:24px 27px; padding: 7px 19px!important;">-</a>';
+			append_html += '</div>';													
+		$('#fields').append(append_html);
+	});
+	$("body").on("click",".removeclass6", function(e){
+		//alert('sdsd');
+
+                $(this).parent('div').remove(); 				
+				
+        return false;
+
+    });
+	var count1 = $('#permanent_address').val();
+		$("body").on("click","#AddButton1",function(event){
+		var value1 = count1++;
+			append_html = '<div class="row" style="margin:0px 1px;">';
+			append_html += '<div class="col-sm-3"></div><div class="col-sm-3"></div>';
+			append_html += '<div class="col-sm-3 employee_class"><label class="control-label">Permanent Address</label><input type="text"  class="form-control" label="address'+value1+'" name="franchise_permanent_address[]"  style=" background:#FFFFFF;"/></div>';		
+			append_html += '<a href="#" class="removeclass btn btn-primary remove_class" style="margin:24px 15px; padding: 7px 19px!important;">-</a>';
+			append_html += '</div>';													
+		$('#fields1').append(append_html);
+	});
+	var count2 = $('#franchisee_ph_no').val();
+		$("body").on("click","#AddButton2",function(event){
+		var value1 = count2++;
+			append_html = '<div class="row">';
+			append_html += '<div class="col-sm-3 employee_class"><label class="control-label">Phone Number</label><input type="text"  class="form-control" label="phone'+value1+'" name="franchisee_phone_no[]"  style=" background:#FFFFFF;"/></div>';		
+			append_html += '<a href="#" class="removeclass btn btn-primary remove_class" style="margin:24px 15px; padding: 7px 19px!important;">-</a>';
+			append_html += '</div>';													
+		$('#fields2').append(append_html);
+	});
+ 	$("body").on("change","#license_renewal", function() {
+	var id = $('#license_renewal').val();
+	if(id == 1){
+	$('#license_renewal_status').show();	
+	}
+	else{
+	$('#license_renewal_status').hide();
+	}
+	});
+	$('document').ready(function () { 
+	var id = $('#license_renewal option:selected').val();
+	//alert(id);
+	if(id == 1){
+		$('#license_renewal_status').show();	
+		}
+	else{
+	//alert('fgdf');
+		$('#license_renewal_status').hide();
+		}
+		
+		}); 
+		$('body').on('change','#license_extension_percentage', function() { 
+			var percentage = $('#license_extension_percentage').val();
+			//alert(percentage);
+			var fee = $('#franchisee_fee').val();
+			//alert(fee);
+			var val = (parseInt(fee)/100)* parseInt(percentage);
+			var tax_percentage = $('#taxpercentage0').val();
+			//alert(tax_percentage);
+			var value = (parseInt(val )/100)* parseInt(tax_percentage);
+			$('#tax_amount0').val(value);
+			var total = val + value;
+			//alert(total);
+			$('#final_amount0').val(total);
+		})
+		$('body').on('change','#discountpercentage0', function() { 
+			var renewal_amount = $('#license_renewal_amount').val();
+				//alert(renewal_amount);
+				var fee = $('#franchisee_fee').val();
+				var discount  = $('#discountpercentage0').val();
+				var val1 = 	(parseInt(fee)/100)* parseInt(renewal_amount);
+				//alert(val1);
+				
+				var value1 = (parseInt(val1)/100)* parseInt(discount);
+				//alert(value1);
+				var amount = val1 - value1;
+				//$('#total_license_renewal_amount').val(amount);
+				var tax = $('#taxpercentage').val();
+				//alert(tax);
+				var tax_amount = (parseInt(amount)/100)* parseInt(tax);
+				//alert(tax_amount);
+				$('#service_tax_amount').val(tax_amount);
+				var total_renewal_amount = amount + tax_amount;
+				$('#total_license_renewal_amount').val(total_renewal_amount)
+		})
+	/* $('body').on('change','#years', function() {
+		 var date = $('#school_launch_date').val();
+		var tenure = $('#years').val();
+		var myDate = date; 
+
+        myDate.setFullYear(myDate.getFullYear() + Number(tenure)); 
+       // alert(new Date().moment().format("D/mm/yyyy"));
+		 
+		var newdate = new Date();
+		//alert(newdate);
+		newdate.setDate(newdate.getFullYear() + Number(tenure));
+		   var dd = newdate.getDate();
+		var mm = newdate.getMonth() + 1;
+		var y = newdate.getFullYear();
+
+		var someFormattedDate = mm + '/' + dd + '/' + y;
+		alert(someFormattedDate);
+		/* var dt = new Date($("#school_launch_date").val());
+		//alert($("#years").val());
+		dt.setDate(dt.getFullYear() + 2);
+		
+		var dd = dt.getDate(); //updateDate.getDate();
+		//alert(dd);
+		var mm = dt.getMonth();
+		//alert(mm);
+		var y = dt.getFullYear();
+		//alert(y);
+
+		var someFormattedDate = dd + '/'+ mm + '/'+ y;
+		//alert(someFormattedDate); */
+		
+	//});
+	/* $('body').on('change','#years',function() {
+
+		//function myFunction() {
+//  alert("ravi");
+ var existing_date=$('#school_launch_date').val();
+ var tenure = $('#years').val();
+ //alert(tenure);
+ var arr=new Array();
+ arr= existing_date.split('/');
+
+//alert(arr[2]);
+var arr1=new Array(); 
+ arr1[0]=arr[0];
+ arr1[1]=arr[1];
+ arr1[2]=Number(arr[2])+Number(tenure);
+ //alert(arr1[2]);
+
+ var final_result=arr1[0]+"/"+arr1[1]+"/"+arr1[2];
+alert(final_result);
+$('#expired_date').val(final_result);
+//}
+	
+var expired_date=final_result;
+//alert(expired_date)
+var licence_renewal=new Array();
+licence_renewal= expired_date.split('/');
+var renewal=new Array();
+renewal[0]=licence_renewal[0];
+
+var month_number=Number(licence_renewal[1]-Number(6));
+if(month_number<=0)
+{
+renewal[1]=Number(month_number)+Number(12);
+renewal[2]=Number(licence_renewal[2])-Number(1);
+}
+else
+{
+renewal[1]=Number(month_number);
+renewal[2]=Number(licence_renewal[2])
+}
+
+//var final_result1=renewal[0]+"/"+renewal[1]+"/"+renewal[2];
+var final_result1 = renewal[2]+"-"+renewal[1]+"-"+renewal[0];
+//alert(final_result1);
+$('#license_renewal_date').val(final_result1);
+
+}); */
+$('body').on('change','#years',function() {
+
+		//function myFunction() {
+//  alert("ravi");
+ var existing_date=$('#school_launch_date').val();
+ //alert(existing_date);
+ var tenure = $('#years').val();
+ //alert(tenure);
+ var arr=new Array();
+ arr= existing_date.split('-');
+
+//alert(arr[0]);
+var arr1=new Array(); 
+ arr1[0]=Number(arr[0])+Number(tenure);
+ arr1[1]=arr[1];
+ arr1[2]=arr[2];
+ 
+ //alert(arr1[2]);
+
+ var final_result=arr1[2]+"/"+arr1[1]+"/"+arr1[0];
+//alert(final_result);
+$('#expired_date').val(final_result);
+//}
+	
+var expired_date=final_result;
+//alert(expired_date)
+var licence_renewal=new Array();
+licence_renewal= expired_date.split('/');
+var renewal=new Array();
+renewal[0]=licence_renewal[0];
+
+var month_number=Number(licence_renewal[1]-Number(6));
+if(month_number<=0)
+{
+renewal[1]=Number(month_number)+Number(12);
+renewal[2]=Number(licence_renewal[2])-Number(1);
+}
+else
+{
+renewal[1]=Number(month_number);
+renewal[2]=Number(licence_renewal[2])
+}
+
+//var final_result1=renewal[0]+"/"+renewal[1]+"/"+renewal[2];
+var final_result1 = renewal[2]+"-"+renewal[1]+"-"+renewal[0];
+//alert(final_result1);
+$('#license_renewal_date').val(final_result1);
+
+});
+	$('body').on('change','#branch_code',function() { 
+	var branch_code = $('#branch_code').val();
+	var city =  $('#city_id option:selected').text();
+	//alert(city);
+	$('#user_name').val(branch_code+city);
+	})
+	$('body').on('click','#agreement_expiry_date',function(){  
+		  var datestring = $('#new_renewal_agreement_date').val();
+		 // alert(datestring);
+		  var date = myDateFormatter(datestring);
+		  //alert(date);
+		  //alert(getAge(date));
+		  var agestring = getAge(date);
+		  //alert(agestring);
+		  $('#agreement_duration').val(agestring);
+	});
+	
+function myDateFormatter (dateObject) {
+	var d = new Date(dateObject);
+	//alert(d);
+	var day = d.getDate();
+	var month = d.getMonth() + 1;
+	var year = d.getFullYear();
+	if (day < 10) {
+		day = "0" + day;
+	}
+	if (month < 10) {
+		month = "0" + month;
+	}
+	var date = day + "/" + month + "/" + year;
+
+	return date;
+	
+}; 
+
+function getAge(date) {
+  //var now = new Date();
+
+  var now = $('#agreement_expiry_date').val();
+  now=new Date(now);
+  var today = new Date(now.getYear(),now.getMonth(),now.getDate());
+  var yearNow = now.getYear();
+  var monthNow = now.getMonth();
+  var dateNow = now.getDate();
+
+  var date = new Date(date.substring(6,10),
+					date.substring(3,5),
+					date.substring(0,2)-30
+                     );
+			//alert(date);		 
+					 
+	
+  var yearDob = date.getYear();
+  var monthDob = date.getMonth();
+  //alert(monthDob);
+  var dateDob = date.getDate();
+  //alert(dateDob);
+  var age = {};
+  var ageString = "";
+  var yearString = "";
+  var monthString = "";
+  var dayString = "";
+
+
+  yearAge = yearNow - yearDob;
+
+  if (monthNow >= monthDob) {
+    var monthAge = monthNow - monthDob;
+	//alert(monthAge);
+  }	
+  else {
+    yearAge--;
+    var monthAge = 12 + monthNow -monthDob;
+	//alert(monthAge);
+  }
+
+  if (dateNow >= dateDob){
+    var dateAge = dateNow - dateDob;
+	
+  }
+  else {
+    monthAge--;
+    var dateAge = 31 + dateNow - dateDob;
+	//alert(dateAge);
+
+    if (monthAge < 0) {
+      monthAge = 11;
+      yearAge--;
+    }
+  }
+
+   age = {
+      years: yearAge,
+      months: monthAge,
+      days: dateAge
+      };
+
+  
+  if ( age.years > 1 ) yearString = " years";
+  else yearString = " year";
+  if ( age.months> 1 ) monthString = " months";
+  else monthString = " month";
+  if ( age.days > 1 ) dayString = " days";
+  else dayString = " day";
+
+
+  if ( (age.years > 0) && (age.months > 0) && (age.days > 0) )
+    ageString = age.years + yearString + ", " + age.months + monthString + ", and " + age.days + dayString + ".";
+  else if ( (age.years == 0) && (age.months == 0) && (age.days > 0) )
+    ageString = "Only " + age.days + dayString + " !";
+  else if ( (age.years > 0) && (age.months == 0) && (age.days == 0) )
+    ageString = age.years + yearString + " . ";
+  else if ( (age.years > 0) && (age.months > 0) && (age.days == 0) )
+    ageString = age.years + yearString + " and " + age.months + monthString + " .";
+  else if ( (age.years == 0) && (age.months > 0) && (age.days > 0) )
+    ageString = age.months + monthString + " and " + age.days + dayString + " .";
+  else if ( (age.years > 0) && (age.months == 0) && (age.days > 0) )
+    ageString = age.years + yearString + " and " + age.days + dayString + " .";
+  else if ( (age.years == 0) && (age.months > 0) && (age.days == 0) )
+    ageString = age.months + monthString + " .";
+  else ageString = "Oops! Could not calculate age!";
+  //alert(ageString);
+
+  return ageString;
+  
+}
+$('body').on('change','#location_id',function() { 
+var id = $('#location_id').val();
+var city = $('#city_id').val();
+$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-service-tax';?>',
+			data: {id:id,city:city}
+		}).done(function( data ) {
+			
+			var data1 = $.parseJSON( data );
+			//alert(data1['percentage']);
+			$('#taxpercentage').val(data1['percentage']);
+			$('#taxpercentage1').val(data1['percentage']);
+			$('#taxpercentage0').val(data1['percentage']);
+			$('#taxpercentage2').val(data1['percentage']);
+			$('#taxpercentage3').val(data1['percentage']);
+			});
+			
+
+});
+
+$('body').on('change','#years',function() {          
+       // Datepicker
+               var nowTemp =$('#expired_date').val();
+			 // var existing_date=$('#school_launch_date').val();
+
+		var expired_date=new Array();
+		expired_date= nowTemp.split('/');
+
+//alert(arr[0]);
+var exp_date=new Array(); 
+ exp_date[0]=expired_date[0];
+ //alert(exp_date);
+ exp_date[1]=expired_date[1];
+ exp_date[2]=Number(expired_date[2]);
+// alert(exp_date[2]);
+
+ var final_date=new Date(exp_date[2]+"-"+exp_date[1]+"-"+exp_date[0]);
+	//alert(final_date);
+       var now = new Date(final_date.getFullYear(), final_date.getMonth(), final_date.getDate(), 0, 0, 0, 0);
+	   //alert(now);
+	 
+               $('#new_renewal_agreement_date').datepicker({
+               format: 'yyyy-mm-dd',
+                 onRender: function(date) {
+				 //alert(date);
+            return date.valueOf() < now.valueOf() ? 'disabled' : '';
+       }
+               
+               });
+			   });
+</script>

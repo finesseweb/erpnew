@@ -1,0 +1,172 @@
+<?php 
+//print_r( $this->academicresult);die;
+?>
+<div class="padding-md clearfix">
+			<table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+
+				<thead>
+					<tr>
+						<th>Year</th>
+						<th>Course Name </th>
+						<th>Credit Value </th>
+						<th>Department </th>
+						<th>Faculty </th>
+
+					</tr>
+				</thead>
+				<tbody>
+						<?php if(!empty($this->item_result)){
+						$i = 1;
+						
+						foreach($this->item_result as $key=>$val){ 
+						
+						  foreach($this->experiential_result as $k=>$value){
+							  
+						?>
+						<tr>
+						<td><?php 
+						   if(!empty($val['year_id'])){
+						   if($val['year_id'] == $value['year_id']){
+							if($val['year_id'] == 1){
+						        echo 'First Year';
+							}
+							else{
+								echo 'Second Year';
+							}
+						    ?>
+						  <input type="hidden" name="employee[year_id][]" id="year_id" value="<?php echo $val['year_id']; ?>" />
+						   <?php }
+						   }
+						 ?>
+						   </td> 
+											 
+							<td>
+							<?php if($val['course_id'] == $value['elc_id']){
+							echo $value['elc_name']; ?>	
+							<input type="hidden" name="employee[course_id][]" id="course_id" value="<?php echo $val['course_id']; ?>" /> 
+							<?php } ?>
+							</td> 
+						   
+						   <td>
+							<?php if($val['credit_id'] == $value['credit_id']){
+									echo $value['credit_value'];
+						    ?>				
+							<input type="hidden" name="employee[credit_id][]" id="credit_id" value="<?php echo $val['credit_id']; ?>" /> 
+							<?php } ?>
+							</td> 	
+							<td><select id="department_name<?php echo $i;?>" name="employee[department_id][]" class="form-control" onchange="select_department(this.value,<?php echo $i;?>)">
+							<?php if(!empty($this->department)){  
+							foreach($this->department as $k2=>$val1){ 
+							 
+								$selected='';
+										 if($k2 == $val['department_id']){
+											 $selected="selected";
+										 } ?>
+						   <option value="<?php echo $k2;?>"<?php echo $selected;?>><?php echo $val1;?></option>
+							<?php  } }?>
+						   </select>
+						   </td>
+							<td><select id="employee_name<?php echo $i;?>" name="employee[employee_id][]" class="form-control">
+						     <?php  if(!empty($this->employee)){ 
+							 foreach($this->employee as $k3=>$val3){ 
+						            $selected='';
+									if($k3 == $val['employee_id']){
+										 $selected="selected";
+									 } ?>
+						   <option value="<?php echo $k3;?>"<?php echo $selected;?>><?php echo $val3;?></option>
+							 <?php  } }?>
+						   </select></td>
+		                               </tr>
+	  
+									   <?php 
+										}
+						
+											$i++; 
+											}
+									    }
+									else{
+											$i = 1; ?>
+							<?php if(!empty($this->experiential_result)){
+							foreach($this->experiential_result as $key=>$val){ 
+							//print_r($val);die;
+										?>
+										<tr>
+											<td><?php
+											if($val['year_id'] == 1){
+												echo 'First Year';
+											}
+											else{
+												echo 'Second Year';
+											}
+											?></td> 
+											<input type="hidden" name="employee[year_id][]" id="year_id" value="<?php echo $val['year_id']; ?>" />
+											<td><?php echo $val['elc_name'];?></td>
+											<input type="hidden" name="employee[course_id][]" id="course_id" value="<?php echo $val['elc_id']; ?>" />
+											<td><?php echo $val['credit_value'];?></td> 
+											<input type="hidden" name="employee[credit_id][]" id="credit_id" value="<?php echo $val['credit_id']; ?>" />
+											<td><select id="department_name<?php echo $i;?>" name="employee[department_id][]" class="form-control" onchange="select_department(this.value,<?php echo $i;?>)">
+										   <?php foreach($this->department as $k=>$val){ ?>
+										   <option value="<?php echo $k;?>"><?php echo $val;?></option>
+										   <?php } ?>
+										   </select></td>
+											<td><select id="employee_name<?php echo $i;?>" name="employee[employee_id][]" class="form-control">
+										   <?php foreach($this->employee as $k=>$val){ ?>
+										   <option value="<?php echo $k;?>"><?php echo $val;?></option>
+										   <?php } ?>
+										   </select></td>
+		                                </tr>
+									   
+									  
+									   <?php 
+									  
+											$i++; }
+									}
+											}
+											?>
+				
+				</tbody>
+				
+			</table>
+			 <?php //echo $pagination_tr; ?>
+		</div><!-- /.padding-md -->
+		
+		
+<script>
+function select_department(value,num){
+	var department_name = value;
+	$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-department-name';?>',
+			data: {department_name:department_name}
+			
+		}).done(function( data ) {
+			
+				
+			$('#employee_name'+num+'').empty('');
+			$('#employee_name'+num+'').append(data);
+			
+		
+			
+		 });
+}
+		/*$("#department_name").change(function(){
+	
+	
+	var department_name=$('#department_name').val();
+	//alert(department_name);
+	$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-department-name';?>',
+			data: {department_name:department_name}
+			
+		}).done(function( data ) {
+			
+				
+			$('#employee_name').empty('');
+			$('#employee_name').append(data);
+			
+		
+			
+		 });
+}); */
+</script>

@@ -1,0 +1,162 @@
+<?php 
+
+$term_result = $this->term_result;
+
+for($i=0;$i<count($term_result);$i++) {   ?>
+ <div class="box-body">
+	<h4 style="background-color:#3c8dbc;padding:8px 8px;color:white;"><?php echo $term_result[$i]['term_name'];?></h4>
+	<div style="overflow-x:scroll">
+	<table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+<thead>
+					<tr>
+						<th rowspan="2">S. No.</th>
+						<th rowspan="2">Name of Participants</th>
+						<th rowspan="2">ID Number</th>
+						<th>Course</th>
+						<?php 
+						
+						$Corecourselearning_model =  new Application_Model_Corecourselearning();
+							$result = $Corecourselearning_model->getcorecourses($term_result[$i]['academic_year_id'],$term_result[$i]['term_id']);
+							
+							foreach($result as $k => $val) {
+							?>
+							<th><?php echo 	$val['course_name']; ?></th>
+							<?php } ?>
+						<th>Grade Point Average</th>
+						<th rowspan="2">Fee Waiver For Next Term (%)</th>
+						
+					</tr>
+					<tr>
+						
+						
+						<th>Credits</th>
+						<?php foreach($result as $k => $val) {
+							?>
+						<th><?php echo $val['credit_value']; ?></th>
+						<?php } ?>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $StudentPortal_model = new Application_Model_StudentPortal(); 
+				 $category_data=$StudentPortal_model->getstudentsdetails($term_result[$i]['academic_year_id']);
+				 $m = 1;
+				 $total = 0;
+				 foreach($category_data as $stu_data) { ?>
+					
+							<tr>
+								<td><?php echo $m; ?></td>						
+								
+								<td><?php echo $stu_data['students']; ?></td>
+								
+								<input type="hidden" name="course[student_id_<?php echo $term_result[$i]['term_id'];?>][]" id="student_id" value="<?php echo $stu_data['student_id']; ?>" />
+								<td><?php echo $stu_data['stu_id']; ?></td>
+								<td></td>	
+								<?php $total_credit_value = 0;
+										$tot_grade = 0;
+										$academic_courses = '';
+										$academic_credits = '';
+										$academic_grades = '';
+										$total_grade = 0;
+									foreach($result as $k => $val) {
+									$GradeAllocationReport_model = new Application_Model_GradeAllocationReport(); 
+									$grade_point = $GradeAllocationReport_model->getGradePointValue($term_result[$i]['academic_year_id'],$term_result[$i]['term_id'],$val['course_id'],$stu_data['student_id']);
+									$academic_courses = $academic_courses.$val['course_id'].",";
+									$academic_credits = $academic_credits.$val['credit_value'].",";
+									
+$Coursewisepenalties_model = new Application_Model_Coursewisepenalties();
+$absence_values = $Coursewisepenalties_model->getAbsenceValues($term_result[$i]['academic_year_id'],$term_result[$i]['term_id'],$stu_data['student_id']);
+$penalties_values = explode(',',$absence_values['absence']);
+$absense_course_ids = explode(',',$absence_values['academic_courses']);
+$course_absenses = array_combine($absense_course_ids, $penalties_values);
+
+									?>
+									<td><?php if($grade_point['grade_point'] == '')
+{ $grade = '0'; } else { $grade = $grade_point['grade_point'];  } echo $tot = $grade-$course_absenses[$val['course_id']]; 
+$academic_grades = $academic_grades.$tot.",";
+										$total_grade += $tot*$val['credit_value']; 
+									
+							?></td>
+								<?php  $total_credit_value  += $val['credit_value']; 
+									
+										}
+                                                                                if($total_credit_value != 0){
+                                                                                    $tot_grade += ($total_grade)/($total_credit_value );
+                                                                                }
+                                                                                  ?>
+								
+								<td><?php echo number_format($tot_grade,3); ?></td>
+<td><?php $percent = 0; if($tot_grade > '2.999') {  $percent ='100';  } else if(($tot_grade > '2.669') && ($tot_grade < '2.999')) { $percent = '75';} else if(($tot_grade > '2.339') && ($tot_grade < '2.669')) { $percent = '50'; } else if(($tot_grade > '2.199') && ($tot_grade < '2.339')) {  $percent = '25'; } else  {  $percent = '0'; } echo $percent; ?></td>
+<input type="hidden" name="course[academic_courses_<?php echo $term_result[$i]['term_id']; ?>][]" id="academic_courses" value="<?php echo  $academic_courses; ?>" />
+<input type="hidden"  name="course[academic_credits_<?php echo $term_result[$i]['term_id'];?>][]"  id="academic_credits" value="<?php echo $academic_credits; ?>" />
+<input type="hidden" name="course[academic_grades_<?php echo $term_result[$i]['term_id'];?>][]" id="academic_grades" value="<?php echo $academic_grades; ?>" />
+<input type="hidden" name="course[final_grade_<?php echo $term_result[$i]['term_id'];?>][]" id="total_academic_grade" value="<?php  $gt_tot = number_format($tot_grade,3); echo $gt_tot; ?>" />
+<input type="hidden" name="course[fee_percent_<?php echo $term_result[$i]['term_id'];?>][]" id="fee_percent" value="<?php echo $percent; ?>" />
+<?php
+$CourseGradeAfterpenalties_model = new Application_Model_CourseGradeAfterpenalties();
+$cgpa = $CourseGradeAfterpenalties_model->calculateCGPA($stu_data['student_id'], $academic_credits, $gt_tot);
+/*
+//Fetching all batch id of students
+$student_model = new Application_Model_StudentPortal();
+$stu_pre_details1 = $student_model->fetchAllBatchesOfStudent($stu_data['student_id']);
+$batch_arr = array();
+$student_ids = array();
+foreach ($stu_pre_details1 as $row) {
+       $batch_arr[] = $row['academic_id'];
+       $student_ids[] = $row['student_id'];
+}
+$batch_arr[] = $row['academic_id'];
+
+$CourseGradeAfterpenalties_model = new Application_Model_CourseGradeAfterpenalties();
+$grade_result = $CourseGradeAfterpenalties_model->getAllGradesAfterPenalties($batch_arr,$student_ids);
+$expGradeAllocation_model = new Application_Model_ExperientialGradeAllocation();
+$exp_grade_result = $expGradeAllocation_model->getExpGradesByBatches($batch_arr, $student_ids);
+//Calculating CGPA
+$total_credit_all_term = 0;
+$total_grade_sum = 0;
+foreach($grade_result as $row_grade1){
+    $total_credit1 = array_sum(explode(',', $row_grade1['academic_credits']));
+    $product1 = $row_grade1['final_grade'] * $total_credit1;
+    
+    $total_credit_all_term += $total_credit1;
+    $total_grade_sum += $product1;
+}
+
+
+foreach($exp_grade_result as $row_grade1){
+    $total_credit1 = array_sum(explode(',', $row_grade1['credit']));
+    $product1 = $row_grade1['final_grade_point'] * $total_credit1;
+    
+    $total_credit_all_term += $total_credit1;
+    $total_grade_sum += $product1;
+}
+
+//For current term
+$total_credit1 = array_sum(explode(',', $academic_credits));  
+$product1 = $gt_tot * $total_credit1;
+$total_credit_all_term += $total_credit1;
+$total_grade_sum += $product1;
+//calculating CGP
+$cgpa = round($total_grade_sum/$total_credit_all_term, 2);
+*/
+?>
+<input type="hidden" name="course[cgpa_<?php echo $term_result[$i]['term_id'];?>][]" value="<?php echo $cgpa; ?>" />
+
+								 
+								
+
+							</tr>  
+				 <?php $m++; } ?>	
+				</tbody>
+	</table>
+
+</div>
+</div>
+
+<?php } ?>
+
+<script>
+    $('#print').click(function(){
+        window.print();
+    })
+    </script>

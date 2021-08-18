@@ -1,0 +1,291 @@
+<style>
+.panel-body{ padding:15px 0px 0px 20px;}
+textarea{resize:none;}
+.form-control{width:95%;}
+</style>
+<div id="content">
+<?php if ($this->type) { ?>
+
+<section id="widget-grid" class="">
+		<!-- row -->
+	<div class="row">
+		<!-- NEW WIDGET START -->
+  		<article class="col-sm-12 col-md-12 col-lg-6">
+		<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget" id="wid-id" data-widget-colorbutton="false" data-widget-editbutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-eye"></i> </span>
+						<h2> Add Bank Details </h2>
+				</header>
+			<!-- widget div-->
+				<div>
+				<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+				<!-- This area used as dropdown edit box -->
+					</div>
+				<!-- end widget edit box -->
+				<!-- widget content -->
+					<div class="widget-body">
+						<form id="basicForm" action="<?php echo $this->form->getAction()?>" method="post" class="form">
+
+							<div class="panel panel-default">
+								<div class="panel-body">
+									<div class="row">
+										
+										<div class="col-sm-3 employee_class">
+
+											<div class="form-group">
+
+												<label class="control-label">Select Vendor </label>
+
+													<?php echo $this->form->vendor_id; ?>
+
+											</div>
+
+										</div> 
+										<div class="col-sm-3 employee_class">
+
+											<div class="form-group">
+
+												<label class="control-label">Bank Name </label>
+
+													<?php echo $this->form->bank_name; ?>
+
+											</div>
+
+										</div> 
+
+										<div class="col-sm-3 employee_class">
+
+											<div class="form-group">
+
+												<label class="control-label">Bank Account Number </label>
+
+													<?php echo $this->form->bank_acc_num; ?>
+
+											</div>
+
+										</div> 
+
+										<div class="col-sm-3 employee_class">
+
+											<div class="form-group">
+
+												<label class="control-label">Bank Branch </label>
+
+													<?php echo $this->form->bank_branch; ?>
+
+											</div>
+
+										</div> 
+										
+									</div>
+
+									<div class="row"> 
+										<div class="col-sm-3 employee_class">
+
+											<div class="form-group">
+
+												<label class="control-label">Bank City</label>
+
+													<?php echo $this->form->bank_city; ?>
+
+											</div>
+
+										</div>
+										<div class="col-sm-3 employee_class">
+
+											<div class="form-group">
+
+												<label class="control-label">IFSC Code </label>
+
+													<?php echo $this->form->ifsc_code; ?>
+
+											</div>
+
+										</div> 
+									
+									</div> 
+									
+								</div>
+
+								<div class="panel-footer">
+
+									<div class="row">
+
+										<div class="col-sm-7 col-sm-offset-2">
+
+											<?Php if($this->type == 'add') { ?>
+											<div style="float:left">
+												<button class="btn btn-primary submit">Submit</button>
+											</div>
+											<div style="float:left">
+												<button type="reset" class="btn btn-danger btn-default">Reset</button>
+											</div>
+											<?php } elseif($this->type == 'edit') {?>
+											<div style="float:left">
+												<button class="btn btn-primary submit">Update</button>
+											</div>
+											<?php } ?>
+
+										</div>
+
+									</div>
+
+								</div>
+
+							</div>
+
+						</form>
+					</div>
+				</div>
+			</div>
+								<!-- end widget div -->
+		</article>
+	</div>			<!-- end widget -->
+</section>
+
+
+
+<?php } else { ?>
+  
+<?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+     <div class="alert alert-success">
+<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+<?php echo $this->escape($message); ?>
+</div>
+ <?php } } ?>
+<!-- Row -->
+<div class="row">
+	<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+		<h1 class="page-title txt-color-blueDark">
+			<i class="fa fa-bars"> Bank Details</i>
+				
+		</h1>
+	</div>
+	<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
+		<ul id="sparks" class="">
+			<li class="sparks-info">
+				<a class="btn btn-primary" href="<?php echo $this->mainconfig['host'];?>finance/bank-details/vendor/type/add">Add </a>
+			</li>			
+		</ul>
+	</div>
+</div>
+<!-- End row -->
+ <!-- widget grid -->
+	<section id="widget-grid" class="">		
+		<!-- row -->
+		<div class="row">
+
+			<!-- NEW WIDGET START -->
+			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+				<!-- Widget ID (each widget will need unique ID)-->
+				<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+					<!-- widget options:
+					usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+					data-widget-colorbutton="false"
+					data-widget-editbutton="false"
+					data-widget-togglebutton="false"
+					data-widget-deletebutton="false"
+					data-widget-fullscreenbutton="false"
+					data-widget-custombutton="false"
+					data-widget-collapsed="true"
+					data-widget-sortable="false"
+
+					-->
+					<header>
+						<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+						<!-- <h2>Sales Quotation List</h2> -->	
+					</header>
+
+					<!-- widget div-->
+					<div>		
+
+						<!-- widget content -->
+						<div class="widget-body">
+							
+							
+							<div class="table-responsive">
+							
+								<table class="table table-bordered">
+									<thead>
+
+									  <tr>
+										  <th>S.No.</th>		
+										  <th> Vendor Name</th>
+										  <th> Bank Name</th>	
+										  <th> Bank Account Number</th>
+										  <th> Branch</th>
+										  <th> City</th>
+										  <th> IFSC code</th>
+										  <th> Action</th>
+									   </tr>
+
+									</thead>
+									<tbody>
+										<?php $i=1; 
+
+										if(count($this->paginator) !=0){
+
+										foreach ($this->paginator as $results){
+										//print_r($results);die;
+										?>
+
+											 <tr>
+
+												<td><?php echo $i; $i++; ?></td>
+												<td><?php echo $results['vendor_name']; ?></td>
+												<td><?php echo $results['bank_name']; ?></td>
+												<td><?php echo $results['bank_acc_num']; ?></td>
+												<td><?php echo $results['bank_branch']; ?></td>
+												<td><?php echo $results['bank_city']; ?></td>
+												<td><?php echo $results['ifsc_code']; ?></td>
+																								 
+												<td><a href="<?php echo $this->mainconfig['host'];?>finance/bank-details/vendor/type/edit/id/<?php echo $results['ven_id']; ?>"title="Edit"><span class="glyphicon glyphicon-pencil"></span></a> &nbsp; | &nbsp;  <a href="<?php echo $this->mainconfig['host'];?>finance/bank-details/vendor/type/delete/id/<?php echo $results['ven_id'];?>" class="delete" title="Delete"> <span class="glyphicon glyphicon-trash"></span>  </a></td>
+
+
+
+											 </tr>            
+
+										<?php }?>
+
+											   <tr class="odd gradeX">
+
+												<td colspan="8" align="center"> <?php echo $this->paginationControl($this->paginator, 'Sliding', array('pagination.phtml', 'default')); ?>
+
+												</td></tr>
+
+											   <?php } else {?>
+
+									   <tr class="odd gradeX">
+
+										   <td colspan="8" align="center">No Results Found</td>
+
+									   </tr>
+
+										<?php }?>
+
+									</tbody>
+								</table>
+								
+							</div>
+						</div>
+						<!-- end widget content -->
+
+					</div>
+					<!-- end widget div -->
+
+				</div>
+				<!-- end widget -->
+			</article>
+			<!-- WIDGET END -->
+		</div>
+
+		<!-- end row -->
+	</section>
+	<!-- end widget grid -->
+<?php } ?>
+</div>

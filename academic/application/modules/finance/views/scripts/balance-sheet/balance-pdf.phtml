@@ -1,0 +1,890 @@
+<style type="text/css">
+* {
+	margin: 0px;
+	padding: 0px;
+	font-family: Arial, sans-serif;
+	font-weight: 300;
+	
+}
+.credit table {
+	border-collapse: collapse;
+	width: 100%;
+}
+.credit table, th {
+	border: 1px solid black;
+	padding: 2px;
+	
+	
+}
+.credit {
+	width: 100%;
+	height: auto;
+	margin: 0px auto;
+	float: left;
+	border: 1px solid #000;
+}
+table {
+	border-collapse: collapse;
+	width: 100%;
+	border: 1px solid #000;
+}
+table, th, td {
+	border: 1px solid black;
+	padding: 5px;
+	font-size: 20px !important;
+	
+}
+</style>
+<?php 
+//Customers and Vendor Total Credits values	
+$total_credit_amt = 0;
+$total_debit_amt = 0;									
+$dealer_statement = $this->getCustomerStatementlist;
+if ( count($dealer_statement) > 0 ) {
+	foreach ($dealer_statement as $customer) {	
+		if($customer['operator'] == 2){
+			$debit_amount = $customer['sales_amount'] + $customer['waybill_amount'] + $customer['debit_amount']; 
+			$credit_amount = $customer['receipt_amount'] + $customer['credit_amount'] + $customer['payment_amount'] + $customer['start_balance'];
+		}else{
+			$debit_amount = $customer['sales_amount'] + $customer['waybill_amount'] + $customer['debit_amount'] + $customer['start_balance']; 
+			$credit_amount = $customer['receipt_amount'] + $customer['credit_amount'] + $customer['payment_amount'];
+		}
+
+		if( $debit_amount > $credit_amount){				
+			$total_debit_amt += $debit_amount - $credit_amount;
+		}
+
+		if( $credit_amount > $debit_amount){
+			$total_credit_amt += $credit_amount - $debit_amount;
+		}		
+	}
+}	
+
+$vendor_statement = $this->getVendorStatementlist;
+if ( count($vendor_statement) > 0 ) {
+	foreach ($vendor_statement as $vendor) {
+		if($vendor['operator'] == 2){
+			$debit_amount = $vendor['payment_amount']  + $vendor['debit_amount'] + $vendor['receipt_amount']; 
+			$credit_amount = $vendor['pcm_amount'] + $vendor['credit_amount'] + $vendor['start_balance']  + $vendor['purchase_amount'];
+		}else{
+			$debit_amount = $vendor['receipt_amount'] + $vendor['payment_amount'] + $vendor['debit_amount']  + $vendor['start_balance']; 
+			$credit_amount = $vendor['credit_amount'] + $vendor['pcm_amount'] + $vendor['purchase_amount'];
+		}
+
+		if( $debit_amount > $credit_amount){
+			$total_debit_amt += $debit_amount - $credit_amount;
+		}
+
+		if( $credit_amount > $debit_amount){	
+			$total_credit_amt += $credit_amount - $debit_amount;
+		}		
+	}
+} //END 
+// Profit and Loss Left side values
+$total_amount_debits = 0;
+$profitandloss_left = $this->profitandloss_left;
+if ( count($profitandloss_left) > 0 ) {		
+	foreach ($profitandloss_left as $vals) {
+			//$amounts = $vals['payment_amount']  + $vals['receipt_amount'] + $vals['debit_amount'] + $vals['credit_amount'] + $vals['opening_balance'];
+			$debit_amount = 0;
+			$credit_amount = 0;
+			if($vals['operator'] == 2){	
+				$debit_amount = ($vals['payment_amount']  + $vals['debit_amount']);
+				$credit_amount = $vals['receipt_amount'] + $vals['credit_amount'] + $vals['opening_balance'];
+			}else{
+				$debit_amount = ($vals['payment_amount']  + $vals['debit_amount'] + $vals['opening_balance']);
+				$credit_amount = $vals['receipt_amount'] + $vals['credit_amount'];
+			}
+			
+			$total_account_amt	= 0;
+			if( $debit_amount > $credit_amount){								
+				$total_account_amt = $debit_amount - $credit_amount;
+			}
+			
+			if( $credit_amount > $debit_amount){
+				$total_account_amt = $credit_amount - $debit_amount;
+			}
+			$total_amount_debits += $total_account_amt;
+	}											
+}	
+
+// Profit and Loss Right side values											
+$total_amount_credits = 0;
+$gross_profit =0;
+if( !empty($this->gross_profit) ){
+	$gross_profit = $this->gross_profit;
+	$total_amount_credits += $this->gross_profit;														
+}
+
+$profitandloss_right = $this->profitandloss_right;
+if ( count($profitandloss_right) > 0 ) {
+	foreach ($profitandloss_right as $valss) {
+		//$amountss = $valss['payment_amount'] + $valss['receipt_amount'] + $valss['debit_amount'] + $valss['credit_amount'] + $valss['opening_balance'];
+		$debit_amount = 0;
+		$credit_amount = 0;
+		if($valss['operator'] == 2){	
+			$debit_amount = ($valss['payment_amount']  + $valss['debit_amount']);
+			$credit_amount = $valss['receipt_amount'] + $valss['credit_amount'] + $valss['opening_balance'];
+		}else{
+			$debit_amount = ($valss['payment_amount']  + $valss['debit_amount'] + $valss['opening_balance']);
+			$credit_amount = $valss['receipt_amount'] + $valss['credit_amount'];
+		}
+		
+		$total_account_amt	= 0;
+		if( $debit_amount > $credit_amount){								
+			$total_account_amt = $debit_amount - $credit_amount;
+		}
+		
+		if( $credit_amount > $debit_amount){
+			$total_account_amt = $credit_amount - $debit_amount;
+		}
+		$total_amount_credits += $total_account_amt;
+	}											
+} // END	
+
+
+// Trading Balance Amount 	
+$trading_total_debit = 0;
+$trading_total_credit = 0;
+$trading_account = $this->trading_account;
+if ( count($trading_account) > 0 ) {
+	foreach ($trading_account as $account) {			
+		//$amount = $account['payment_amount'] + $account['receipt_amount'] + $account['debit_amount'] + $account['credit_amount'] + $account['opening_balance'];
+		$debit_amount1 = 0;
+		$credit_amount1 = 0;
+		if($account['operator'] == 2){	
+			$debit_amount1 = ($account['payment_amount']  + $account['debit_amount']);
+			$credit_amount1 = $account['receipt_amount'] + $account['credit_amount'] + $account['opening_balance'];
+		}else{
+			$debit_amount1 = ($account['payment_amount']  + $account['debit_amount'] + $account['opening_balance']);
+			$credit_amount1 = $account['receipt_amount'] + $account['credit_amount'];
+		}
+
+		$total_account_amt	= 0;
+		if( $debit_amount1 > $credit_amount1){								
+			$total_account_amt = $debit_amount1 - $credit_amount1;
+		}
+		if( $credit_amount1 > $debit_amount1){
+			$total_account_amt = $credit_amount1 - $debit_amount1;
+		}
+		$trading_total_debit += $total_account_amt;		
+	}	
+}											
+
+$purchase_statement = $this->purchase_statement;
+if ( count($purchase_statement) > 0 ) {
+	$amount = 0;
+	foreach ($purchase_statement as $purchase) {
+		$amount += $purchase['paid_amount'];
+	}
+	$trading_total_debit += $amount;			
+}											
+		
+
+$waybill_statement = $this->waybill_statement;
+if ( count($waybill_statement) > 0 ) {
+	foreach ($waybill_statement as $waybill) {
+		$amount = $waybill['waybill_amount'];
+	}
+	$trading_total_credit += $amount;
+}											
+
+$sales_statement = $this->sales_statement;
+if ( count($sales_statement) > 0 ) {
+	foreach ($sales_statement as $sales) {
+		$amount = $sales['paid_amount'];
+	}															
+	$trading_total_credit += $amount;
+}											
+
+$retail_statement = $this->retail_statement;
+if ( count($retail_statement) > 0 ) {
+	foreach ($retail_statement as $retail) {
+		$amount = $retail['paid_amount'];
+	}	
+	$trading_total_credit += $amount;		
+}											
+
+$closing_Stock = ($trading_total_debit + $gross_profit) - $trading_total_credit;
+$total_trading_amt = ($trading_total_credit+$closing_Stock); 
+//END
+//Bank Details
+$bank_total_debit= 0;
+$bank_total_credit = 0;
+$total_bank_balance = 0;
+$bank_statement = $this->bank_statement;
+if ( count($bank_statement) > 0 ) {
+	foreach ($bank_statement as $bank) {
+		//$total_bank_balance += $bank['opening_balance'];
+		if($bank['operator'] == 2){	
+			$debit_amount = ($bank['payment_amount']  + $bank['debit_amount']);
+			$credit_amount = $bank['receipt_amount'] + $bank['credit_amount'] + $bank['opening_balance'];
+		}else{
+			$debit_amount = ($bank['payment_amount']  + $bank['debit_amount'] + $bank['opening_balance']);
+			$credit_amount = $bank['receipt_amount'] + $bank['credit_amount'];
+		}
+			
+		if( $debit_amount > $credit_amount){								
+			$total_bank_balance += $debit_amount - $credit_amount;
+		}
+		
+		if( $credit_amount > $debit_amount){
+			$total_bank_balance += $credit_amount - $debit_amount;
+		}
+	}
+} // End											
+										
+?>
+
+<!-- widget grid -->
+<!-- widget grid -->
+<section id="widget-grid" class="">	
+	<!-- row -->
+	<div class="row">
+		
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2></h2>
+
+				</header>
+
+				<!-- widget div-->
+				<div>		
+					<!-- widget content -->
+						<div class="widget-body">
+							<div class="table-responsive">
+								<table style="margin-bottom:0px !important;" class="table table-bordered ">
+									<thead>										
+										
+										<tr>
+											<td colspan="2" align="center"><strong>Balance Sheet</strong></td> 												
+										</tr>
+										<tr>
+											<td align="center"><strong>Liabilities</strong></td>
+											<td align="center"><strong>Assets</strong></td> 												
+										</tr>										
+									</thead>
+									<tr>
+										<td style="width:50%;">
+											<table class="table table-bordered">
+												<?php 													
+												$total_amount_debit = 0;
+												$capital_account = $this->capital_account;
+												if ( count($capital_account) > 0 ) {
+													?>
+													<tr>
+														<td colspan="3">
+														Capital Account: </td>
+													</tr>
+													<?php
+													$opening_balance = 0;
+													$additional_amt = 0; 
+													$less_drawings = 0;
+													$total_items = count($capital_account);												
+													foreach ($capital_account as $left_val) {
+														?>
+														<tr>
+															<td style="border:none;">
+															<?php echo $left_val['name']; ?>
+															</td>															
+															<td style="text-align:right;width:25%; border:none;">				
+															</td>
+															<td style="text-align:right;width:25%; border:none;">
+															</td>															
+														</tr>
+														<tr>
+															<td>															
+															<span style="float:right;text-align:right;">Balance b/f</span>
+															</td>															
+															<td style="text-align:right;width:25%;">
+															<span style="float:right;text-align:right;">
+															<?php
+																//echo number_format($left_val['opening_balance'], 2);
+																//$opening_balance = $left_val['opening_balance'];
+																if($left_val['operator'] == 2){
+																	$debit_amount = $left_val['payment_amount']  + $left_val['debit_amount']; 
+																	$credit_amount =  $left_val['receipt_amount'] + $left_val['credit_amount'] + $left_val['opening_balance'];
+																}else{
+																	$debit_amount = $left_val['payment_amount'] + $left_val['debit_amount'] + $left_val['opening_balance'];
+																	$credit_amount = $left_val['receipt_amount'] + $left_val['credit_amount'];
+																}
+																
+																if( $debit_amount > $credit_amount){								
+																	$opening_balance = $debit_amount - $credit_amount;
+																}
+																
+																if( $credit_amount > $debit_amount){
+																	$opening_balance = $credit_amount - $debit_amount;
+																}
+																
+																$additional_amt += $left_val['receipt_amount'] + $left_val['credit_amount'];
+																$less_drawings += $left_val['payment_amount'] + $left_val['debit_amount'];
+																echo number_format($opening_balance, 2);
+																//$opening_balance = $left_val['opening_balance'];
+																
+															?>															
+															</span>															
+															</td>
+															<td style="text-align:right;width:25%;">
+															</td>															
+														</tr>
+														<tr>
+															<td>															
+															<span style="float:right;text-align:right;">Addition<span>
+															</td>															
+															<td style="text-align:right;width:25%;">
+															<span style="float:right;text-align:right;">
+															<?php
+																$credit_amount = $additional_amt;
+																echo number_format($credit_amount, 2);
+															?>
+															</span>
+															</td>
+															<td style="text-align:right;width:25%;">
+															
+															</td>															
+														</tr>
+														<tr>
+															<td>															
+															<span style="float:right;text-align:right;">Add:  Profit for the year</span>
+															</br />
+															</br />
+															</td>															
+															<td style="text-align:right;width:25%;">
+																												
+															<span style="float:right;text-align:right;">
+															<?php
+																$net_profit = $total_amount_credits - $total_amount_debits;
+																echo number_format($net_profit, 2);
+															?>
+															
+															</span>
+															<br />
+															<span style="float:right;text-align:right;border-top:1px solid #000;width:100%;">
+															<?php
+																$total_amount = $credit_amount + $opening_balance + $net_profit;
+																echo number_format($total_amount, 2);
+															?>															
+															</span>															
+															
+															</td>
+															<td style="text-align:right;width:25%;">
+															
+															</td>															
+														</tr>
+														<tr>
+															<td>															
+															<span style="float:right;text-align:right;">
+															Less: Drawings
+															</span>
+															</td>															
+															<td style="text-align:right;width:25%;">
+															<span style="float:right;text-align:right;">
+															<?php
+																$debit_amount = $less_drawings; //$left_val['payment_amount']  + $left_val['receipt_amount'] + $left_val['debit_amount'];
+																echo number_format($debit_amount, 2);
+															?>
+															</span>
+															</td>
+															<td style="text-align:right;width:25%;">
+															<?php 
+															echo number_format($total_amount - $debit_amount, 2);
+															$total_amount_debit += $total_amount - $debit_amount;
+															?>
+															</td>															
+														</tr>
+												<?php
+													}
+												}									
+												?>
+												<!-- -->
+												<tr>
+													<td colspan="3">
+													Secured Loans: </td>
+												</tr>
+												<?php
+												$getSecuredLoans = $this->getSecuredLoans;
+												if ( count($getSecuredLoans) > 0 ) {
+													?>													
+													<?php																									
+													foreach ($getSecuredLoans as $sloand) {
+														?>
+														<tr>
+															<td style="text-align:right;">
+															<?php echo $sloand['name']; ?>
+															</td>
+															<td style="text-align:right;">
+															
+															</td>
+															<td style="text-align:right;width:25%;">
+															<?php
+																	if($sloand['operator'] == 2){								
+																		$credit_amount =  ($sloand['payment_amount']  + $sloand['debit_amount'] + $sloand['opening_balance']) - ($sloand['receipt_amount'] + $sloand['credit_amount']);
+																	}else{																	
+																		$credit_amount = ($sloand['payment_amount'] + $sloand['debit_amount'] + $sloand['opening_balance']) - ($sloand['receipt_amount'] + $sloand['credit_amount']);
+																	}
+																
+																	//$credit_amount = $sloand['payment_amount']  + $sloand['receipt_amount'] + $sloand['credit_amount'] + $sloand['opening_balance'];	
+																	echo number_format($credit_amount, 2);
+																	$total_amount_debit += $credit_amount;
+																?>
+															</td>
+														</tr>
+													<?php													
+													}											
+												}											
+												?>
+												<?php 
+												$liabilities_bank_statement = $this->liabilities_bank_statement;
+												if ( count($liabilities_bank_statement) > 0 ) {
+													foreach ($liabilities_bank_statement as $banks) { ?>
+													<tr>
+														<td style="text-align:right;">
+														<?php echo $banks['beneficiary_bank_name']; ?>
+														</td>
+														<td style="text-align:right;">
+														
+														</td>
+														<td style="text-align:right;width:25%;">
+														<?php																
+																if($banks['operator'] == 2){	
+																	$debit_amount = ($banks['payment_amount']  + $banks['debit_amount']);
+																	$credit_amount = $banks['receipt_amount'] + $banks['credit_amount'] + $banks['opening_balance'];
+																}else{
+																	$debit_amount = ($banks['payment_amount']  + $banks['debit_amount'] + $banks['opening_balance']);
+																	$credit_amount = $banks['receipt_amount'] + $banks['credit_amount'];
+																}
+																$total_bank_amt	= 0;
+																if( $debit_amount > $credit_amount){								
+																	$total_bank_amt = $debit_amount - $credit_amount;
+																}
+																
+																if( $credit_amount > $debit_amount){
+																	$total_bank_amt = $credit_amount - $debit_amount;
+																}
+																
+																echo number_format($total_bank_amt, 2);
+																$total_amount_debit += $total_bank_amt;
+															?>
+														</td>
+													</tr>
+												<?php }
+												} // End
+												?>
+												
+												<!-- -->												
+												<?php
+												$getUnsecuredLoans = $this->getUnsecuredLoans;
+												if ( count($getUnsecuredLoans) > 0 ) {
+													?>
+													<tr>
+														<td colspan="3">
+														Unsecured Loans: </td>
+													</tr>
+													<?php
+													foreach ($getUnsecuredLoans as $sloand) {
+														?>
+														<tr>
+															<td style="text-align:right;">
+															<?php echo $sloand['name']; ?>
+															</td>
+															<td style="text-align:right;">
+															
+															</td>
+															<td style="text-align:right;width:25%;">
+															<?php
+																	//$credit_amount = $sloand['payment_amount']  + $sloand['receipt_amount'] + $sloand['credit_amount'] + $sloand['opening_balance'];
+																	$credit_amount = 0;
+																	if($sloand['operator'] == 2){								
+																		$credit_amount =  ( $sloand['opening_balance'] + $sloand['receipt_amount'] + $sloand['credit_amount']) - ($sloand['payment_amount']  + $sloand['debit_amount']);
+																	}else{																	
+																		$credit_amount = ($sloand['debit_amount'] + $sloand['debit_amount'] + $sloand['opening_balance']) - ($sloand['receipt_amount'] + $sloand['credit_amount']);
+																	}
+																	echo number_format($credit_amount, 2);
+																	$total_amount_debit += $credit_amount;
+																?>
+															</td>
+														</tr>
+													<?php													
+													}											
+												}											
+												?>
+												
+												<tr>
+													<td colspan="3">
+													Current Liabilities & Provisions: </td>
+												</tr>
+												<!-- -->												
+												<?php
+												$getCurrentLiabilities = $this->getCurrentLiabilities;
+												if ( count($getCurrentLiabilities) > 0 ) {
+													?>													
+													<?php																									
+													foreach ($getCurrentLiabilities as $liabilities) {
+														?>
+														<tr>
+															<td style="text-align:right;">
+															<?php echo $liabilities['name']; ?>
+															</td>
+															<td style="text-align:right;">
+															
+															</td>
+															<td style="text-align:right;width:25%;">
+															<?php
+																	if($liabilities['operator'] == 2){								
+																		$credit_amount =  ($liabilities['payment_amount']  + $liabilities['debit_amount'] + $liabilities['opening_balance']) - ($liabilities['receipt_amount'] + $liabilities['credit_amount']);
+																	}else{																	
+																		$credit_amount = ($liabilities['payment_amount'] + $liabilities['debit_amount'] + $liabilities['opening_balance']) - ($liabilities['receipt_amount'] + $liabilities['credit_amount']);
+																	}
+																	//$credit_amount = $liabilities['payment_amount']  + $liabilities['receipt_amount'] + $liabilities['credit_amount'] + $liabilities['opening_balance'];	
+																	echo number_format($credit_amount, 2);
+																	$total_amount_debit += $credit_amount;
+																?>
+															</td>
+														</tr>
+													<?php													
+													}											
+												}											
+												?>
+												<tr>
+													<td>
+														<span style="float:right;text-align:right;">Sundry Creditors</span>
+													</td>															
+													<td style="text-align:right;width:25%;">
+														
+														<span style="float:right;text-align:right;">
+														<?php
+															echo number_format($total_credit_amt, 2);
+														?>															
+														</span>
+													</td>
+													<td style="text-align:right;width:25%;">
+														
+													</td>
+												</tr>
+												
+												<?php
+												// Sundry Expenses Payable
+												$sundry_expenses_payable = 0;
+												$getExpenses = $this->getExpenses;
+												if ( count($getExpenses) > 0 ) {
+													?>
+													
+													<?php
+													$amount = 0;
+													$total_items = count($getExpenses);
+													$k = 0;
+													foreach ($getExpenses as $values) {
+															/* if($values['operator'] == 2){								
+																$amount =  ($values['payment_amount']  + $values['debit_amount'] + $values['opening_balance']) - ($values['receipt_amount'] + $values['credit_amount']);
+															}else{																	
+																$amount = ($values['payment_amount'] + $values['debit_amount'] + $values['opening_balance']) - ($values['receipt_amount'] + $values['credit_amount']);
+															} */
+															$debit_amount = 0;
+															$credit_amount = 0;
+															if($values['operator'] == 2){	
+																$debit_amount = ($values['payment_amount']  + $values['debit_amount']);
+																$credit_amount = $values['receipt_amount'] + $values['credit_amount'] + $values['opening_balance'];
+															}else{
+																$debit_amount = ($values['payment_amount']  + $values['debit_amount'] + $values['opening_balance']);
+																$credit_amount = $values['receipt_amount'] + $values['credit_amount'];
+															}
+															
+															$total_bank_amt	= 0;
+															if( $debit_amount > $credit_amount){								
+																$total_bank_amt = $debit_amount - $credit_amount;
+															}
+															
+															if( $credit_amount > $debit_amount){
+																$total_bank_amt = $credit_amount - $debit_amount;
+															}
+															
+															$sundry_expenses_payable += $total_bank_amt;							
+														}											
+													}											
+													?> 
+												
+												<tr>
+													<td>														
+														<span style="float:right;text-align:right;">Sundry Expenses Payable<span>
+													</td>															
+													<td style="text-align:right;width:25%;">					  
+														<span style="float:right;text-align:right;">
+														<?php
+															echo number_format($sundry_expenses_payable, 2);
+														?>	
+														</span>
+													</td>
+													<td style="text-align:right;width:25%;">
+														<?php 
+														echo number_format($total_credit_amt + $sundry_expenses_payable, 2);
+														$total_amount_debit += $total_credit_amt + $sundry_expenses_payable;
+														?>
+													</td>															
+												</tr>	
+											</table>
+										</td>
+										<td style="width:50%;">
+											<table class="table table-bordered">
+												<?php 
+												$net_credit_amount = 0;
+												/* $opening_balance = 0;
+												$additions_before = 0;
+												$additions_after = 0;
+												$sales_transfer = 0;
+												$total_amount = 0;
+												$total_depreciation = 0; */
+												$total_balance_amt = 0;
+												$i = 0;	
+												$assets_account_statement = $this->getAccountAssestsStatement;
+												if ( count($assets_account_statement) > 0 ) {
+													?>
+													<tr>
+														<td colspan="3">
+														Fixed Assets: </td>
+													</tr>
+													<?php
+													foreach ($assets_account_statement as $account) {
+
+														/* if($account['operator'] == 2){								
+															$amount =  ($account['payment_amount']  + $account['debit_amount'] + $account['opening_balance']) - ($account['receipt_amount'] + $account['credit_amount']);
+															$amount1 =  ($account['payment_amount1']  + $account['debit_amount1'] + $account['opening_balance']) - ($account['receipt_amount1'] + $account['credit_amount1']);
+														}else{																	
+															$amount = ($account['payment_amount'] + $account['debit_amount'] + $account['opening_balance']) - ($account['receipt_amount'] + $account['credit_amount']);
+															$amount1 = ($account['payment_amount1'] + $account['debit_amount1'] + $account['opening_balance']) - ($account['receipt_amount1'] + $account['credit_amount1']);
+														} */
+														
+														//$amount =  ($account['payment_amount']  + $account['debit_amount']) - ($account['receipt_amount'] + $account['credit_amount']);
+														//$amount1 =  ($account['payment_amount1']  + $account['debit_amount1']) - ($account['receipt_amount1'] + $account['credit_amount1']);
+														
+														$amount =  ($account['payment_amount']  + $account['debit_amount']);
+														$amount1 =  ($account['payment_amount1']  + $account['debit_amount1']);
+														
+														/* if($account['operator'] == 2){								
+															$total = ($account['opening_balance'] + $amount + $amount1); 
+														}else{																	
+															$total = ($account['opening_balance'] + $amount + $amount1); 
+														}  */
+														
+														//$amount = $account['debit_amount'] + $account['payment_amount'] + $account['receipt_amount'] + $account['credit_amount'] + $account['purchase_amount'];
+														//$amount1 = $account['debit_amount1'] + $account['receipt_amount1'] + $account['credit_amount1'] + $account['purchase_amount1'];
+														
+														$total = ($account['opening_balance'] + $amount + $amount1) - ($account['purchase_amount']); 
+														$total_amt = ($total * $account['percentage']) / 100;
+														$balance = ($total - $total_amt);
+														/* $opening_balance += $account['opening_balance'];
+														$additions_before += $amount;
+														$additions_after += $amount1;
+														$sales_transfer += ($account['purchase_amount'] + $account['purchase_amount1']);
+														$total_amount += $total;
+														$total_depreciation += $total_amt; */
+														$total_balance_amt += $balance;													
+													}
+												?>
+												<tr>
+													<td>													
+													<span style="float:right;text-align:right;">As per Schedule Attached</span>
+													</td>
+													<td style="text-align:right;">
+													</td>
+													<td style="text-align:right;width:25%;">												
+													<?php
+														//$total_amount_credit = 0;														
+														if( !empty($total_balance_amt) ){															
+															$net_credit_amount += $total_balance_amt;														
+														}
+														echo number_format($total_balance_amt, 2);
+													?>
+													</td>													
+												</tr>
+												<?php													
+												}										
+												?>	
+												 
+												<?php 
+												$getSecurities = $this->getSecurities;
+												if ( count($getSecurities) > 0 ) {
+													?>
+													<tr>
+														<td colspan="3">
+														Securities: </td>
+													</tr>
+													<?php
+													$total_items = count($getSecurities);
+													$k = 0;
+													foreach ($getSecurities as $values) {
+																										
+													?>
+														<tr>
+															<td style="text-align:right;">
+															<?php echo $values['name']; ?>
+															</td>
+															<td style="text-align:right;">
+															
+															</td>
+															<td style="text-align:right;width:25%;">
+															<?php
+																	if($values['operator'] == 2){								
+																		$amount =  ($values['payment_amount']  + $values['debit_amount'] + $values['opening_balance']) - ($values['receipt_amount'] + $values['credit_amount']);
+																	}else{																	
+																		$amount = ($values['payment_amount'] + $values['debit_amount'] + $values['opening_balance']) - ($values['receipt_amount'] + $values['credit_amount']);
+																	}
+																	//$amount = $values['payment_amount']  + $values['receipt_amount'] + $values['debit_amount'] + $values['credit_amount'] + $values['opening_balance'];	
+																	echo number_format($amount, 2);
+																	$net_credit_amount += $amount;
+																?>
+															</td>
+														</tr>
+													<?php
+														}											
+													}											
+													?> 
+												 <!-- Current Assets -->
+													<tr>
+														<td colspan="3">
+														Current Assets: </td>
+													</tr>													
+												<?php 												
+												$getCurrentAsset = $this->getCurrentAsset;
+												$amount_val = 0;
+												if ( count($getCurrentAsset) > 0 ) {
+													?>
+													
+													<?php
+													$total_items = count($getCurrentAsset);
+													$k = 0;
+													foreach ($getCurrentAsset as $values) {
+																										
+													?>
+														<tr>
+															<td style="text-align:right;">
+															<?php echo $values['name']; ?>
+															</td>
+															<td style="text-align:right;">
+															<?php
+																	if($values['operator'] == 2){								
+																		$amount =  ($values['payment_amount']  + $values['debit_amount'] + $values['opening_balance']) - ($values['receipt_amount'] + $values['credit_amount']);
+																	}else{																	
+																		$amount = ($values['payment_amount'] + $values['debit_amount'] + $values['opening_balance']) - ($values['receipt_amount'] + $values['credit_amount']);
+																	}
+																	//$amount = $values['payment_amount']  + $values['receipt_amount'] + $values['debit_amount'] + $values['credit_amount'] + $values['opening_balance'];	
+																	echo number_format($amount, 2);
+																	//$net_credit_amount += $amount;
+																	$amount_val += $amount;
+																?>
+															</td>
+															<td style="text-align:right;width:25%;">
+															
+															</td>
+														</tr>
+													<?php
+														}											
+													}											
+													?>
+													<tr>
+															<td>
+																<span style="float:right;text-align:right;">Vat</span>
+															</td>															
+															<td style="text-align:right;width:25%;">
+																<span style="float:right;text-align:right;">
+																<?php
+																	echo number_format($this->vat_account['balance'], 2);
+																	//$net_credit_amount += $this->vat_account['balance'];
+																?>															
+																</span>																
+															</td>
+															<td style="text-align:right;width:25%;">
+																
+															</td>															
+													</tr>
+													<tr>
+															<td>
+																Closing Stock (As taken, valued and verified by the Proprietor) 
+																<span style="float:right;text-align:right;">Goods</span>
+															</td>															
+															<td style="text-align:right;width:25%;">
+																<span style="float:right;text-align:right;">
+																<?php
+																	echo number_format($closing_Stock, 2);
+																?>															
+																</span>																
+															</td>
+															<td style="text-align:right;width:25%;">
+																
+															</td>															
+													</tr>
+													<tr>
+															<td>
+																<span style="float:right;text-align:right;">Sundry Debtors<span>
+															</td>															
+															<td style="text-align:right;width:25%;">
+																<span style="float:right;text-align:right;">
+																<?php
+																	echo number_format($total_debit_amt, 2);
+																?>	
+																</span>
+															</td>
+															<td style="text-align:right;width:25%;">
+																<?php 
+																echo number_format($closing_Stock+$total_debit_amt+$amount_val+$this->vat_account['balance'], 2);
+																$net_credit_amount += $closing_Stock+$total_debit_amt+$amount_val+$this->vat_account['balance'];
+																?>
+														</td>																
+													</tr>													
+													<!-- End -->
+													<tr>
+														<td colspan="3">
+														Cash & Bank Balances: </td>
+													</tr>
+														<tr>
+															<td>
+																<span style="float:right;text-align:right;">As per List Attached</span>
+															</td>															
+															<td style="text-align:right;width:25%;">
+																<span style="float:right;text-align:right;">
+																<?php
+																	echo number_format($total_bank_balance + $this->cash_account['balance'], 2);
+																?>															
+																</span>
+															</td>
+															<td style="text-align:right;width:25%;">
+																<?php 
+																$total_bank_balance = $total_bank_balance + $this->cash_account['balance'];
+																echo number_format($total_bank_balance, 2);
+																$net_credit_amount += $total_bank_balance; //'1069248.84';//$total_bank_balance;
+																?>
+															</td>															
+														</tr>												
+											</table>
+										</td>
+									</tr>
+									
+									<tr>
+										<td style="width:50%;" align="right">
+											 <?php echo number_format(round($total_amount_debit), 2); ?>
+										</td>
+										<td style="width:50%;" align="right">
+											<?php echo number_format(round($net_credit_amount), 2); ?>
+										</td>
+									</tr>									
+								</table>
+							</div>
+						</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- WIDGET END -->
+	</div>
+	
+	<!-- end row -->
+</section>
+<!-- end widget grid -->

@@ -1,0 +1,8 @@
+/* This is a compiled file, you should be editing the file in the templates directory */
+.table-title { margin-left:15.5%;}
+.table-top{ margin-top:-50px;}
+.add-button{  margin-top: 20px;}
+.field-margin{    margin-left: 0px;}
+.errors{list-style: none;color:red;}
+.asterisk {color:red;}
+.masterbox{border:1px solid #ccc;width:99.5%; margin-left:0px; box-shadow: 0px 2px 10px #ccc;padding:10px;}

@@ -1,0 +1,465 @@
+<div class="right_col">
+<?php if ($this->type) { ?>
+<div class="padding-md">
+	<div class="row">
+		<div class="col-md-12">
+		<h3 class="page-title txt-color-blueDark" >
+			<div><i class="fa fa-eye"> Participants Portal</i></div>
+		</h3>
+			<div class="panel panel-default">
+				<form class="no-margin" id="formValidate1" action="<?php echo $this->form->getAction() ?>" method="post" data-validate="parsley"  enctype="multipart/form-data">
+					
+					<div class="panel-body">
+					
+					<div class="row">
+					<div class="col-sm-3"><h4><span style="color:#777;">Academic Details</span></h4></div>
+					</div>
+					 <div class="row masterbox">
+					 <div class="row">
+					      <div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Batch<span class="asterisk">*</span></label>
+                                <?php echo $this->form->academic_id; ?>
+                            </div>
+							</div>
+							
+							<!--<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Term<span class="asterisk">*</span></label>
+                                <?php //echo $this->form->terms_id; ?>
+                            </div>
+							</div> 
+							<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Year<span class="asterisk">*</span></label>
+                                <?php echo $this->form->year; ?>
+                            </div>
+							</div>-->
+							<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Participant ID<span class="asterisk">*</span></label>
+                                <?php echo $this->form->stu_id; ?>
+                            </div>
+							</div>
+							
+					 </div>
+					 <div class="row">
+							<div class="col-sm-3">
+							<div class="form-group">
+							<input type="text" id="batch" class="form-control" style="background-color:#fdf59a;" readonly /></div>
+							</div>
+							</div>
+					 </div>
+					
+					<div class="row">
+							
+					<div class="col-sm-3"><h4><span style="color:#777;">Participants Details</span></h4></div>
+					</div>
+						<div class="row masterbox">
+					     <div class="row">	
+						
+						   <div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">First Name <span class="asterisk">*</span></label>
+                                <?php echo $this->form->stu_fname; ?>
+                            </div>
+							</div> 
+							
+							<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Last Name<span class="asterisk">*</span></label>
+                                <?php echo $this->form->stu_lname; ?>
+                            </div>
+							</div>
+
+                            <div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Gender<span class="asterisk">*</span></label>
+                                <?php echo $this->form->gender; ?>
+                            </div>
+							</div>	
+
+							<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Mobile Number<span class="asterisk">*</span></label>
+                                <?php echo $this->form->stu_mobileno; ?>
+                            </div>
+							</div>
+							
+							<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Email ID<span class="asterisk">*</span></label>
+                                <?php echo $this->form->stu_email_id; ?>
+								<span id="erremail" style="color:red;"></span>
+                            </div>
+							</div>
+							
+							<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Date of Birth</label>
+                                <?php echo $this->form->stu_dob; ?>
+                            </div>
+							</div>
+															
+							<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Present Address<span class="asterisk">*</span></label>
+                                <?php echo $this->form->present_addr; ?>
+                            </div>
+							</div>
+							
+							<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Permanent Address</label>
+                                <?php echo $this->form->premanent_addr; ?>
+                            </div>
+							</div>
+						</div>	
+				     </div>	
+					<div class="row">	
+					<div class="col-sm-3"><h4><span style="color:#777;">Parent Details</span></h4></div>
+					</div>
+					     
+							<div class="row masterbox">
+							 <div class="row">
+							<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Father First Name <span class="asterisk">*</span></label>
+                                <?php echo $this->form->father_fname; ?>
+                            </div>
+							</div> 
+							
+							<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Father Last Name<span class="asterisk">*</span></label>
+                                <?php echo $this->form->father_lname; ?>
+                            </div>
+							</div>
+							
+							<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Father Mobile Number<span class="asterisk">*</span></label>
+                                <?php echo $this->form->father_mobileno; ?>
+                            </div>
+							</div>
+							
+							
+							<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Mother First Name <span class="asterisk">*</span></label>
+                                <?php echo $this->form->mother_fname; ?>
+                            </div>
+							</div>
+							<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Mother Last Name<span class="asterisk">*</span></label>
+                                <?php echo $this->form->mother_lname; ?>
+                            </div>
+							</div>
+							
+							<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Mother Mobile Number</label>
+                                <?php echo $this->form->mother_mobileno; ?>
+                            </div>
+							</div>
+							
+						 </div>
+						</div>
+					<div class="row">	
+					<div class="col-sm-3"><h4><span style="color:#777;">File Upload</span></h4></div>
+					</div>
+					<div class="row masterbox">
+							 <div class="row">
+							 <div class="col-sm-3 employee_class">
+							  <input name="file[]" id="file" type="file"   size="50"/>
+							 </div>
+							 </div>
+					</div>		 
+						
+			</div>
+		
+						<div class="panel-footer">									
+							<div class="row">
+								<div class="col-sm-7 col-sm-offset-5">
+									<?php if ($this->type == 'add') { ?> 
+										<div style="float:left;margin-right:2px;">
+										<button class="btn btn-primary submit">Submit</button>
+										</div>
+										<div style="float:left;padding:0px 10px;">
+										<button type="reset" class="btn btn-danger btn-default">Reset</button>
+										</div>
+									<?php } else { ?>
+										<div style="float:left;">
+										<button class="btn btn-primary submit">Update</button>
+										</div>
+										<div style="float:left;">
+										<a class="btn btn-primary" href="<?php echo $this->mainconfig['host']; ?>student/index">Back</a>
+										</div>
+									<?php } ?>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div><!-- /panel -->
+		</div><!-- /.col-->				
+	</div><!-- /.row -->
+	
+<!-- /.padding-md -->	
+<?php } else { ?>
+  
+<?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+     <div class="alert alert-success ">
+<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+<?php echo $this->escape($message); ?>
+</div>
+ <?php } } ?>
+ <!-- widget grid -->
+<div class="">
+	<div class="">
+		<div class="row">
+			
+			<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+		<h3 class="page-title txt-color-blueDark">
+			<i class="fa fa-bars"> Participants Portal</i>
+				
+		</h3>
+	</div>
+			
+		<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">	 
+			
+			<a class="btn btn-primary pull-right" style="margin-top: 25px;" href="<?php echo $this->mainconfig['host']; ?>student/index/type/add">Add </a>
+		</div>
+		</div>
+		
+		<div class="x_panel">
+               
+                    <div class="x_title">
+                    <h2>Participants Details</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                       </li>
+                      <li><a class=""><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+<div class="x_content">
+		
+		<div class="padding-md clearfix">
+			<table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+				<thead>
+					<tr>
+						<th>S.  No.</th>
+						<th>First Name</th>
+						<th>Last Name</th>
+						<th>Mobile Number</th>
+						<th>Email ID</th>
+						<th>Father Name</th>
+						<th>Batch</th>
+						<!-- <th>Year</th>  -->
+						<th>Participant ID</th>
+						<th></th>
+						<!--<th>Term Name</th>-->
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+
+						$i = 1;
+						$pagination_tr = '';
+						if (count($this->paginator) != 0) {
+
+						foreach ($this->paginator as $results) {
+					?>
+							<tr>
+								<td><?php echo $i;
+
+									$i++; ?>
+								</td>						
+								
+								<td><?php echo $results['stu_fname']; ?></td>
+								<td><?php echo $results['stu_lname']; ?></td>
+								<td><?php echo $results['stu_mobileno']; ?></td>
+								<td><?php echo $results['stu_email_id']; ?></td>
+								<td><?php echo $results['father_fname']; ?></td>
+								<td><?php echo $results['academic_year']; ?></td>
+								
+								<!-- <td><?php /*if($results['year']==1){
+									echo'First Year';
+								}
+								else{
+									echo'Second Year';
+								}
+								 */?></td> -->
+								<td><?php echo $results['stu_id']; ?></td>
+								<td><a href="<?php echo $this->mainconfig['host']; ?>student/index/type/download/file/<?php echo $results['filename']; ?>/id/<?php echo$results['student_id'];?>"> Download </a></td>
+								<td><a href="<?php echo $this->mainconfig['host']; ?>student/index/type/edit/id/<?php echo $results['student_id']; ?>" class="edit" title="Edit"><span class="fa fa-edit fa-lg"></span></a>&nbsp; | &nbsp;  <a href="<?php echo $this->mainconfig['host']; ?>student/index/type/delete/id/<?php echo $results['student_id']; ?>" onclick="return ConfirmDelete();" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a></td>
+
+							</tr>            
+
+						<?php }
+						$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+						} ?>
+
+				</tbody>
+			</table>
+			 <?php echo $pagination_tr; ?>
+		</div><!-- /.padding-md -->
+	</div><!-- /panel -->
+	</div>
+	</div>
+</div><!-- /.padding-md -->		
+<?php } ?>
+</div>
+<script>
+$(document).ready(function() {		
+	//$("#stu_dob").datepicker({ dateFormat: 'dd-mm-yy' });  
+	$('#stu_dob').datepicker( {format: 'dd-mm-yyyy'} );
+}); 
+
+
+	function ConfirmDelete()
+	{
+	var x = confirm("Are you sure you want to delete?");
+	if(x)
+		return true;
+	else
+		return false;
+	}
+	
+	
+  $("#stu_mobileno").keyup(function(){
+	  
+	 var stu_mobileno=$("#stu_mobileno").val();
+		
+		if(!isNaN(stu_mobileno))
+		{
+		
+			if(stu_mobileno.length <11){
+			   return true;
+			}
+			else{
+				alert("Mobile Number Should be less than 10 digits");
+				$("#stu_mobileno").val("");
+			}
+		}
+		else{
+		    alert("Mobile Number Should be Numeric Only");
+			$("#stu_mobileno").val("");
+		}
+	
+  });
+  
+  
+  $("#stu_email_id").keyup(function(){
+		var email = $("#stu_email_id").val();
+
+		var isValid = isEmailValid(email);
+		if(isValid == false){
+			//alert("sdffs");
+			$('#erremail').text("Please enter valid email");
+			// $('#to_email').focus();
+			$('#stu_email_id').text("");
+			return false;
+		}else{
+			$('#erremail').text("");
+			return true;
+		}
+});
+
+function isEmailValid(email) {
+		var EMAIL_REGEXP = new RegExp('^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$', 'i');
+		return EMAIL_REGEXP.test(email)
+}
+  
+  
+$("#father_mobileno").keyup(function(){
+	  
+	 var father_mobileno=$("#father_mobileno").val();
+		
+		if(!isNaN(father_mobileno))
+		{
+		 
+			if(father_mobileno.length <11){
+			   return true;
+			}
+			else{
+				alert("Mobile Number Should be less than 10 digits");
+				$("#father_mobileno").val("");
+			}
+		}
+		else{
+		    alert("Mobile Number Should be Numeric Only");
+			$("#father_mobileno").val("");
+		}
+	
+  });
+  
+ $("#mother_mobileno").keyup(function(){
+	  
+	 var mother_mobileno=$("#mother_mobileno").val();
+		
+		if(!isNaN(mother_mobileno))
+		{
+		 
+			if(mother_mobileno.length <11){
+			   return true;
+			}
+			else{
+				alert("Mobile Number Should be less than 10 digits");
+				$("#mother_mobileno").val("");
+			}
+		}
+		else{
+		    alert("Mobile Number Should be Numeric Only");
+			$("#mother_mobileno").val("");
+		}
+	
+  });
+  
+
+
+$('body').on('change', '#academic_id', function() {		
+var academic_id=$('#academic_id').val();
+   if(academic_id){
+   $('#batch').show();
+	$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-batch-code';?>',
+			data: {academic_id:academic_id}
+		}).done(function( data ) {
+			var result = $.parseJSON(data);
+			if((data!='')){
+				$('#batch').val(result['short_code']);
+			}
+	  });
+	 }
+	 
+ }); 
+ 
+
+var academic_id=$('#academic_id option:selected').val();
+   if(academic_id){
+   $('#batch').show();
+	$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-batch-code';?>',
+			data: {academic_id:academic_id}
+		}).done(function( data ) {
+			var result = $.parseJSON(data);
+			if((data!='')){
+				$('#batch').val(result['short_code']);
+			}
+	  });
+	 }
+	else{
+$('#batch').hide();
+} 
+</script>

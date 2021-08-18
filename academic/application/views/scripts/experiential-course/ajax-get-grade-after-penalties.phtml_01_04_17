@@ -1,0 +1,92 @@
+<?php 
+ $course_result = $this->course_result;
+ for($i=0;$i<count($course_result);$i++) {  
+ //echo'<pre>';print_r($course_result[$i]['year_id']);die;
+ ?>
+ <div class="box-body">
+	<h4 style="background-color:#3c8dbc;padding:8px 8px;color:white;"><?php echo $course_result[$i]['elc_name'];?></h4>
+	<table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+			<thead>
+					<tr>
+						<th rowspan="2">S.  No.</th>
+						<th rowspan="2">Name of Student</th>
+						<th></th>
+						<th><?php echo 	$course_result[$i]['elc_name']; ?></th>
+						<th>Grade Point Average for <?php echo 	$course_result[$i]['elc_name']; ?></th>
+					</tr>
+					<tr>
+						<th>Credit</th>
+						<th><?php echo $course_result[$i]['credit_value']; ?>
+						<input type="hidden" name="course[course_id][]" value="<?php echo $course_result[$i]['elc_id'];?>" /></th>
+						<th></th>		
+					</tr>
+				</thead>
+				<tbody>
+			<?php $StudentPortal_model = new Application_Model_StudentPortal(); 
+				 $category_data=$StudentPortal_model->getstudentsdetails($course_result[$i]['academic_year_id']);
+				 $m = 1;
+				 $total = 0;
+				$ExprCourseGrade_model = new Application_Model_ExprCourseGrade();
+			    $coursegrade_result= $ExprCourseGrade_model->getExpCourseGradeRecord($course_result[$i]['academic_year_id'],$course_result[$i]['year_id']);
+				 
+					echo '<pre>'; print_r($coursegrade_result);  			
+				$ExprCoursePenalties_model = new Application_Model_ExprCoursePenalties();
+				$coursepenalty_result= $ExprCoursePenalties_model->getExpCoursePenaltyRecord($course_result[$i]['academic_year_id'],$course_result[$i]['year_id']);
+				echo  '<pre>'; print_r($coursepenalty_result);
+				
+				//print_r($coursegrade_result);die;
+				$grades = 0;
+				$penalty = 0;
+				$grade_after_penalty = 0;
+				 foreach($category_data as $k=>$stu_data) { 
+					 
+				 ?>
+							<tr>
+								<td><?php echo $m; ?></td>						
+								
+								<td><?php echo $stu_data['students']; ?></td>
+								
+								<input type="hidden" name="course[student_id_<?php echo $course_result[$i]['elc_id'];?>][]" id="student_id" value="<?php echo $stu_data['student_id']; ?>" />
+								<td></td>
+								<?php if(!empty($coursegrade_result) && !empty($coursepenalty_result)){
+									if(($coursegrade_result[$k]['courses_id'] == $coursepenalty_result[$k]['courses_id']) && ($coursegrade_result[$k]['student_id'] == $coursepenalty_result[$k]['student_id'])){
+									    $grades = $coursegrade_result[$k]['credit_value'];
+								    	$penalty = $coursepenalty_result[$k]['penalties'];
+										
+										$grade_after_penalty = $grades - $penalty;
+										//echo'<pre>';print_r($grade_after_penalty);
+										?>
+								<td><span><?php echo $grade_after_penalty;?></span>
+								<input type="hidden" name="course[grade_aftr_penalty<?php echo $course_result[$i]['elc_id'];?>][]" id="course[grade_aftr_penalty<?php echo $course_result[$i]['elc_id'];?>_<?php echo $stu_data['student_id'];?>]" value="<?php echo $grade_after_penalty;?>" />
+								</td>
+									
+								<td><span id="grade_avg<?php echo $course_result[$i]['elc_id'];?>_<?php echo $stu_data['student_id'];?>"><?php echo $grade_after_penalty; ?></span>
+								<input type="hidden" name="course[grade_point_avg<?php echo $course_result[$i]['elc_id'];?>][]" id="course[grade_point_avg<?php echo $course_result[$i]['elc_id'];?>_<?php echo $stu_data['student_id'];?>]" value="<?php echo $grade_after_penalty;?>" />
+								</td>
+							<?php } } else{ ?>
+							<td><span><?php echo $grade_after_penalty;?></span>
+								<input type="hidden" name="course[grade_aftr_penalty<?php echo $course_result[$i]['elc_id'];?>][]" id="course[grade_aftr_penalty<?php echo $course_result[$i]['elc_id'];?>_<?php echo $stu_data['student_id'];?>]" value="<?php echo $grade_after_penalty;?>" />
+							</td>
+									
+							<td><span id="grade_avg<?php echo $course_result[$i]['elc_id'];?>_ <?php echo $stu_data['student_id'];?>"><?php echo $grade_after_penalty; ?></span>
+								<input type="hidden" name="course[grade_point_avg<?php echo $course_result[$i]['elc_id'];?>][]" id="course[grade_point_avg<?php echo $course_result[$i]['elc_id'];?>_<?php echo $stu_data['student_id'];?>]" value="<?php echo $grade_after_penalty;?>" />
+							</td>
+                            <?php } ?>							
+							<input type="hidden"  name="course[academic_credits_<?php echo $course_result[$i]['elc_id'];?>][]"  id="academic_credits" value="<?php echo $course_result[$i]['credit_id']; ?>" />
+							</tr>  
+				 <?php $m++; } ?>	
+				</tbody>
+	</table>
+
+
+
+<?php } die; ?>
+<script>
+function getCredit(elc_id,student_id){
+	var credit = $('#penalties'+elc_id+'_'+student_id+'').val();
+	if(credit !=''){
+	    $('#grade_avg'+elc_id+'_'+student_id+'').html(credit);
+	}
+	
+}
+</script>

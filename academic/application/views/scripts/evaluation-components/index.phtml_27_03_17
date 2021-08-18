@@ -1,0 +1,397 @@
+<div class="right_col">
+<?php if ($this->type) { ?>
+<div class="padding-md ">
+	<div class="row">
+		<div class="col-md-12">
+		<h3 class="page-title txt-color-blueDark" >
+			<div><i class="fa fa-eye"> Evaluation Components</i></div>
+		</h3>
+			<div class="panel panel-default">
+				<form class="no-margin" id="formValidate1" action="<?php echo $this->form->getAction() ?>" method="post" data-validate="parsley" >
+					
+					<div class="panel-body">
+						<div class="row">
+
+							<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                            <label class="control-label">Batch<span class="asterisk">*</span></label>
+                            <?php echo $this->form->academic_year_id; ?>
+                            </div>
+							</div>
+							
+							<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                            <label class="control-label">Department <span class="asterisk">*</span></label>
+                            <?php echo $this->form->department_id; ?>
+                            </div>
+							</div>
+							
+							<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                            <label class="control-label">Faculty <span class="asterisk">*</span></label>
+                            <?php echo $this->form->employee_id; ?>
+                            </div>
+							</div> 
+							
+							
+
+							<!-- <div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                            <label class="control-label">Credit<span class="asterisk">*</span></label>
+                            <?php //echo $this->form->credit_id; ?>
+                            </div>
+							</div> -->
+							</div>
+							<div class="row">
+							<div class="col-sm-3">
+							<div class="form-group">
+							<input type="text" id="batch" class="form-control" readonly />
+							</div>
+							</div>
+							</div>
+							<div class="">
+							<div id="item_details"></div>
+							</div>
+					
+							 
+						  <?php if(count($this->item_result) >0){   ?>
+			
+		<?php for($term_id=0;$term_id<count($this->employee_result);$term_id++)
+		{ 
+	$i=0;
+		
+	?>
+	<br>
+	    <h4 style="background-color:#3c8dbc;padding:8px 8px;color:white;"><?php echo $this->employee_result[$term_id]['term_name'].'-'.$this->employee_result[$term_id]['course_name'];?></h4>
+		<?php foreach($this->item_result as $l => $val) {
+
+              if($val['term_id']==$this->employee_result[$term_id]['term_id'])
+			  {
+
+		?>
+		<div class="row">
+		
+	
+				<div class="col-sm-3">
+				<label class="control-label">Component Name</label>
+				<input type="text" name="components[component_name_<?php echo $this->employee_result[$term_id]['term_id'];?>][]" id="component_name" class="form-control" value="<?php echo $val['component_name']; ?>" />
+				</div>
+				<div class="col-sm-3">
+				<label class="control-label">Weightage</label>
+				<input type="text" name="components[weightage_<?php echo $this->employee_result[$term_id]['term_id']; ?>][]" id="weightage"  class="form-control weightage<?php echo $this->employee_result[$term_id]['term_id']; ?>" value="<?php echo $val['weightage']; ?>"  onchange="getWeightage(this.value,<?php echo $term_id;?>,<?php echo $this->employee_result[$term_id]['term_id']; ?>);"/>
+				</div>
+				<div class="col-sm-3" style="">
+				<label class="control-label">&nbsp;</label>
+				<input type="text" id="re_weightage_<?php echo $i;?>_<?php echo $this->employee_result[$term_id]['term_id']; ?>" class="form-control" readonly />
+				</div>
+				
+				 <a  class="removeclass btn btn-primary remove_class " style="padding:7px 15px;margin:24px 12px 0px;" href="#">-</a>
+		</div>
+		<?php } $i++; } ?>
+		<input type="hidden" name="count_val" id="count_val_<?php echo $term_id;?>" value="<?php echo $i; ?>" class="count_val">
+		<div id="addmore_items_<?php echo $term_id;?>"></div>
+			
+			  <div class="col-sm-3"></div><div class="col-sm-3"></div><div class="col-sm-3"></div>					   
+																<input type="button" value="+" id="AddButton" style="padding:7px 15px;margin:10px 15px;" class="btn btn-primary" onclick="addMore(<?php echo $term_id;?>,<?php echo $this->employee_result[$term_id]['term_id'];?>);" > 
+						  <?php }  } ?>
+							
+							<input type="hidden" name="eval_component_id" id="eval_component_id" value="<?php echo $this->eval_component_id; ?>" />
+							
+			</div>
+					<div class="panel-footer">									
+							<div class="row">
+								<div class="col-sm-7 col-sm-offset-5">
+									<?php if ($this->type == 'add') { ?> 
+										<div style="float:left;margin-right:2px;">
+										<button class="btn btn-primary submit">Submit</button>
+										</div>
+										<div style="float:left;padding:0px 10px;">
+										<button type="reset" class="btn btn-danger btn-default">Reset</button>
+										</div>
+									<?php } else { ?>
+										<div>
+										<button class="btn btn-primary submit">Update</button>
+										</div>
+									<?php } ?>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div><!-- /panel -->
+		</div><!-- /.col-->				
+	</div><!-- /.row -->
+</div>	
+<!-- /.padding-md -->	
+<?php } else { ?>
+  
+<?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+     <div class="alert alert-success ">
+<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+<?php echo $this->escape($message); ?>
+</div>
+ <?php } } ?>
+ <!-- widget grid -->
+<div class="">
+	<div class="">
+		<div class="row">
+			
+			<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+		<h3 class="page-title txt-color-blueDark">
+			<i class="fa fa-bars"> Evaluation Components </i>
+				
+		</h3>
+	</div>
+			
+		<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">	 
+			
+			<a class="btn btn-primary pull-right" style="margin-top: 25px;" href="<?php echo $this->mainconfig['host']; ?>evaluation-components/index/type/add">Add </a>
+		</div>
+		</div>
+		
+		<div class="x_panel">
+               
+                    <div class="x_title">
+                    <h2>Evaluation Components</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                       </li>
+                      <li><a class=""><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+<div class="x_content">
+		
+		<div class="padding-md clearfix">
+			<table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+				<thead>
+					<tr>
+						<th>S.No.</th>	
+						<th>Batch</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+
+						$i = 1;
+						$pagination_tr = '';
+						if (count($this->paginator) != 0) {
+
+						foreach ($this->paginator as $results) {
+						//print_r($results);die;
+
+					?>
+							<tr>
+								<td><?php echo $i;
+
+									$i++; ?>
+								</td>						
+								
+								<td><?php echo $results['from_date'] .'&nbsp;&nbsp;-&nbsp;&nbsp;'. $results['to_date']; ?></td>
+								
+								<td><a href="<?php echo $this->mainconfig['host']; ?>evaluation-components/index/type/edit/id/<?php echo $results['ec_id']; ?>" class="edit" title="Edit"><span class="fa fa-edit fa-lg"></span></a>&nbsp; | &nbsp;  <a href="<?php echo $this->mainconfig['host']; ?>evaluation-components/index/type/delete/id/<?php echo $results['ec_id']; ?>" onclick="return ConfirmDelete();" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a></td>
+
+							</tr>            
+
+						<?php }
+						$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+						} ?>
+
+				</tbody>
+			</table>
+			 <?php echo $pagination_tr; ?>
+		</div><!-- /.padding-md -->
+	</div><!-- /panel -->
+	</div>
+	</div>
+</div><!-- /.padding-md -->		
+<?php } ?>
+</div>
+<script>	
+ 
+	
+	function ConfirmDelete()
+	{
+	var x = confirm("Are you sure you want to delete?");
+	if(x)
+		return true;
+	else
+		return false;
+	}
+$("#cc_name").change(function(){
+	
+	var course_name=$('#cc_name').val();
+	//alert(coursename);
+	$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/get-course-category';?>',
+			data: {course_name:course_name}
+		}).done(function( data ) {
+			
+			if((data!='')){
+				alert("This Course Name Exists");
+				$("#cc_name").val("");
+			}
+		 });
+});
+
+$('body').on('change','#department_id',function() { 
+		var department_id = $('#department_id').val();
+		$.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'evaluation-components/ajax-get-employee';?>',
+			data: {department_id : department_id}
+		}).done(function( data ) {
+			
+			$('#employee_id').empty('');
+			$('#employee_id').html(data);
+			
+		})	
+})
+$('body').on('change','#employee_id',function(){
+	
+	var employee_id  = $('#employee_id').val();
+	var department_id = $('#department_id').val();
+	var academic_year_id = $('#academic_year_id').val();
+	var eval_component_id = $('#eval_component_id').val();
+	$.ajax({
+	type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'evaluation-components/ajax-get-employee-terms';?>',
+			data: {department_id : department_id,employee_id:employee_id,academic_year_id:academic_year_id}
+	
+	}).done(function( data ) {
+		
+		$('#item_details').empty('');
+		$('#item_details').html(data);
+	})
+})
+/* var academic_year_id = $('#academic_year_id option:selected').val();
+var department_id = $('#department_id option:selected').val();
+var  employee_id = $('#employee_id option:selected').val();
+var eval_component_id = $('#eval_component_id').val();
+
+$.ajax({
+	type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'evaluation-components/ajax-get-employee-terms';?>',
+			data: {department_id : department_id,employee_id:employee_id,academic_year_id:academic_year_id,eval_component_id:eval_component_id}
+	
+	}).done(function( data ) {
+		$('#item_details').empty('');
+		$('#item_details').html(data);
+	}) */
+
+/* var count = $('#eci_name').val(); //Addmore script code
+
+		$("body").on("click","#AddButton",function(event){
+		var count_value = count++;
+		//alert(count_value);
+		append_html = '<div class="row">';
+		
+		append_html += '<div class="col-sm-3 employee_class" style=""><label class="control-label "></label><input type="text"  class="form-control ec"  name="courses[eci_name][]"  style=" background:#FFFFFF;" id="ec'+count_value+'"   /></div>';
+		append_html += '<a href="#" class="removeclass6 btn btn-primary remove_class6 " style="padding:7px 15px;margin:20px 15px;">-</a>';
+		append_html += '</div>';			
+		$('#fields').append(append_html);
+		
+		});
+		$("body").on("click",".removeclass6", function(e){
+		//alert('sdsd');
+
+                $(this).parent('div').remove(); 				
+				
+        return false;
+
+    }); */
+	
+	
+	function addMore(i,term_id)
+	{ 
+  
+    var count = $('#count_val_'+i).val();
+
+	var item_count = count++;
+	append_html = '<div class="box-body">';
+	append_html += '<div class="row">';
+	append_html += '<div class="col-sm-3"><div class="form-group"><label class="control-label">Component Name</label><input type="text" name="components[component_name_'+term_id+'][]" id="component_name" class="form-control" /></div></div>';
+	append_html += '<div class="col-sm-3"><div class="form-group"><label class="control-label">Weightage</label><input type="text" name="components[weightage_'+term_id+'][]" id="weightage" class="form-control weightage'+term_id+'" onchange="getWeightage(this.value,'+item_count+','+term_id+');" /></div></div>';
+	append_html += '<div class="col-sm-3" style=""><label class="control-label">&nbsp;</label><input type="text" id="re_weightage_'+i+'_'+term_id+'" class="form-control" readonly /></div>';
+	append_html += '<a href="#" class="removeclass btn btn-primary remove_class " style="padding:7px 15px;margin:24px 12px;">-</a>';
+	append_html += '</div></div>';
+	$('#addmore_items_'+i).append(append_html);	
+	$('#count_val_'+i).val(item_count+1);
+	
+	}
+	
+   $("body").on("click",".removeclass", function(e){//alert('sdsd');
+	$(this).parent('div').remove(); 
+	return false;
+});
+
+/*$('.weightage').each(function() { 
+					var value = $('#weightage').val();
+					alert(value);
+					total_weightage_amount += parseFloat(value);
+					//alert(total_weightage_amount);
+					});
+	*/
+/* $(document).ready(function(){
+	var total=0;
+	    $('.weightage').each(function(){
+          var value =  $(this).val();
+		  //alert(value);
+		  total +=parseFloat(value);
+		  alert(total);
+		  if(total<=1){
+			  alert('weightage should be lessthan 1');
+		  }
+		  else{
+			  
+		  }
+		});
+    });
+*/
+
+function getWeightage(value,num,term_id){
+//alert(term_id);
+var days=$('input.weightage'+term_id+'').val();
+//alert(days);
+var tot=1-days;
+//alert(tot);
+$('#re_weightage_'+num+'_'+term_id+'').val(tot);
+var totals=0;
+	    $('input.weightage'+term_id+'').each(function(){
+         
+			
+		var value = parseFloat($(this).val());
+		//alert(value);
+		if (!isNaN(value)){ 			
+			totals += value;
+			//alert(total_tax_amt);
+		}				
+	//alert(totals);
+		  if(totals > 1){
+			  alert('weightage should be lessthan 1');
+			  $(this).val(0);
+		  }
+		  else{
+			  
+		  }
+		});
+}	
+$('body').on('change', '#academic_year_id', function() {		
+var sel = document.getElementById("academic_year_id");
+var value = sel.options[sel.selectedIndex].value; // or sel.value
+var text = sel.options[sel.selectedIndex].text; 
+//alert(text);
+$('#batch').val(text);
+
+ });
+var academic_year_ids =$('#academic_year_id option:selected').text();
+$('#batch').val(academic_year_ids); 
+
+</script>

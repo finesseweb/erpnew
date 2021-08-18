@@ -1,0 +1,51 @@
+
+<tr class="purchase-quatation-items-close paymentsitemsdiv">
+<td colspan="5">
+<div class="purchase-quatation-items" style="display: block;"><div class="col-sm-12 " >
+               <div id="log1">  
+             
+<div class="table-responsive" style="border: 1px solid #CCC;">
+    
+          <table class="table table-striped " id="table2">
+              <thead>
+                 <tr>
+                     <th>Bank Name</th>
+                   <th><?php if($this->result['payment_by']==1){ echo 'Cash'; } elseif($this->result['payment_by']==2) { echo 'Cheque No';} elseif($this->result['payment_by']==3) { echo 'DD No';}?></th>
+                    <th> Transaction Amount</th>
+                    <th>Date</th>                    
+                    
+                    <th><button class="close_tr btn btn-primary">Close</button></th>
+                    
+                 </tr>
+              </thead>
+             <tbody>
+            
+                 <tr>
+                     <td><?php echo $this->result['bank_name']; ?></td>
+                     <td><?php if($this->result['payment_by']==1) { echo 'Cash';} elseif($this->result['payment_by']==2) { echo $this->result['check_id']; } elseif($this->result['payment_by']==3) { echo $this->result['dd_no'];} ?></td>                   
+                     <td><?php echo $this->result['transaction_amount']; ?></td> 
+                     <td><?php echo date('d-m-Y',strtotime($this->result['added_date'])); ?></td> 
+                     
+                     <td></td>
+
+                     </tr>            
+                   </tbody>
+    </table>
+  </div>  
+         
+
+             </div>
+                   </div>
+</div>
+</td>
+</tr>
+
+<script>
+    $(".close_tr").click(function() {
+            $( ".purchase-quatation-items-close" ).hide();
+     });
+</script>
+
+
+
+

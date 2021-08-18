@@ -1,0 +1,435 @@
+<?php 
+
+// foreach ($this->result as $results){
+
+ ?>
+<html>
+<body>
+<center>
+<img style="padding-left:20%;padding-top:5%;" src="images/dmi.png">
+<div class="bg" style="padding-top:10%;">
+<table width="100%">
+<tr>
+<td><b>Participant ID No: <?php echo $this->stu_result['stu_id']; ?></b></td>
+<td align="right"><b>Sl.No.2016-17/001</b></td>
+</tr>
+<tr>
+<td><b>Name: Mr./Ms.&nbsp;&nbsp;<?php echo $this->stu_result['stu_fname'].' '.$this->stu_result['stu_lname']; ?></b></td>
+<td align="right"><b>Batch : &nbsp;&nbsp;<?php echo $this->academic_data['batch_code']; ?></b></td>
+</tr>
+</table>
+<h3 align="center">Post- Graduate Diploma in Management<br>(Development Management)</h3></td>
+<h3 align="center">ACADEMIC PERFORMANCE STATEMENT ( <?php if($this->year_id == 1){
+  echo'FIRST YEAR'; 
+ } else{
+  echo'SECOND YEAR';
+ } ?> )</h3>
+ 
+<!-- <div>
+<?php 
+/*$exprgradesheet_result = $this->ExprCourse_data;
+//echo'<pre>';print_r($exprgradesheet_result);die;
+$count_val = count($exprgradesheet_result);
+//print_r($counts);die;
+for($i=0;$i<$count_val;$i++){
+//echo'<pre>';print_r($gradesheet_result[$i]['start_date']);die;
+//if($exprgradesheet_result[$i]['start_date'] > $gradesheet_result[$i]['start_date'] &&   $gradesheet_result[$i]['end_date'] < $exprgradesheet_result[$i]['end_date'] ){
+//echo'<pre>';print_r($exprgradesheet_result[$i]['course_name']);die;
+?>
+<div class="sub" style="margin-top:10px;">
+<table class="tablestyle1" width="100%">
+<tr>
+<th rowspan="2" class="sub">Course / Module</th>
+<th rowspan="2" class="sub">Credits</th>
+<th colspan="2" class="sub">Grade</th>
+</tr>
+<tr>
+<th class="sub">Point</th>
+<th class="sub">Letter</th>
+</tr>
+<tr class="sub">
+<th class="sub">Experiential Module<?php echo $i+1; ?></th>
+<th class="sub" align="center" colspan="3"><?php if(($exprgradesheet_result[$i]['start_date'] !='') && ($exprgradesheet_result[$i]['end_date'] !='')){
+$st_date = $exprgradesheet_result[$i]['start_date'];
+$st_month = substr($st_date, 3, 2);
+$st_year = substr($st_date, 6,4);
+//print_r($st_month);die;
+//$start_date = date('MY', strtotime(date( $st_month )));
+$start_date = date("MY", mktime(0, 0, 0, $st_month, 1,$st_year));
+$en_date = $exprgradesheet_result[$i]['end_date'];
+$en_month = substr($en_date, 3, 2);
+$ending_year = substr($st_date, 6,4);
+$end_date = date("MY", mktime(0, 0, 0, $en_month, 1,$ending_year));
+//$end_date = date('MY', strtotime(date( $en_month)));
+//$start_date = date('MY',substr($st_date,3,2));
+//$end_date = date('MY',substr($en_date,3,2));
+ echo $start_date.' - '.$end_date;
+ } ?></th>
+</tr>
+<tr class="sub">
+<td class="sub" ><?php echo $exprgradesheet_result[$i]['course_name']; ?></td>
+<td class="sub" style="text-align:center;"><?php echo $exprgradesheet_result[$i]['credit_value'];?></td>
+<td class="sub" style="text-align:center;"><?php echo $exprgradesheet_result[$i]['grade_point_avg'];?></td>
+<td class="sub" style="text-align:center;">
+<?php if($exprgradesheet_result[$i]['grade_point_avg']>3.54){
+echo "A";
+} else if($exprgradesheet_result[$i]['grade_point_avg']>2.54){
+echo "B";
+}
+else if($exprgradesheet_result[$i]['grade_point_avg']>1.54){
+echo "C";
+}else if($exprgradesheet_result[$i]['grade_point_avg']>0.54){
+echo "D";
+}else if($exprgradesheet_result[$i]['grade_point_avg']>=0){
+echo "F";
+} ?>
+</td>
+</tr>
+
+</table>
+</div>  
+
+<?php //}
+} */ ?>
+</div>-->
+ 
+ 
+ 
+<div>
+<?php 
+$gradesheet_result = $this->grade_result;
+$Elective_result = $this->Ele_result;
+//echo'<pre>';print_r($gradesheet_result);die;
+$counts = count($gradesheet_result);
+//print_r($counts);die;
+$term_grades = 0;
+$cummilative_grade=0;
+$cummilative_credits=0;
+$total_cummilative_grade=0;
+for($i=0;$i<$counts;$i++){ 
+
+//print_r($start_date);die;
+$grades = explode(',',$gradesheet_result[$i]['academic_grades']);
+$credits = explode(',',$gradesheet_result[$i]['academic_credits']);
+$courses = explode(',',$gradesheet_result[$i]['coursename']);
+if(!empty($Elective_result[$i]['academic_electives'])){
+$ele_grades = explode(',',$Elective_result[$i]['academic_electives']);
+$Elective_courses = explode(',',$Elective_result[$i]['elective_coursename']);
+}
+
+$exper_result = $this->Experiential_data;
+//echo'<pre>';print_r($expr_result);die;
+for($j=0;$j<count($exper_result);$j++){
+if($gradesheet_result[$i]['term_id'] == $exper_result[$j]['terms_id']){
+//echo'sdfsdf';die;
+   $ExprCourseGradeAftrPenalties_model = new Application_Model_ExprCourseGradeAftrPenalties();
+   $ExprCourse_data = $ExprCourseGradeAftrPenalties_model->getGradeSheetRecords($gradesheet_result[$i]['academic_id'],$gradesheet_result[$i]['year_id'],$gradesheet_result[$i]['student_id']);
+  // 
+   $exprgradesheet_result = $ExprCourse_data;
+   //echo'<pre>';print_r($exprgradesheet_result);die;
+   
+?>
+
+<div class="sub" style="margin-top:10px;">
+<table class="tablestyle1" width="100%">
+<tr>
+<th rowspan="2" class="sub">Course / Module</th>
+<th rowspan="2" class="sub">Credits</th>
+<th colspan="2" class="sub">Grade</th>
+</tr>
+<tr>
+<th class="sub">Point</th>
+<th class="sub">Letter</th>
+</tr>
+<tr class="sub">
+<th class="sub">Experiential Module<?php echo $i+1; ?></th>
+<th class="sub" align="center" colspan="3"><?php if(($exprgradesheet_result[$j]['start_date'] !='') && ($exprgradesheet_result[$j]['end_date'] !='')){
+$st_date = $exprgradesheet_result[$j]['start_date'];
+$st_month = substr($st_date, 3, 2);
+$st_year = substr($st_date, 6,4);
+//print_r($st_month);die;
+//$start_date = date('MY', strtotime(date( $st_month )));
+$start_date = date("MY", mktime(0, 0, 0, $st_month, 1,$st_year));
+$en_date = $exprgradesheet_result[$j]['end_date'];
+$en_month = substr($en_date, 3, 2);
+$ending_year = substr($st_date, 6,4);
+$end_date = date("MY", mktime(0, 0, 0, $en_month, 1,$ending_year));
+//$end_date = date('MY', strtotime(date( $en_month)));
+//$start_date = date('MY',substr($st_date,3,2));
+//$end_date = date('MY',substr($en_date,3,2));
+ echo $start_date.' - '.$end_date;
+ } ?></th>
+</tr>
+<tr class="sub">
+<td class="sub" ><?php echo $exprgradesheet_result[$j]['course_name']; ?></td>
+<td class="sub" style="text-align:center;"><?php echo $exprgradesheet_result[$j]['credit_value'];?></td>
+<td class="sub" style="text-align:center;"><?php echo $exprgradesheet_result[$j]['grade_point_avg'];?></td>
+<td class="sub" style="text-align:center;">
+<?php if($exprgradesheet_result[$j]['grade_point_avg']>3.54){
+echo "A";
+} else if($exprgradesheet_result[$j]['grade_point_avg']>2.54){
+echo "B";
+}
+else if($exprgradesheet_result[$j]['grade_point_avg']>1.54){
+echo "C";
+}else if($exprgradesheet_result[$j]['grade_point_avg']>0.54){
+echo "D";
+}else if($exprgradesheet_result[$j]['grade_point_avg']>=0){
+echo "F";
+} ?>
+</td>
+</tr>
+<tr>
+<td class="sub">CGPA at the End of the Term</td>
+<td></td>
+<td style="text-align:center;"><?php $grade = $exprgradesheet_result[$j]['grade_point_avg'];
+          $exp_credits = $exprgradesheet_result[$j]['credit_value'];
+          $cgpa_avg = $grade / ($exp_credits); 
+		  echo $cgpa_avg; ?></td>
+<td></td>
+</tr>
+
+</table>
+</div> 
+   
+   
+<?php }
+}
+//echo'<pre>';print_r($gradesheet_result[$i]['elective_coursename']);die;
+//print_r($ele_grades);die;?>
+<div class="sub" style="margin-top:10px;">
+<table class="tablestyle1" style="" width="100%">
+<tr>
+<th rowspan="2" class="sub">Course / Module</th>
+<th rowspan="2" class="sub">Credits</th>
+<th colspan="2" class="sub">Grade</th>
+</tr>
+<tr>
+<th class="sub">Point</th>
+<th class="sub">Letter</th>
+</tr>
+<tr class="sub">
+<th class="sub"><?php echo $gradesheet_result[$i]['term_name'];?></th>
+<th class="sub" align="center" colspan="3">
+<?php if(($gradesheet_result[$i]['start_date'] !='') && ($gradesheet_result[$i]['end_date'] !='')){
+//print_r($gradesheet_result[$i]['end_date']);die;
+$st_date = $gradesheet_result[$i]['start_date'];
+$st_month = substr($st_date, 3, 2);
+$start_dtyr = substr($st_date,6,4);
+//print_r($st_month);die;
+//$start_date = date('MY', strtotime(date( $st_month )));
+$start_date = date("MY", mktime(0, 0, 0, $st_month, 1,$start_dtyr));
+$en_date = $gradesheet_result[$i]['end_date'];
+$en_month = substr($en_date, 3, 2);
+//print_r($en_month);die;
+$end_dtyr = substr($en_date,6,4);
+$ending_date = date("MY", mktime(0, 0, 0, $en_month, 1,$end_dtyr));
+//print_r($ending_date);die;
+//$end_date = date('MY', strtotime(date( $en_month)));
+//$start_date = date('MY',substr($st_date,3,2));
+//$end_date = date('MY',substr($en_date,3,2));
+ echo $start_date.' - '.$ending_date;
+ } ?>
+</th>
+
+</tr>
+<?php $tot_credits=0;
+$nxt_credits =0;
+$cgpa_tot = 0;
+$total_gradepoint = 0;
+$final_grade = 0;
+$ele_credits = 0;
+$totals_credit = 0;
+$exp_total = 0;
+$term_total = 0;
+$term_credits = 0;
+$term_ac_grade = 0;
+$term_exp_total = 0;
+$term_exp_credit = 0;
+foreach($courses as $keys=>$val){ ?>
+<tr class="sub">
+<td class="sub" ><?php echo $val; ?></td>
+<td class="sub" style="text-align:center;"><?php echo $credits[$keys];?></td>
+<td class="sub" style="text-align:center;"><?php echo $grades[$keys];?></td>
+<td class="sub" style="text-align:center;"><?php if($grades[$keys]>3.54){
+echo "A";
+} else if($grades[$keys]>2.54){
+echo "B";
+}
+else if($grades[$keys]>1.54){
+echo "C";
+}else if($grades[$keys]>0.54){
+echo "D";
+}else if($grades[$keys]>=0){
+echo "F";
+} ?></td>
+</tr>
+<?php $tot_credits += $credits[$keys];
+$total_gradepoint += $grades[$keys];
+} ?>
+<?php if($this->year_id == 2){ 
+if(!empty($Elective_courses)){ 
+//echo '<pre>';print_r(count($Elective_courses));die;
+foreach($Elective_courses as $keys=>$vals){ ?>
+<tr>
+<?php if(!empty($vals)){ ?>
+<td class="sub"><?php echo $vals; ?></td>
+<td class="sub" style="text-align:center;"><?php echo '1';?></td>
+<td class="sub" style="text-align:center;"><?php echo $ele_grades[$keys];?></td>
+<td class="sub" style="text-align:center;"><?php if($ele_grades[$keys]>3.54){
+echo "A";
+} else if($ele_grades[$keys]>2.54){
+echo "B";
+}
+else if($ele_grades[$keys]>1.54){
+echo "C";
+}else if($ele_grades[$keys]>0.54){
+echo "D";
+}else if($ele_grades[$keys]>=0){
+echo "F";
+} ?></td>
+<?php } ?>
+</tr>
+<?php $ele_credits +=count($ele_grades[$keys]);
+
+} }
+} ?>
+<tr class="sub">
+<td class="sub">Grade Point Average(GPA) For the Term </td>
+<td class="sub" style="text-align:center;"><?php  if(!empty($ele_credits)){ 
+ $totals_credit +=$tot_credits + $ele_credits;
+ echo $totals_credit;
+} else{ 
+$totals_credit +=$tot_credits;
+echo $totals_credit;
+ } ?></td>
+<td class="sub" style="text-align:center;"><?php 
+$final_grade += $gradesheet_result[$i]['final_grade']; 
+echo $final_grade;
+ ?></td>
+<td class="sub" style="text-align:center;"><?php if($final_grade>3.54){
+ echo "A";
+} else if($final_grade>2.54){
+ echo "B";
+}
+else if($final_grade>1.54){
+ echo "C";
+}else if($final_grade>0.54){
+ echo "D";
+}else if($final_grade>=0){
+ echo "F";
+} ?></td>
+</tr>
+<tr class="sub">
+<td class="sub">CGPA at the End of the Term </td>
+<td class="sub"></td>
+<td class="sub" style="text-align:center;"><?php 
+//echo $totals_credit;
+$cummilative_grade +=$final_grade*$totals_credit;
+//print_r($cummilative_grade);die;
+$cummilative_credits+=$totals_credit;
+//print_r($gradesheet_result[$i]['start_date']);die;
+$ExprCourseGradeAftrPenalties_model = new Application_Model_ExprCourseGradeAftrPenalties();
+$Expr_result = $ExprCourseGradeAftrPenalties_model->getExperRecordCredits($gradesheet_result[$i]['term_id'],$this->academic_id,$this->year_id,$this->stu_id);
+//echo'<pre>';print_r($Expr_result);die;
+
+if($this->year_id == 2){
+$CourseGradeAfterpenalties_model = new Application_Model_CourseGradeAfterpenalties();
+$Termcredits_result = $CourseGradeAfterpenalties_model->getTermRecordsCreditgrades($this->academic_id,1,$this->stu_id);
+//echo '<pre>';print_r($Termcredits_result);die;
+foreach($Termcredits_result as $key=>$val){
+    $credits = explode(',',$val['academic_credits']);
+	//print_r($credits);die;
+    $grade_val = explode(',',$val['academic_grades']);
+	//print_r($grade_val);die;
+	$cr_sum = array_sum($credits);
+	
+	$term_total += $val['final_grade'] * $cr_sum;
+    $term_credits += $cr_sum; 
+     //$term_ac_grade += $grade_val[$h];  
+    // $term_total +=($credits[$h]) * ($grade_val[$h]);
+  
+	
+}
+//print_r($term_total);die;
+
+//print_r($term_total);die;
+/* for($h=0;$h<count($credits);$h++)
+{
+   $term_credits += $credits[$h];
+   //$term_ac_grade += $grade_val[$h];  
+  // $term_total +=($credits[$h]) * ($grade_val[$h]);
+} */
+//print_r($term_credits);die;
+$ExperientialLearning_model = new Application_Model_ExperientialLearning();
+$TermExperiential_data = $ExperientialLearning_model->getExperRecords($this->academic_id,1);
+foreach($TermExperiential_data as $keys=>$val){
+  $TermsEXP_data = $ExprCourseGradeAftrPenalties_model->getTermsExprRecords($this->academic_id,1,$this->stu_id);
+ 
+ for($n=0;$n<count($TermsEXP_data);$n++){
+	// $termsexp_credits += $TermsEXP_data[$n]['credit_value'];
+	 $term_exp_gradepoint = $TermsEXP_data[$n]['grade_aftr_penalty'];
+	 $term_exp_credit += $TermsEXP_data[$n]['credit_value'];
+	 $term_exp_total += ($term_exp_gradepoint) * ($term_exp_credit);
+ }
+  //echo'<pre>';print_r($TermsEXP_data);die;
+}
+//
+/*$TermExpr_result = $ExprCourseGradeAftrPenalties_model->getTermsExprRecords($gradesheet_result[$i]['term_id'],$this->academic_id,1,$this->stu_id);
+//echo'<pre>';print_r($TermExpr_result);die;
+//$term_credits += $Termcredits_result['credit_value'];
+
+$term_exp_gradepoint = $TermExpr_result['grade_aftr_penalty'];
+$term_exp_credit += $TermExpr_result['credit_value'];
+$term_exp_total += ($term_exp_gradepoint) * ($term_exp_credit);*/
+}
+
+$exp_grade_point = $Expr_result['grade_aftr_penalty'];
+$exp_credit_value = $Expr_result['credit_value'];
+//print_r($exp_credit_value);die;
+//$exp_credits = count($Expr_result);
+$exp_total += ($exp_grade_point) * ($exp_credit_value);
+//print_r($cummilative_credits+$exp_credit_value);
+
+echo $total_cummilative_grade=(($cummilative_grade) + ($exp_total) + ($term_total) + ($term_exp_total))/(($cummilative_credits) + ($exp_credit_value) + ($term_credits) + ($term_exp_credit));
+//echo'<pre>';print_r($total_cummilative_grade);die;
+/* if(!empty($gradesheet_result[0]['term_id'])){
+   echo (($tot_credits) * ($total_gradepoint)) / ($tot_credits) ;
+}
+else{
+$cgpa_tot = (($tot_credits) * ($total_gradepoint)) / ($tot_credits);
+echo $cgpa_tot; 
+} */?> </td>
+<td class="sub"></td>
+</tr>
+</table>
+</div>
+<?php } ?>
+<?php  ?>
+<br>
+</div>
+
+
+
+</div>
+</center>
+</body>
+
+</html>
+<?php // } ?>
+<style>
+ tbody, td{
+}
+.sub table{
+	border:1px solid black;
+	border-collapse:collapse;
+}
+.sub tr,.sub th,.sub td{
+	border:1px solid black;
+	border-collapse:collapse;
+}
+.bg{
+/*
+background-color:#fff5e0; url('images/1.png');background-size: cover;background-size: 2280px  2808px;background-repeat: no-repeat;*/
+}
+</style>

@@ -1,0 +1,10 @@
+Package: Payroll
+Version: 2.4
+Name: Payroll
+Description: HRM and Payroll
+Author: Kvvaradha <admin@kvcodes.com>
+Homepage: www.kvcodes.com
+Depends: default
+InstallPath: modules/Payroll
+Type: extension
+Filename: payroll-1.0

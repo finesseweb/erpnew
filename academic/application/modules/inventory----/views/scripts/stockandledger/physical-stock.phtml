@@ -1,0 +1,210 @@
+<div class="workplace">
+  <?php
+	if ($this->type) {
+	?>
+   
+  <div class="row-fluid">
+				 
+		
+               <div class="span12 block-fluid">                 
+							<div class="head clearfix">
+							 <!-- <div class="isw-cloud"></div> -->    
+								<h3>Physical Stock Entry</h3>
+							</div>
+						<div class="span6" style="width:43%;">
+								   <div class="row-form clearfix">
+										<div class="span6"><strong>Details</strong></div>
+										
+								</div>              
+
+								<div class="row-form clearfix">
+									<div class="span6">Entry Number</div>
+									<div class="span6"><input type="text"/>
+											
+
+									</div>
+								</div>                         
+								
+								<div class="row-form clearfix">
+									<div class="span6">Date</div>
+									<div class="span6"><input type="date"/></div>
+								</div>                                   
+
+								<div class="row-form clearfix">
+									<div class="span6">Notes</div>
+									<div class="span6"><textarea></textarea></div>
+								</div> 
+								
+						</div>         
+						<div class="span6" style="width:43%;">
+						<div class="row-form clearfix">
+									<div class="span6"></div>
+									<div class="span6">
+									
+									</div>
+								</div> 
+
+								<div class="row-form clearfix">
+									<div class="span6">Issued By</div>
+									<div class="span6"><input type="text" disabled  placeholder="-1"/>
+									
+									</div>
+								</div> 
+
+								<div class="row-form clearfix">
+									<div class="span6">Received By:</div>
+									<div class="span6"><input value=""  type="text" disabled  placeholder="All" /> </div>
+								</div>
+
+						  </div>
+                                                    
+              
+				 <div class="span10">
+							<div class="row-form clearfix">	<div class="span6">
+									<a href="#">Load Current Stock</a>
+								</div>
+								<div class="span6">
+									<a href="#">Calculate</a>
+								</div></div>
+				 </div>
+				 <div class="span12">                 
+							
+						<div class="span6" style="width:43%;">
+								   <div class="row-form clearfix">
+										<div class="span6">Add</div>
+										
+								</div>              
+
+								<div class="row-form clearfix">
+									<div class="span6">Project Name</div>
+									<div class="span6">
+											<select name="select">
+											 <option value="0">Select Any Item </option>
+											 <option value="1">SMS</option>
+											 <option value="0">Public School</option>
+											 <option value="1">Civil Work</option>
+									</select>
+											
+
+									</div>
+								</div>  
+								<div class="row-form clearfix">
+									<button class="btn link_navPopMessages" type="button">Add</button>
+								</div>
+		 
+						</div>         
+						<div class="span6" style="width:43%;">
+								<div class="row-form clearfix">
+									<div class="span6"></div>
+									<div class="span6">
+											
+									
+									</div>
+								</div> 
+								<div class="row-form clearfix">
+									<div class="span6">Material Name</div>
+									<div class="span6">
+											<select name="select">
+											 <option value="0">Select Any Item</option>
+											 <option value="1">Acid Wash</option>
+											 <option value="0">Breaking Work</option>
+											 <option value="1">Civil Work</option>
+									</select>
+									
+									</div>
+								</div>
+								<div class="row-form clearfix">
+									<button class="btn link_navPopMessages" type="button">Search</button>
+								</div>						
+
+						  </div>
+				  
+                                                    
+                </div>
+				<div class="span12">   
+
+							<button type="submit" class="btn btn-default" style="margin-left:75%;">Save</button>
+
+		</div>
+		</div>
+		
+					
+		
+		</div>
+					
+					
+                
+	<div class="dr"><span></span></div>
+  
+  <?php } else { ?>
+  <?php if (count($this->messages))   { 
+
+    foreach ($this->messages as $message) {?>
+  <div class="alert alert-success">
+    <a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+    <?php echo $this->escape($message); ?> </div>
+  <?php } } ?>             
+	
+	<div class="row-fluid">
+		
+		<div class="span12"> 
+				
+			
+			<div class="head clearfix">
+				<div class="isw-grid"></div>
+				<h1>Physical Stock Entry Summary</h1>
+				<ul class="buttons">
+					<!-- <li><a href="#" class="isw-download"></a></li>                                                        
+					<li><a href="#" class="isw-attachment"></a></li> -->
+					<li>
+						<a href="#" class="isw-settings"></a>
+						<ul class="dd-list">
+							<li><a href="<?php echo $this->mainconfig['host'];?>inventory/stockandledger/physical-stock/type/add"><span class="isw-plus"></span>Add New </a></li>
+							<!-- <li><a href="#"><span class="isw-edit"></span> Edit</a></li>
+							<li><a href="#"><span class="isw-delete"></span> Delete</a></li> -->
+						</ul>
+					</li>
+				</ul>    
+			</div>
+			<div class="block-fluid" style="padding:1%;">
+				<a  href="<?php echo $this->mainconfig['host'];?>index"><u>Home</u></a>	 &nbsp >> &nbsp Inventory Management	  &nbsp >> &nbsp Physical Stock Entry
+			</div>
+		                         
+				<div class="block-fluid table-sorting clearfix">
+				<table cellpadding="0" cellspacing="0" width="100%" class="table" id="tSortable">
+					<thead>
+						<tr>
+							
+							<th>S.No</th>
+							<th>Entry Number</th>
+							<th>Date</th>
+							<th>Issued By</th>
+							<th>Received By</th>
+							<th>Action</th>
+							<th>Print</th> 
+							
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							
+							<td>1</td>
+							<td>01</td>
+							<td>01/04/2015</td>
+							<td></td>
+							<td>
+							
+							</td>
+							<td>Edit</td>
+							<td>Print</td>
+							 
+							
+						</tr>
+                        
+					</tbody>
+				</table>
+			</div>
+	
+	<div class="dr"><span></span></div> 	
+  <?php } ?>
+</div>

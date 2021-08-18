@@ -1,0 +1,42 @@
+<?php
+$item_result = $this->result;
+$eval_component_id = $this->eval_component_id;
+
+//echo '<pre>'; print_r($item_result); die;
+$i = 1;
+
+	
+	
+ for($i=0;$i<count($item_result);$i++) {   ?>
+
+ <div class="box-body">
+	<h4 style="background-color:#3c8dbc;padding:8px 8px;color:white;"><?php echo $item_result[$i]['term_name'].'-'.$item_result[$i]['course_name']; ?></h4>
+	<div class="row">
+	<input type="hidden" name="count_val" id="count_val_<?php echo $i;?>" value="1" class="count_val" />
+	
+	
+	<div class="col-sm-3">
+	<div class="form-group">
+	<label class="control-label">Component Name</label>
+	<input type="text" name="components[component_name_<?php echo $item_result[$i]['term_id'];?>][]" id="component_name" class="form-control" />
+	</div>
+	</div>
+	
+	<div class="col-sm-3">
+	<div class="form-group">
+	<label class="control-label">Weightage</label>
+	<input type="text" name="components[weightage_<?php echo $item_result[$i]['term_id'];?>][]" id="weightage"  class="form-control weightage<?php echo $item_result[$i]['term_id'];?>" onchange="getWeightage(this.value,<?php echo $i;?>,<?php echo $item_result[$i]['term_id'];?>);"/>
+	</div>
+	</div>
+	<div class="col-sm-3" style="">
+				<label class="control-label">&nbsp;</label>
+				<input type="text" id="re_weightage_<?php echo $i;?>_<?php echo $item_result[$i]['term_id'];?>" class="form-control" readonly />
+				</div>
+	 <div class="col-md-1" style="">					   
+																<input type="button" value="+" id="AddButton1" style="padding:7px 15px;margin-top:24px;" class="btn btn-primary" onclick="addMore(<?php echo $i;?>,<?php echo $item_result[$i]['term_id'];?>);" > 
+															</div> 
+	</div>
+	</div>
+	<div id="addmore_items_<?php echo $i;?>"></div>
+				<br>
+<?php  }  ?>

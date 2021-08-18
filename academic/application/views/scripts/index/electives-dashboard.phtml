@@ -1,0 +1,82 @@
+<div id="content" class="right_col">
+<section id="widget-grid" class="">
+					<!-- row -->
+					<div class="row">
+					<!-- NEW WIDGET START -->
+						<article class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+							<!-- Widget ID (each widget will need unique ID)-->
+							<div class="jarviswidget" id="wid-id-31" data-widget-colorbutton="false" data-widget-editbutton="false">
+								<h3 class="page-title txt-color-blueDark" >
+			<div><i class="fa fa-bars"> Academic</i></div>
+		           </h3>
+							
+				<!-- widget div-->
+								<div>
+				
+									<!-- widget edit box -->
+									<div class="jarviswidget-editbox">
+										<!-- This area used as dropdown edit box -->
+				
+									</div>
+									<!-- end widget edit box -->
+				
+									<!-- widget content -->
+									<div class="widget-body">
+									<?php //echo '<pre>'; print_r($this->electives); die;?>
+                                                                            <div class="col-sm-6 col-md-3" style="width:32%;"></div>
+                                                                            
+                                                                            
+		
+		
+							 	<?php 
+				  foreach($this->electives as $k => $elective) { continue;?>
+                                                                            
+	<div class="col-sm-6 col-md-3" style="width:32%;">
+        <a href="<?php //echo $this->mainconfig['host']; ?>purchase/enquiry">
+          <div class="panel panel-success panel-stat">
+		 <?php 
+		  if($k%2==0) { ?>
+            <div class="panel-heading" style="background:Light Pink Frost;height:150px;">
+		<?php }else { ?>
+			 
+			 <div class="panel-heading" style="background:#DFE2DB;height:150px;">
+		<?php } ?>
+              <div class="stat">
+                <div class="row">
+                  <div class="col-xs-4">
+                    <img src="<?php echo $this->mainconfig['host']; ?>public/images/is-user.png" alt="" />
+                  </div>
+                  <div class="col-xs-8">
+				  
+                    <small class="stat-label">Electives</small>
+                    <h4><?php echo $elective['course_name'];?></h4>
+					<?php $ElectiveSelection_model = new Application_Model_ElectiveSelection();
+						 $count = $ElectiveSelection_model->getCountForElective($elective['electives']);?>
+				     <h4><?php echo $count['elective_count'];?></h4>
+                  </div>
+                </div><!-- row -->
+                
+                <div class="mb15"></div>
+              </div>
+              
+            </div><!-- panel-heading -->
+          </div>
+          </a>
+        </div><!-- col-sm-6 -->
+        <?php }?> 
+       </div>
+									<!-- end widget content -->
+				
+								</div>
+								<!-- end widget div -->
+				
+							</div>
+							<!-- end widget -->
+				
+							
+						</div>	
+				</article>
+				
+				</section>
+	
+</div> 

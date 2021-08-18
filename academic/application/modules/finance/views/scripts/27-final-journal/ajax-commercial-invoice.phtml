@@ -1,0 +1,214 @@
+<?php
+error_reporting(0);
+$date = new Zend_Date();
+//echo '<pre>';
+//print_r($this->record);
+//print_r($this->getItems);
+// die;
+?>
+
+<tr class="purchase-quatation-items-close">
+  <td colspan="9">
+  <div class="col-sm-2" style="float:right; width:10%;">
+          <a class="close_tr btn btn-primary">Close</a>
+    </div>
+		
+    <div class="credit">
+	<table width="100%">
+		<tr>
+		  <td colspan="4" style="border:none;" align="center"><strong><i><?php echo $this->record['vendor_name'];?> </i></strong></td>
+		</tr>
+		<tr>
+		  <td colspan="4" style="border:none;" align="center"><i><?php echo $this->record['vendor_address1'];  ?></i></td>
+		</tr>
+		<tr>
+		  <td colspan="4" style="border:none;" align="center"><strong><i>COMMERCIAL INVOICE</i></strong></td>
+		</tr>
+		<tr>
+		  <td colspan="2" valign="top" style="border:none;">
+			<p>TO: <?php echo $this->company['company_name'];?></p>
+			<p>ADD: <?php echo $this->company['company_address1'];?></p>	           
+			<p>SHIPMENT FROM <?php echo $this->record['shipment_from'];?> </p>						
+		  </td>		  
+		  <td colspan="2" style="border:none;" align="right">
+		  INVOICE NO.:<?php echo $this->record['invoice_no'];  ?>
+		  <br />
+		  DATE:<?php echo $this->record['invoice_due_date'];  ?></td>
+		</tr>
+	</table>
+	  <table width="100%" border="1">		
+		<?php /* <tr>
+		  <td colspan="3" valign="top">
+			<strong>FROM (SHIPPER) :</strong> <br />
+			<b> <?php echo $this->record['vendor_name'];?> </b><br>
+			<p><?php echo $this->record['vendor_address1'];  ?> </p>
+		  </td>
+		  <td colspan="3" valign="top">
+			<p><strong>TO (CONSIGNEE) :</strong></p><strong><?php echo $this->company['company_name'];?></strong>
+			<p><?php echo $this->company['company_address1'];?></p>		  
+		  </td>
+		</tr> */ ?>
+		<tr>
+		  <td align="center"><strong>GOODS DESCRIPTION AND MARKS</strong></td>		   
+		  <td align="center"><strong>QUANTITY</strong></td>
+		  <td align="center"><strong>UNIT PRICE</strong></td>
+		  <td align="center"><strong>AMOUNT</strong></td>		  		  
+		</tr>
+		
+		<?php if($this->getItems){	
+			$total_price=0;
+			$total_qty = 0;
+			 foreach ($this->getItems as $data_enquiry){
+				$amount = $data_enquiry['amount'];
+				 //$disc_price = $unit_per_price *($data_enquiry['purchase_quatation_disc_rate']/100);
+				 $total_price +=  $amount; //currency_convert('INR', $unit_per_price, 'USD');
+				 $total_qty += $data_enquiry['quantity'];
+			 ?>
+		<tr>
+		  <td align="center"><?php echo $data_enquiry['name'];?> <br />
+		  <?php echo $data_enquiry['model'];?></td>
+		  <td align="center"><?php echo $data_enquiry['quantity'].$data_enquiry['uom'];?></td>		  
+		  <td align="right">USD<?php echo $data_enquiry['unit_price'];?></td>
+		  <td align="right">USD<?php echo $data_enquiry['amount'];?></td>		  
+		</tr>
+		<?php }} ?>
+		<tr>
+		  <td align="left">TOTAL:<br />
+		  N.W.:<?php echo $this->record['net_weight'].$data_enquiry['uom'];?>
+		  <br />
+		  G.W.:<?php echo $this->record['gross_weight'].$data_enquiry['uom'];?>
+		  <br />
+		  TOTAL PACKAGES:<?php echo $this->record['total_packages'];?>ROLLS
+		  </td>
+		  <td align="center">TOTAL:<br /> <?php echo $total_qty; ?>		  
+		  </td>
+		  <td align="center" colspan="2">USD<?php echo $total_price; ?> <br />
+		  TOTAL:SAY TOTAL US DOLLARS <?php echo rtrim( strtoupper( no_to_words($total_price) ) ); ?> ONLY.
+		  </td>
+		</tr>				
+	  </table>
+	</div>
+	</td>
+</tr>
+<style type="text/css">
+.credit {
+	width: 100%;
+	height: auto;
+	margin: 0px auto;
+	float: left;	
+}
+
+</style>
+<?php 
+function currency_convert($from_currency="", $price="", $to_currency="") {
+	$value = $price/62.33;
+	return round($value);
+}
+function no_to_words($no)
+{   
+ $words = array('0'=> '' ,'1'=> 'one' ,'2'=> 'two' ,'3' => 'three','4' => 'four','5' => 'five','6' => 'six','7' => 'seven','8' => 'eight','9' => 'nine','10' => 'ten','11' => 'eleven','12' => 'twelve','13' => 'thirteen','14' => 'fouteen','15' => 'fifteen','16' => 'sixteen','17' => 'seventeen','18' => 'eighteen','19' => 'nineteen','20' => 'twenty','30' => 'thirty','40' => 'fourty','50' => 'fifty','60' => 'sixty','70' => 'seventy','80' => 'eighty','90' => 'ninty','100' => 'hundred &','1000' => 'thousand','100000' => 'lakh','10000000' => 'crore');
+    if($no == 0)
+        return ' ';
+    else {
+	$novalue='';
+	$highno=$no;
+	$remainno=0;
+	$value=100;
+	$value1=1000;       
+            while($no>=100)    {
+                if(($value <= $no) &&($no  < $value1))    {
+                $novalue=$words["$value"];
+                $highno = (int)($no/$value);
+                $remainno = $no % $value;
+                break;
+                }
+                $value= $value1;
+                $value1 = $value * 100;
+            }       
+          if(array_key_exists("$highno",$words))
+              return $words["$highno"]." ".$novalue." ".no_to_words($remainno);
+          else {
+             $unit=$highno%10;
+             $ten =(int)($highno/10)*10;            
+             return $words["$ten"]." ".$words["$unit"]." ".$novalue." ".no_to_words($remainno);
+           }
+    }
+}
+
+function convert_number($number)
+{
+	if (($number < 0) || ($number > 999999999))
+	{
+		throw new Exception("Number is out of range");
+	}
+	 
+	$Gn = floor($number / 100000);  /* Millions (giga) */
+	$number -= $Gn * 100000;
+	$kn = floor($number / 1000);     /* Thousands (kilo) */
+	$number -= $kn * 1000;
+	$Hn = floor($number / 100);      /* Hundreds (hecto) */
+	$number -= $Hn * 100;
+	$Dn = floor($number / 10);       /* Tens (deca) */
+	$n = $number % 10;               /* Ones */
+	 
+	$res = "";
+	 
+	if ($Gn)
+	{
+		$res .= convert_number($Gn) . " Lacs";
+	}
+	 
+	if ($kn)
+	{
+		$res .= (empty($res) ? "" : " ") .
+		convert_number($kn) . " Thousand";
+	}
+	 
+	if ($Hn)
+	{
+		$res .= (empty($res) ? "" : " ") .
+		convert_number($Hn) . " Hundred";
+	}
+	 
+	$ones = array("", "One", "Two", "Three", "Four", "Five", "Six",
+	"Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen",
+	"Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eightteen",
+	"Nineteen");
+	$tens = array("", "", "Twenty", "Thirty", "Fourty", "Fifty", "Sixty",
+	"Seventy", "Eigthy", "Ninety");
+	 
+	if ($Dn || $n)
+	{
+	if (!empty($res))
+	{
+		$res .= " and ";
+	}
+	 
+	if ($Dn < 2)
+	{
+		$res .= $ones[$Dn * 10 + $n];
+	}
+	else
+	{
+		$res .= $tens[$Dn];
+	 
+	if ($n)
+	{
+		$res .= "-" . $ones[$n];
+	}
+	}
+	}
+	 
+	if (empty($res))
+	{
+		$res = "zero";
+	}
+	 
+	return $res;
+}  
+?>
+<script>
+    $(".close_tr").click(function() {
+            $( ".purchase-quatation-items-close" ).hide();
+     });
+</script>

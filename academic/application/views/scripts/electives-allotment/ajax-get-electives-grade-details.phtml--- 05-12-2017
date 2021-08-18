@@ -1,0 +1,234 @@
+
+ <?php
+$item_result = $this->result;
+
+$i = 1;
+
+	$EvaluationComponents_model = ''; 
+	if(count($item_result) > 0) { ?>
+	<h2 style="background-color:#bc973c;padding:8px 8px;color:white;">Courses</h2><br>
+ <?php for($i=0;$i<count($item_result);$i++) {   ?>
+
+ <div class="box-body">
+	<h4 style="background-color:#3c8dbc;padding:8px 8px;color:white;"><?php echo $item_result[$i]['term_name'].'-'.$item_result[$i]['course_name']; ?></h4>
+	<div style="overflow-x:scroll">
+	<table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+				<thead>
+					<tr>
+						<th rowspan="2">S.  No.</th>
+						<th rowspan="2">Name of Participants</th>
+						<th rowspan="2">ID Number</th>
+						<th>Component</th>
+						<?php 
+						
+						$ElectivesEvaluationComponents_model =  new Application_Model_ElectivesEvaluationComponents();
+							$result = $ElectivesEvaluationComponents_model->getAllCoursesComponents($item_result[$i]['academic_year_id'],$item_result[$i]['department_id'],$item_result[$i]['employee_id'],$item_result[$i]['term_id'],$item_result[$i]['course_id']);
+							
+							foreach($result as $k => $val) {
+							?>
+							<th><?php echo 	$val['component_name']; ?></th>
+							<?php } ?>
+						<th>Course Grade Point</th>
+					</tr>
+					<tr>
+						
+						
+						<th>Weightage</th>
+						<?php foreach($result as $k => $val) {
+							?>
+						<th><?php echo $val['weightage']; ?></th>
+						<?php } ?>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+				<?php $StudentPortal_model = new Application_Model_StudentPortal(); 
+				 $category_data=$StudentPortal_model->getstudentsdetails($item_result[$i]['academic_year_id']);
+				 $m = 1;
+				
+				 foreach($category_data as $stu_data) { ?>
+					
+							<tr>
+								<td><?php echo $m; ?></td>						
+								
+								<td><?php echo $stu_data['students']; ?></td>
+								<input type="hidden" name="course[student_id_<?php echo $item_result[$i]['term_id'];?>][]" id="student_id" value="<?php echo $stu_data['student_id']; ?>" />
+								<td><?php echo $stu_data['stu_id']; ?></td>
+								<td></td>
+								<?php 
+								//$component_grades = '';
+								$comp_weightages = '';
+								//$component_ids = '';
+								 $total = 0;
+								//foreach($result as $k => $val) { 
+								$ElectivesGradeAllocation_model = new Application_Model_ElectivesGradeAllocation();
+								$grade_result = $ElectivesGradeAllocation_model->getCoursesGradeRecords($item_result[$i]['academic_year_id'],$item_result[$i]['department_id'],$item_result[$i]['employee_id'],$item_result[$i]['term_id'],$item_result[$i]['course_id'],$stu_data['student_id']);
+								$alloted_grades = explode(',',$grade_result['grade_value']);
+								$alloted_component_ids = explode(',',$grade_result['component_id']);
+								
+								//$component_grades = $component_grades.$grade_result['grade_value'].",";
+								//$component_ids = $component_ids.$val['cr_eci_id'].",";
+								$component_grades = $grade_result['grade_value'];
+								$component_ids = $grade_result['component_id'];
+								foreach($alloted_grades as $g => $all_grades)  { 
+								$grade = $all_grades;
+								 
+                                                                ?>
+								<td><?php echo $all_grades; ?></td>
+								<?php 
+								if(!is_numeric($all_grades)){
+									
+									$ReferenceGradeMaster_model = new Application_Model_ReferenceGradeMaster();
+								$letter_grade_result = $ReferenceGradeMaster_model->getNumberGradeValue($item_result[$i]['academic_year_id'],$all_grades);
+								$numeric_grade = $letter_grade_result['number_grade']; 
+								}	
+								else if(is_numeric($all_grades)){
+									
+									$numeric_grade = $all_grades; 
+								}
+								/* $ElectivesEvaluationComponentsGradeMaster_model = new Application_Model_ElectivesEvaluationComponentsGradeMaster();
+								$component_result = $ElectivesEvaluationComponentsGradeMaster_model->getGradeValue($item_result[$i]['academic_year_id'],$item_result[$i]['department_id'],$item_result[$i]['employee_id'],$item_result[$i]['term_id'],$item_result[$i]['course_id'],$alloted_component_ids[$g],$all_grades); */
+								 
+								$ElectivesEvaluationComponents_model = new Application_Model_ElectivesEvaluationComponents();
+								$weigh = $ElectivesEvaluationComponents_model->getCourseComponentWeightage($item_result[$i]['academic_year_id'],$item_result[$i]['department_id'],$item_result[$i]['employee_id'],$item_result[$i]['term_id'],$item_result[$i]['course_id'],$alloted_component_ids[$g]);
+								
+								$comp_weightages = $comp_weightages.$weigh['weightage'].",";
+								
+								$tot_grade = $numeric_grade*$weigh['weightage']; 
+								$total += $tot_grade; ?>
+								 
+								<?php }  	 ?>
+													
+								<input type="hidden" name="course[weightages_<?php echo $item_result[$i]['term_id'];?>][]" value="<?php echo $comp_weightages; ?>" />
+								<input type="hidden" name="course[comp_ids_<?php echo $item_result[$i]['term_id'];?>][]" value="<?php echo $component_ids; ?>" />
+								<input type="hidden" name="course[grades_<?php echo $item_result[$i]['term_id'];?>][]" value="<?php echo $component_grades; ?>" />
+								<td><?php echo number_format($total,3); ?></td>
+								<input type="hidden" name="course[grade_point_<?php echo $item_result[$i]['term_id']; ?>][]" value="<?php $tot = number_format($total,3); echo $tot; ?>" />
+								 
+								
+
+							</tr>  
+				 <?php $m++; } ?>							
+
+				</tbody>
+			</table>
+			</div>
+	</div>
+	<div id="addmore_items_<?php echo $i;?>"></div>
+				<br>
+ <?php  } } ?>
+
+<?php  
+$electives_result = $this->electives_result;
+if(count($electives_result) > 0) { ?>
+<h2 style="background-color:#bc973c;padding:8px 8px;color:white;">Electives</h2><br>
+<?php for($j=0;$j<count($electives_result);$j++) { ?>
+
+<div class="box-body">
+	<h4 style="background-color:#3c8dbc;padding:8px 8px;color:white;"><?php echo $electives_result[$j]['term_name'].'-'.$electives_result[$j]['elective_name']; ?></h4>
+	<div style="overflow-x:scroll">
+	<table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+				<thead>
+					<tr>
+						<th rowspan="2">S.No.</th>
+						<th rowspan="2">Name of Participants</th>
+						<th rowspan="2">ID Number</th>
+						<th>Component</th>
+						<?php 
+						
+						$ElectivesEvaluationComponents_model =  new Application_Model_ElectivesEvaluationComponents();
+							$result = $ElectivesEvaluationComponents_model->getAllElectivesComponents($electives_result[$j]['academic_year_id'],$electives_result[$j]['department_id'],$electives_result[$j]['employee_id'],$electives_result[$j]['term_id'],$electives_result[$j]['elective_id']);
+							
+							foreach($result as $k => $val) {
+							?>
+							<th><?php echo 	$val['component_name']; ?></th>
+							<?php } ?>
+						<th>Course Grade Point</th>
+					</tr>
+					<tr>
+						
+						
+						<th>Weightage</th>
+						<?php foreach($result as $k => $val) {
+							?>
+						<th><?php echo $val['weightage']; ?></th>
+						<?php } ?>
+						<th></th>
+					</tr>
+				</thead>
+				
+				<tbody>
+				<?php 
+				$ElectiveSelection_model = new Application_Model_ElectiveSelection();
+				$category_data  = $ElectiveSelection_model->getStudentsForElective($electives_result[$j]['academic_year_id'],$electives_result[$j]['elective_id'],$electives_result[$j]['term_id']);
+				 $m = 1;
+				
+				 foreach($category_data as $stu_data) { ?>
+				 
+				 <tr>
+								<td><?php echo $m; ?></td>						
+								
+								<td><?php echo $stu_data['students']; ?></td>
+								<input type="hidden" name="elective[student_id_<?php echo $electives_result[$j]['term_id'];?>_<?php echo $electives_result[$j]['elective_id'];?>][]" id="student_id" value="<?php echo $stu_data['student_id']; ?>" />
+								<td><?php echo $stu_data['stu_id']; ?></td>
+								<td></td>
+								<?php 
+								//$component_grades = '';
+								$comp_weightages = '';
+								//$comp_ids = '';
+								 $total = 0;
+								//foreach($result as $k => $val) { 
+								$ElectivesGradeAllocation_model = new Application_Model_ElectivesGradeAllocation();
+								$grade_result = $ElectivesGradeAllocation_model->getElectivesGradeRecords($electives_result[$j]['academic_year_id'],$electives_result[$j]['department_id'],$electives_result[$j]['employee_id'],$electives_result[$j]['term_id'],$electives_result[$j]['elective_id'],$stu_data['student_id']);
+								$alloted_elective_component_grades = explode(',',$grade_result['grade_value']);
+								$alloted_elective_components_ids = explode(',',$grade_result['elective_component_id']);
+								$component_grades = $grade_result['grade_value'];
+								$comp_ids = $grade_result['elective_component_id'];
+								//$grade = $grade_result['grade_value'];
+								 foreach($alloted_elective_component_grades as $gl => $all_eles_grades)  { 
+								$grade = $all_eles_grades;
+								 
+                                                                ?>
+								<td><?php echo $all_eles_grades; ?></td>
+								<?php 
+								
+								/* $ElectivesEvaluationComponentsGradeMaster_model = new Application_Model_ElectivesEvaluationComponentsGradeMaster();
+								$component_result = $ElectivesEvaluationComponentsGradeMaster_model->getElectivesGradeValue($electives_result[$j]['academic_year_id'],$electives_result[$j]['department_id'],$electives_result[$j]['employee_id'],$electives_result[$j]['term_id'],$electives_result[$j]['elective_id'],$alloted_elective_components_ids[$gl],$all_eles_grades); */
+								if(!is_numeric($all_eles_grades)){
+									
+									$ReferenceGradeMaster_model = new Application_Model_ReferenceGradeMaster();
+								$letter_grade_result = $ReferenceGradeMaster_model->getNumberGradeValue($electives_result[$j]['academic_year_id'],$all_eles_grades);
+								$numeric_grade = $letter_grade_result['number_grade']; 
+								}	
+								else if(is_numeric($all_eles_grades)){
+									
+									$numeric_grade = $all_eles_grades; 
+								}
+								
+								$ElectivesEvaluationComponents_model = new Application_Model_ElectivesEvaluationComponents();
+								$weigh = $ElectivesEvaluationComponents_model->getElectiveComponentWeightage($electives_result[$j]['academic_year_id'],$electives_result[$j]['department_id'],$electives_result[$j]['employee_id'],$electives_result[$j]['term_id'],$electives_result[$j]['elective_id'],$alloted_elective_components_ids[$gl]);
+								
+								$comp_weightages = $comp_weightages.$weigh['weightage'].",";
+								
+								$tot_grade = $numeric_grade*$weigh['weightage']; 
+								//echo $component_result['number_grade']; 
+								$total += $tot_grade; 
+								
+								
+								}  ?>
+								<input type="hidden" name="elective[weightages_<?php echo $electives_result[$j]['term_id'];?>_<?php echo $electives_result[$j]['elective_id'];?>][]" value="<?php echo $comp_weightages; ?>" />
+								<input type="hidden" name="elective[grades_<?php echo $electives_result[$j]['term_id'];?>_<?php echo $electives_result[$j]['elective_id'];?>][]" value="<?php echo $component_grades; ?>" />
+								<td><?php echo number_format($total,3); ?></td>
+								<input type="hidden" name="elective[grade_point_<?php echo $electives_result[$j]['term_id']; ?>_<?php echo $electives_result[$j]['elective_id'];?>][]" value="<?php $tot = number_format($total,3); echo $tot; ?>" />
+								
+								<input type="hidden" name="elective[comp_ids_<?php echo $electives_result[$j]['term_id']; ?>_<?php echo $electives_result[$j]['elective_id'];?>][]" value="<?php echo $comp_ids; ?>" />
+				</tr>	
+				 <?php  $m++; } ?>
+			
+				
+				</tbody>
+	</table>
+</div>	
+</div>
+<?php }  } ?>
+

@@ -1,0 +1,480 @@
+
+<style>
+    #term_id>option:nth-last-child(5){
+        display:none;
+    }
+
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<div class="right_col">
+    <?php if ($this->type) { ?>
+        <div class="padding-md ">
+            <?php
+            if (count($this->messages)) {
+                foreach ($this->messages as $message) {
+                    ?>
+                    <div class="alert alert-success ">
+                        <a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+                    <?php echo $this->escape($message); ?>
+                    </div>
+                <?php }
+            }
+            ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="page-title txt-color-blueDark" >
+                        <div><i class="fa fa-eye">Promotion to higher Semester </i></div>
+                    </h3>
+                    <div class="panel panel-default">
+                        <div class="col-sm-0" style="float:right;">
+                                  <a class="btn btn-link" role="button" href="#" id="print"><span class='glyphicon glyphicon-print'></span></a></div>
+                        <form class="no-margin" id="formValidate1" action="<?php echo $this->form->getAction() ?>" method="post" data-validate="parsley" >
+
+                            <div class="panel-body">
+                                <?php
+                                $hide_filter_block = 'style="display:none;"';
+                                if (in_array($this->role_id, $this->administrator_role)) {
+                                    $hide_filter_block = '';
+                                }
+                                ?>
+                                <div class="row" <?php echo $hide_filter_block; ?> >
+                                    <div class="col-sm-3 employee_class">
+                                        <div class="form-group">
+                                            <label class="control-label">Batch<span class="asterisk">*</span></label>
+                                    <?php echo $this->form->academic_id; ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 employee_class">
+                                        <div class="form-group">
+                                            <label class="control-label">Result Based on Terms<span class="asterisk">*</span></label>
+    <?php echo $this->form->term_id; ?>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div id="term_ids"></div>						 -->
+                                </div>
+                                <div class="row" <?php echo $hide_filter_block; ?>>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <input type="text" id="batch" class="form-control"  style="background-color:#fdf59a;" readonly /></div>
+                                    </div>
+                                </div>
+                                <div class="row" <?php echo $hide_filter_block; ?>>
+
+                                    <div id="course_ids"></div>
+                                    <div id="components_ids"></div>
+                                </div>
+                                <div class="" id="grade_data">
+
+
+    <?php if ($this->type == 'edit') { ?>
+                                        <div class="col-md-12 table-responsive">
+                                            <table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+
+
+                                                <thead>
+                                                    <tr>
+
+                                                        <th >S.  No.</th>
+                                                        <th >Participants Name</th>
+                                                        <th>Participants ID</th>
+                                                        <th >CGPA</th>
+                                                        <th >Result</th>
+                                                        <!-- <th>Remarks</th> -->
+                                                        <th>Action</th>
+                                                </thead>
+                                                <tbody>
+        <?php foreach ($this->results as $key => $value): ?>
+                                                    
+                                                    
+                                                                                 
+                                                     
+                                                    
+                                                    
+                                                    
+                                                        <tr>
+                                                            <td><?= ++$key; ?></td>
+                                                            <td id="participants_name_<?=$key;?>"><?php echo $value['participants_name'] ?> </td>
+                                                            <td id="participants_id_<?=$key;?>"><?= $value['participants_id']; ?></td>
+                                                            <td id="gpa_<?=$key;?>"><?= $value['gpa'] ?></td>
+                                                            <?php
+                                                                
+
+
+         /*   $academic_year_id = $this->batch_id;
+            $term_id = $this->term_id;
+            // print_r($term_id);die;
+            $Academic_model = new Application_Model_Academic();
+            $result = $Academic_model->getAcademicDesignOrderByDate($academic_year_id);
+           
+            $prev_index = '';
+            $prev_index_details = array();
+            // echo "<pre>";print_r($result);exit;
+
+            foreach ($result as $key => $value) {
+                if ($term_id == $value['id'] && $key != 0) {
+                    $prev_index = $key - 1;
+                    $prev_index_details = array('id' => $result[$prev_index]['id'],
+                        'c_type' => $result[$prev_index]['c_type'],
+                        'term_name' => $result[$prev_index]['term_name']);
+                }
+            }
+
+            $StudentPortal_model = new Application_Model_StudentPortal();
+            $Category_data = $StudentPortal_model->getstudentsdetailsByTerm_id($academic_year_id, $term_id, $prev_index_details);
+                 if ($Category_data == 0) {
+                echo "0";
+                die;
+                 } else if ($Category_data == 3) {
+                echo "3";
+                die;
+                    } else {
+                echo "<pre>";print_r($Category_data);exit;
+
+            }*/
+
+                                                
+
+
+                                                        $studentFeeDetails = new Application_Model_FeeDetails();
+                                                        $resultData = $studentFeeDetails->getResultValue($value['gpa']);
+                                                
+
+                                                        ?> 
+                                                         
+                                                            <td><?= $resultData[0]['result']?></td>
+                                                           <!--  <td><textarea rows="1" col="2" name='remarks[]' id ='remarks_<?=$key;?>' placeholder="Remarks..."><?php echo $value['Remarks']; ?></textarea></td> -->
+                                                            <!-- <td><a href="javascript:0;" class="btn btn-primary" onclick='myfunc(this,<?= $value["fee_details_id"]; ?>, "text_box<?= $key; ?>", "label_box<?= $key; ?>");' data-id='edit' id="edit_save_<?= $key ?>">Edit</a></td>  -->
+                                                            <td><input type="checkbox" name="vehicle1" id="vehicle<?= $value["fee_details_id"]; ?>" value="<?= $value["promoted"]; ?>" onclick="promoted(<?= $value["fee_details_id"]; ?>);" <?php if($value["promoted"]==1){ echo 'checked';} ?> > Promote<br></td>
+                                                        </tr>
+        <?php endforeach; ?>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+    <?php } ?>
+
+                                </div>
+                                <input type="hidden" name="students_name" id="students_name" value="<?php echo $this->students_name; ?>"/> 
+                                <input type="hidden" name="grade_allocate_id" id="grade_allocate_id" value="<?php echo $this->grade_allocate_id; ?>" />
+                            </div>
+
+                            <div class="panel-footer">									
+                                <div class="row">
+                                    <div class="col-sm-7 col-sm-offset-5">
+    <?php if ($this->type == 'add') { ?> 
+                                            <div style="float:left;margin-right:2px;">
+                                                <button class="btn btn-primary submit">Submit</button>
+                                            </div>
+                                            <div style="float:left;padding:0px 10px;">
+                                                <button type="reset" class="btn btn-danger btn-default">Reset</button>
+                                            </div>
+    <?php } else { ?>
+
+
+                                         
+    <?php } ?>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    </form>
+                </div><!-- /panel -->
+            </div><!-- /.col-->				
+        </div><!-- /.row -->
+
+    </div><!-- /.padding-md -->	
+<?php } else { ?>
+
+    <?php
+    if (count($this->messages)) {
+        foreach ($this->messages as $message) {
+            ?>
+            <div class="alert alert-success ">
+                <a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+            <?php echo $this->escape($message); ?>
+            </div>
+        <?php }
+    }
+    ?>
+    <!-- widget grid -->
+    <div class="">
+        <div class="">
+            <div class="row">
+
+                <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+                    <h3 class="page-title txt-color-blueDark">
+                        <i class="fa fa-bars">Promotion to higher Semester</i>
+
+                    </h3>
+                </div>
+    <?php
+    if (in_array($this->role_id, $this->administrator_role)) {
+        ?>		
+                    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">	 
+
+                        <a class="btn btn-primary pull-right" style="margin-top: 25px;" href="<?php echo $this->mainconfig['host']; ?>fee-details/index/type/add">Add </a>
+                    </div>
+        <?php
+    }
+    ?>
+            </div>
+
+            <div class="x_panel">
+
+                <div class="x_title">
+                    <h2></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        </li>
+                        <li><a class=""><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+
+                    <div class="padding-md clearfix" >
+                        <table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+                            <thead>
+                                <tr>
+                                    <th>S.  No.</th>
+                                    <th>Batch</th>
+                                    <th>Term</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $i = 1;
+                                $pagination_tr = '';
+                                if (count($this->paginator) != 0) {
+
+                                    foreach ($this->paginator as $results) {
+                                        ?>
+                                        <tr>
+                                            <td><?php
+                                    echo $i;
+
+                                    $i++;
+                                    ?>
+                                            </td>	
+                                            <td><?php echo $results['batch_name']; ?></td>
+                                            <td><?php echo $results['term_name']; ?></td>
+                                            <td><a href="<?php echo $this->mainconfig['host']; ?>result-details/index/type/edit/batch_id/<?php echo $results['batch_id']; ?>/term_id/<?php echo $results['term_id']; ?>" class="edit" title="Edit"><span class="fa fa-edit fa-lg"></span></a></td>
+                                        </tr>            
+
+            <?php
+        }
+        $pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+    }
+    ?>
+
+                            </tbody>
+                        </table>
+    <?php echo $pagination_tr; ?>
+                    </div><!-- /.padding-md -->
+                </div><!-- /panel -->
+            </div>
+        </div>
+    </div><!-- /.padding-md -->		
+<?php } ?>
+</div>
+<script>
+    $(document).ready(function () {
+        //$("#stu_dob").datepicker({ dateFormat: 'dd-mm-yy' });  
+        $('#stu_dob').datepicker({format: 'dd-mm-yyyy'});
+    });
+
+
+    function ConfirmDelete()
+    {
+        var x = confirm("Are you sure you want to delete?");
+        if (x)
+            return true;
+        else
+            return false;
+    }
+    /* $("#year").change(function() {
+     var academic_id=$("#academic_id").val();
+     //alert(academic_id);
+     var year=$("#year").val();
+     $.ajax({ 
+     type: "POST",
+     url:"<?php echo $this->mainconfig['host'] . 'grade-allocation/ajax-get-grade-allocation'; ?>",
+     data: { academic_year_id : academic_id,year: year}
+     }).done( function( data ) { 
+     //	alert(data);	
+     $("#grade_data").html(data);
+     });
+     
+     }); */
+    $('body').on('change', '#term_id', function () {
+        var academic_id = $("#academic_id").val();
+        var term_id = $('#term_id').val();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo $this->mainconfig['host'] . 'result-details/ajax-get-student-details'; ?>",
+            data: {academic_year_id: academic_id, term_id: term_id}
+        }).done(function (data) {
+            if (data == '0') {
+                $("#grade_data").html('<div class="alert alert-danger"><a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>Please Create the "Fee Structure" first ! </div>')
+            } else if (data == '3') {
+                $("#grade_data").html('<div class="alert alert-danger"><a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>Please create the "Course grade After panalties"  </div>')
+            } else
+            {
+                $("#grade_data").html(data);
+                $(".disabl").attr("disabled", "diable");
+            }
+        });
+
+    });
+
+
+
+
+
+    $("#academic_id").change(function () {
+        var academic_id = $('#academic_id').val();
+        if (academic_id) {
+            $.ajax({
+                type: "POST",
+                url: '<?php echo $this->mainconfig['host'] . 'master/ajax-get-terms'; ?>',
+                data: {academic_year_id: academic_id}
+            }).done(function (data) {
+                //alert(data);
+                $('#term_id').empty('');
+                $('#term_id').html(data);
+            })
+        }
+    });
+
+
+
+
+function myCalcFun(el){
+id = $(el).attr('id');
+arr = id.split("_");
+total_fee = parseFloat($('#total_'+arr[1]).text());
+sum = parseFloat($('#tuition_fee_'+arr[1]).text());
+discount = parseFloat($('#'+id).val());
+  other_term_fee = total_fee - sum;
+  scholarship_fee = other_term_fee+(sum - (sum/100)*discount);
+  $('#total_fee'+arr[1]).empty();
+  if(isNaN(scholarship_fee))
+       $('#total_fee'+arr[1]).text(0);
+      else
+  $('#total_fee'+arr[1]).text(scholarship_fee);
+
+}
+
+
+    var academic_id = $('#academic_id').val();
+    if (academic_id) {
+        $.ajax({
+            type: "POST",
+            url: '<?php echo $this->mainconfig['host'] . 'master/ajax-get-terms'; ?>',
+            data: {academic_year_id: academic_id}
+        }).done(function (data) {
+            //alert(data);
+            $('#term_id').empty('');
+            $('#term_id').html(data);
+            $('#term_id').val('<?= $this->results[0]['term_id']; ?>');
+        })
+    }
+
+
+
+    $('body').on('change', '#academic_id', function () {
+        var academic_id = $('#academic_id').val();
+        if (academic_id) {
+            $('#batch').show();
+            $.ajax({
+                type: "POST",
+                url: '<?php echo $this->mainconfig['host'] . 'master/ajax-get-batch-code'; ?>',
+                data: {academic_id: academic_id}
+            }).done(function (data) {
+                var result = $.parseJSON(data);
+                if ((data != '')) {
+                    $('#batch').val(result['short_code']);
+                }
+            });
+        }
+
+    });
+
+    var academic_id = $('#academic_id option:selected').val();
+    if (academic_id) {
+        $('#batch').show();
+        $.ajax({
+            type: "POST",
+            url: '<?php echo $this->mainconfig['host'] . 'master/ajax-get-batch-code'; ?>',
+            data: {academic_id: academic_id}
+        }).done(function (data) {
+            var result = $.parseJSON(data);
+            if ((data != '')) {
+                $('#batch').val(result['short_code']);
+            }
+        });
+    } else {
+        $('#batch').hide();
+    }
+
+    var myfunc = (el, fee_id, text_box, label_box) => {
+
+        id = $(el).attr('id');
+        arr =id.split("_");
+       
+discount = parseFloat($('#discount_'+arr[2]).val());
+total_fee = parseFloat($('#total_fee'+arr[2]).text());
+remarks = $('#remarks_'+arr[2]).val();
+        x = $('#' + id).text();
+        if (x == 'Edit') {
+            $('#' + id).attr('data-id', 'save');
+            $('#' + id).empty();
+            $('#' + id).text('save');
+            $('#' + text_box).css('display', 'initial');
+            $('#' + label_box).css('display', 'none');
+        }
+        
+        if (x == 'save') {
+                if ((discount <= 100 && discount >= 0)) {
+                    $.ajax({
+                        type: "POST",
+                        url: '<?php echo $this->mainconfig['host'] . 'result-details/ajax-get-fee'; ?>',
+                        data: {fee_id: fee_id, discount: discount, cal_fee:total_fee, remarks: remarks,term_id:$('#term_id').val(),batch_id:$('#academic_id').val() }
+                    }).done(function (data) {
+                   $('#grade_data').empty();
+                    $('#grade_data').html(data);
+                    $('#dataTable').DataTable();
+                    });
+
+                } else
+                {
+                    alert('Discount Percentage should not be greater than 100 or less than 0 ')
+                }
+            }
+        }
+
+
+   
+</script>
+<script>
+    function promoted(fid){
+        var id=fid;
+        var pvalue=$("#vehicle"+fid).val();
+        $.ajax({
+            type: "POST",
+            url: '<?php echo $this->mainconfig['host'] . 'result-details/ajax-promoted'; ?>',
+            data: {id:id ,value:pvalue}
+
+        }).done(function(data){
+            alert(data);  
+			location.reload(); 			
+        });
+    }
+</script>

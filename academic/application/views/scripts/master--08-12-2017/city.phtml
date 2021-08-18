@@ -1,0 +1,258 @@
+<?php if ($this->type) { ?>
+<div class="padding-md right_col">
+	<div class="row">
+		<div class="col-md-12">
+		<h3 class="page-title txt-color-blueDark" >
+			<div><i class="fa fa-eye"> City</i></div>
+				
+		</h3>
+			<div class="panel panel-default">
+				<form class="no-margin" id="formValidate1" action="<?php echo $this->form->getAction() ?>" method="post" data-validate="parsley" novalidate>
+					<div class="panel-body">
+						<div class="row">
+						  <div class="col-sm-3 ">				
+								<div class="form-group">
+									<label class="control-label">Country</label>
+									<?php echo $this->form->country_id; ?>
+								</div>									
+							</div>  
+							<div class="col-sm-3 ">				
+								<div class="form-group">
+									<label class="control-label">State Name</label>
+									<?php echo $this->form->state_id; ?>
+								</div>									
+							</div>  
+							
+						 <?php
+							if(!empty($this->cities)){
+											  $i=0; ?>
+									<input type="hidden" name="cities_name" id="cities_name" value="<?php echo (count($this->cities) +1 )?>" class="cities_name">
+									<?php
+									//foreach($this->cities as $val){
+										
+									//print_r($val);die;
+									$i++;
+									?>	
+										<div  class="row appended_row " style="margin:0px 1px;">
+											<div class="col-sm-3">
+												<label class="control-label">City Name</label>		
+												<input type="text"  class="form-control " label="city_name_<?php echo $i; ?>" 
+												name="city_name[]" value="<?php echo $this->result['city_name']; ?>"  />
+											</div>
+										
+                                     <a id="AddButton6" class="btn btn-primary" style="margin:24px 15px 0px; padding: 7px 19px!important;">+</a> 
+										
+									</div> 
+									<?php		//} 
+											?>
+										
+									<?php } else { ?>
+									<div  class="row appended_row "style="width:100%;margin:0px 1px;">
+									<input type="hidden" name="city_name" id="city_name" value="1" class="city_name">
+											<div class="col-sm-3">
+											<label class="control-label">City Name</label>			
+											<input type="text"  class="form-control" name="city_name[]"label="city_name_0"/>
+											</div>				
+					
+										 <a id="AddButton6" class="btn btn-primary" style="margin:24px 15px; padding: 7px 19px!important;">+</a> 
+									</div>
+							
+										<?php } ?>
+						<div  id="fields7">
+							<div class="padding-top"></div>
+						</div>
+							<div class="col-sm-3 ">				
+								<div class="form-group">
+									<label class="control-label">City code</label>
+									<?php echo $this->form->city_code; ?>
+								</div>									
+							</div> 	
+						</div>
+					</div>
+						
+						<div class="panel-footer ">									
+							<div class="row">
+								<div class="col-sm-7 col-sm-offset-5">
+									<?php if ($this->type == 'add') { ?> 
+										<div style="float:left;margin-right:2px;">
+										<button class="btn btn-primary submit">Submit</button>
+										</div>
+										<div style="float:left;padding:0px 10px;">
+										<button type="reset" class="btn btn-danger btn-default">Reset</button>
+										</div>
+									<?php } else { ?>
+										<div >
+										<button class="btn btn-primary submit">Update</button>
+										</div>
+									<?php } ?>
+								</div>
+							</div>
+						
+					</div>
+				</form>
+			</div><!-- /panel -->
+		</div><!-- /.col-->				
+	</div><!-- /.row -->
+</div><!-- /.padding-md -->	
+
+<?php } else { ?>
+  
+<?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+     <div class="alert alert-success ">
+<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+<?php echo $this->escape($message); ?>
+</div>
+ <?php } } ?>
+ <!-- widget grid -->
+<div class="right_col">
+	<div class="">
+		<div class="row">
+	<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+		<h3 class="page-title txt-color-blueDark">
+			<i class="fa fa-bars"> City</i>
+				
+		</h3>
+	</div>
+	<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
+		
+			<a class="btn btn-primary pull-right" style="margin-top:25px;" href="<?php echo $this->mainconfig['host']; ?>master/city/type/add">Add City</a>
+
+			
+	</div>
+</div>
+	<div class="x_panel">
+               
+                    <div class="x_title">
+                    <h2>City</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                       </li>
+                      <li><a class=""><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+<div class="x_content">
+		<div class="padding-md clearfix">
+			<table class="table table-striped table-bordered jambo_table bulk_action" id="dataTable">
+				<thead>
+					<tr>
+						<th>S.No</th>
+						<th>Country</th>
+						<th>State</th>	
+						<th>City Name</th> 
+						<th>City Code</th>
+						<th>Action</th>   
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+
+						$i = 1;
+						$pagination_tr = '';
+						if (count($this->paginator) != 0) {
+
+						foreach ($this->paginator as $results) {
+
+					?>
+					<tr>
+						<td><?php echo $i;
+
+							$i++; ?>
+						</td>
+						<td><?php echo $results['countries_name']; ?></td>
+						<td><?php echo $results['state_name']; ?></td>
+						<td><?php echo $results['city_name'];?> </td>
+						<td><?php echo $results['city_code']; ?></td>
+						<td><a href="<?php echo $this->mainconfig['host']; ?>master/city/type/edit/id/<?php echo $results['city_id']; ?>" class="edit" title="Edit"><span class="fa fa-edit fa-lg"></span></a>&nbsp; | &nbsp;  <a href="<?php echo $this->mainconfig['host']; ?>master/city/type/delete/id/<?php echo $results['city_id']; ?>" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a></td>
+
+					</tr>            
+
+								<?php }
+								$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+								} ?>
+
+				</tbody>
+			</table>
+			 <?php echo $pagination_tr; ?>
+		</div><!-- /.padding-md -->
+	</div><!-- /panel -->
+</div>
+</div><!-- /.padding-md -->	
+</div>	
+<?php } ?>
+<script type="text/javascript">	
+var count7 = $('#city_name').val();
+		$("body").on("click","#AddButton6",function(event){
+		var value1 = count7++;
+			append_html = '<div class="row" style="width:100%;margin:0px 1px;">';
+			append_html += '<div class="col-sm-3"></div>';
+			append_html += '<div class="col-sm-3"></div>';
+			append_html += '<div class="col-sm-3" style="margin:10px 0px;"><input type="text"  class="form-control" label="city_name'+value1+'" name="city_name[]"  style=" background:#FFFFFF;"/></div>';
+			append_html += '<a href="#" class="removeclass6 btn btn-primary remove_class6 " style="margin:10px 15px 10px; padding:7px 19px;">-</a>';
+			append_html += '</div>';													
+		$('#fields7').append(append_html);
+	});
+	$("body").on("click",".removeclass6", function(e){
+		//alert('sdsd');
+
+                $(this).parent('div').remove(); 				
+				
+        return false;
+
+		
+    });
+	$('body').on('change', '#country_id', function() {
+	var id = $(this).val();		
+		$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-state';?>',
+			data: {id:id}
+		}).done(function( data ) {
+			$( "#state_id").html( data );
+		 });
+});
+$('body').on('change', '#state_id', function() {
+	var id = $(this).val();		
+		$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-city';?>',
+			data: {id:id}
+		}).done(function( data ) { 
+			$( "#city_name").html( data );
+		 });
+});
+
+/*
+$(document).ready(function() { 
+	 var count = $('#count_val').val();
+     $("body").on("click","#AddButton", function(e){ 
+	 
+        $( "#appended_row1:last" ).clone().find("input:text").val("").end().appendTo( "#fields" );			
+			var count_val = count++;
+			$('#count_val').val(count_val);
+          return false;		  
+    });
+
+    $("body").on("click",".removeclass", function(e){
+                   $(this).parent('div').remove(); 
+               return false;
+    });
+});	
+
+$('body').on('change', '#organization_id', function() {		
+	var org_id = $(this).val();		
+		$.ajax({
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'admission/ajax-get-students';?>',
+			data: {org_id:org_id}
+		}).done(function( data ) {
+			$( "#student_name").html( data );
+		 });
+});	 */
+</script>
+

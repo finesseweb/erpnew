@@ -1,0 +1,239 @@
+<div id="content" class="right_col">
+<div class="row">
+
+<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+		<h3 class="page-title txt-color-blueDark">
+			<i class="fa fa-bars"> Account Book</i>
+		</h3>
+	</div>
+
+	<div class="col-xs-12">
+		<form id="basicForm" action="<?php echo $this->mainconfig['host']; ?>finance/account-book/index/type/search" method="post" class="form">		
+		   <div class="panel">
+				<div class="row" style="margin:0px;">
+				<?php /* 
+				<div class="col-sm-3">
+						<div class="form-group">
+							<label class="control-label">Customer Name</label>
+							<?php echo $this->Reports_form->party_id; ?>							
+						</div>
+					</div> */ ?>
+					<div class="col-sm-3">
+						<div class="form-group">
+							<label class="control-label">Start Date</label>
+							<?php echo $this->Reports_form->start_date; ?>							
+						</div>
+					</div>
+					<div class="col-sm-3" >
+						<div class="form-group" style=" padding-right:0px;">
+							<label class="control-label">End Date </label>
+							<?php echo $this->Reports_form->end_date; ?>
+						</div>
+					</div>
+					<div class="col-sm-2" style="float:left;width:100px;">
+						<div class="form-group">
+							<div style="float:left">
+								<br/>							
+								<input type="submit" style="margin-top:5px;" class="btn btn-primary" name="submit" value="Submit" id="submit_val">
+							</div>											
+						</div>
+					</div>
+					<div class="col-sm-2" style="float:left;width:100px;">
+						<div class="form-group">							
+							<br />							
+							 <input type="submit" style="margin-top:5px;" class="btn btn-primary" name="print" value="Print" onclick="this.form.target='_blank';return true;"> 
+						</div>											
+					</div>
+				</div>
+								
+			</div>
+		</form>
+	</div>
+</div>
+<!-- widget grid -->
+<!-- widget grid -->
+<section id="widget-grid" class="">	
+	<!-- row -->
+	<div class="row">
+		
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+				<!--<header>
+				<!--<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2></h2>
+
+				</header>
+
+				<!-- widget div-->
+				<div>		
+					<!-- widget content -->
+						<div class="widget-body">
+							<div class="table-responsive">
+	<div class="x_panel">
+               
+                    <div class="x_title">
+                    
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                       </li>
+                      <li><a class=""><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+<div class="x_content">							
+								<table style="margin-bottom:0px !important;" class="table table-bordered  jambo_table bulk_action">
+									<thead>										
+										
+									</thead>
+									<tbody>										
+									<?php 
+										$days_count = 0;										
+										$account_statement = $this->account_statement;
+										if ( count($account_statement) > 0 ) {											
+											$total_items = 0;	
+											$total_items = count($account_statement);
+											foreach($account_statement as $key=>$party_trdata){											
+											?>
+												<tr>											
+													<th colspan="6"><?php echo $key; ?></th>				
+												</tr>
+												<thead>
+												<tr>
+													<th style="text-align:center; border-right:none;">Vou No.</th>
+													<th style="text-align:center;border-right:none;">Date</th>
+													<!-- <th style="text-align:center;">Payment Type</th> -->
+													<th style="text-align:center;border-right:none;">Party Name</th>
+													<th style="text-align:center;border-right:none;">Debit</th>
+													<th style="text-align:center;border-right:none;">Credit</th>	
+													<th style="text-align:center;border-left:none;">Balance</th>
+												</tr>
+												</thead>
+												<?php
+												$total_credit = 0;
+												$total_debit = 0;
+												$total_credit_balance = 0;
+												$total_debit_balance = 0;
+												$i = 0;
+												foreach ($party_trdata as $val) {	
+													$i++;												
+													?>												
+													<tr class="paymentid<?php echo $val['payment_type'].$val['sales_invoice_id'];?>">
+														<!-- <td><?php //echo $i; ?></td> -->
+														<td style="width:6%;">													
+														<?php 
+														echo $val['payment_type']; 													
+														?>													
+														</td>
+														<td style="width:8%;"><?php echo date("d-m-Y ", strtotime($val['date'])); ?></td>
+														
+														<td style="width:30%;">													
+														<?php echo $val['invoice_increment_id']; ?>													
+														</td>
+														<?php /* <td style="width:30%;">
+															<?php														
+																echo $val['payment_by'];															
+															?>														
+														</td> */ ?>
+														<td style="text-align:right;width:10%;">
+														<?php
+															if( $val['payment_status'] == 5){
+																echo number_format($val['paid_amount'], 2);
+																$total_credit += ($val['paid_amount']);
+															}
+															?>
+														</td>
+														<td style="text-align:right;width:10%;">
+														<?php
+															if( $val['payment_status'] == 4){
+																echo number_format($val['paid_amount'], 2);
+																$total_debit += ($val['paid_amount']);
+															}
+															?>
+														</td>
+														<td style="text-align:right;width:10%;">
+														<?php 
+															if( $total_credit > $total_debit){															
+																//$total_credit_balance += $total_credit - $total_debit;
+																echo number_format($total_credit - $total_debit, 2);
+															}														
+														  ?>
+															<?php 
+															if( $total_debit > $total_credit){
+																//$total_debit_balance += $total_debit - $total_credit;
+																echo number_format($total_debit - $total_credit, 2);
+															}														
+														  ?>
+														</td>													
+													</tr>
+													<?php
+													
+												}
+												
+												if( $total_debit > $total_credit){
+													$total_debit_balance = $total_debit - $total_credit;
+												}														
+											
+												if( $total_credit > $total_debit){															
+													$total_credit_balance = $total_credit - $total_debit;
+												}
+												 /*
+												?>
+												<tr>
+													<td colspan="3" style=" border-right:0px !important;"><b>Total<b/></td>
+													<td style="text-align:right; border-left:0px !important;"><b><?php echo number_format(($total_credit), 2); ?><b/></td>
+													<td style="text-align:right; border-left:0px !important;"><b><?php echo number_format(($total_debit),2); ?><b/></td>
+													<td style="text-align:right; border-left:0px !important;"><b><?php if(!empty($total_credit_balance)) echo number_format(($total_credit_balance), 2); ?><?php if(!empty($total_debit_balance)) echo number_format(($total_debit_balance),2); ?><b/></td>											
+												</tr>
+												<?php */
+												}
+												/* 
+												?>
+												<tr class="odd gradeX">
+												<td colspan="6" align="center"> <?php echo $this->paginationControl($this->paginator, 'Sliding', array('pagination.phtml', 'default')); ?>
+												</td></tr>
+												<?php */
+											}
+											?>
+										
+										
+									</tbody>
+								</table>
+								</div>
+								</div>
+							</div>
+						</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- WIDGET END -->
+	</div>
+	
+	<!-- end row -->
+</section>
+<!-- end widget grid -->
+
+</div>
+<script type="text/javascript">
+	$("#start_date").datepicker({ 
+		dateFormat: 'yy-mm-dd',
+		prevText: '<i class="fa fa-chevron-left"></i>',
+		nextText: '<i class="fa fa-chevron-right"></i>'
+	});
+	$("#end_date").datepicker({ 
+		dateFormat: 'yy-mm-dd',
+		prevText: '<i class="fa fa-chevron-left"></i>',
+		nextText: '<i class="fa fa-chevron-right"></i>'
+	});
+</script>

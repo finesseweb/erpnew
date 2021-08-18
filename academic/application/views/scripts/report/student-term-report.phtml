@@ -1,0 +1,150 @@
+<div class="padding-md right_col">
+	<div class="row">
+		<div class="col-md-12">
+		<h3 class="page-title txt-color-blueDark" >
+			<div><i class="fa fa-eye"> Final Grade Sheet</i></div>
+		</h3>
+			<div class="panel panel-default">
+				<form class="no-margin" id="formValidate1" action="<?php echo $this->form->getAction() ?>" method="post" data-validate="parsley" >
+					
+					<div class="panel-body">
+							<div class="row">
+															
+							<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Batch<span class="asterisk">*</span></label>
+                                <?php echo $this->form->academic_year_id; ?>
+                            </div>
+							</div> 
+                                                            
+							
+							<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Year<span class="asterisk">*</span></label>
+                                <?php echo $this->form->year_id; ?>
+                            </div>
+							</div>
+                                                            
+                                                            <div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Term<span class="asterisk">*</span></label>
+                              <select name="term_id" id="term_id" class="form-control">
+                                  <option>Select</option>
+                              </select>
+                            </div>
+							</div>
+                                                            
+							
+							<div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                              <label class="control-label">Participant Name</label>
+                                <?php echo $this->form->stu_id; ?>
+                            </div>
+							</div>
+							
+							
+							</div>
+							<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group">
+                              <label class="control-label">&nbsp;</label>
+							<input type="text" id="batch" class="form-control" style="background-color:#fdf59a;"  readonly />
+							</div>
+						</div>
+						</div>
+						<div id="getstudent" class="col-sm-12">
+							</div>
+							</div>
+						
+				</form>
+			</div><!-- /panel -->
+		</div><!-- /.col-->				
+	</div><!-- /.row -->
+	
+</div><!-- /.padding-md -->	
+
+
+<script>
+ jQuery(document).ready(function() {
+		$('#batch').hide();
+        $('body').on('change', '#term_id, #stu_id', function() {
+			
+            getstudentDetails();
+        });
+	});
+ 
+	
+    function getstudentDetails() {
+        $url = '<?php echo $this->mainconfig['host']; ?>report/get-student-report';
+        $.post($url,
+                {
+                    'academic_id': $('#academic_year_id').val(),
+					'year_id': $('#year_id').val(),
+                                        'term_id': $('#term_id').val(),
+					'stu_id': $('#stu_id').val()
+        })
+                .done(function(data) {
+                  
+                    //$('#payslipData').html('');
+                    $('#getstudent').html(data);
+                });
+
+    }
+
+ $("#academic_year_id").change(function() {
+	 var academic_year_id=$("#academic_year_id").val();
+	 //alert(academic_year_id);
+	//var sel = document.getElementById("academic_year_id");
+	//var value = sel.options[sel.selectedIndex].value; // or sel.value
+	//var text = sel.options[sel.selectedIndex].text; 
+	//alert(text);
+	//$('#batch').val(text);
+  if(academic_year_id !=''){
+	 $.ajax({ 
+			type: "POST",
+			url:"<?php echo $this->mainconfig['host'].'report/ajax-get-student-names';?>",
+			data: { academic_year_id : academic_year_id}
+		}).done( function( data ) { 
+	     //alert(data);	
+			$("#stu_id").html(data);
+		});
+	}
+});
+
+
+ $('body').on('change', '#academic_year_id', function() {		
+var academic_id=$('#academic_year_id').val();
+   if(academic_id){
+   $('#batch').show();
+	$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-batch-code';?>',
+			data: {academic_id:academic_id}
+		}).done(function( data ) {
+			var result = $.parseJSON(data);
+			if((data!='')){
+				$('#batch').val(result['short_code']);
+			}
+	  });
+	 }
+	 
+ });
+ 
+  $('body').on('change', '#year_id', function() {		
+var academic_id=$('#academic_year_id').val();
+var year_id = $('#year_id').val();
+   if(academic_id && year_id){
+	$.ajax({ 
+			type: "POST",
+			url:'<?php echo $this->mainconfig['host'].'master/ajax-get-term-year-batch';?>',
+			data: {batch_id:academic_id,year_id: year_id}
+		}).done(function( data ) {
+			
+				$('#term_id').html(data);
+			
+	  });
+	 }
+	 
+ });
+
+</script>

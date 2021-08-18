@@ -1,0 +1,100 @@
+<?php 
+
+// foreach ($this->result as $results){
+//	print_r($results); die;
+
+ ?>
+
+<html>
+<body>
+
+<div class="bg">
+<table style="padding-top:5.0%;padding-left:1.0%">
+<tbody style="">
+
+<tr>
+<td></td>
+<td></td>
+<td style=""><b>Sl.No.2016-17/001</b></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td align="center"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td align="center" style="font-size:25px;font-family:Old English Text MT;"></td>
+<td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td></td>
+<td align="center" style="padding-top:30%;">Certified that <span style="font-size:20px;">&nbsp;<b><?php echo $this->result['stu_fname'].'&nbsp;&nbsp;'.$this->result['stu_lname'];?></b></span></td>
+<td></td><td></td><td></td><td></td>
+</tr>
+
+<tr>
+<td></td>
+<td align="center">Daughter/Son of : <b><?php echo $this->result['father_fname'].'&nbsp;&nbsp;'.$this->result['father_lname'];?></b></td>
+<td></td><td></td><td></td>
+</tr>
+<tr>
+<td></td>
+<td align="center">Student ID: <b><?php echo $this->result['stu_id'];?></b></td>
+<td></td><td></td><td></td><td></td>
+</tr>
+
+<tr>
+<td></td>
+<td align="center">has successfully completed the requirements of the two-year full-time<br></br> Post-Graduate Programme in Development Management</td>
+<td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td></td>
+<td align="center">conducted by the Institute during 2014–16</br></br> for the award of</td>
+<td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td></td>
+<td align="center" style="font-size:35px;font-family:Old English Text MT;color:#9b131f;padding-top:2%;">Post-Graduate Diploma in Management</td>
+<td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td></td>
+<td align="center">Dated: <b><?php echo date("Y/m/d");?></b></td>
+<td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td></td>
+<td align="center">Place:</td>
+<td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<td id="co" style="padding-left:15%;padding-top:7%;">Coordinator</td>
+<td></td>
+<td style="margin-right:-29%;padding-top:7%;">Dean</td><td></td><td></td><td></td>
+</tr>
+
+</tbody>
+</table>
+</div>
+</body>
+
+</html>
+<?php // } ?>
+<style>
+tbody, td{
+padding:1.5% 0px;
+}
+div.bg{
+
+background-image: url('images/Image_001.png');background-size: 2280px  2508px;background-repeat: no-repeat;height:149%;padding-left:0.8%;padding-right:9%;
+}
+</style>
+

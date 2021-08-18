@@ -1,0 +1,140 @@
+<div class="right_col">
+<?php if (!$this->type) { ?>
+<div class="padding-md">
+	<div class="row">
+		<div class="col-md-12">
+		<h3 class="page-title txt-color-blueDark" >
+			<div><i class="fa fa-eye"> Electives Courses</i></div>
+		</h3>
+			<div class="panel panel-default">
+				<form class="no-margin" id="formValidate1" action="<?php echo $this->form->getAction() ?>" method="post" data-validate="parsley" >
+					
+					<div class="panel-body">
+					<div class="row">
+
+							<div class="col-sm-3">
+							<div class="form-group">
+							<label class="control-label">Term<span class="asterisk">*</span></label>
+							<?php echo $this->form->term_id; ?>
+							</div>
+							</div>
+							
+							</div>
+					
+					 <?php if(count($this->itemresult) >0){ 
+               			 $i=1;  ?>
+						 <input type="hidden" name="count_val" id="count_val" value="<?php echo (count($this->itemresult) +1 ); ?>" class="count_val">
+						 
+					 <?php foreach($this->itemresult as $val){ ?>
+				
+					 <?php $i++; } ?>
+					 
+					
+		
+                  <?php	} else { ?>
+					
+	
+
+	
+					 <?php } ?>
+	<div id="addmore_items"></div>
+	<span class="copy_append" style="display:none">
+	<option value="">Select</option>
+	<?php foreach($this->elective_courses as $k => $ele_courses) { ?>
+	<option value="<?php echo $k;?>"><?php echo $ele_courses;?></option>
+	<?php } ?>
+    </span>
+					<div class="" id="electives">
+					</div>
+				<input type="hidden" name="students_name" id="students_name" value="<?php echo $this->students_name;?>"/> 
+				<input type="hidden" name="elective_increment_id" id="elective_increment_id" value="<?php echo $this->result['elective_id'];?>" />
+				<input type="hidden" name="tot_term_credits" id="tot_term_credits"  />
+			</div>
+
+			<div class="panel-footer">									
+							<div class="row">
+											<table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+				<thead>
+					<tr>
+						<th>S.  No.</th>
+						<th>Courses</th>
+                                                <th>Credit Value</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+
+						$i = 1;
+						$pagination_tr = '';
+						if (count($this->paginator) != 0) {
+
+						foreach ($this->paginator as $results) {
+						//print_r($results);die;
+
+					?>
+							<tr>
+								<td><?php echo $i;
+
+									$i++; ?>
+								</td>						
+								
+								<td><?php echo $results['academic_year']; ?></td>
+								
+							
+
+							</tr>            
+
+						<?php }
+						$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+						} ?>
+
+				</tbody>
+			</table>
+			 <?php echo $pagination_tr; ?>
+							</div>
+						</div>
+					</div>
+				</form>
+	
+			</div><!-- /panel -->
+		</div><!-- /.col-->				
+	</div><!-- /.row -->
+	
+<!-- /.padding-md -->	
+<?php } else { ?>
+  
+<?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+     <div class="alert alert-success ">
+<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+<?php echo $this->escape($message); ?>
+</div>
+ <?php } } ?>
+ <!-- widget grid -->
+<!-- /.padding-md -->		
+<?php } ?>
+</div>
+<script>
+    var academic_id = '<?= $_SESSION['admin_login']['admin_login']->participant_academic; ?>';
+    if(academic_id){
+     $.ajax({
+            type: "POST",
+		url: '<?php echo $this->mainconfig['host'].'student-portal/ajax-get-academic-terms';?>',
+			data: {academic_year_id:academic_id}
+	 }).done(function( data ){
+           $('#term_id').html(data);
+       });
+       }
+       
+       $('#term_id').change(function(){
+        $.ajax({
+            type: "POST",
+		url: '<?php echo $this->mainconfig['host'].'student-portal/ajax-get-elective-courses-view';?>',
+			data: {term_id:$('#term_id').val()}
+	 }).done(function( data ){
+             $('table>tbody').empty();
+             $('table>tbody').html(data);
+         });
+       });
+</script>

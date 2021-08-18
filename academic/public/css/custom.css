@@ -1,0 +1,24 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 8 Aug, 2019, 1:42:05 PM
+    Author     : w10
+*/
+
+    span+input[type=radio]{
+        position:absolute;
+        display:none !important;
+    }
+    
+    .custom_radio{
+        position: absolute;
+        border-radius: 100%;
+        border:2px solid #2aecfd;
+        width:1.5em;
+        height:1.5em;
+        margin-left: .5em;
+    }
+    

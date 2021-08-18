@@ -1,0 +1,117 @@
+<style>.my.table>tbody>tr>td, .my.table>tbody>tr>th, .my.table>tfoot>tr>td, .my.table>tfoot>tr>th, .my.table>thead>tr>td, .my.table>thead>tr>th {
+        padding: 2px !important;
+        line-height: 1.42857143;
+        vertical-align: middle !important;
+        border-top: 1px solid #ddd;
+    }
+    .my.table{
+        margin-bottom: 0px;
+    }
+</style>
+<div class="right_col">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="page-title txt-color-blueDark" >
+                <div><i class="fa fa-eye">Class Schedule</i></div>
+            </h3>
+            <div class="panel panel-default">
+                <form class="no-margin" id="formValidate1" action="<?php echo $this->form->getAction() ?>" method="post" data-validate="parsley" >
+
+                    <div class="panel-body">
+
+                        <div class="row">
+
+                            <div class="col-sm-3 employee_class">
+                                <div class="form-group">
+
+                                    <?php if ($this->type != 'edit') { ?>
+                                        <label class="control-label">Term <span class="asterisk">*</span></label>
+                                        <?php echo $this->form->term_id; ?>
+                                    <?php } ?>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3 employee_class">
+
+
+
+
+                                <!-- <div class="col-sm-3 employee_class">
+    <div class="form-group">
+    <label class="control-label">Credit<span class="asterisk">*</span></label>
+                                <?php //echo $this->form->credit_id; ?>
+    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div id="grade_data">
+                        </div>
+
+                    </div>
+                    <script>
+
+
+
+
+//====================[GET RECENT TERM AND BACTH]===================================//
+
+                        var academic_id = '<?= $_SESSION['admin_login']['admin_login']->participant_academic; ?>';
+
+
+                        $.ajax({
+                            type: "POST",
+                            url: '<?php echo $this->mainconfig['host'] . 'student-portal/ajax-get-recent-term-and-batch'; ?>',
+                            data: {my_date: '<?= date('d-m-Y'); ?>'}
+                        }).done(function (data) {
+                            json_new_obj = JSON.parse(data);
+                            $('#academic_year_id').val(json_new_obj.batch_id);
+                            var academic = json_new_obj.batch_id;
+                            if (academic) {
+                                $.ajax({
+                                    type: "POST",
+                                    url: '<?php echo $this->mainconfig['host'] . 'student-portal/ajax-get-terms-default'; ?>',
+                                    data: {academic_year_id: academic}
+                                }).done(function (data) {
+                                    //alert(json_new_obj.term_id);
+                                    $('#term_id').empty('');
+                                    $('#term_id').html(data);
+                                    $('#term_id').val(json_new_obj.term_id);
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "<?php echo $this->mainconfig['host'] . 'student-portal/ajax-schedule-components-view'; ?>",
+                                        data: {batch_id: '<?= $_SESSION['admin_login']['admin_login']->participant_academic ?>',
+                                            term_id: $("#term_id").val()}
+                                    }).done(function (data) {
+                                        $(".sub").hide();
+                                        $("#grade_data").html(data);
+                                    });
+
+                                });
+                            }
+                        });
+
+
+
+
+                        $.ajax({
+                            type: "POST",
+                            url: '<?php echo $this->mainconfig['host'] . 'student-portal/ajax-get-terms'; ?>',
+                            data: {academic_year_id: academic_id}
+                        }).done(function (data) {
+                            $('#term_id').empty('');
+                            $('#term_id').html(data);
+                        })
+                        $("#term_id").change(function () {
+                            var id = $(this).attr("id");
+                            $.ajax({
+                                type: "POST",
+                                url: "<?php echo $this->mainconfig['host'] . 'student-portal/ajax-schedule-components-view'; ?>",
+                                data: {batch_id: '<?= $_SESSION['admin_login']['admin_login']->participant_academic ?>',
+                                    term_id: $("#term_id").val()}
+                            }).done(function (data) {
+                                $(".sub").hide();
+                                $("#grade_data").html(data);
+                            });
+                        });
+                    </script>

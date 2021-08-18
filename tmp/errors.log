@@ -1,0 +1,471 @@
+[24-May-2021 13:24:12 Europe/Berlin] Rounding error 36 encountered for trans_type:20,trans_no:2
+[24-May-2021 14:11:22 Europe/Berlin] Rounding error 36 encountered for trans_type:20,trans_no:3
+[25-May-2021 08:14:29 Europe/Berlin] PHP Fatal error:  Call to undefined function employee_list_cells_active() in C:\xampp\htdocs\Mainerp\admin\users.php on line 196
+[25-May-2021 08:17:01 Europe/Berlin] PHP Fatal error:  Call to undefined function employee_list_cells_active() in C:\xampp\htdocs\Mainerp\admin\users.php on line 196
+[25-May-2021 08:17:06 Europe/Berlin] PHP Fatal error:  Call to undefined function employee_list_cells_active() in C:\xampp\htdocs\Mainerp\admin\users.php on line 196
+[25-May-2021 08:18:10 Europe/Berlin] PHP Fatal error:  Call to undefined function employee_list_cells_active() in C:\xampp\htdocs\Mainerp\admin\users.php on line 196
+[25-May-2021 08:18:11 Europe/Berlin] PHP Fatal error:  Call to undefined function employee_list_cells_active() in C:\xampp\htdocs\Mainerp\admin\users.php on line 196
+[25-May-2021 08:18:39 Europe/Berlin] PHP Fatal error:  Call to undefined function employee_list_cells_active() in C:\xampp\htdocs\Mainerp\admin\users.php on line 196
+[25-May-2021 10:58:20 Europe/Berlin] Rounding error 126 encountered for trans_type:20,trans_no:4
+[25-May-2021 13:18:34 Europe/Berlin] Rounding error 18 encountered for trans_type:20,trans_no:5
+[25-May-2021 13:27:38 Europe/Berlin] Rounding error 18 encountered for trans_type:20,trans_no:6
+[25-May-2021 14:50:16 Europe/Berlin] Rounding error 36 encountered for trans_type:20,trans_no:7
+[25-May-2021 14:57:27 Europe/Berlin] Rounding error 18 encountered for trans_type:20,trans_no:8
+[25-May-2021 15:00:50 Europe/Berlin] Rounding error 18 encountered for trans_type:20,trans_no:9
+[25-May-2021 16:04:20 Europe/Berlin] Rounding error 36 encountered for trans_type:20,trans_no:10
+[26-May-2021 06:46:22 Europe/Berlin] Rounding error 18 encountered for trans_type:20,trans_no:1
+[26-May-2021 08:53:23 Europe/Berlin] Rounding error 18 encountered for trans_type:20,trans_no:1
+[26-May-2021 12:43:50 Europe/Berlin] Rounding error 36 encountered for trans_type:20,trans_no:2
+[26-May-2021 13:35:55 Europe/Berlin] Rounding error 18 encountered for trans_type:20,trans_no:3
+[31-May-2021 08:56:15 Europe/Berlin] Rounding error 18 encountered for trans_type:20,trans_no:4
+[31-May-2021 09:26:47 Europe/Berlin] Rounding error 18 encountered for trans_type:20,trans_no:5
+[31-May-2021 09:38:01 Europe/Berlin] Rounding error 18 encountered for trans_type:20,trans_no:
+[31-May-2021 09:45:04 Europe/Berlin] Rounding error 90 encountered for trans_type:20,trans_no:6
+[31-May-2021 09:45:58 Europe/Berlin] Rounding error 90 encountered for trans_type:20,trans_no:1
+[31-May-2021 09:46:57 Europe/Berlin] Rounding error 90 encountered for trans_type:20,trans_no:1
+[31-May-2021 09:47:28 Europe/Berlin] Rounding error 90 encountered for trans_type:20,trans_no:1
+[31-May-2021 09:49:08 Europe/Berlin] Rounding error 90 encountered for trans_type:20,trans_no:1
+[31-May-2021 10:04:24 Europe/Berlin] Rounding error 90 encountered for trans_type:20,trans_no:1
+[31-May-2021 10:15:25 Europe/Berlin] Rounding error 90 encountered for trans_type:20,trans_no:2
+[31-May-2021 12:15:31 Europe/Berlin] Rounding error 90 encountered for trans_type:20,trans_no:3
+[31-May-2021 12:31:36 Europe/Berlin] Rounding error -500 encountered for trans_type:20,trans_no:4
+[31-May-2021 12:34:49 Europe/Berlin] Rounding error 90 encountered for trans_type:20,trans_no:5
+[31-May-2021 12:37:18 Europe/Berlin] Rounding error 590 encountered for trans_type:20,trans_no:6
+[31-May-2021 12:45:01 Europe/Berlin] Rounding error 90 encountered for trans_type:20,trans_no:7
+[31-May-2021 13:02:35 Europe/Berlin] Rounding error 90 encountered for trans_type:20,trans_no:8
+[31-May-2021 13:05:30 Europe/Berlin] Rounding error 90 encountered for trans_type:20,trans_no:9
+[31-May-2021 13:07:09 Europe/Berlin] Rounding error 90 encountered for trans_type:20,trans_no:10
+[31-May-2021 13:08:24 Europe/Berlin] Rounding error 590 encountered for trans_type:20,trans_no:11
+[31-May-2021 13:09:45 Europe/Berlin] Rounding error 90 encountered for trans_type:20,trans_no:12
+[31-May-2021 13:19:07 Europe/Berlin] Rounding error 90 encountered for trans_type:20,trans_no:14
+[02-Jun-2021 12:38:25 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 12:53:58 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 13:02:07 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 13:03:20 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 13:03:35 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 13:04:57 Europe/Berlin] PHP Fatal error:  Call to undefined function diplay_error() in C:\xampp\htdocs\Mainerp\modules\ExtendedHRM\manage\bom_edit.php on line 30
+[02-Jun-2021 13:05:14 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 13:08:20 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 13:09:05 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 13:09:46 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 13:18:09 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 13:20:12 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 13:35:49 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 13:38:39 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 13:41:09 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 13:51:08 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 14:34:45 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 14:35:05 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 14:59:03 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 15:42:29 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 15:42:50 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 15:43:01 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 15:44:08 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 15:44:15 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 15:46:16 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 15:46:23 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 15:47:14 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 15:47:20 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 15:49:15 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 15:49:30 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 15:49:40 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 15:50:59 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 15:51:05 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 15:51:25 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 15:51:32 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 15:51:50 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 15:51:56 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 15:55:47 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 15:55:54 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 15:56:12 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 15:56:18 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 15:59:27 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 15:59:34 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 16:00:37 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 16:00:43 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 16:00:57 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[02-Jun-2021 16:01:05 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 08:00:35 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 08:00:43 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 08:02:31 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 08:02:39 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 08:03:26 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 08:03:35 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 08:04:53 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 08:05:26 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 08:05:34 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 08:06:28 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 08:06:34 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 08:06:45 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:20:40 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:21:04 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:21:16 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:21:27 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:21:42 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:21:55 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:35:25 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:35:37 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:36:01 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:36:12 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:36:21 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:36:48 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:37:29 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:37:39 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:37:48 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:37:59 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:39:14 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:39:29 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:39:36 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:39:49 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:40:24 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:40:39 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:40:52 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:40:56 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:41:29 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:41:35 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:41:36 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:41:59 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 12:42:43 Europe/Berlin] 0:admin:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 13:27:59 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 13:29:23 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 13:30:00 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 13:30:46 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 13:30:58 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 13:31:15 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 13:32:22 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 13:32:44 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 13:33:07 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 13:33:29 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 13:33:33 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 13:33:42 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 13:35:35 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 13:45:02 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 13:52:06 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 13:52:17 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 13:52:48 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 13:52:53 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:04:25 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:25:15 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:25:27 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:25:53 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:28:30 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:28:58 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:31:39 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:32:08 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:37:48 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:38:08 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:38:31 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:39:31 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:41:25 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:41:57 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:42:00 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:42:01 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:42:01 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:42:37 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:44:39 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:44:41 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:45:43 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:45:46 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:46:49 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:47:16 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:47:37 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:48:00 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:48:28 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:48:45 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:49:29 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:49:32 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:49:59 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:50:32 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:50:51 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:52:06 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:52:29 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:54:40 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:54:56 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:55:13 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:55:40 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:56:14 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:56:37 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:58:11 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 14:58:36 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 15:02:53 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 15:02:53 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 15:03:25 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[03-Jun-2021 15:05:20 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[07-Jun-2021 09:06:21 Europe/Berlin] PHP Fatal error:  Call to undefined function CONCAT() in C:\xampp\htdocs\Mainerp\attendance\user_attend.php on line 468
+[07-Jun-2021 13:41:42 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[07-Jun-2021 13:41:58 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[07-Jun-2021 13:42:04 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[07-Jun-2021 13:42:30 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[07-Jun-2021 14:20:48 Europe/Berlin] 0:admin:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[08-Jun-2021 07:03:13 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[08-Jun-2021 07:03:48 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[08-Jun-2021 07:03:57 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[08-Jun-2021 07:04:14 Europe/Berlin] 0:test:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[08-Jun-2021 07:10:45 Europe/Berlin] 0:admin:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[08-Jun-2021 09:16:25 Europe/Berlin] 0:admin:errors.inc:208: <b>Debug mode database warning:</b><br>error code : 1146<br>error message : Table 'dmi-maiweb.fa_sys_prefs' doesn't exist<br><br><br>
+[08-Jun-2021 14:03:26 Europe/Berlin] Rounding error 9180 encountered for trans_type:20,trans_no:15
+[11-Jun-2021 07:00:38 Europe/Berlin] 0:admin:connect_db_mysqli.inc:68:[before upgrade] mysqli_query() expects parameter 1 to be mysqli, boolean given
+[11-Jun-2021 07:00:38 Europe/Berlin] 0:admin:connect_db_mysqli.inc:69:[before upgrade] mysqli_errno() expects parameter 1 to be mysqli, boolean given
+[11-Jun-2021 07:00:38 Europe/Berlin] 0:admin:connect_db_mysqli.inc:165:[before upgrade] mysqli_errno() expects parameter 1 to be mysqli, boolean given
+[14-Jun-2021 08:24:40 Europe/Berlin] 0:admin:ui_msgs.inc:14:[before upgrade] trigger_error() expects parameter 1 to be string, object given
+[14-Jun-2021 08:24:40 Europe/Berlin] 0:admin:ui_msgs.inc:14: trigger_error() expects parameter 1 to be string, object given
+[14-Jun-2021 08:24:40 Europe/Berlin] 0:admin:ui_msgs.inc:14: trigger_error() expects parameter 1 to be string, object given
+[14-Jun-2021 08:25:34 Europe/Berlin] 0:admin:ui_msgs.inc:14:[before upgrade] SELECT name, value FROM fa_sys_prefs
+[14-Jun-2021 08:25:34 Europe/Berlin] 0:admin:ui_msgs.inc:14: SELECT name, value FROM fa_sys_prefs
+[14-Jun-2021 08:25:34 Europe/Berlin] 0:admin:ui_msgs.inc:14: SELECT name, value FROM fa_sys_prefs
+[14-Jun-2021 08:38:32 Europe/Berlin] PHP Fatal error:  Call to undefined function print_() in C:\xampp\htdocs\Mainerp\gl\includes\db\gl_db_trans.inc on line 114
+[14-Jun-2021 09:22:56 Europe/Berlin] Rounding error 540 encountered for trans_type:20,trans_no:16
+[14-Jun-2021 09:24:06 Europe/Berlin] Rounding error 540 encountered for trans_type:20,trans_no:16
+[14-Jun-2021 09:25:09 Europe/Berlin] Rounding error 594 encountered for trans_type:20,trans_no:16
+[14-Jun-2021 09:26:48 Europe/Berlin] Rounding error 594 encountered for trans_type:20,trans_no:16
+[14-Jun-2021 09:26:52 Europe/Berlin] Rounding error 594 encountered for trans_type:20,trans_no:16
+[14-Jun-2021 09:27:48 Europe/Berlin] Rounding error 594 encountered for trans_type:20,trans_no:16
+[14-Jun-2021 09:27:48 Europe/Berlin] Rounding error 1188 encountered for trans_type:20,trans_no:16
+[14-Jun-2021 09:30:05 Europe/Berlin] Rounding error 45 encountered for trans_type:20,trans_no:17
+[14-Jun-2021 09:30:05 Europe/Berlin] Rounding error 90 encountered for trans_type:20,trans_no:17
+[14-Jun-2021 09:40:34 Europe/Berlin] Rounding error 45 encountered for trans_type:20,trans_no:18
+[14-Jun-2021 09:40:34 Europe/Berlin] Rounding error 90 encountered for trans_type:20,trans_no:18
+[14-Jun-2021 09:48:56 Europe/Berlin] Rounding error 45 encountered for trans_type:20,trans_no:19
+[14-Jun-2021 09:48:56 Europe/Berlin] Rounding error 90 encountered for trans_type:20,trans_no:19
+[14-Jun-2021 09:55:55 Europe/Berlin] Rounding error 45 encountered for trans_type:20,trans_no:20
+[14-Jun-2021 09:55:55 Europe/Berlin] Rounding error 45 encountered for trans_type:20,trans_no:20
+[14-Jun-2021 09:55:55 Europe/Berlin] Rounding error 90 encountered for trans_type:20,trans_no:20
+[14-Jun-2021 10:10:09 Europe/Berlin] Rounding error 45 encountered for trans_type:20,trans_no:21
+[14-Jun-2021 10:10:09 Europe/Berlin] Rounding error 45 encountered for trans_type:20,trans_no:21
+[14-Jun-2021 10:24:23 Europe/Berlin] Rounding error 45 encountered for trans_type:20,trans_no:22
+[14-Jun-2021 10:24:23 Europe/Berlin] Rounding error 45 encountered for trans_type:20,trans_no:22
+[14-Jun-2021 10:26:43 Europe/Berlin] Rounding error 45 encountered for trans_type:20,trans_no:23
+[14-Jun-2021 10:26:43 Europe/Berlin] Rounding error 45 encountered for trans_type:20,trans_no:23
+[14-Jun-2021 10:27:53 Europe/Berlin] PHP Parse error:  syntax error, unexpected 'else' (T_ELSE) in C:\xampp\htdocs\Mainerp\purchasing\includes\db\invoice_db.inc on line 281
+[14-Jun-2021 10:29:06 Europe/Berlin] Rounding error 295 encountered for trans_type:20,trans_no:24
+[14-Jun-2021 10:29:06 Europe/Berlin] Rounding error 295 encountered for trans_type:20,trans_no:24
+[14-Jun-2021 10:38:33 Europe/Berlin] Rounding error -250 encountered for trans_type:20,trans_no:25
+[14-Jun-2021 10:38:33 Europe/Berlin] Rounding error -250 encountered for trans_type:20,trans_no:25
+[14-Jun-2021 10:41:13 Europe/Berlin] Rounding error 45 encountered for trans_type:20,trans_no:26
+[14-Jun-2021 10:41:13 Europe/Berlin] Rounding error 45 encountered for trans_type:20,trans_no:26
+[14-Jun-2021 10:43:14 Europe/Berlin] Rounding error 45.45 encountered for trans_type:20,trans_no:27
+[14-Jun-2021 10:43:14 Europe/Berlin] Rounding error 45.45 encountered for trans_type:20,trans_no:27
+[16-Jun-2021 08:53:43 Europe/Berlin] PHP Fatal error:  Call to undefined function get_items_search() in C:\xampp\htdocs\Mainerp\inventory\inquiry\stock_list.php on line 58
+[16-Jun-2021 09:16:01 Europe/Berlin] PHP Fatal error:  Call to undefined function get_items_search() in C:\xampp\htdocs\Mainerp\inventory\inquiry\stock_list.php on line 58
+[16-Jun-2021 10:13:38 Europe/Berlin] PHP Fatal error:  Call to undefined function get_items_search() in C:\xampp\htdocs\Mainerp\inventory\inquiry\stock_list.php on line 58
+[17-Jun-2021 07:30:28 Europe/Berlin] PHP Fatal error:  Call to undefined function country_list_row() in C:\xampp\htdocs\Mainerp\sales\manage\customers.php on line 234
+[17-Jun-2021 07:32:20 Europe/Berlin] PHP Fatal error:  Call to undefined function country_list_row() in C:\xampp\htdocs\Mainerp\sales\manage\customers.php on line 234
+[17-Jun-2021 10:09:52 Europe/Berlin] PHP Fatal error:  Call to undefined function country_list_row() in C:\xampp\htdocs\Mainerp\sales\includes\ui\sales_order_ui.inc on line 649
+[17-Jun-2021 14:51:36 Europe/Berlin] PHP Parse error:  syntax error, unexpected ')' in C:\xampp\htdocs\Mainerp\sales\includes\ui\sales_order_ui.inc on line 648
+[21-Jun-2021 09:27:35 Europe/Berlin] PHP Fatal error:  Call to undefined function display_errior() in C:\xampp\htdocs\Mainerp\sales\includes\ui\sales_order_ui.inc on line 485
+[21-Jun-2021 14:54:09 Europe/Berlin] PHP Fatal error:  Call to undefined function label() in C:\xampp\htdocs\Mainerp\sales\includes\ui\sales_order_ui.inc on line 565
+[23-Jun-2021 10:04:14 Europe/Berlin] PHP Fatal error:  Cannot use object of type Cart as array in C:\xampp\htdocs\Mainerp\sales\includes\ui\sales_order_ui.inc on line 488
+[23-Jun-2021 13:21:08 Europe/Berlin] PHP Fatal error:  Call to undefined function getStoreLocationInfo() in C:\xampp\htdocs\Mainerp\inventory\manage\store.php on line 85
+[25-Jun-2021 07:41:50 Europe/Berlin] PHP Fatal error:  Call to undefined function move_trans_attachments() in C:\xampp\htdocs\Mainerp\sales\includes\db\sales_delivery_db.inc on line 57
+[25-Jun-2021 07:45:23 Europe/Berlin] PHP Fatal error:  Call to undefined function move_trans_attachments() in C:\xampp\htdocs\Mainerp\sales\includes\db\sales_delivery_db.inc on line 57
+[25-Jun-2021 07:45:49 Europe/Berlin] PHP Fatal error:  Call to undefined function move_trans_attachments() in C:\xampp\htdocs\Mainerp\sales\includes\db\sales_delivery_db.inc on line 57
+[25-Jun-2021 08:12:09 Europe/Berlin] PHP Fatal error:  Call to undefined function move_trans_attachments() in C:\xampp\htdocs\Mainerp\sales\includes\db\sales_invoice_db.inc on line 99
+[25-Jun-2021 08:12:15 Europe/Berlin] PHP Fatal error:  Call to undefined function move_trans_attachments() in C:\xampp\htdocs\Mainerp\sales\includes\db\sales_invoice_db.inc on line 99
+[25-Jun-2021 08:12:17 Europe/Berlin] PHP Fatal error:  Call to undefined function move_trans_attachments() in C:\xampp\htdocs\Mainerp\sales\includes\db\sales_invoice_db.inc on line 99
+[25-Jun-2021 09:58:15 Europe/Berlin] PHP Fatal error:  Call to undefined function move_trans_attachments() in C:\xampp\htdocs\Mainerp\sales\includes\db\sales_invoice_db.inc on line 99
+[28-Jun-2021 08:53:55 Europe/Berlin] 0:admin:simple_crud_class.inc:114: key() expects parameter 1 to be array, string given
+[28-Jun-2021 11:02:17 Europe/Berlin] Rounding error -500 encountered for trans_type:10,trans_no:9
+[28-Jun-2021 11:43:50 Europe/Berlin] Rounding error 500 encountered for trans_type:10,trans_no:10
+[28-Jun-2021 11:52:57 Europe/Berlin] PHP Fatal error:  Call to undefined function move_trans_attachments() in C:\xampp\htdocs\Mainerp\sales\includes\db\sales_invoice_db.inc on line 100
+[28-Jun-2021 11:54:19 Europe/Berlin] PHP Fatal error:  Call to undefined function move_trans_attachments() in C:\xampp\htdocs\Mainerp\sales\includes\db\sales_invoice_db.inc on line 100
+[28-Jun-2021 11:54:31 Europe/Berlin] PHP Fatal error:  Call to undefined function move_trans_attachments() in C:\xampp\htdocs\Mainerp\sales\includes\db\sales_invoice_db.inc on line 100
+[28-Jun-2021 11:54:33 Europe/Berlin] PHP Fatal error:  Call to undefined function move_trans_attachments() in C:\xampp\htdocs\Mainerp\sales\includes\db\sales_invoice_db.inc on line 100
+[28-Jun-2021 12:34:04 Europe/Berlin] PHP Fatal error:  Call to undefined function move_trans_attachments() in C:\xampp\htdocs\Mainerp\sales\includes\db\sales_invoice_db.inc on line 100
+[28-Jun-2021 12:35:55 Europe/Berlin] PHP Fatal error:  Call to undefined function move_trans_attachments() in C:\xampp\htdocs\Mainerp\sales\includes\db\sales_invoice_db.inc on line 100
+[28-Jun-2021 12:36:06 Europe/Berlin] PHP Fatal error:  Call to undefined function move_trans_attachments() in C:\xampp\htdocs\Mainerp\sales\includes\db\sales_invoice_db.inc on line 100
+[28-Jun-2021 13:28:23 Europe/Berlin] PHP Fatal error:  Call to undefined function move_trans_attachments() in C:\xampp\htdocs\Mainerp\sales\includes\db\sales_invoice_db.inc on line 100
+[28-Jun-2021 13:28:37 Europe/Berlin] Rounding error 25 encountered for trans_type:,trans_no:
+[28-Jun-2021 13:28:37 Europe/Berlin] Rounding error 25 encountered for trans_type:10,trans_no:16
+[28-Jun-2021 13:32:39 Europe/Berlin] Rounding error 25 encountered for trans_type:,trans_no:
+[28-Jun-2021 13:33:59 Europe/Berlin] Rounding error 25 encountered for trans_type:,trans_no:
+[28-Jun-2021 13:35:34 Europe/Berlin] Rounding error 25 encountered for trans_type:,trans_no:
+[28-Jun-2021 13:36:16 Europe/Berlin] Rounding error 25 encountered for trans_type:10,trans_no:20
+[28-Jun-2021 13:44:47 Europe/Berlin] Rounding error 25 encountered for trans_type:10,trans_no:21
+[28-Jun-2021 13:47:09 Europe/Berlin] Rounding error 25 encountered for trans_type:10,trans_no:22
+[28-Jun-2021 13:47:47 Europe/Berlin] Rounding error 25 encountered for trans_type:10,trans_no:23
+[28-Jun-2021 13:48:46 Europe/Berlin] Rounding error 25 encountered for trans_type:10,trans_no:24
+[28-Jun-2021 13:49:35 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:25
+[28-Jun-2021 13:49:35 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:25
+[28-Jun-2021 13:56:43 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:26
+[28-Jun-2021 13:56:43 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:26
+[28-Jun-2021 13:57:27 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:27
+[28-Jun-2021 13:57:27 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:27
+[28-Jun-2021 14:23:57 Europe/Berlin] PHP Fatal error:  Call to undefined function move_trans_attachments() in C:\xampp\htdocs\Mainerp\sales\includes\db\sales_invoice_db.inc on line 100
+[28-Jun-2021 14:24:39 Europe/Berlin] PHP Fatal error:  Call to undefined function move_trans_attachments() in C:\xampp\htdocs\Mainerp\sales\includes\db\sales_invoice_db.inc on line 100
+[28-Jun-2021 14:24:54 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:28
+[28-Jun-2021 14:24:54 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:28
+[28-Jun-2021 14:26:07 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:29
+[28-Jun-2021 14:26:07 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:29
+[28-Jun-2021 14:27:02 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:30
+[28-Jun-2021 14:27:02 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:30
+[28-Jun-2021 14:28:16 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:31
+[28-Jun-2021 14:28:16 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:31
+[28-Jun-2021 14:32:15 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:32
+[28-Jun-2021 14:32:15 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:32
+[28-Jun-2021 14:35:08 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:33
+[28-Jun-2021 14:35:08 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:33
+[28-Jun-2021 14:37:43 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:34
+[28-Jun-2021 14:37:43 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:34
+[28-Jun-2021 14:39:32 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:35
+[28-Jun-2021 14:39:32 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:35
+[28-Jun-2021 14:39:32 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:35
+[28-Jun-2021 14:39:32 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:35
+[28-Jun-2021 14:39:32 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:35
+[28-Jun-2021 14:39:32 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:35
+[28-Jun-2021 14:40:57 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:36
+[28-Jun-2021 14:40:57 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:36
+[28-Jun-2021 14:40:57 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:36
+[28-Jun-2021 14:40:57 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:36
+[28-Jun-2021 14:40:57 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:36
+[28-Jun-2021 14:40:57 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:36
+[28-Jun-2021 14:41:18 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:37
+[28-Jun-2021 14:41:18 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:37
+[28-Jun-2021 14:41:18 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:37
+[28-Jun-2021 14:41:18 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:37
+[28-Jun-2021 14:41:18 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:37
+[28-Jun-2021 14:41:18 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:37
+[28-Jun-2021 14:41:53 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:38
+[28-Jun-2021 14:41:53 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:38
+[28-Jun-2021 14:41:53 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:38
+[28-Jun-2021 14:41:53 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:38
+[28-Jun-2021 14:41:53 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:38
+[28-Jun-2021 14:41:53 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:38
+[28-Jun-2021 14:43:05 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:39
+[28-Jun-2021 14:43:05 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:39
+[28-Jun-2021 14:45:38 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:1
+[28-Jun-2021 14:45:38 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:1
+[28-Jun-2021 14:54:02 Europe/Berlin] Rounding error 25 encountered for trans_type:10,trans_no:2
+[29-Jun-2021 06:53:33 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:3
+[29-Jun-2021 06:53:33 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:3
+[29-Jun-2021 07:04:57 Europe/Berlin] Rounding error 1125 encountered for trans_type:20,trans_no:28
+[29-Jun-2021 07:04:57 Europe/Berlin] Rounding error 1125 encountered for trans_type:20,trans_no:28
+[29-Jun-2021 07:58:10 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:4
+[29-Jun-2021 07:58:10 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:4
+[30-Jun-2021 11:54:18 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:5
+[30-Jun-2021 11:54:18 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:5
+[30-Jun-2021 15:08:54 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:6
+[30-Jun-2021 15:08:54 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:6
+[01-Jul-2021 06:52:05 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:7
+[01-Jul-2021 06:52:05 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:7
+[01-Jul-2021 07:20:05 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:8
+[01-Jul-2021 07:20:05 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:8
+[01-Jul-2021 12:16:58 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:9
+[01-Jul-2021 12:16:58 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:9
+[01-Jul-2021 12:54:26 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:10
+[01-Jul-2021 12:54:26 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:10
+[01-Jul-2021 13:45:15 Europe/Berlin] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 114688 bytes) in C:\xampp\htdocs\Mainerp\reporting\includes\doctext.inc on line 256
+[01-Jul-2021 13:48:59 Europe/Berlin] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 114688 bytes) in C:\xampp\htdocs\Mainerp\reporting\includes\doctext.inc on line 256
+[02-Jul-2021 06:39:34 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:11
+[02-Jul-2021 06:39:34 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:11
+[02-Jul-2021 07:27:21 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:1
+[02-Jul-2021 07:27:21 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:1
+[02-Jul-2021 07:34:02 Europe/Berlin] PHP Fatal error:  Call to a member function add_to_cart() on null in C:\xampp\htdocs\Mainerp\sales\includes\ui\sales_order_ui.inc on line 65
+[02-Jul-2021 07:34:08 Europe/Berlin] PHP Fatal error:  Call to a member function is_started() on null in C:\xampp\htdocs\Mainerp\sales\sales_order_entry.php on line 738
+[02-Jul-2021 07:34:11 Europe/Berlin] PHP Fatal error:  Call to a member function add_to_cart() on null in C:\xampp\htdocs\Mainerp\sales\includes\ui\sales_order_ui.inc on line 65
+[02-Jul-2021 07:35:10 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:2
+[02-Jul-2021 07:35:10 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:2
+[02-Jul-2021 08:40:45 Europe/Berlin] PHP Parse error:  syntax error, unexpected '}' in C:\xampp\htdocs\Mainerp\reporting\includes\header2.inc on line 242
+[02-Jul-2021 08:40:50 Europe/Berlin] PHP Parse error:  syntax error, unexpected '}' in C:\xampp\htdocs\Mainerp\reporting\includes\header2.inc on line 242
+[02-Jul-2021 08:40:51 Europe/Berlin] PHP Parse error:  syntax error, unexpected '}' in C:\xampp\htdocs\Mainerp\reporting\includes\header2.inc on line 242
+[02-Jul-2021 09:49:02 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:3
+[02-Jul-2021 09:49:02 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:3
+[05-Jul-2021 07:12:40 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:4
+[05-Jul-2021 07:12:40 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:4
+[05-Jul-2021 09:35:02 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:5
+[05-Jul-2021 09:35:02 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:5
+[05-Jul-2021 10:07:41 Europe/Berlin] Rounding error 75 encountered for trans_type:10,trans_no:6
+[05-Jul-2021 10:07:41 Europe/Berlin] Rounding error 75 encountered for trans_type:10,trans_no:6
+[05-Jul-2021 12:33:46 Europe/Berlin] PHP Fatal error:  Cannot use object of type mysqli_result as array in C:\xampp\htdocs\Mainerp\reporting\includes\doctext.inc on line 123
+[05-Jul-2021 12:34:38 Europe/Berlin] PHP Fatal error:  Cannot use object of type mysqli_result as array in C:\xampp\htdocs\Mainerp\reporting\includes\doctext.inc on line 123
+[05-Jul-2021 14:06:34 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:7
+[05-Jul-2021 14:06:34 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:7
+[05-Jul-2021 14:16:58 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:8
+[05-Jul-2021 14:16:58 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:8
+[05-Jul-2021 14:27:31 Europe/Berlin] PHP Fatal error:  Cannot use object of type mysqli_result as array in C:\xampp\htdocs\Mainerp\reporting\includes\doctext.inc on line 152
+[05-Jul-2021 14:33:17 Europe/Berlin] PHP Fatal error:  Cannot use object of type mysqli_result as array in C:\xampp\htdocs\Mainerp\reporting\includes\doctext.inc on line 152
+[05-Jul-2021 14:45:02 Europe/Berlin] PHP Fatal error:  Maximum execution time of 3000 seconds exceeded in C:\xampp\htdocs\Mainerp\includes\errors.inc on line 59
+[05-Jul-2021 14:59:48 Europe/Berlin] Rounding error 25 encountered for trans_type:10,trans_no:9
+[05-Jul-2021 14:59:48 Europe/Berlin] Rounding error 25 encountered for trans_type:10,trans_no:9
+[05-Jul-2021 15:03:15 Europe/Berlin] 0::logout.php:50:[before upgrade] session_destroy(): Session object destruction failed
+[05-Jul-2021 15:03:15 Europe/Berlin] 0::logout.php:50:[before upgrade] session_destroy(): Session object destruction failed
+[06-Jul-2021 06:45:40 Europe/Berlin] Rounding error 25 encountered for trans_type:10,trans_no:10
+[06-Jul-2021 06:45:40 Europe/Berlin] Rounding error 25 encountered for trans_type:10,trans_no:10
+[06-Jul-2021 07:07:33 Europe/Berlin] Rounding error 75 encountered for trans_type:10,trans_no:11
+[06-Jul-2021 07:07:33 Europe/Berlin] Rounding error 75 encountered for trans_type:10,trans_no:11
+[06-Jul-2021 13:14:47 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:1
+[06-Jul-2021 13:14:47 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:1
+[06-Jul-2021 14:18:28 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:2
+[06-Jul-2021 14:18:28 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:2
+[07-Jul-2021 08:11:48 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:3
+[07-Jul-2021 08:11:48 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:3
+[07-Jul-2021 08:14:58 Europe/Berlin] PHP Fatal error:  Call to undefined function TextCol() in C:\xampp\htdocs\Mainerp\reporting\rep107.php on line 237
+[07-Jul-2021 08:15:01 Europe/Berlin] PHP Fatal error:  Call to undefined function TextCol() in C:\xampp\htdocs\Mainerp\reporting\rep107.php on line 237
+[07-Jul-2021 08:34:59 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:4
+[07-Jul-2021 08:34:59 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:4
+[17-Aug-2021 14:34:15 Europe/Berlin] PHP Fatal error:  Call to undefined function get_all_tax_setup() in C:\xampp\htdocs\Mainerp\taxes\taxes_setup.php on line 113
+[17-Aug-2021 14:49:03 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:3
+[17-Aug-2021 14:49:03 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:3
+[17-Aug-2021 14:51:45 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:1
+[17-Aug-2021 14:51:45 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:1
+[17-Aug-2021 14:59:28 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:2
+[17-Aug-2021 14:59:28 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:2
+[17-Aug-2021 15:10:19 Europe/Berlin] PHP Fatal error:  Call to undefined function custom_list_row() in C:\xampp\htdocs\Mainerp\sales\includes\ui\sales_order_ui.inc on line 418
+[17-Aug-2021 15:13:35 Europe/Berlin] PHP Fatal error:  Call to undefined function custom_list_row() in C:\xampp\htdocs\Mainerp\sales\includes\ui\sales_order_ui.inc on line 419
+[17-Aug-2021 15:13:57 Europe/Berlin] PHP Fatal error:  Call to undefined function custom_list_row() in C:\xampp\htdocs\Mainerp\sales\includes\ui\sales_order_ui.inc on line 419
+[17-Aug-2021 15:14:49 Europe/Berlin] PHP Fatal error:  Call to undefined function custom_list_row() in C:\xampp\htdocs\Mainerp\sales\includes\ui\sales_order_ui.inc on line 419
+[17-Aug-2021 15:15:09 Europe/Berlin] PHP Fatal error:  Call to undefined function custom_list_row() in C:\xampp\htdocs\Mainerp\sales\includes\ui\sales_order_ui.inc on line 419
+[17-Aug-2021 15:15:48 Europe/Berlin] PHP Fatal error:  Call to undefined function custom_list_row() in C:\xampp\htdocs\Mainerp\sales\includes\ui\sales_order_ui.inc on line 419
+[17-Aug-2021 15:16:03 Europe/Berlin] PHP Fatal error:  Call to undefined function custom_list_row() in C:\xampp\htdocs\Mainerp\sales\includes\ui\sales_order_ui.inc on line 419
+[17-Aug-2021 15:16:42 Europe/Berlin] PHP Fatal error:  Call to undefined function custom_list_row() in C:\xampp\htdocs\Mainerp\sales\includes\ui\sales_order_ui.inc on line 419
+[17-Aug-2021 15:16:55 Europe/Berlin] PHP Fatal error:  Call to undefined function custom_list_row() in C:\xampp\htdocs\Mainerp\sales\includes\ui\sales_order_ui.inc on line 419
+[17-Aug-2021 15:18:47 Europe/Berlin] PHP Fatal error:  Call to undefined function custom_list_row() in C:\xampp\htdocs\Mainerp\sales\includes\ui\sales_order_ui.inc on line 419
+[17-Aug-2021 15:19:13 Europe/Berlin] PHP Fatal error:  Call to undefined function custom_list_row() in C:\xampp\htdocs\Mainerp\sales\includes\ui\sales_order_ui.inc on line 419
+[17-Aug-2021 15:19:26 Europe/Berlin] PHP Fatal error:  Call to undefined function custom_list_row() in C:\xampp\htdocs\Mainerp\sales\includes\ui\sales_order_ui.inc on line 419
+[17-Aug-2021 15:19:57 Europe/Berlin] PHP Fatal error:  Call to undefined function custom_list_row() in C:\xampp\htdocs\Mainerp\sales\includes\ui\sales_order_ui.inc on line 419
+[17-Aug-2021 15:20:19 Europe/Berlin] PHP Fatal error:  Call to undefined function custom_list_row() in C:\xampp\htdocs\Mainerp\sales\includes\ui\sales_order_ui.inc on line 419
+[17-Aug-2021 15:20:33 Europe/Berlin] PHP Fatal error:  Call to undefined function custom_list_row() in C:\xampp\htdocs\Mainerp\sales\includes\ui\sales_order_ui.inc on line 419
+[17-Aug-2021 15:20:43 Europe/Berlin] PHP Fatal error:  Call to undefined function custom_list_row() in C:\xampp\htdocs\Mainerp\sales\includes\ui\sales_order_ui.inc on line 419
+[17-Aug-2021 15:25:13 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:3
+[17-Aug-2021 15:25:13 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:3
+[18-Aug-2021 08:02:49 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:1
+[18-Aug-2021 08:02:49 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:1
+[18-Aug-2021 08:06:22 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:2
+[18-Aug-2021 08:06:22 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:2
+[18-Aug-2021 08:19:27 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:3
+[18-Aug-2021 08:19:27 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:3
+[18-Aug-2021 08:28:22 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:4
+[18-Aug-2021 08:28:22 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:4
+[18-Aug-2021 08:28:33 Europe/Berlin] PHP Fatal error:  Call to undefined method stdClass::is_started() in C:\xampp\htdocs\Mainerp\sales\sales_order_entry.php on line 741
+[18-Aug-2021 08:35:07 Europe/Berlin] Rounding error 37.5 encountered for trans_type:10,trans_no:5
+[18-Aug-2021 08:35:07 Europe/Berlin] Rounding error 37.5 encountered for trans_type:10,trans_no:5
+[18-Aug-2021 08:35:57 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:6
+[18-Aug-2021 08:35:57 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:6
+[18-Aug-2021 08:37:42 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:7
+[18-Aug-2021 08:37:42 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:7
+[18-Aug-2021 08:38:47 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:8
+[18-Aug-2021 08:38:47 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:8
+[18-Aug-2021 08:40:46 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:9
+[18-Aug-2021 08:40:46 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:9
+[18-Aug-2021 08:41:37 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:10
+[18-Aug-2021 08:41:37 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:10
+[18-Aug-2021 08:42:11 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:11
+[18-Aug-2021 08:42:11 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:11
+[18-Aug-2021 09:07:45 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:12
+[18-Aug-2021 09:07:45 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:12
+[18-Aug-2021 09:50:42 Europe/Berlin] PHP Fatal error:  Using $this when not in object context in C:\xampp\htdocs\Mainerp\sales\includes\db\sales_delivery_db.inc on line 18
+[18-Aug-2021 10:07:06 Europe/Berlin] PHP Fatal error:  Call to undefined function move_trans_attachments() in C:\xampp\htdocs\Mainerp\sales\includes\db\sales_invoice_db.inc on line 100
+[18-Aug-2021 10:07:33 Europe/Berlin] PHP Fatal error:  Call to undefined function move_trans_attachments() in C:\xampp\htdocs\Mainerp\sales\includes\db\sales_invoice_db.inc on line 100
+[18-Aug-2021 10:09:08 Europe/Berlin] PHP Fatal error:  Call to undefined function move_trans_attachments() in C:\xampp\htdocs\Mainerp\sales\includes\db\sales_invoice_db.inc on line 100
+[18-Aug-2021 10:09:25 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:1
+[18-Aug-2021 10:09:25 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:1
+[18-Aug-2021 11:29:32 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:1
+[18-Aug-2021 11:29:32 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:1
+[18-Aug-2021 12:24:28 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:1
+[18-Aug-2021 12:24:28 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:1
+[18-Aug-2021 13:40:04 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:2
+[18-Aug-2021 13:40:04 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:2
+[18-Aug-2021 13:43:41 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:1
+[18-Aug-2021 13:43:41 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:1
+[18-Aug-2021 13:45:28 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:1
+[18-Aug-2021 13:45:28 Europe/Berlin] Rounding error 12.5 encountered for trans_type:10,trans_no:1
+[18-Aug-2021 14:11:06 Europe/Berlin] PHP Fatal error:  Call to undefined function label() in C:\xampp\htdocs\Mainerp\includes\ui\allocation_cart.inc on line 340

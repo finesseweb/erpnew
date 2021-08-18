@@ -1,0 +1,1 @@
+<select class="form-control chosen-select" name="check_id"  id="check_id" required>    <option value="">Select Cheque Number</option>    <?php foreach($this->results as $result){?>        <option value="<?php echo $result['check_id'];?>">            <?php echo $result['check_number'];?></option>     <?php } ?></select>

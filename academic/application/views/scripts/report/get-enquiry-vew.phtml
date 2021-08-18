@@ -1,0 +1,120 @@
+
+
+<tr class="enquiry-items-close ">
+	<?php $enquiry_info = $this->enquiry_info; //echo 'pre';print_r($enquiry_info);die;?>
+	<td colspan="10">
+		<div class="purchase-quatation-items" style="display: block;">
+			<div class="col-sm-12 " >
+				<div id="log1">  
+					<div class="panel panel-default bor" >
+						<div class="panel-body">
+							<div>
+								<div class="col-sm-10"><center>
+									 <div class="form-group bor" style="margin-left:-12px; margin-bottom:5px;">
+										<label class="control-label"><strong><h4>Report</h4></strong></label>
+									 </div></center>
+								</div>
+								<?php /* <div style="float:right;margin-left: 5px;" class="btn btn-primary" ><a href="<?php echo $this->mainconfig['host']; ?>quotation/quotationpdf/id/<?php echo $this->quotation['quotation_id']; ?>"  title="print">Print</a></div> */ ?>
+								<div class="col-sm-0" style="float:right;"><button class="close_tr btn btn-primary">Close</button></div>
+								
+							</div>
+							<div class="padding-md clearfix">
+								<table class="table table-striped" border="solid 1px;" style="width:100%">
+									
+									<tr>
+										<th>Academic year</th>								
+										<th>Branch</th>
+										<th>Program</th> 
+										<th>Subprogram</th>
+										<th>Frequency</th>								
+										<th>Country</th>
+										<th>State</th> 
+										<th>City</th>
+										<th>Enquiry Date</th>
+											
+									</tr>
+									<tbody>										
+										<tr>
+											<td><?php echo $enquiry_info['academic_year']; ?></td>
+											<td><?php echo $enquiry_info['branch_name']; ?></td>
+											<td><?php echo $enquiry_info['program_name']; ?></td>
+											<td><?php echo $enquiry_info['subprogram_name']; ?></td>
+											<td><?php echo $enquiry_info['frequency_title'].'-'.$enquiry_info['timing_title']; ?></td>
+											<td><?php echo $enquiry_info['countries_name']; ?></td>
+											<td><?php echo $enquiry_info['state_name']; ?></td>
+											<td><?php echo $enquiry_info['city_name']; ?></td>
+											<td><?php echo date( DATE_PREFIX, strtotime($enquiry_info['enquiry_date'])); ?></td>
+											
+										</tr>
+										
+										<tr>
+											<th>Enquiry Time</th> 
+											<th>Child Name</th>											
+											<th>Date Of Birth</th>
+											<th>Gender</th>
+											<th>Father Name</th>								
+											<th>Mother Name</th>
+											<th>Mobile</th>
+											<th>Email</th>
+											<th>Transport</th>											
+											<!-- <th>Phone No.</th>	 -->							
+											
+											 
+											<!-- <th>Pin Code</th> -->
+											
+										</tr>
+																			
+	<tr>
+			<td><?php echo $enquiry_info['enquiry_time']; ?></td>
+			<td><?php echo $enquiry_info['child_first_name'].' '.$enquiry_info['child_last_name']; ?></td>
+			<td><?php echo date( DATE_PREFIX, strtotime($enquiry_info['date_of_birth'])); ?></td>
+			<td><?php if($enquiry_info['gender'] ==2 ){echo 'Male';}elseif($enquiry_info['gender'] ==1){echo 'Female';} ?></td>
+			<td><?php echo $enquiry_info['father_first_name'].' '.$enquiry_info['father_last_name']; ?></td>
+			<td><?php echo $enquiry_info['mother_first_name'].' '.$enquiry_info['mother_last_name']; ?></td>
+			<td><?php echo $enquiry_info['father_mobile_no']; ?></td>
+			<td><?php echo $enquiry_info['father_email']; ?></td>
+			<td><?php 
+				if($enquiry_info['transport'] ==2 ){echo 'Yes';}elseif($enquiry_info['transport'] ==1){echo 'No';}	?></td>
+											
+											
+	</tr>
+
+	<tr>
+		<th>Guardian Name</th>											 
+		<th colspan="8">Local Address</th>
+	</tr>																			
+	<tr>
+		<td><?php echo $enquiry_info['guardian_first_name'].' '.$enquiry_info['guardian_last_name']; ?></td>
+		<td colspan="8">
+			<?php 
+			$SubString = substr($enquiry_info['local_address'],0,100);
+			if(strlen($enquiry_info['local_address']) >200){
+			echo $SubString.'...';
+			}else{
+			echo $SubString;
+			}
+			?>											
+		</td>									
+
+	</tr>
+										
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</td>
+</tr>
+ 
+   
+<script>
+    $(".close_tr").click(function() {
+            $( ".enquiry-items-close" ).hide();
+     });
+</script>	 
+ <style>
+/* a:hover{cursor:pointer;} */
+</style>

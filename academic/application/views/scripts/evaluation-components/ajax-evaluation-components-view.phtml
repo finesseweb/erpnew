@@ -1,0 +1,62 @@
+<tr class="sub">
+<td colspan="5">
+
+         <div class="col-sm-2" style="float:right;"><button class="close_tr btn btn-primary">Close</button></div>
+<br></br>
+<?php
+$item_result = $this->result;
+
+
+//echo '<pre>'; print_r($item_result); die;
+$i = 1;
+
+	
+	
+ for($i=0;$i<count($item_result);$i++) {   ?>
+
+ <div class="box-body">
+	<h4 style="background-color:#3c8dbc;padding:8px 8px;color:white;"><?php echo $item_result[$i]['term_name'].'-'.$item_result[$i]['course_name']; ?></h4>
+	
+	
+	
+	<?php $cmp_names = explode(',',$item_result[$i]['cmp_name']);
+		  $cmp_weighs = explode(',',$item_result[$i]['weighs']);
+		  $cmp_remain_weighs = explode(',',$item_result[$i]['remain_weighs']);	
+		  foreach($cmp_names as $k => $name) { ?>
+		  <div class="row">
+	<div class="col-sm-3">
+	<div class="form-group">
+	<label class="control-label">Component Name</label>
+	<input type="text" name="components[component_name_<?php echo $item_result[$i]['term_id'];?>_<?php echo $item_result[$i]['course_id'];?>][]" id="component_name" class="form-control"  value="<?php echo $name;?>" readonly />
+	</div>
+	</div>
+	
+	<div class="col-sm-3">
+	<div class="form-group">
+	<label class="control-label">Weightage</label>
+	<input type="text" name="components[weightage_<?php echo $item_result[$i]['term_id'];?>_<?php echo $item_result[$i]['course_id']; ?>][]" id="weightage"  class="form-control weightage<?php echo $item_result[$i]['term_id'];?>_<?php echo $item_result[$i]['course_id'];?>" onchange="getWeightage(this.value,0,<?php echo $item_result[$i]['term_id'];?>,<?php echo $item_result[$i]['course_id'];?>);" value="<?php echo $cmp_weighs[$k];?>" readonly />
+	</div>
+	</div>
+	<div class="col-sm-3" style="">
+				<label class="control-label">Remaining Weightage</label>
+				<input type="text" name="components[remaining_weightage_<?php echo $item_result[$i]['term_id']; ?>_<?php echo $item_result[$i]['course_id'];?>][]" id="re_weightage_0_<?php echo $item_result[$i]['term_id'];?>_<?php echo $item_result[$i]['course_id'];?>" class="form-control" readonly  value="<?php echo $cmp_remain_weighs[$k];?>"/>
+				</div>
+
+
+	</div>
+		  <?php } ?>
+	</div>
+	
+			
+	
+			
+	 
+<?php  }  ?>
+</td>
+</tr>
+<script>
+    $(".close_tr").click(function() {
+            $( ".sub" ).hide();
+     });
+    
+</script>

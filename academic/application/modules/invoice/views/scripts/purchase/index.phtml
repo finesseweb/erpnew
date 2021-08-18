@@ -1,0 +1,1109 @@
+<style>
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{border: 1px solid #ddd;}
+</style>
+<div id="content" class="right_col">
+<?php if ($this->type) { ?>
+	<section id="widget-grid" class="">		
+		<!-- row -->
+		<div class="row">
+
+			<!-- NEW WIDGET START -->
+			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+				<!-- Widget ID (each widget will need unique ID)-->
+				<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+					
+					<header>
+						
+						<h2><span class="widget-icon"> <i class="fa fa-eye"></i> </span> Purchase Invoice</h2>
+						
+					</header>
+
+					<!-- widget div-->
+					<div>		
+
+						<!-- widget content -->
+						<div class="">
+							<form id="basicForm" action="<?php //echo $this->ErpPurchaseInvoice_form->getAction() ?>" method="post" class="form">
+								<div class="panel panel-default">
+									
+									<div class="panel-body">
+										<div class="row">
+											<div class="col-sm-3 employee_class">
+												<div class="form-group">
+													<label class="control-label">GRIR ID </label>
+													<?php echo $this->ErpPurchaseInvoice_form->inventory_grn_id; ?>
+												</div>
+											</div>
+										</div>
+										<div class="row invoice"></div>
+										<div class="purchase-quatation-items"></div>
+										    
+										<?php 
+										$i= 0;
+										//print_r($this->inventory_result);die;
+										$inventory_result = 0;
+										if($this->inventory_result){ ?>
+										<input type="hidden" name="count_val" id="count_val" value="<?php echo (count($this->inventory_result) +1 ); ?>" class="count_val">
+										<div class="hide_invoice">
+
+										<?php $inventory_result = $this->inventory_result;
+										foreach($inventory_result as $val){
+										//print_r($val);die;
+										?>
+										<div  class="row appended_row padding-top" style="padding-left: 18px;padding-top: 10px;">
+											<div class="width15ps">
+												<label class="control-label">Item Category </label>
+												<select type="text" label="catid<?php echo $i;?>" data-options="<?php echo $i;?>" onchange="select_rawm(<?php echo $i;?>);" name="purchase_invoice[purchase_grn_category_id][]" class="form-control category_id" id="category_id">
+													<option value="">Select</option>
+														<?php  if(count($this->categories)>0){
+															  foreach($this->categories as $k=>$categories){
+																$selected='';
+																if($k==$val['purchase_grn_category_id'] ){
+																	$selected="selected";
+																}
+														?>
+													<option value="<?php echo $k;?>" <?php echo $selected;?>><?php echo $categories;?></option>
+													<?php } }?>
+												</select>											
+											</div>
+											<div class="width15ps">
+												<label class="control-label">Items</label>
+												<select type="text" id="item_names" label="itemdata_<?php echo $i;?>" data-options="<?php echo $i;?>" onchange="select_rawmitem(<?php echo $i;?>);" name="purchase_invoice[purchase_invoice_item_id][]" class="form-control item_name" placeholder="Select Quotation"/>
+												 <option value="">Select</option>
+												 <?php foreach($this->items as $k=>$item){
+														$selected='';
+														if($k==$val['item_id'] ){
+															$selected="selected";
+														}
+												 ?>
+												  <option value="<?php echo $k;?>"<?php echo $selected;?>><?php echo $item;?></option>
+												 <?php }?>
+												</select>            
+											</div>
+											 <?php /* <span label="itemcode_<?php echo $i;?>" data-options="<?php echo $i;?>">
+												<div class="width10ps">
+													 <label class="control-label">Code </label>
+													 <input type="text"  class="form-control" name="purchase_invoice[purchase_grn_item_code][]" value="<?php echo $val['purchase_grn_item_code']; ?>" placeholder="Item Code"/>
+												</div> */ ?>
+												<div class="width10ps">
+												 <label class="control-label">Account Name </label>
+												 <select type="text" name="purchase_invoice[purchase_invoice_account_id][]" class="form-control">
+														<option value="">Select</option>
+															<?php foreach($this->account as $k=>$account){
+															$selected='';
+															if($k==$val['account_id'] ){
+																$selected="selected";
+															}
+															?>
+														<option value="<?php echo $k;?>" <?php echo $selected; ?>><?php echo $account;?></option>
+														<?php }?>
+												</select>
+												 <input type="hidden" label="itemcode_<?php echo $i;?>" class="form-control" name="purchase_invoice[purchase_grn_item_code][]" value="<?php echo $val['purchase_grn_item_code']; ?>" placeholder="Item Code"/>
+											</div> 												
+												<div class="width10ps">
+													<label class="control-label">Unit Price</label>
+													<input type="text" class="form-control item_name" label="itemprice_<?php echo $i;?>" name="purchase_invoice[purchase_invoice_item_price][]" value="<?php echo $val['purchase_invoice_item_price']; ?>" placeholder="Unit Price"/> 
+												</div>  
+											<!-- </span> -->
+											<div class="width10ps" style="margin-top:10px;">
+												<label class="control-label">Actual Qty</label>
+												<input type="text"  id="item_qty1" label="actqty_<?php echo $i;?>" onchange="select_act_qty(this.value,'<?php echo $i;?>');" class="form-control" name="purchase_invoice[purchase_invoice_actual_quantity][]" value="<?php echo $val['purchase_invoice_actual_quantity']; ?>" placeholder="Quantity"/> 
+											</div>
+											<div class="width11ps" style="margin-top:10px;">
+												<label class="control-label">Rejected Qty</label>
+												<input type="text"  id="item_qty2" label="rejqty_<?php echo $i;?>" onchange="select_reject_qty(this.value,'<?php echo $i;?>');" class="form-control" name="purchase_invoice[purchase_invoice_item_rejected_quantity][]" value="<?php echo $val['purchase_invoice_item_rejected_quantity']; ?>" placeholder="Rejected Quantity"/> 
+											</div>
+											<div class="width11ps" style="margin-top:10px;">
+												<label class="control-label">Approved Qty</label>
+												<input type="text"  id="item_qty3" label="appqty_<?php echo $i;?>" class="form-control" name="purchase_invoice[purchase_invoice_item_approved_quantity][]" value="<?php echo $val['purchase_invoice_item_approved_quantity']; ?>" placeholder="Approved Quantity"/> 
+											</div>
+											<div class="width11ps" style="margin-top:10px;">
+											<label class="control-label">Total Price</label>
+												<input type="text"  id="total_price" label="total_<?php echo $i;?>" class="form-control total_amount" name="purchase_invoice[total_price][]" value="<?php echo $val['total_price']; ?>" /> 
+											</div> 											
+											<?php  if($i==1){ ?>
+												<?php /*<div style="padding-top:10px;" class="width11ps">
+												<input type="button" value="+" class="btn btn-primary adjust-size AddButton" style=" width:3%;margin-top:10px;">   */ ?>
+										</div>
+											<?php } else { ?>
+											 <a  class="removeclass btn btn-primary remove_class " style="  margin-top: 21px;" href="#">-</a>
+											<?php  }   ?> 
+											
+										</div>
+										
+										<?php $i++; } 
+										?>
+										<div style=" margin: 0px 16% 5px 83%;" class="width11ps">
+											<input type="button" value="+" class="btn btn-primary adjust-size AddButton" style=" width:3%;margin-top:10px;"> 
+										</div>
+										</div>
+										<?php } else{ ?>
+										<div  class="row appended_row padding-top" style="">
+										<input type="hidden" name="count_val" id="count_val" value="1" class="count_val">
+											<div class="col-sm-3">
+												<label class="control-label">Item Category </label>
+												<select type="text" label="catid0" data-options="0" onchange="select_rawm(0);" name="purchase_invoice[purchase_grn_category_id][]" class="form-control category_id" id="category_id">
+													<option value="">Select</option>
+														<?php  if(count($this->categories)>0){
+															  foreach($this->categories as $k=>$categories){
+																
+														?>
+													<option value="<?php echo $k;?>" ><?php echo $categories;?></option>
+													<?php } }?>
+												</select>											
+											</div>
+											<div class="col-sm-3">
+												<label class="control-label">Items</label>
+												<select type="text" id="item_names" label="itemdata_0" data-options="0" onchange="select_rawmitem(0);" name="purchase_invoice[purchase_invoice_item_id][]" class="form-control item_name" placeholder="Select Quotation"/>
+												 <option value="">Select</option>
+												 <?php foreach($this->items as $k=>$item){?>
+												  <option value="<?php echo $k;?>"><?php echo $item;?></option>
+												 <?php }?>
+												</select>            
+											</div>
+											<?php /* <span label="itemcode_0" data-options="0">
+												<div class="width10ps">
+													 <label class="control-label">Code </label>
+													 <input type="text"  class="form-control" name="purchase_invoice[purchase_grn_item_code][]" value="<?php  ?>"placeholder="Item Code"/>
+												</div>  */ ?>
+												<div class="col-sm-3">
+												 <label class="control-label">Account Name </label>
+												 <select type="text" name="purchase_invoice[purchase_invoice_account_id][]" class="form-control">
+														<option value="">Select</option>
+															<?php foreach($this->account as $k=>$account){?>
+														<option value="<?php echo $k;?>"><?php echo $account;?></option>
+														<?php }?>
+												</select>
+												 <input type="hidden" label="itemcode_0" class="form-control" name="purchase_invoice[purchase_grn_item_code][]" value="<?php  ?>"placeholder="Item Code"/>
+											</div> 
+												<div class="col-sm-3" style="">
+													<label class="control-label">Unit Price</label>
+													<input type="text" label="itemprice_0" class="form-control item_name" name="purchase_invoice[purchase_invoice_item_price][]" placeholder="Unit Price"/> 
+												</div>  
+										<!--	</span> -->
+											<div class="col-sm-3" style="margin-top:10px;" >
+												<label class="control-label">Actual Qty</label>
+												<input type="text"  id="item_qty1" label="actqty_0" onchange="select_act_qty(this.value,'0');" class="form-control" name="purchase_invoice[purchase_invoice_actual_quantity][]"  placeholder="Quantity"/> 
+											</div>
+											<div class="col-sm-3" style="margin-top:10px;">
+												<label class="control-label">Rejected Qty</label>
+												<input type="text"  id="item_qty2" label="rejqty_0" onchange="select_reject_qty(this.value,'0');" class="form-control" name="purchase_invoice[purchase_invoice_item_rejected_quantity][]"  placeholder="Rejected Quantity"/> 
+											</div>
+											<div class="col-sm-3" style="margin-top:10px;">
+												<label class="control-label">Approved Qty</label>
+												<input type="text"  id="item_qty3" label="appqty_0" class="form-control" name="purchase_invoice[purchase_invoice_item_approved_quantity][]"  placeholder="Approved Quantity"/> 
+											</div> 
+											<div class="col-sm-2" style="margin-top:10px;">
+											<label class="control-label">Total Price</label>
+												<input type="text"  id="total_price" label="total_0" class="form-control total_amount" name="purchase_invoice[total_price][]" /> 
+											</div> 
+											<div style="margin-top:15px;" class="">
+												<input type="button" value="+"  class=" AddButton btn btn-primary adjust-size" style="padding:7px 15px;margin:30px 15px;"> 
+											</div>
+										</div>
+										<?php } ?>
+										<div id="fields">
+											<div class="padding-top"></div>
+										</div>
+										<div style="display:none" class="select_data" >             
+											<div class="row appended_row appended_row1 padding-top"  id="appended_row1" style="padding-left: 0px;display:block;box-sizing:border-box;background-color:#f1f1f1;margin-top:10px;margin-left:-15px;margin-right:-15px;padding-top:10px;margin-bottom:10px;">
+												<div class="col-sm-3">			   
+													<select type="text" id="label_rawmid" name="purchase_invoice[purchase_grn_category_id][]" class="form-control category_id">
+														<option value="">Select</option>
+															<?php  if(count($this->categories)>0){
+																foreach($this->categories as $k=>$categories){
+																$selected='';
+																if($k==$categories[1] ){
+																$selected="selected";
+															}
+														 ?>
+													  <option value="<?php echo $k;?>" <?php echo $selected;?>><?php echo $categories;?></option>
+													  <?php } }?>
+													</select>            
+												</div>
+												<div class="col-sm-3">
+													<select type="text" id="label_itemid" name="purchase_invoice[purchase_invoice_item_id][]" class="form-control item_name" placeholder="Select Quotation">
+														<option value="">Select</option>
+															<?php foreach($this->items as $k=>$item){?>
+														<option value="<?php echo $k;?>"><?php echo $item;?></option>
+														<?php }?>
+													</select> 
+												</div>
+												 <?php /* <span id="label_code">
+													<div class="width10ps">
+														<input type="text"   class="form-control" name="purchase_invoice[purchase_grn_item_code][]" placeholder="Item Code"/>
+													</div>  */ ?>
+													<div class="col-sm-3">													
+													<select type="text" name="purchase_invoice[purchase_invoice_account_id][]" class="form-control">
+														<option value="">Select</option>
+															<?php foreach($this->account as $k=>$account){?>
+														<option value="<?php echo $k;?>"><?php echo $account;?></option>
+														<?php }?>
+													</select>
+													<input type="hidden" id="label_code" class="form-control" name="purchase_invoice[purchase_grn_item_code][]" placeholder="Item Code"/>
+												</div>  
+													<div class="col-sm-3">
+														<input type="text" id="label_price" class="form-control item_name" name="purchase_invoice[purchase_invoice_item_price][]" placeholder="Unit Price"/> 
+													</div>  
+											<!--	</span> -->
+												<div class="col-sm-3" style="margin-top:10px;">
+													<input type="text"  id="item_qty11" class="form-control" name="purchase_invoice[purchase_invoice_actual_quantity][]"  placeholder="Quantity"/> 
+												</div>
+												<div class="col-sm-3" style="margin-top:10px;">				
+													<input type="text"  id="item_qty12" class="form-control" name="purchase_invoice[purchase_invoice_item_rejected_quantity][]"  placeholder="Rejected Quantity"/> 
+												</div>
+												<div class="col-sm-3" style="margin-top:10px;">				
+													<input type="text"  id="item_qty13" class="form-control" name="purchase_invoice[purchase_invoice_item_approved_quantity][]"  placeholder="Approved Quantity"/> 
+												</div>	
+												<div class="col-sm-2" style="margin-top:10px;">
+												<input type="text"  id="total_price1"  class="form-control total_amount" name="purchase_invoice[total_price][]" /> 
+											</div>		
+												<a href="#" class="removeclass btn btn-primary remove_class" style="margin:10px 15px;padding:7px 15px;">-</a>
+											</div>
+										</div>
+											<div class="row">
+											<div class="width11ps" style="margin-left:800px">
+												<label class="control-label">Total: <span id="grand_total"><?php echo $this->result['total']; ?></span></label>
+												<input type="hidden"  id="total"  class="form-control" name="total" 
+												value="<?php echo $this->result['total']; ?>"/> 
+											</div>											
+										</div>
+										<div class="row " id="vendor_id_show">
+											<div class="col-sm-3 vendor">
+												<div class="form-group" style="">
+													<label class="control-label">Vendor</label>
+														<?php //echo $this->ErpPurchaseInvoice_form->vendor_id; ?>
+													<select name="vendor_id" id="vendor_id" --required="required"  class="select2 chosen-select form-control">
+														<option value="" label="Select Vendor">Select Vendor</option>
+														<?php foreach($this->vendordata as $k=>$val){ 
+															$selected='';
+																if($k==$this->result['vendor_id'] ){
+																$selected="selected";
+															}
+														?>
+														<option value="<?php echo $k; ?>" label="<?php echo $val; ?>"<?php echo $selected;?>><?php echo $val; ?></option>
+														<?php } ?>
+													</select>
+												</div>
+											</div>
+						
+											
+												
+										</div>
+									<div class="purchase-invoice-items"></div>										
+										<div class="row" style="margin-top:5px;">
+										<div class="col-sm-3 ">
+												<div class="form-group">
+													<label class="control-label">Vehicle</label>
+													<?php // echo $this->ErpPurchaseInvoice_form->vehicle; ?>
+													<select name="vehicle" id="vehicle" class="form-control chosen-select">
+														<?php 
+														//$vehicle = 0;
+														//if($this->result){
+														//$vehicle = $this->result['purchase_invoice_own_vehicle_3rd_party'];
+														//if($vehicle ==1){?>
+														<option value="1" label="Own">Own</option>
+														<?php //}elseif($vehicle ==2){?>
+														<option value="2" label="3rd Party">3rd Party</option>
+														<?php //}elseif($vehicle ==3){?>
+														<option value="3" label="Any">Any</option>
+														<?php //} }else{?>
+														<option value="" label="Select Vehicle">Select Vehicle</option>
+														<option value="1" label="Own">Own</option>
+														<option value="2" label="3rd Party">3rd Party</option>
+														<option value="3" label="Any">Any</option>
+														<?php //} ?>
+													</select>
+												</div>
+											</div> 						       
+											<div class="col-sm-3 ">
+												<div class="form-group"> 
+													<label class="control-label">Vehicle No.</label>
+													<?php  //echo $this->ErpPurchaseInvoice_form->vehicle_no; ?>
+													<input type="text" name="vehicle_no" id="vehicle_no" value="<?php echo $this->result['purchase_invoice_vehicle_no'];?>" class="form-control">
+												</div>
+											</div>
+											<div class="col-sm-3 ">
+												<div class="form-group"> 
+													<label class="control-label">Invoice Date</label>
+													<input type="text" name="invoice_date" --required="required" id="invoice_date" value="<?php echo $this->result['invoice_date'];?>" class="form-control">
+												</div>
+											</div>
+										</div>
+																		
+										<div class="row">
+											<div class="col-sm-3 employee_class" >
+												<div class="form-group">
+													<label class="control-label">VAT:</label>
+													<input type="text" class="form-control" name="entry_field" id="label" value="<?php echo $this->result['entry_field'];?>"/> 
+												</div>
+											</div> 
+											
+											<div class="col-sm-2 employee_class" style="width:50px;margin:5px;text-align: center;">
+												<div class="form-group">
+													<label class="control-label">+</label> <br />
+													<input type="radio" name="operator1" onclick="calculate_price(this.value, 0);" <?php if($this->result['operator1'] == 1){ echo 'checked'; }else{ echo 'checked'; } ?> id="add_1" value="1" class="add"/>
+												</div>
+											</div>
+											<div class="col-sm-2 employee_class" style="width:50px;margin:5px;text-align: center;">
+												<div class="form-group">
+													<label class="control-label">-</label><br />
+													<input type="radio" name="operator1" onclick="calculate_price(this.value, 0);" id="sub_1" value="2" class="sub" <?php if($this->result['operator1'] == 2){ echo 'checked'; } ?> />
+												</div>
+											</div>
+											<div class="col-sm-1 employee_class" >
+												<div class="form-group">
+													<label class="control-label">Price</label>
+													<input type="text" name="price" id="price_1" class="amount form-control" onkeypress="calculate_price(this.value, 0);" onchange="calculate_price(this.value, 0);" value="<?php echo $this->result['price'];?>"/>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-3 employee_class" >
+												<div class="form-group">
+													<label class="control-label">Entry Field:</label>
+													<input type="text" class="form-control" name="entry_field1" id="label1" value="<?php echo $this->result['entry_field1'];?>"/> 
+												</div>
+											</div> 
+											
+											<div class="col-sm-2 employee_class" style="width:50px;margin:5px;text-align: center;">
+												<div class="form-group">
+													<label class="control-label">+</label> <br />
+													<input type="radio" onclick="calculate_price(this.value, 1);" name="operator2" <?php if($this->result['operator2'] == 1){ echo 'checked'; }else{ echo 'checked'; } ?> id="add_2" value="1" class="add"/>
+												</div>
+											</div>
+											<div class="col-sm-2 employee_class" style="width:50px;margin:5px;text-align: center;">
+												<div class="form-group">
+													<label class="control-label">-</label><br />
+													<input type="radio" onclick="calculate_price(this.value, 1);" name="operator2" id="sub_2" value="2" class="sub" <?php if($this->result['operator2'] == 2){ echo 'checked'; } ?> />
+												</div>
+											</div>
+											<div class="col-sm-1 employee_class" >
+												<div class="form-group">
+													<label class="control-label">Price</label>
+													<input type="text" name="price1" id="price_2" class="amount form-control"onchange="calculate_price(this.value, 1)" onkeyup="calculate_price(this.value, 1)" onkeypress="calculate_price(this.value, 1)"  value="<?php echo $this->result['price1'];?>"/>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-3 employee_class" >
+												<div class="form-group">
+													<label class="control-label">Entry Field:</label>
+													<input type="text" class="form-control" name="entry_field2" id="label2" value="<?php echo $this->result['entry_field2'];?>"/> 
+												</div>
+											</div> 
+											
+											<div class="col-sm-2 employee_class" style="width:50px;margin:5px;text-align: center;">
+												<div class="form-group">
+													<label class="control-label">+</label> <br />
+													<input type="radio" onclick="calculate_price(this.value, 3);" name="operator3" <?php if($this->result['operator3'] == 1){ echo 'checked'; }else{ echo 'checked'; } ?> id="add_3" value="1" class="add"/>
+												</div>
+											</div>
+											<div class="col-sm-2 employee_class" style="width:50px;margin:5px;text-align: center;">
+												<div class="form-group">
+													<label class="control-label">-</label><br />
+													<input type="radio" onclick="calculate_price(this.value, 3);" name="operator3" id="sub_3" value="2" class="sub" <?php if($this->result['operator3'] == 2){ echo 'checked'; } ?> />
+												</div>
+											</div>
+											<div class="col-sm-1 employee_class" >
+												<div class="form-group">
+													<label class="control-label">Price</label>
+													<input type="text" name="price2" id="price_3" class="amount form-control" onchange="calculate_price(this.value, 2)" onkeyup="calculate_price(this.value, 2)" onkeypress="calculate_price(this.value, 2)" value="<?php echo $this->result['price2'];?>"/>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+										<div class="col-sm-3 employee_class" style="float:right;">
+												<div class="form-group">
+													<label class="control-label">Grand Total: <span id="grand_total_amount"><?php echo $this->result['grand_total_amount'] ;?>									
+													</span></label>
+													<input type="hidden" class="form-control" name="grand_total_amt" id="grand_total_amt"  value="<?php echo $this->result['grand_total_amount'] ;?>"/>
+												</div>
+											</div>
+										</div>
+										<div class="vendor_info">
+																	
+										</div>	
+									</div>
+									<div class="panel-footer">
+										<div class="row">
+											<div class="" align="center">
+												<?Php if($this->type == 'add') { ?>
+													<button class="btn btn-primary">Submit</button>
+												  <button type="reset"class="btn btn-danger btn-default">Reset</button>
+												<?php } elseif($this->type == 'edit') {?>
+												  <button class="btn btn-primary">Update</button>
+												<?php } ?>
+											</div>
+										</div>
+									</div>
+								</div>	
+							</form>
+							
+						</div>
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</article>	
+		</div>
+			<!-- end widget -->
+	</section>
+
+<?php } else { ?> 
+    <?php
+    if (count($this->messages)) {
+        foreach ($this->messages as $message) {
+            ?>
+            <div class="alert alert-success">
+                <a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+                <?php echo $this->escape($message); ?></div>
+            <?php
+        }
+    }
+    ?>
+   
+	<div class="row">
+	<div class="col-xs-12 col-sm-7 col-md-7 col-lg-5">
+		<h3 class="page-title txt-color-blueDark">
+			<i class="fa fa-bars"> Purchase Invoice</i>
+				
+		</h3>
+	</div>
+	<div class="col-xs-12 col-sm-5 col-md-5 col-lg-7">
+	<a class="btn btn-primary pull-right" style="margin-top:25px;"" href="<?php echo $this->mainconfig['host']; ?>invoice/purchase/index/type/add">Add </a>
+      <a class="btn btn-primary pull-right" style="margin-top:25px;" href="<?php echo $this->mainconfig['host'];?>finance/payment-voucher">Go to Payment Voucher</a> 
+	  
+		
+	</div>
+</div>
+	<section id="widget-grid" class="">		
+		<!-- row -->
+		<div class="row">
+
+			<!-- NEW WIDGET START -->
+			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+				<!-- Widget ID (each widget will need unique ID)-->
+				<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+					<!-- widget options:
+					usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+					data-widget-colorbutton="false"
+					data-widget-editbutton="false"
+					data-widget-togglebutton="false"
+					data-widget-deletebutton="false"
+					data-widget-fullscreenbutton="false"
+					data-widget-custombutton="false"
+					data-widget-collapsed="true"
+					data-widget-sortable="false"
+
+					-->
+					<!--<header>
+						<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+						<!-- <h2>Sales Quotation List</h2> 	
+					</header>
+
+					<!-- widget div-->
+					<div>		
+
+						<!-- widget content -->
+						<div class="widget-body">
+
+    <div class="table-responsive">
+<div class="x_panel">
+               
+                    <div class="x_title">
+                    <h2>Invoice</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                       </li>
+                      <li><a class=""><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+<div class="x_content">
+        <table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="table2">
+            <thead>
+                <tr>
+                    <th>S.No.</th>
+                    <th>Invoice ID</th>
+					<th>Vendor Name</th>
+					<th>Invoice Date</th>
+					<th>Grand Total</th>
+			
+                    <th colspan="2">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <?php
+                $i = 1;
+				$pagination_tr = '';
+                if (count($this->paginator) != 0) {
+                    foreach ($this->paginator as $results) {
+					//print_r($results);die;
+                        ?>
+                        <tr class="invoice<?php echo $results['purchase_invoice_id']; ?>" >
+                            <td><?php
+                                echo $i;
+                                $i++;
+                                ?></td>
+                            <td>
+                                <?php
+                                if (strlen($results['purchase_invoice_id']) == 1) {
+                                    echo @INVAL_PREFIX . "000" . $results['purchase_invoice_id'];
+                                } else
+                                if (strlen($results['purchase_invoice_id']) == 2) {
+                                    echo @INVAL_PREFIX . "00" . $results['purchase_invoice_id'];
+                                } else
+                                if (strlen($results['purchase_invoice_id']) == 3) {
+                                    echo @INVAL_PREFIX . "0" . $results['purchase_invoice_id'];
+                                } else {
+                                    echo @INVAL_PREFIX . $results['purchase_invoice_id'];
+                                }
+                                ?>
+                            </td>
+							<td><?php echo $results['vendor_name']; ?></td>
+                            <td><?php echo $results['invoice_date']; ?></td>
+							 <td><?php echo $results['grand_total_amount']; ?></td>
+							
+							<?php /* <td><?php if($results['operator1']==1) {
+							 echo $results['total_amount'] + $results['price'];}elseif($results['operator1']==2){ 
+							echo $results['total_amount'] - $results['price'];}	?></td> */ ?>
+                            <td><a class="getinvoice" id="<?php echo $results['purchase_invoice_id']; ?>"> View </a>
+                            </td> 
+							<td><a href="<?php echo $this->mainconfig['host'];?>invoice/purchase/index/type/edit/id/<?php echo $results['purchase_invoice_id'];?>" title="Edit"><span class="glyphicon glyphicon-pencil"></span></a> &nbsp;
+							|&nbsp; <a href="<?php echo $this->mainconfig['host'];?>invoice/purchase/index/type/delete/id/<?php echo $results['purchase_invoice_id'];?>" title="Delete" class="delete" ><span class="glyphicon glyphicon-trash"></span> </a></td>
+                        </tr>
+                    <?php }
+						$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', array('pagination.phtml', 'default')); 
+						} ?>
+            </tbody>
+        </table>
+		</div>
+		 <?php echo $pagination_tr; ?>
+		 </div>
+    </div>
+	</div>
+	</div>
+					<!-- end widget content -->
+					
+				</div>
+				<!-- end widget div -->
+				
+			</div>
+			<!-- end widget -->
+			</section>
+
+<?php } ?>
+</div>
+<script>
+    $(document).ready(function() {
+        $("body").on("change", "#inventory_grn_id", function(event) {
+            var id = $(this).val();
+            if (id !='' && id !='-1') {
+				
+				$('#item_qty1').removeAttr('required');
+				$('#item_qty2').removeAttr('required');
+				$('#item_qty3').removeAttr('required');
+				$('#item_names').removeAttr('required');
+				$( "#category_id" ).removeAttr( "required" );
+				$(".pop-loading").show();
+                $(".invoice").show();
+				$(".appended_row").hide();
+				$(".hide_invoice").hide();
+				
+				$("#vendor_id_show").hide();
+                $.ajax({type: "POST", url: "<?php echo $this->mainconfig['host'] . 'invoice/purchase/get-grir-invoice'; ?>",
+                    data: {grn: id}}).done(function(data) {
+                    $(".invoice").html(data);
+                    setTimeout(function() {
+                        $(".pop-loading").hide();
+                    }, 300);
+                });
+            }
+			
+			if (id !='' && id =='-1') {				
+				$(".appended_row").show();
+				$(".hide_invoice").show();
+				$(".pop-loading").hide();
+				$(".invoice").hide();
+				$("#vendor_id_show").show();
+				// Add validation
+				$('#item_qty1').attr('required', 'required');
+				$('#item_qty2').attr('required', 'required');
+				$('#item_qty3').attr('required', 'required');
+				$('#item_names').attr('required', 'required');
+				$('#category_id').attr('required', 'required');
+                /* $.ajax({type: "POST", url: "<?php echo $this->mainconfig['host'] . 'invoice/purchase/get-invoice'; ?>",
+                    data: {grn: id}}).done(function(data) {
+                    $(".invoice").html(data);
+                    setTimeout(function() {
+                        $(".pop-loading").hide();
+                    }, 300);
+                }); */
+            }
+        });
+    });
+   /*  $.inventory_grn_id = $("#tyre_invoice_id").val();
+    if ($.inventory_grn_id) {
+        var id = $.inventory_grn_id;
+        $.ajax({type: "POST", url: "<?php echo $this->mainconfig['host'] . 'invoice/purchase/get-invoice'; ?>", data: {grn: id}}).done(function(data) {
+            $(".invoice").html(data);
+        });
+    } */
+	 $.inventory_grn_id = $("#inventory_grn_id").val();
+    if ($.inventory_grn_id) {
+        var id = $.inventory_grn_id;
+        $.ajax({type: "POST", url: "<?php echo $this->mainconfig['host'] . 'invoice/purchase/get-grir-invoice'; ?>", data: {grn: id}}).done(function(data) {
+            $(".invoice").html(data);
+        });
+    } 
+    $(document).ready(function() {
+        $("a.getinvoice").on("click", function() {
+            var id = $(this).attr("id");			
+            if (id) { 
+                $(".pop-loading").show();
+                $.ajax({type: "POST", url: "<?php echo $this->mainconfig['host'] . 'invoice/purchase/get-invoice'; ?>",
+                    data: {grn: id, close: 'yes'}}).done(function(data) {
+                    $("tr.invoicedata").remove();					
+                    $("<tr class='invoicedata'><td colspan='7'>" + data + "</td>\n\</tr>").insertAfter("tr.invoice" + id);
+                    $(".invoice").html(data);
+                    setTimeout(function() {
+                        $(".pop-loading").hide();
+                    }, 300);
+                });
+            }
+        });
+		
+		$("a.getinvoice").on("click", function() {
+            var id = $(this).attr("id");			
+            if (id) { 
+                $(".pop-loading").show();
+                $.ajax({type: "POST", url: "<?php echo $this->mainconfig['host'] . 'purchase/get-grir-invoice'; ?>",
+                    data: {grn: id, close: 'yes'}}).done(function(data) {
+                    $("tr.invoicedata").remove();					
+                    $("<tr class='invoicedata'><td colspan='7'>" + data + "</td>\n\</tr>").insertAfter("tr.invoice" + id);
+                    $(".invoice").html(data);
+                    setTimeout(function() {
+                        $(".pop-loading").hide();
+                    }, 300);
+                });
+            }
+        });
+		
+	// Add more functionality 
+	var count = $('#count_val').val();
+     $("body").on("click",".AddButton", function(e){     
+      $( "#appended_row1" ).clone().find("input:text").val("").end().appendTo( "#fields" );
+			var count_val = count++;
+			//alert(count_val);
+			$('#count_val').val(count_val);
+			$('#label_itemid').attr('label', 'itemdata_'+count_val);
+			$('#label_itemid').attr('data-options', count_val);
+			$('#label_code').attr('label', 'itemcode_'+count_val);
+			$('#label_price').attr('label', 'itemprice_'+count_val);
+			$('#label_code').attr('data-options', count_val);			
+			$('#label_rawmid').attr('onchange', 'select_rawm('+count_val+')');
+			$('#label_rawmid').attr('label', 'catid'+count_val);
+			$('#label_itemid').attr('onchange', 'select_rawmitem('+count_val+')');			 
+			$('#item_price').attr('label', 'itemprice_'+count_val);
+			$('#total_price1').attr('label', 'total_'+count_val);
+			$('#item_price').attr('data-options', count_val);
+			$('#item_qty11').attr('label', 'actqty_'+count_val);
+			$('#item_qty11').attr('onchange', 'select_act_qty(this.value,'+count_val+')');
+			$('#item_qty12').attr('label', 'rejqty_'+count_val);
+			$('#item_qty12').attr('onchange', 'select_reject_qty(this.value,'+count_val+')');
+			$('#item_qty13').attr('label', 'appqty_'+count_val);			
+			// Validate 
+			$('#item_qty11').attr('required', 'required');
+			$('#item_qty12').attr('required', 'required');
+			$('#item_qty13').attr('required', 'required');
+			$('#label_itemid').attr('required', 'required');
+			$('#label_rawmid').attr('required', 'required');
+          return false;
+    });
+
+    $("body").on("click",".removeclass", function(e){
+                   $(this).parent('div').remove(); 
+               return false;
+    });
+     
+    $("body").on("change","select.item_name",function(){
+        $.cost=$(this).val().split('#');
+        $(this).closest('div').nextAll().slice(0, 3).find('input.item_name').val($.cost[1]);
+      
+    });
+	// End
+
+    });
+//Add more function here
+function  select_rawm(vals){	
+	var id = $("#basicForm select[label='catid"+vals+"']").val();	        
+	$.ajax({
+		type: "POST",
+		url:"<?php echo $this->mainconfig['host'].'inventory/ajax-grn-category-items';?>",
+		data: { name: id }
+	}).done(function( data ) {
+		$("#basicForm select[label='itemdata_"+vals+"']").html( data );
+	 });		
+}
+
+//var id = $( "#category_id option:selected").val();
+
+
+////Anil
+	 var id = $('#inventory_grn_id  option:selected').val();
+	//alert(id);
+	 if(id >'-1'){
+		// alert(id);
+            $('.add_more').hide();   
+            $('.vendor').hide();   
+            $(".appended_row").hide();
+			$(".hide_invoice").hide();
+            $('#item_qty1').removeAttr('required');
+			$('#item_qty2').removeAttr('required');
+			$('#item_qty3').removeAttr('required');
+			$('#item_names').removeAttr('required');
+			$( "#category_id" ).removeAttr( "required" );
+			$('#basic_amount').removeAttr('required');
+			var gid = '<?php echo $this->grn_id; ?>';
+            $.ajax({
+              type: "POST",
+               url:"<?php echo $this->mainconfig['host'].'purchase/get-grir-invoice';?>",
+              data: { name: id, grn_id: gid}
+            }).done(function( data ) {
+                
+                $( ".purchase-invoice-items" ).show();
+				$( "#grn" ).hide();
+                $( ".purchase-invoice-items" ).html( data );
+               // $( ".purchase-quatation-items" ).show();
+                 });
+		 
+                 
+		 
+	 }else if(id =='-1')
+                { 
+                $('.add_more').show();
+                $('.vendor').show();
+               // $(".appended_row").show();
+                $( ".purchase-invoice-items" ).hide();
+                //$(".ajax_quotation_items_view").hide();
+				// Add validation
+				$('#item_qty1').attr('required', 'required');
+				$('#item_qty2').attr('required', 'required');
+				$('#item_qty3').attr('required', 'required');
+				$('#item_names').attr('required', 'required');
+				$('#category_id').attr('required', 'required');
+				$('#basic_amount').attr('required', 'required');
+
+                }
+////anil
+$("body").on("click",".removeclass", function(e){
+                   $(this).parent('div').remove(); 
+				   //Remove 
+				   var total_amount = 0;
+				   //var grand =0;
+					$('input.total_amount').each(function() {		
+						var value = parseFloat($(this).val());		
+						if (!isNaN(value)) total_amount += value;		
+					});	
+					
+					$("#total").val(total_amount);	
+					$("#grand_total").html(total_amount);
+					
+					var add_amount = 0;
+					var sub_amount = 0;
+					var i = 0;
+					$('input.amount').each(function() {
+						i++;
+						var add = $("input[name='operator"+i+"']:checked").val(); //$("#add_"+i).val();		
+						//var sub = $("#sub_"+i).val();		
+						if(add == '1'){
+							var value = parseFloat($(this).val());
+							//alert(value);
+							//alert(value);
+						}
+						if(add == '2'){
+							var subvalue = parseFloat($(this).val());
+						}		
+						if (!isNaN(value)) add_amount += value;
+						if (!isNaN(subvalue)) sub_amount += subvalue;
+					});	
+					
+					var grand_amt = ( (total_amount + add_amount) - sub_amount);
+					//alert(grand_amt);
+					$('#grand_total_amt').val( grand_amt );
+					$('#grand_total_amount').html( grand_amt );
+               return false;
+    });
+     
+    $("body").on("change","select.item_name",function(){
+        $.cost=$(this).val().split('#');
+        $(this).closest('div').nextAll().slice(0, 3).find('input.item_name').val($.cost[1]);
+      
+    });
+	// End
+
+
+ /* function select_reject_qty(value,vals){
+	var rejected_quantity = parseFloat(value);
+	if( rejected_quantity ){	
+		var actual_quantity = parseFloat(  $("#basicForm input[label='actqty_"+vals+"']").val() );		
+		if (rejected_quantity > actual_quantity) {			
+			var actual_quantity = parseFloat( $("#basicForm input[label='actqty_"+vals+"']").val() );			
+			$("#basicForm input[label='appqty_"+vals+"']").val(actual_quantity);
+			$("#basicForm input[label='rejqty_"+vals+"']").val('0');			
+		}else {  
+		    var total_qty = actual_quantity - rejected_quantity;			
+			$("#basicForm input[label='appqty_"+vals+"']").val(total_qty);			
+			}
+	} else {			 
+			var actual_quantity = parseFloat($('#actual_quantity'+num).val());
+			$("#basicForm input[label='appqty_"+vals+"']").val(actual_quantity);
+	}		
+} */
+
+function select_reject_qty(value,vals){
+	var rejected_quantity = parseFloat(value);
+	var approved_quantity = 0;
+	if( rejected_quantity ){	
+		var actual_quantity = parseFloat(  $("#basicForm input[label='actqty_"+vals+"']").val() );	
+		if (rejected_quantity > actual_quantity) {			
+			var actual_quantity = parseFloat( $("#basicForm input[label='actqty_"+vals+"']").val() );
+			var approved_quantity = actual_quantity;			
+			$("#basicForm input[label='appqty_"+vals+"']").val(actual_quantity);
+			$("#basicForm input[label='rejqty_"+vals+"']").val('0');			
+		}else {  
+		    var total_qty = actual_quantity - rejected_quantity;
+			var approved_quantity = total_qty;
+			$("#basicForm input[label='appqty_"+vals+"']").val(total_qty);			
+			}
+	} else {			 
+			var actual_quantity = parseFloat($("#basicForm input[label='actqty_"+vals+"']").val());
+			var approved_quantity = actual_quantity;
+			$("#basicForm input[label='appqty_"+vals+"']").val(actual_quantity);
+	}
+
+	//Amount
+	var item_price = parseFloat( $("#basicForm input[label='itemprice_"+vals+"']").val() );
+	var total = (approved_quantity * item_price);
+	//alert(total);
+	$("#basicForm input[label='total_"+vals+"']").val(total);
+	var total_amount = 0;
+	$('input.total_amount').each(function() {		
+		var value = parseFloat($(this).val());		
+		if (!isNaN(value)) total_amount += value;		
+	});	
+	
+	$("#total").val(total_amount);	
+	$("#grand_total").html(total_amount);
+	
+	var add_amount = 0;
+	var sub_amount = 0;
+	var i = 0;
+	$('input.amount').each(function() {
+		i++;
+		var add = $("input[name='operator"+i+"']:checked").val(); //$("#add_"+i).val();		
+		//var sub = $("#sub_"+i).val();		
+		if(add == '1'){
+			var value = parseFloat($(this).val());
+			//alert(value);
+			//alert(value);
+		}
+		if(add == '2'){
+			var subvalue = parseFloat($(this).val());
+		}		
+		if (!isNaN(value)) add_amount += value;
+		if (!isNaN(subvalue)) sub_amount += subvalue;
+	});	
+	
+	var grand_amt = ( (total_amount + add_amount) - sub_amount);
+	//alert(grand_amt);
+	$('#grand_total_amt').val( grand_amt );
+	$('#grand_total_amount').html( grand_amt );
+	
+	
+	
+}
+
+/* function select_act_qty(value,vals){
+	var actual_quantity = parseFloat(value);
+	if( actual_quantity ){		
+		$("#basicForm input[label='appqty_"+vals+"']").val(actual_quantity);
+		$("#basicForm input[label='rejqty_"+vals+"']").val('0');
+	} else {			 
+		$("#basicForm input[label='appqty_"+vals+"']").val('0');
+		$("#basicForm input[label='rejqty_"+vals+"']").val('0');
+	}		
+} */
+function select_act_qty(value,vals){
+	var actual_quantity = parseFloat(value);
+	var approved_quantity = 0;
+	if( actual_quantity ){		
+		$("#basicForm input[label='appqty_"+vals+"']").val(actual_quantity);
+		var approved_quantity = parseFloat( $("#basicForm input[label='appqty_"+vals+"']").val() );
+		$("#basicForm input[label='rejqty_"+vals+"']").val('0');
+	} else {			 
+		$("#basicForm input[label='appqty_"+vals+"']").val('0');
+		$("#basicForm input[label='rejqty_"+vals+"']").val('0');
+	}
+	
+	//Amount
+	var item_price = parseFloat( $("#basicForm input[label='itemprice_"+vals+"']").val() );
+	var total = (approved_quantity * item_price);
+	$("#basicForm input[label='total_"+vals+"']").val(total);
+	
+	var total_amount = 0;
+	$('input.total_amount').each(function() {		
+		var value = parseFloat($(this).val());		
+		if (!isNaN(value)) total_amount += value;
+		//alert(total_amount);	
+	});	
+	
+	$("#total").val(total_amount);
+	$("#grand_total").html(total_amount);
+	
+	var add_amount = 0;
+	var sub_amount = 0;
+	var i = 0;
+	$('input.amount').each(function() {
+		i++;
+		var add = $("input[name='operator"+i+"']:checked").val(); //$("#add_"+i).val();		
+		//var sub = $("#sub_"+i).val();		
+		if(add == '1'){
+			var value = parseFloat($(this).val());
+			//alert(value);
+			//alert(value);
+		}
+		if(add == '2'){
+			var subvalue = parseFloat($(this).val());
+		}		
+		if (!isNaN(value)) add_amount += value;
+		if (!isNaN(subvalue)) sub_amount += subvalue;
+	});	
+	
+	var grand_amt = ( (total_amount + add_amount) - sub_amount);
+	//alert(grand_amt);
+	$('#grand_total_amt').val( grand_amt );
+	$('#grand_total_amount').html( grand_amt);
+
+	
+}
+
+//sailaja
+/* function  select_rawmitem(vals){	
+	var id = $("#basicForm select[label='itemdata_"+vals+"']").val();	
+	if(vals == '0'){		
+		$.ajax({
+			type: "POST",
+			url:"<?php echo $this->mainconfig['host'].'inventory/ajax-grn-category-items-view';?>",
+			data: { name: id }
+		}).done(function( data ) {			
+			$("#basicForm span[label='itemcode_"+vals+"']").html( data );
+			$("#basicForm input[label='itemprice_"+vals+"']").html( data );
+		}); 
+	}  else {
+		$.ajax({
+			type: "POST",
+			url:"<?php echo $this->mainconfig['host'].'inventory/ajax-grn-category-items-code-view';?>",
+			data: { name: id }
+		}).done(function( data ) {
+			$("#basicForm span[label='itemcode_"+vals+"']").html( data );
+			$("#basicForm input[label='itemprice_"+vals+"']").html( data );
+		}); 
+	} 
+} */
+ function  select_rawmitem(vals){	
+	var id = $("#basicForm select[label='itemdata_"+vals+"']").val();	
+	if(id){		
+		$.ajax({
+			type: "POST",
+			url:"<?php echo $this->mainconfig['host'].'invoice/purchase/ajax-item-data';?>",
+			data: { name: id }
+		}).done(function( data ) {
+			var result = $.parseJSON( data );			
+			$("#basicForm input[label='itemcode_"+vals+"']").val( result['item_code'] );
+			$("#basicForm input[label='itemprice_"+vals+"']").val( result['item_price'] );
+		});  
+	}  else {					
+		$("#basicForm input[label='itemcode_"+vals+"']").val('');
+		$("#basicForm input[label='itemprice_"+vals+"']").val('');
+		
+	} 
+} 
+// End
+$("body").on("change", "#vendor_id", function(event) { 
+          
+		   var vendor_id = $(this).val();
+		   
+		   $.ajax({
+
+              type: "POST",
+
+               url:"<?php echo $this->mainconfig['host'].'purchase/ajax-vendor-info';?>",
+
+              data: { name: vendor_id }
+
+            }).done(function(data) {
+
+                $( ".vendor_info" ).html( data );
+
+            });
+
+        });  
+		
+	$('#invoice_date').datepicker({
+	dateFormat: 'yy-mm-dd',
+	prevText: '<i class="fa fa-chevron-left"></i>',
+	nextText: '<i class="fa fa-chevron-right"></i>' 
+});	
+function calculate_price(price, num){
+	//alert(price);
+	$('#grand_total_amount').val('');	
+	var total_amount = 0;
+	$('input.total_amount').each(function() {		
+		var value = parseFloat($(this).val());		
+		if (!isNaN(value)) total_amount += value;
+		//alert(total_amount);
+	});		
+	//alert(total_amount);
+	var add_amount = 0;
+	var sub_amount = 0;
+	var i = 0;
+	$('input.amount').each(function() {
+		i++;
+		var add = $("input[name='operator"+i+"']:checked").val(); //$("#add_"+i).val();		
+		//var sub = $("#sub_"+i).val();		
+		if(add == '1'){
+			var value = parseFloat($(this).val());
+			//alert(value);
+			//alert(value);
+		}
+		if(add == '2'){
+			var subvalue = parseFloat($(this).val());
+		}		
+		if (!isNaN(value)) add_amount += value;
+		if (!isNaN(subvalue)) sub_amount += subvalue;
+	});	
+	
+	var grand_amt = ( (total_amount + add_amount) - sub_amount);
+	//alert(grand_amt);
+	$('#grand_total_amt').val( grand_amt );
+	$('#grand_total_amount').html( grand_amt );
+	
+}
+
+
+
+	
+	//$('#grand').html("<?php echo $this->result['total']; ?>");
+//	$('#grand_total_amt').val("<?php echo $this->result['total']; ?>");
+
+</script>

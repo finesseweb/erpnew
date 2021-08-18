@@ -1,0 +1,78 @@
+<?php
+error_reporting(0);
+$date = new Zend_Date();
+?>
+<tr class="record_close">
+<td colspan="9">
+<div class="panel panel-default">
+ <div class="panel-body">
+     <div class="row">
+         <div class="col-sm-2" style="float:right; width:10%;"><a class="close_tr btn btn-primary">Close</a></div>
+     </div>     
+     <div class="row">		
+         <div class="table-responsive">			
+			<table class="table table-bordered">
+				<thead>
+				<tr>
+					<th>Date</th>
+					<th>Customer Company Name</th>
+					<th>Transaction Amount</th>
+					<th>Total Amount</th>
+					<th>Paid Amount</th>
+					<th>Balance</th>
+					<th>Payment By</th>
+					<th>Remarks</th>
+				</tr>
+			</thead>
+			<tbody>
+
+				<?php			
+				if (count($this->paginator) != 0) {
+					$results = $this->paginator;
+						?>
+						<tr>
+							<td>
+							<?php echo $results['add_date']; ?>
+							</td>
+							<td>
+							<?php echo $results['dealer_company_name']; ?>
+							</td>
+							<td style="text-align:right;"><?php echo $results['total_transaction']; ?></td>
+							<td style="text-align:right;"><?php echo $results['total_amount']; ?></td>
+							<td style="text-align:right;"><?php echo $results['paid_amount']; ?></td>
+							<td style="text-align:right;"><?php echo $results['balance']; ?></td>
+							<td><?php echo $results['payment_by']; ?></td>
+							<td><?php echo nl2br( $results['remarks'] ); ?></td>
+						</tr>
+				<?php 
+				} else { ?>
+					<tr class="odd gradeX">
+						<td colspan="8" align="center">No Results Found</td>
+					</tr>
+				<?php } ?>
+			</tbody>
+		</table>			
+	</div>
+        
+ </div>
+
+ </div>
+</div>
+
+</td>
+</tr>
+
+<style type="text/css">
+/*    .bor {border:1px solid #ccc; }*/
+    .table { margin-bottom: 0px !important;width: 100%;}
+    .employee_class {margin-left: 4% !important;margin-right: 4% !important;}
+    .panel-footer {padding: 5px;}
+    .panel {margin-bottom: 10px !important;}
+	a:hover{cursor:pointer;}
+
+</style>
+<script>
+$(".close_tr").click(function() {
+		$( ".record_close" ).hide();
+ });
+</script>

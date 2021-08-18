@@ -1,0 +1,350 @@
+<div id="content">
+<?php
+if (count($this->messages)) {
+    foreach ($this->messages as $message) {
+        ?>
+        <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <?php echo $this->escape($message); ?></div>
+        <?php
+    }
+}
+?>
+<div class="pageheader">
+    <h2><i class="fa fa-bars"></i> General Ledger</h2>
+
+</div>
+<style>
+    .noborder {
+        border: 0 none !important;
+    }
+</style>
+
+<div class="table-responsive">
+    <table class="table table-striped mb30" id="table2">
+
+        <tbody>
+
+
+
+            <tr class="odd gradeX">
+                <td>
+                    <form id="basicForm" action="<?php echo $this->ErpFinanceJournalLedger_form->getAction() ?>" method="post" class="form">
+
+                        <div class="row">
+                            <div class="col-sm-3 employee_class">
+                                <div class="form-group">
+                                    <label class="control-label">From <span class="asterisk">*</span></label>
+                                    <?php echo $this->ErpFinanceJournalLedger_form->transaction_date_from; ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 employee_class">
+                                <div class="form-group">
+                                    <label class="control-label">To<span class="asterisk">*</span></label>
+                                    <?php echo $this->ErpFinanceJournalLedger_form->transaction_date_to; ?>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 employee_class">
+                                <div class="form-group">
+                                    <br>
+									<div style="float:left;">
+
+                                    <button class="btn btn-primary">Submit</button>
+									</div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+            <?php if (isset($this->vendor_payments) || isset($this->dealer_payouts)) { ?>
+                <tr>
+                    <td>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div style="margin-top: 25px;" class="col-sm-12">
+                                        <div class="row padding-top">
+                                            <div class="table-responsive">
+
+                                                <table style="margin-bottom:0px !important;" class="table table-bordered ">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Date</th>
+                                                            <th>Transaction ID</th>
+                                                            <th>Credit</th>
+                                                            <th>Debit</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php
+                                                        $begin = new DateTime($this->start_date);
+                                                        $end = new DateTime($this->enddate);
+														$end = $end->modify('+1 day');
+
+                                                        $interval = DateInterval::createFromDateString('1 day');
+                                                        $period = new DatePeriod($begin, $interval, $end);
+                                                        $total_items = 0;
+                                                        $total_credit = 0;
+                                                        $total_debit = 0;
+                                                        $i = 0;
+                                                        foreach ($period as $date) {
+                                                            $vendor_payments = $this->this->getSubArray($this->vendor_payments, $date->format("Y-m-d"), "date");
+                                                            $total_vendor_payments = count($vendor_payments);
+                                                            $total_items+=$total_vendor_payments;
+
+                                                            $dealer_payouts = $this->this->getSubArray($this->dealer_payouts, $date->format("Y-m-d"), "date");
+                                                            $total_dealer_payouts = count($dealer_payouts);
+                                                            $total_items+=$total_dealer_payouts;
+
+                                                            $daily_book_records = $this->this->getSubArray($this->daily_book_records, $date->format("Y-m-d"), "date");
+                                                            $total_daily_book_records = count($daily_book_records);
+                                                            $total_items+=$total_daily_book_records;
+
+                                                            $items = $total_vendor_payments + $total_dealer_payouts + $total_daily_book_records;
+
+                                                            if ($total_vendor_payments > 0 || $total_dealer_payouts > 0 || $total_daily_book_records > 0) {
+                                                                $date_timestamp = strtotime($date->format("Y-m-d"));
+                                                                $i++;
+                                                                ?>
+                                                               <!--  <tr>
+                                                                <td  class="" style="border-bottom:0px;" colspan="2"><?= $i; ?>. Transactions On <?php //echo date(DATE_PREFIX, $date_timestamp); ?> </td>
+                                                                      
+                                                                    <td class="noborder-top" style="border-bottom:0px;"></td>
+                                                                </tr>  -->
+                                                                <?php
+                                                                /*
+                                                                 * Vendor Payments start
+                                                                 */
+																
+                                                                $vendor_payment_total = 0;
+																//echo '<pre>'; print_r($vendor_payments); die;
+                                                                foreach ($vendor_payments as $vendor_payment) {
+
+                                                                    $vendor_payment_total+=$vendor_payment['transaction_amount'];
+                                                                    ?>
+                                                                    <tr class="paymentid<?php echo $vendor_payment['vendor_payment_id'];?>">
+																	
+                                                                        <td class="noborder"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo date("d-m-Y  ", strtotime($vendor_payment['added_date'])); ?></td>
+                                                                        <td class="noborder"><a  class="payment_view" paymentid="<?php echo $vendor_payment['vendor_payment_id'];?>">
+																		
+                                                                            <?php
+                                                                            if (strlen($vendor_payment['purchase_invoice_id']) == 1) {
+                                                                                echo @(PI_PREFIX) . "000" . $vendor_payment['purchase_invoice_id'];
+                                                                            } else
+                                                                            if (strlen($vendor_payment['purchase_invoice_id']) == 2) {
+                                                                                echo @(PI_PREFIX) . "00" . $vendor_payment['purchase_invoice_id'];
+                                                                            } else
+                                                                            if (strlen($vendor_payment['purchase_invoice_id']) == 3) {
+                                                                                echo @(PI_PREFIX) . "0" . $vendor_payment['purchase_invoice_id'];
+                                                                            } else {
+                                                                                echo @(PI_PREFIX) . "" . $vendor_payment['purchase_invoice_id'];
+                                                                            }
+                                                                            ?>
+																		</a>
+                                                                        </td>
+                                                                        <td style="border-top:0px;border-bottom: 0px; "></td>
+                                                                        <td style="text-align:right;border-top:0px;border-bottom: 0px; "><?php
+                                                                            echo number_format($vendor_payment['transaction_amount'], 2);
+                                                                            ?></td>
+
+                                                                    </tr>
+                                                                    <?php
+                                                                }
+                                                                $total_debit+=$vendor_payment_total;
+
+                                                                /*
+                                                                 * Vendor Pyments end
+                                                                 */
+                                                                ?>
+                                                                <?php
+                                                                /*
+                                                                 * Customer Payouts start
+                                                                 */
+                                                                $dealer_payout_total = 0;
+																
+                                                                foreach ($dealer_payouts as $dealer_payout) {
+
+                                                                    $dealer_payout_total+=$dealer_payout['transaction_amount'];
+                                                                    ?>
+                                                                    <tr class="cpid<?php echo $dealer_payout['cp_id']; ?>">
+                                                                        <td class="noborder">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo date("d-m-Y", strtotime($dealer_payout['added_date'])); ?></td>
+                                                                        <td class="noborder">
+																		<a  class="cp_view" cpid="<?php echo $dealer_payout['cp_id'];?>">
+																		<!--<a href="<?php //echo $this->mainconfig['host'];?>finance/customer-payouts/customer-payouts-view/id/<?php //echo $dealer_payout['cp_id']; ?>"> -->
+                                                                            <?php
+                                                                            if (strlen($dealer_payout['tyre_invoice_id']) == 1) {
+                                                                                echo @(SALE_INVOICE) . "000" . $dealer_payout['tyre_invoice_id'];
+                                                                            } else
+                                                                            if (strlen($dealer_payout['tyre_invoice_id']) == 2) {
+                                                                                echo @(SALE_INVOICE) . "00" . $dealer_payout['tyre_invoice_id'];
+                                                                            } else
+                                                                            if (strlen($dealer_payout['tyre_invoice_id']) == 3) {
+                                                                                echo @(SALE_INVOICE) . "0" . $dealer_payout['tyre_invoice_id'];
+                                                                            } else {
+                                                                                echo @(SALE_INVOICE) . "" . $dealer_payout['tyre_invoice_id'];
+                                                                            }
+                                                                            ?>
+																			</a>
+                                                                        </td>
+
+                                                                        <td style="text-align:right;border-top:0px;border-bottom: 0px; "><?php
+                                                                            echo number_format($dealer_payout['transaction_amount'], 2);
+                                                                            ?></td>
+                                                                        <td style="border-top:0px;border-bottom: 0px; "></td>
+                                                                    </tr>
+                                                                    <?php
+                                                                }
+                                                                $total_credit+=$dealer_payout_total;
+
+                                                                /*
+                                                                 * Customer Payouts end
+                                                                 */
+                                                                ?>
+
+                                                                <?php
+                                                                /*
+                                                                 * Daily Book start
+                                                                 */
+                                                                $daily_book_credit_total = 0;
+                                                                $daily_book_debit_total = 0;
+																 //echo '<pre>';print_r($daily_book_records); die;
+                                                                foreach ($daily_book_records as $daily_book_record) {
+
+                                                                    // $daily_book_total+=$daily_book_record['transaction_amount
+																	
+                                                                    ?>
+                                                                   <tr class="dailybookid<?php echo $daily_book_record['daily_book_id']; ?>">
+                                                                        <td class="noborder">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                            <?php echo date("d-m-Y", strtotime($daily_book_record['transaction_date'])); ?></td>
+                                                                        <td class="noborder">
+																		<a  class="dailybook_view" dailybookid="<?php echo $daily_book_record['daily_book_id'];?>">
+                                                                           <!--<a href="<?php echo $this->mainconfig['host']; ?>finance/daily-book/daily-book-view/id/<?php echo $daily_book_record['daily_book_id']; ?>"> -->
+																		   <?php
+                                                                            if (strlen($daily_book_record['daily_book_id']) == 1) {
+                                                                                echo @(DAILY_BOOK_ID) . "000" . $daily_book_record['daily_book_id'];
+                                                                            } else
+                                                                            if (strlen($daily_book_record['daily_book_id']) == 2) {
+                                                                                echo @(DAILY_BOOK_ID) . "00" . $daily_book_record['daily_book_id'];
+                                                                            } else
+                                                                            if (strlen($daily_book_record['daily_book_id']) == 3) {
+                                                                                echo @(DAILY_BOOK_ID) . "0" . $daily_book_record['daily_book_id'];
+                                                                            } else {
+                                                                                echo @(DAILY_BOOK_ID) . "" . $daily_book_record['daily_book_id'];
+                                                                            }
+                                                                            ?>
+																			</a>
+                                                                        </td>
+
+                                                                        <td style="text-align:right;border-top:0px;border-bottom: 0px; "><?php
+                                                                            if ($daily_book_record['trasaction_type'] == 1) {
+                                                                                $daily_book_credit_total+=$daily_book_record['transaction_amount'];
+                                                                                echo number_format($daily_book_record['transaction_amount'], 2);
+                                                                            }
+                                                                            ?></td>
+                                                                        <td style="text-align:right;border-top:0px;border-bottom: 0px; "><?php
+                                                                            if ($daily_book_record['trasaction_type'] == 2) {
+                                                                                $daily_book_debit_total+=$daily_book_record['transaction_amount'];
+                                                                                echo number_format($daily_book_record['transaction_amount'], 2);
+                                                                            }
+                                                                            ?></td>
+                                                                    </tr>
+                                                                    <?php
+                                                                }
+                                                                $total_credit+=$daily_book_credit_total;
+                                                                $total_debit+=$daily_book_debit_total;
+
+                                                                /*
+                                                                 * Daily Book end
+                                                                 */
+
+                                                                $credit_total_per_record = $dealer_payout_total + $daily_book_credit_total;
+                                                                $debit_total_per_record = $vendor_payment_total + $daily_book_debit_total;
+                                                                ?>
+
+                                                                <tr>
+
+                                                                    <td style=" border-right:0px !important;" colspan=""><b>Total Transactions in <?php echo date(DATE_PREFIX, $date_timestamp); ?> <b/></td>
+                                                                    <td style="text-align:right; border-left:0px !important;"><b><?php echo $items ?><b/></td>
+                                                                    <td style="text-align:right; border-left:0px !important;"><b><?php echo number_format($credit_total_per_record, 2); ?><b/></td>
+                                                                    <td style="text-align:right; border-left:0px !important;"><b><?php echo number_format($debit_total_per_record, 2); ?><b/></td>
+
+                                                                </tr>
+                                                                <tr>
+
+                                                                    <?php
+                                                                }
+                                                            }
+                                                            ?>
+                                                            <td colspan="" style=" border-right:0px !important;"><b>Total Transactions<b/></td>
+                                                            <td style="text-align:right; border-left:0px !important;"><b><?php echo $total_items; ?><b/></td>
+                                                            <td style="text-align:right; border-left:0px !important;"><b><?php echo number_format($total_credit, 2); ?><b/></td>
+                                                            <td style="text-align:right; border-left:0px !important;"><b><?php echo number_format($total_debit, 2); ?><b/></td>
+
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+
+            <?php } ?>
+
+        </tbody>
+    </table>
+</div>
+</div>
+<script type="text/javascript"> 
+$(document).ready(function() {
+  
+    
+    $(".payment_view").click(function() {
+            var id=$(this).attr("paymentid");            
+            $("tr.paymentsitemsdiv").remove();
+            $.ajax({
+              type: "POST",
+               url:"<?php echo $this->mainconfig['host'].'finance/vendor-payment/vendor-payment-view';?>",
+              data: { name: id }
+            }).done(function(data) {
+                $(data).insertAfter("tr.paymentid"+id);
+            });
+     });
+	 
+	  $(".cp_view").click(function() {
+            var id=$(this).attr("cpid");            
+            $("tr.cpitemsdiv").remove();
+            $.ajax({
+              type: "POST",
+               url:"<?php echo $this->mainconfig['host'].'finance/customer-payouts/customer-payouts-view';?>",
+              data: { name: id }
+            }).done(function(data) {
+                $(data).insertAfter("tr.cpid"+id);
+            });
+     });
+	 
+	 $(".dailybook_view").click(function() {
+            var id=$(this).attr("dailybookid");            
+            $("tr.dailybookitemsdiv").remove();
+            $.ajax({
+              type: "POST",
+               url:"<?php echo $this->mainconfig['host'].'finance/daily-book/daily-book-view';?>",
+              data: { name: id }
+            }).done(function(data) {
+                $(data).insertAfter("tr.dailybookid"+id);
+            });
+     });
+
+}); 
+
+</script>

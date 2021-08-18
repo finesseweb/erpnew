@@ -1,0 +1,323 @@
+<div id="content">
+<?php
+if (count($this->messages)) {
+	foreach ($this->messages as $message) {
+		?>
+		<div class="alert alert-success">
+			<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+			<?php echo $this->escape($message); ?></div>
+		<?php
+	}
+}
+?>
+<div class="row">
+	<div class="col-xs-12">
+		<form id="basicForm" action="<?php echo $this->mainconfig['host']; ?>finance/journal/invoice-statement<?php //echo $this->form->getAction() ?>" method="post" class="form">		
+		   <div class="panel">
+				<div class="row" style="margin:0px;">
+					<div class="col-sm-3">
+						<div class="form-group">
+							<label class="control-label">Search by </label>
+							<?php echo $this->TrailBalance_form->search_by; ?>							
+						</div>
+					</div>
+					<div class="col-sm-3">
+						<div class="form-group">
+							<label class="control-label">Party Name </label>
+							<?php echo $this->TrailBalance_form->party_id; ?>							
+						</div>
+					</div>					
+					<?php /* <div class="col-sm-2">
+						<div class="form-group">
+							<label class="control-label">Vendor Name </label>
+							<?php echo $this->form->vendor_id; ?>							
+						</div>
+					</div> */ ?>
+					<div class="col-sm-2"style="width:140px;">
+						<div class="form-group">
+							<label class="control-label">Date</label>
+							<?php echo $this->TrailBalance_form->start_date; ?>
+							<!-- <input class="form-control start_date" type="text" name="start_date" value="" required="required"> -->
+						</div>
+					</div>
+					<div class="col-sm-2" style="margin-right:0px; width:145px;">
+						<div class="form-group" style=" padding-right:0px;">
+							<label class="control-label">End Date </label>
+							<?php echo $this->TrailBalance_form->end_date; ?>
+							<!--<input class="form-control end_date" type="text" name="end_date" value="" required="required">-->
+						</div>
+					</div>
+					<div class="col-sm-2" style="float:left;width:100px;">
+						<div class="form-group">
+							<div style="float:left">
+								<br/>							
+								<input type="submit" style="margin-top:5px;" class="btn btn-primary" name="submit" value="Submit" id="submit_val">
+							</div>											
+						</div>
+					</div>					
+					<?php if(isset($this->party_name)){ ?>
+					<div class="col-sm-1" style="margin:0px;">
+						<div class="form-group">
+							<div style="float:left">
+								<br/>
+								<input type="submit" style="margin-top:5px;" class="btn btn-primary" name="export" id="export" value="Print" onclick="this.form.target='_blank';return true;">
+							</div>											
+						</div>
+					</div>
+					<?php } if(!empty($this->party_name)){ ?>
+					<div class="col-sm-1" style="float:right; margin-top:-35px;">
+						<div class="form-group">
+							<div style="float:right">
+								<br />							
+								<a href="javascript:void(0)"  style="margin-top:5px;" class="send_mail">Send Mail</a>
+							</div>											
+						</div>
+					</div>
+					<?php } ?>
+				</div>
+				<?php if(isset($this->party_name)){ ?>
+				<div class="row show_mail" style="margin:0px;display:none;">
+					<div class="col-sm-6">
+						<div class="form-group">							
+							<div style="float:right">
+								<br />
+								<label>Description</label>
+								<br />							
+								<textarea name="description" rows="4" style="width:300px; resize:none;"></textarea>
+								<br />								
+								<div style="float:left; width:100px;">
+									<input type="submit" style="margin-top:5px;" class="btn btn-primary" name="sendmail" value="Send Mail" id="sendmag">
+								</div>
+							</div>											
+						</div>
+					</div>					
+				</div>				
+			  <?php } ?>				
+			</div>
+		</form>
+	</div>
+</div>
+
+<?php 
+//if ( ( !empty($postvalue['start_date']) ) && ( !empty($postvalue['end_date']) ) ) { 
+$statement_remarks = $this->statement_remarks;
+$end_dates = $this->enddate;
+$findMont = date("m", strtotime($end_dates));
+$findYear = date("Y", strtotime($end_dates));;
+
+$totalday = cal_days_in_month(CAL_GREGORIAN, $findMont, $findYear); // 31
+//echo $totalday ;
+//if($this->search_by == 2)
+//{ 
+?>
+
+<!-- widget grid -->
+<section id="widget-grid" class="">	
+	<!-- row -->
+	<div class="row">
+		
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2></h2>
+
+				</header>
+
+				<!-- widget div-->
+				<div>		
+					<!-- widget content -->
+						<div class="widget-body">
+							<div class="table-responsive">
+								
+								<table style="margin-bottom:0px !important;" class="table table-bordered ">
+									<thead>										
+										<tr>											
+											<th colspan="3"></th>
+											<th colspan="2" style="text-align:center;">Balance</th>
+										</tr>
+										<tr>
+											<th style="text-align:center;">S.No.</th>
+											<th style="text-align:center;">Account Name</th>													
+											<th style="text-align:center;">Debit</th>
+											<th style="text-align:center;">Credit</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?php //print_r($this->opening_balance); 
+											$total_items = 0;
+											$total_credit = 0;
+											$total_debit = 0;
+											$total_credit_balance = 0;
+											$total_debit_balance = 0;
+											
+										?>
+										<?php if(!empty($this->party_name)){ ?>
+										<tr>									
+											
+												<?php
+												$opening_debit_amt = 0;
+												$opening_credit_amt = 0;
+												if( isset($this->vendorOpeningBalance['start_balance']) ){
+													if( ($this->vendorOpeningBalance['operator'] == 2) ){
+														//$opening_credit_amt = '';
+														if( isset($this->vendorOpeningBalance['start_balance']) ){
+															$opening_credit_amt = round( $this->vendorOpeningBalance['start_balance'] );
+															$total_debit += round( $this->vendorOpeningBalance['start_balance'] ); 
+														}
+													}else{
+															//$opening_debit_amt = '';
+															if( isset($this->vendorOpeningBalance['start_balance']) ){
+																$opening_debit_amt = round( $this->vendorOpeningBalance['start_balance'] );
+																$total_credit  += round( $this->vendorOpeningBalance['start_balance'] );
+															}
+													}
+												}
+												if( isset($this->customerOpeningBalance['start_balance'])){
+													if( ($this->customerOpeningBalance['operator'] == 2) ){
+														//$opening_credit_amt = '';
+														if( isset($this->customerOpeningBalance['start_balance']) ){
+															$opening_credit_amt = round( $this->customerOpeningBalance['start_balance'] );
+															$total_debit  += round( $this->customerOpeningBalance['start_balance'] );
+														}
+													}else{
+														//$opening_debit_amt = '';
+														if( isset($this->customerOpeningBalance['start_balance']) ){
+															$opening_debit_amt = round( $this->customerOpeningBalance['start_balance'] );
+															$total_credit  += round( $this->customerOpeningBalance['start_balance'] );
+														}												
+													}
+												}
+												
+												if( isset($this->bankOpeningBalance['start_balance'])){
+													if( ($this->bankOpeningBalance['operator'] == 2) ){
+														//$opening_credit_amt = '';
+														if( isset($this->bankOpeningBalance['start_balance']) ){
+															$opening_credit_amt = round( $this->bankOpeningBalance['start_balance'] );
+															$total_debit  += round( $this->bankOpeningBalance['start_balance'] );
+														}
+													}else{ 
+														//$opening_debit_amt = '';
+														if( isset($this->bankOpeningBalance['start_balance']) ){
+															$opening_debit_amt = round( $this->bankOpeningBalance['start_balance'] );
+															$total_credit  += round( $this->bankOpeningBalance['start_balance'] );
+														}												
+													}
+												}
+												if( isset($this->accountOpeningBalance['start_balance'])){
+													if( ($this->accountOpeningBalance['operator'] == 2) ){
+														//$opening_credit_amt = '';
+														if( isset($this->accountOpeningBalance['start_balance']) ){
+															$opening_credit_amt = round( $this->accountOpeningBalance['start_balance'] );
+															$total_debit  += round( $this->accountOpeningBalance['start_balance'] );
+														}
+													}else{
+														//$opening_debit_amt = '';
+														if( isset($this->accountOpeningBalance['start_balance']) ){
+															$opening_debit_amt = round( $this->accountOpeningBalance['start_balance'] );
+															$total_credit  += round( $this->accountOpeningBalance['start_balance'] );
+														}												
+													}
+												}
+												?>
+												<td style="width:4%;"><?php echo ''; ?></td>
+												<td style="width:15%;">Opening Balance</td>
+												
+												<td style="text-align:right;width:15%;"><?php 
+														echo number_format( $opening_debit_amt , 2);													
+												  ?></td>
+												<td style="text-align:right;width:15%;"><?php 
+														echo number_format( $opening_credit_amt, 2);											
+												  ?></td>																						
+										</tr>
+									<?php 
+										}
+										$i = 0;
+										$days_count = 0;										
+										$account_statement = $this->account_statement;
+										if ( count($account_statement) > 0 ) {
+											?>											  
+											<?php
+											$total_items = count($account_statement);
+											$k = 0;
+											foreach ($account_statement as $val) {
+												//If collect the cash that records not displayed here
+												//echo $val['payment_by'];
+												$payment_by = '';
+												if(isset($val['payment_by'])){
+													$payment_by = $val['payment_by'];
+												}
+												if( $payment_by !=1){
+												$i++;												
+												?>
+												<tr class="paymentid<?php echo $val['payment_type'].$val['sales_invoice_id'];?>">
+													<td style="width:4%;"><?php echo $i; ?></td>
+													<td style="width:15%;">													
+													<?php echo $val['vendor_name']; ?>													
+													</td>													
+													<td style="text-align:right;width:15%;">
+													<?php
+														if( $val['payment_status'] == 5){
+															if($val['payment_type'] == 5){
+																echo number_format( $val['paid_amount'], 2);
+																$total_debit_balance += round( $val['paid_amount'], 2);
+															}else{
+																echo number_format( $val['paid_amount'], 2);
+																$total_debit_balance += round( $val['paid_amount'], 2);
+															}
+														}
+														?>
+													</td>
+													<td style="text-align:right;width:15%;">
+													<?php
+														if( $val['payment_status'] == 4){
+															if($val['payment_type'] == 5){
+																echo number_format( $val['paid_amount'], 2);
+																$total_credit_balance += round( $val['paid_amount'], 2);
+															}else{
+																echo number_format( $val['paid_amount'], 2);
+																$total_credit_balance += round( $val['paid_amount'], 2);
+															}
+														}
+														?>
+													</td>													
+													
+												</tr>
+												<?php
+												} //End
+											}																							
+											/*
+											 * Vendor Pyments end
+											 */
+											?>
+											<?php
+											}											
+											?>
+										<tr>
+											<td colspan="1" style="border-right:0px !important;"><b>Total<b/></td>
+											<td style="text-align:right; border-left:0px !important;"><b><?php echo $i; //$total_items; ?><b/></td>
+											<td style="text-align:right; border-left:0px !important;"><b><?php if(!empty($total_debit_balance)) echo number_format($total_debit_balance, 2); ?><b/></td>
+											<td style="text-align:right; border-left:0px !important;"><b><?php if(!empty($total_credit_balance)) echo number_format($total_credit_balance, 2); ?><b/></td>
+
+										</tr>										
+									</tbody>
+								</table>								
+							</div>
+						</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- WIDGET END -->
+	</div>	
+	<!-- end row -->
+</section>
+<!-- end widget grid -->
+<?php //} ?> 
+</div>

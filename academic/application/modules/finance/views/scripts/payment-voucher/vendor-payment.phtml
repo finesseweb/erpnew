@@ -1,0 +1,51 @@
+<div id="content"><section id="widget-grid" class="">		<!-- row -->	<div class="row">		<!-- NEW WIDGET START -->  		<article class="col-sm-12 col-md-12 col-lg-6">		<!-- Widget ID (each widget will need unique ID)-->			<div class="jarviswidget" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">				<header>					<span class="widget-icon"> <i class="fa fa-eye"></i> </span>					<!--<h2> Process Issue Slip </h2>-->				</header>			<!-- widget div-->				<div>				<!-- widget edit box -->					<div class="jarviswidget-editbox">				<!-- This area used as dropdown edit box -->					</div>				<!-- end widget edit box -->				<!-- widget content -->
+<tr class="purchase-quatation-items-close paymentsitemsdiv">
+<td colspan="5">
+<div class="purchase-quatation-items" style="display: block;"><div class="col-sm-12 " >
+               <div id="log1">  
+        <section id="widget-grid" class="">				<!-- row -->		<div class="row">			<!-- NEW WIDGET START -->			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">				<!-- Widget ID (each widget will need unique ID)-->				<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">					<!-- widget options:					usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">					data-widget-colorbutton="false"					data-widget-editbutton="false"					data-widget-togglebutton="false"					data-widget-deletebutton="false"					data-widget-fullscreenbutton="false"					data-widget-custombutton="false"					data-widget-collapsed="true"					data-widget-sortable="false"					-->					<header>						<span class="widget-icon"> <i class="fa fa-table"></i> </span>						<!-- <h2>Sales Quotation List</h2> -->						</header>					<!-- widget div-->					<div>								<!-- widget content -->     
+<div class="table-responsive" style="border: 1px solid #CCC;">
+    
+          <table class="table table-striped " id="table2">
+              <thead>
+                 <tr>
+                     <th>Bank Name</th>
+                   <th><?php if($this->result['payment_by']==1){ echo 'Cash'; } elseif($this->result['payment_by']==2) { echo 'Cheque No';} elseif($this->result['payment_by']==3) { echo 'DD No';}?></th>
+                    <th> Transaction Amount</th>
+                    <th>Date</th>                    
+                    
+                    <th><button class="close_tr btn btn-primary">Close</button></th>
+                    
+                 </tr>
+              </thead>
+             <tbody>
+            
+                 <tr>
+                     <td><?php echo $this->result['bank_name']; ?></td>
+                     <td><?php if($this->result['payment_by']==1) { echo 'Cash';} elseif($this->result['payment_by']==2) { echo $this->result['check_id']; } elseif($this->result['payment_by']==3) { echo $this->result['dd_no'];} ?></td>                   
+                     <td><?php echo $this->result['transaction_amount']; ?></td> 
+                     <td><?php echo date('d-m-Y',strtotime($this->result['added_date'])); ?></td> 
+                     
+                     <td></td>
+
+                     </tr>            
+                   </tbody>
+    </table>	 </div><!-- end widget content -->					</div>					<!-- end widget div -->				</div>				<!-- end widget -->			</article>			<!-- WIDGET END -->		</div>		<!-- end row -->	</section>	<!-- end widget grid -->
+  </div>  
+         
+
+             </div>
+                   </div>
+</div>
+</td>
+</tr> </div><!-- end widget content -->					</div>					<!-- end widget div -->				</div>				<!-- end widget -->			</article>			<!-- WIDGET END -->		</div>		<!-- end row -->	</section>	<!-- end widget grid -->
+</div>
+<script>
+    $(".close_tr").click(function() {
+            $( ".purchase-quatation-items-close" ).hide();
+     });
+</script>
+
+
+
+

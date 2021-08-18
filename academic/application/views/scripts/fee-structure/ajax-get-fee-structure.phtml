@@ -1,0 +1,685 @@
+<style>
+.panel-body{padding: 15px 10px 0 10px;}
+.form-control{width:95%;}
+textarea{resize:none;}
+</style>
+<script src="<?php echo $this->mainconfig['publicpath'];?>js/jquery-ui.min.js"></script>
+	  
+
+<?php
+error_reporting(0);
+$date = new Zend_Date();
+$col_span = 2+count($this->term_data);
+?>
+<tr class="purchase-quatation-items-close ">
+<td colspan="6">
+<div class="purchase-quatation-items" style="display: block;"><div class="col-sm-12 " >
+      <div id="log1">  
+<div class="panel panel-default bor" >
+ <div class="panel-body" style="">
+     <div>
+         <div class="col-sm-12" width="99%"><center>
+                 <div class="form-group bor" style="">
+                     
+                     <label class="control-label"><strong><h4>Fee Details</h4></strong></label>
+                 </div></center>
+         </div>
+		
+     </div>
+    </div>
+     <div class="row" style="margin-bottom:5px;" >
+         <div class="col-sm-12">
+             <div class="form-group bor" >
+                 <?php if(count($this->term_data) !=0) {?>
+                 <table width="99%" class="table table-striped table-bordered mb30 table bulk_action" border="0" >
+				 <thead>
+                     <tr align="center">
+                         <th rowspan="2" bgcolor="#f7ffe6" style="text-align:center;">S.No.</th>
+						 <th rowspan="2" bgcolor="#f7ffe6" style="text-align:center;">Particulars</th> 
+						 
+						 
+							</tr>
+							<tr>
+                                                            <?php if(($this->term_data) >0){ ?>
+                                                                <?php foreach($this->term_data as $key => $term_details) {?>
+                                                            <?php $inc = $key + 1; ?>
+                                                                   <input type ="text" style="display:none;" value="<?=$term_details['term_id']; ?>" name='term_id[]' /> 
+                                                                 <th style="text-align:center;"><?=strtoupper($term_details['term_name']);?></th>
+                                                                <?php } ?>
+					
+                                                            <?php } ?>
+                                                                 <th rowspan="3" bgcolor="#f7ffe6" style="text-align:center;">Total (Rs.)</th>
+                     </tr>
+					 <tr>
+					 <td colspan="2" bgcolor="#ffffcc">Due Date for Payment</td>
+					 <?php $items_result=$this->result1; ?>
+                                              <?php foreach($this->term_data as $key => $term_details) {?>
+                                             <?php $inc = $key + 1; ?>
+                                         <td bgcolor="#ffffcc"><input type="text" pattern="[0-9]{2,2}-[0-9]{2,2}-[0-9]{4,4}" title="DD-MM-YYYY" name="terms_fee[t<?=$key+1;?>_date]" value ="<?php echo !empty($items_result["t" . $inc . "_date"])?$items_result["t" . $inc . "_date"]:''; ?>" id="t<?=$key+1;?>_date" class="form-control" /></td>
+                                              <?php } ?>
+					 </tr>
+						</thead>
+                     <tbody>
+                         <?php
+                        // print_r($this->academics_data);
+                        // $i=1;
+                       $letters = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
+                       $i=0;
+					   if(!empty($this->academics_data)){
+						
+					//	echo '<pre>'; print_r($this->academics_data); die;	 
+                  /*     foreach ($this->academics_data as $keys=>$elective_result){ 
+					  // echo '<pre>'; print_r($elective_result); die;
+                     ?>
+								
+				       	<tr>
+						   <td align="center"><?php echo $letters[$i];?></td>
+						   <td align="left" id="students_id" name="students_id"><?php
+						     $st = $this->student_data;
+							foreach($st as $k1=>$student){
+							//print_r($student['student_id']);die;
+							if($elective_result['students_id'] == $student['student_id']){
+						     echo $student['students'];
+						    ?>
+						   <input type="hidden" name="Elective[students_id][]" id="students_id" value="<?php echo $student['student_id'];?>" />
+						   <?php }
+						   } ?></td> 
+						   <td>
+						   <select name="Elective[elective_t4_1][]" class="form-control">
+						   <?php $e1 = $this->electives;
+						  // print_r($e1);
+						   foreach($e1 as $k2=>$val1){ 
+						  
+						    $selected='';
+									 if($k2 == $elective_result['elective_t4_1']){
+										 $selected="selected";
+									 } ?>
+						   <option value="<?php echo $k2;?>"<?php echo $selected;?>><?php echo $val1;?></option>
+						   <?php  } ?>
+						   </select>
+						   </td> 
+						  <td>
+						  <select name="Elective[elective_t4_2][]" class="form-control">
+						   <?php $e2 = $this->electives;
+						  // print_r($e1);
+						   foreach($e2 as $k3=>$val2){ 
+						  
+						    $selected='';
+									 if($k3 == $elective_result['elective_t4_2']){
+										 $selected="selected";
+									 } ?>
+						   <option value="<?php echo $k3;?>"<?php echo $selected;?>><?php echo $val2;?></option>
+						   <?php } ?>
+						   </select>
+						  </td> 
+						  <td> <select name="Elective[elective_t5_1][]" class="form-control">
+						   <?php $e21 = $this->electives;
+						  // print_r($e1);
+						   foreach($e21 as $k4=>$val3){ 
+						  
+						    $selected='';
+									 if($k4 == $elective_result['elective_t5_1']){
+										 $selected="selected";
+									 } ?>
+						   <option value="<?php echo $k4;?>"<?php echo $selected;?>><?php echo $val3;?></option>
+						   <?php } ?>
+						   </select></td> 
+						  <td> <select name="Elective[elective_t5_2][]" class="form-control">
+						   <?php $e22 = $this->electives;
+						  // print_r($e1);
+						   foreach($e22 as $k5=>$val4){ 
+						  
+						    $selected='';
+									 if($k5 == $elective_result['elective_t5_2']){
+										 $selected="selected";
+									 } ?>
+						   <option value="<?php echo $k5;?>"<?php echo $selected;?>><?php echo $val4;?></option>
+						   <?php } ?>
+						   </select></td> 
+						  <td> <select name="Elective[elective_t5_3][]" class="form-control">
+						   <?php $e23 = $this->electives;
+						  // print_r($e1);
+						   foreach($e23 as $k6=>$val5){ 
+						  
+						    $selected='';
+									 if($k6 == $elective_result['elective_t5_3']){
+										 $selected="selected";
+									 } ?>
+						   <option value="<?php echo $k6;?>"<?php echo $selected;?>><?php echo $val5;?></option>
+						   <?php } ?>
+						   </select></td> 
+						  <td> <select name="Elective[elective_t5_4][]" class="form-control">
+						  <?php $e24 = $this->electives;
+						  // print_r($e1);
+						   foreach($e24 as $k7=>$val6){ 
+						  
+						    $selected='';
+									 if($k7 == $elective_result['elective_t5_4']){
+										 $selected="selected";
+									 } ?>
+						   <option value="<?php echo $k7;?>"<?php echo $selected;?>><?php echo $val6;?></option>
+						   <?php } ?>
+						   </select></td> 
+						  
+						</tr>
+								 <?php $i++;
+								 } */ ?>
+						 
+						 
+						 
+						 
+						 
+                         <?php
+                        // print_r($this->academics_data);
+                         }
+					 else{	
+								
+                     //echo '<pre>'; print_r($this->Feeheads_data['feehead_name']);						
+					 if(($this->Category_data) >0){
+							$fee_head = $this->Feeheads_data;
+						//echo '<pre>'; print_r($this->Category_data['feecategory_id']); 
+                       foreach ($this->Category_data as $key=>$categories){ 
+                   //  print_r($fee_head[$key]['feecategory_id']);
+					 ?>
+								
+				       	<tr>
+						   <!-- <td align="center"><?php //echo $letters[$i];?></td> -->
+						   <td align="left" colspan="<?=$col_span;?>" bgcolor="#f7ffe6"><?php 
+						  // if($categories['category_id'] == $fee_head[$key]['feecategory_id']){
+						   echo $letters[$i].'. '.$categories['category_name'].' '.'(Rs.)';
+						  // } ?>
+						   <input type="hidden" name="terms[category_id][]" id="category_id" value="<?php echo $categories['category_id'];?>" />
+						   </td> 
+						   <td bgcolor="#f7ffe6" ></td>
+						  
+						</tr>
+						<?php $j=1;
+                                                 $term1_cat_tot = 0;
+                                                    $term2_cat_tot = 0;
+                                                    $term3_cat_tot = 0;
+                                                    $term4_cat_tot = 0;
+                                                    $term5_cat_tot = 0;
+						foreach($this->Feeheads_data as $keys=>$vals){
+						//print_r($
+						if($categories['category_id'] == $vals['feecategory_id']){ ?>
+						<tr>
+						<td align="center"><?php echo $j;?><input type="hidden" name="terms[count][]" value="<?php echo $j;?>"/></td>
+						<td><?php echo $vals['feehead_name'] ;?><input type="hidden" name="terms[feehead_id<?php echo $categories['category_id'];?><?php echo $j;?>][]" id="feehead_id<?php echo $j;?>" value="<?php echo $vals['feehead_id'];?>" /></td>
+                                                
+                                                
+                                               
+		<?php  
+                        $TermItems_model = new Application_Model_FeeStructureTermItems();
+                                                                    $cat_ids = $categories['category_id'];
+                                                                    $fhead_ids = $vals['feehead_id']; 
+                
+                foreach($this->term_data as $key => $term_details) {?>
+                                                <?php $inc = $key+1; ?> 				
+						<td>
+                                                     <?php $term1_result = $TermItems_model->getFeesRecords($this->structure_id, $cat_ids, $fhead_ids, $this->term_data[$key]['term_id']); ?>
+                                                                            <?php
+                                                                            $term1_cat_tot += $term1_result['fees']; ?>
+                                                    
+						<input type="text" name="term_<?php echo $categories['category_id'];?>_<?php echo $vals['feehead_id'];?>_<?=$inc;?>" id ="term<?php echo $j;?><?=$inc;?>" class="form-control term<?=$inc;?><?php echo $categories['category_id']; ?> term" onchange="select_term<?=$inc;?>_fees(this.val,<?php echo $j;?>,<?php echo $i;?>,<?php echo $categories['category_id'];?>)" style="text-align:right;" value="<?php echo !empty($term1_result['fees'])?$term1_result['fees']:0; ?>"/></td>
+                        <?php } ?>
+						<td><span id="feeheads_total<?php echo $j;?>"><?php echo $term1_result['feeheads_total']; ?> </span>
+                                                    <input type="hidden" name="terms[feeheads_total_val<?php echo $categories['category_id'];?>][]" id="feeheads_total_val<?php echo $j;?>" value="<?php echo !empty($term1_result['feeheads_total'])?$term1_result['feeheads_total']:0; ?>" /> 
+						</td>
+						</tr>
+						
+						<?php  } 
+						     $j++;
+						   } ?>
+						   <tr>
+						<td bgcolor="#ccf5ff"></td>
+						<td bgcolor="#ccf5ff" style="text-align:right;"><?php echo 'Total '.$letters[$i].' (Rs.)';?></td>
+                                                 <?php
+                                                        $TermItems_model = new Application_Model_FeeStructureTermItems();
+                                                        $category_id = $categories['category_id'];
+                                                        $terms1_total = $TermItems_model->getFeeTermTotals($this->structure_id, $category_id, $this->term_data[0]['term_id']);
+                                                        ?>
+                                                        <?php $check = array();?>
+                                                <?php foreach($this->term_data as $key => $term_details) {?>
+                                                <?php $inc = $key+1; ?>
+                                                 <?php $termsmy_total = $TermItems_model->getFeeTermTotal1($this->structure_id, $category_id, $this->term_data[$key]['term_id']); ?>
+						<td bgcolor="#ccf5ff" style="text-align:right;"><span id="term<?=$inc;?>_total_<?php echo $categories['category_id'];?>_<?php echo $i;?>"  class="term<?=$inc;?>" ><?php echo $termsmy_total; ?></span>
+						<input type="hidden" name="terms[catresult<?=$inc;?><?php echo $categories['category_id'];?>][]" id="catresult<?=$inc;?><?php echo $categories['category_id'];?>" value="<?php echo !empty($termsmy_total)?$termsmy_total:0; ?>"/></td>
+                                                <?php } ?>
+						<td bgcolor="#ccf5ff" style="text-align:center;"> <span id="cat_total<?php echo $categories['category_id'];?>_<?php echo $i;?>" style="text-align:right;"><?php echo $terms1_total['cat_row_total']; ?></span>
+						<input type="hidden" name="terms[cat_row_total<?php echo $categories['category_id'];?>_<?php echo $i;?>]" id ="cat_row_total<?php echo $categories['category_id'];?>_<?php echo $i;?>" value="<?php echo !empty($terms1_total['cat_row_total'])?$terms1_total['cat_row_total']:0; ?>" /></td>
+						</tr>
+						<input type="hidden" name="terms[count_i][]" id="count_i" value="<?php echo $i;?>" />
+								 <?php  $i++; 
+										 
+								  } ?>
+						
+		<tr>
+						<td bgcolor="#b3ecff"></td>
+						<td bgcolor="#b3ecff" style="text-align:right;"><?php 
+						$lets = "";
+						$cats = $categories['category_id'].length;
+						
+						for($l=0;$l < $cats;$l++){
+						  $lets = $lets.$letters[$l].'+';
+						  
+						}
+						 echo 'Grand Total ('.rtrim($lets,'+').') (Rs.)';
+						
+						?></td>
+						 <?php $items_result=$this->result1; ?>
+							
+                                                <?php foreach($this->term_data as $key => $term_details) {?>
+                                                <?php $inc = $key+1; ?>
+						<td bgcolor="#b3ecff" style="text-align:right;"><span id="term<?=$inc;?>_grandtotal_" ><?php echo $items_result["grand_term" . $inc . "_result"]; ?></span>
+						<input type="hidden" name="terms_fee[grand_result<?=$inc;?>][]" id="grand_result<?=$inc;?>" value="<?php echo !empty($items_result["grand_term" . $inc . "_result"])?$items_result["grand_term" . $inc . "_result"]:0; ?>"/></td>
+						
+						<?php } ?>
+                                                <td bgcolor="#b3ecff" style="text-align:center;"><span id="grand_total" ><?php echo $items_result['total_grand_value']; ?></span>
+						<input type="hidden" name="terms_fee[grandtotal_total][]" id="grandtotal_total" value="<?php echo !empty($items_result['total_grand_value'])?$items_result['total_grand_value']:0; ?>"/></td>
+						<
+						</tr>
+								 <?php 
+								 } } //else { ?>
+						<!-- 	 <tr><td colspan="4"><center><strong>No Data Available</strong></center></td></tr>  -->
+								 <?php //} ?>	
+					 </tbody>
+                 </table>
+                 <?php }else { ?>
+                 <table width="99%" class="table table-striped table-bordered mb30 table bulk_action" border="0" >
+                     <thead>
+                         <tr>
+                             <th class="text-center">No Terms</th>
+                         </tr>
+                     </thead>
+                 </table>
+              <?php    }?>
+             </div>
+         </div>
+     </div>
+
+    
+     </div>
+ </div>
+</div>
+
+       </div>
+ </div>
+</td>
+</tr>
+
+<style type="text/css">
+/*  .bor {border:1px solid #ccc; } */
+    .table { margin-bottom: 0px !important;width: 100%;}
+    .employee_class {margin-left: 4% !important;margin-right: 4% !important;}
+    .panel-footer {padding: 5px;}
+    .panel {margin-bottom: 10px !important;}
+	a:hover{cursor:pointer;}
+</style>
+
+<script>
+
+$(document).ready(function() {		 
+	$("#t1_date").datepicker({ dateFormat: 'dd-mm-yy'} );
+	$("#t2_date").datepicker({ dateFormat: 'dd-mm-yy' }); 
+	$("#t3_date").datepicker({ dateFormat: 'dd-mm-yy' }); 
+	$("#t4_date").datepicker({ dateFormat: 'dd-mm-yy' }); 
+	$("#t5_date").datepicker({ dateFormat: 'dd-mm-yy' }); 
+}); 
+$(".close_tr").click(function() {
+    $( ".purchase-order-items-close" ).hide();
+});
+  
+function select_term1_fees(val,num,i,category_id){
+  
+	var total_term1_amt = 0;
+	var total_term1_amt1=0;	
+	var amount = $('#term'+num+'1').val();
+	var row_cat_tot2 = $('#catresult2'+category_id+'').val();
+	var row_cat_tot3 = $('#catresult3'+category_id+'').val();
+	var row_cat_tot4 = $('#catresult4'+category_id+'').val();
+	var row_cat_tot5 = $('#catresult5'+category_id+'').val();
+        
+        if(!row_cat_tot3)
+            row_cat_tot3=0;
+         if(!row_cat_tot2)
+             row_cat_tot2=0;
+              if(!row_cat_tot4)
+                  row_cat_tot4=0;
+                   if(!row_cat_tot5)
+                    row_cat_tot5=0;
+        
+	$('input.term1'+category_id+'').each(function() { 	
+		var value = parseFloat($(this).val());
+		//alert(value);
+		if (!isNaN(value)){ 			
+			total_term1_amt += value;
+			//alert(total_tax_amt);
+		}				
+	});
+	
+$('#feeheads_total'+num+'').html(amount);
+$('#feeheads_total_val'+num+'').val(amount);
+$('#term1_total_'+category_id+'_'+i+'').html(total_term1_amt);
+$('#catresult1'+category_id+'').val(total_term1_amt);
+var cat = $('#cat_row_total'+category_id+'_'+i+'').val();
+var cat_row_amt = parseFloat(total_term1_amt) + parseFloat(row_cat_tot2) + parseFloat(row_cat_tot3) + parseFloat(row_cat_tot4) + parseFloat(row_cat_tot5) ;
+
+$('#cat_total'+category_id+'_'+i+'').html(cat_row_amt);
+$('#cat_row_total'+category_id+'_'+i+'').val(cat_row_amt);
+
+$('span.term1').each(function() { 	
+		var value1 = parseFloat($(this).text());
+		//alert(value1);
+		if (!isNaN(value1)){ 			
+			total_term1_amt1 += value1;
+			//alert(total_tax_amt);
+		}				
+	});
+$('#term1_grandtotal_').html(total_term1_amt1);
+$('#grand_result1').val(total_term1_amt1);
+var grand2 = $('#grand_result2').val();
+var grand3 = $('#grand_result3').val();
+var grand4 = $('#grand_result4').val();
+var grand5 = $('#grand_result5').val();
+
+
+ if(!grand5)
+            grand5=0;
+         if(!grand2)
+             grand2=0;
+              if(!grand3)
+                  grand3=0;
+                   if(!grand4)
+                    grand4=0;
+
+var grand = parseFloat(grand2) + parseFloat(grand3) + parseFloat(grand4) + parseFloat(grand5) + parseFloat(total_term1_amt1);
+$('#grand_total').html(grand);
+$('#grandtotal_total').val(grand);
+ }
+ function select_term2_fees(val,num,i,category_id){
+       
+	var total_term2_amt = 0;
+    var total_term1_amt2 = 0;	
+	var amount1 = $('#term'+num+'1').val();
+	var amount2 = $('#term'+num+'2').val();
+	var fee_tot = parseFloat(amount1) + parseFloat(amount2);
+	var total_cat_result1 = $('#catresult1'+category_id+'').val();
+	//alert(total_cat_result1);
+	var row_cat_tot1 = $('#catresult1'+category_id+'').val();
+	var row_cat_tot3 = $('#catresult3'+category_id+'').val();
+	var row_cat_tot4 = $('#catresult4'+category_id+'').val();
+	var row_cat_tot5 = $('#catresult5'+category_id+'').val();
+        
+           if(!row_cat_tot3)
+            row_cat_tot3=0;
+         if(!row_cat_tot1)
+             row_cat_tot1=0;
+              if(!row_cat_tot4)
+                  row_cat_tot4=0;
+                   if(!row_cat_tot5)
+                    row_cat_tot5=0;
+        
+	var cat = $('#cat_row_total'+category_id+'_'+i+'').val();
+	$('input.term2'+category_id+'').each(function() {     
+		var value = parseFloat($(this).val());
+		if (!isNaN(value)){ 			
+			total_term2_amt += value;
+		}				
+	});
+	
+       
+$('#feeheads_total'+num+'').html(fee_tot);
+$('#feeheads_total_val'+num+'').val(fee_tot);
+$('#term2_total_'+category_id+'_'+i+'').html(total_term2_amt);
+$('#catresult2'+category_id+'').val(total_term2_amt);
+var term2_total_cat = parseFloat(row_cat_tot1) + parseFloat(row_cat_tot3) + parseFloat(row_cat_tot4) + parseFloat(row_cat_tot5) + parseFloat(total_term2_amt); 
+$('#cat_total'+category_id+'_'+i+'').html(term2_total_cat);
+$('#cat_row_total'+category_id+'_'+i+'').val(term2_total_cat);
+$('span.term2').each(function() { 	
+		var value2 = parseFloat($(this).text());
+		//alert(value1);
+		if (!isNaN(value2)){ 			
+			total_term1_amt2 += value2;
+			//alert(total_tax_amt);
+		}				
+	});
+$('#term2_grandtotal_').html(total_term1_amt2);
+$('#grand_result2').val(total_term1_amt2);
+var grand1 = $('#grand_result1').val();
+var grand3 = $('#grand_result3').val();
+var grand4 = $('#grand_result4').val();
+var grand5 = $('#grand_result5').val();
+
+ if(!grand1)
+            grand1=0;
+         if(!grand5)
+             grand5=0;
+              if(!grand3)
+                  grand3=0;
+                   if(!grand4)
+                    grand4=0;
+var grand = parseFloat(grand1) + parseFloat(grand3) + parseFloat(grand4) + parseFloat(grand5) + parseFloat(total_term1_amt2);
+$('#grand_total').html(grand);
+$('#grandtotal_total').val(grand);
+ }
+  function select_term3_fees(val,num,i,category_id){
+	var total_term3_amt = 0;
+	var total_term1_amt3=0;	
+	var amount1 = $('#term'+num+'1').val();
+	var amount2 = $('#term'+num+'2').val();
+	var amount3 = $('#term'+num+'3').val();
+	var fee_tot = parseFloat(amount1) + parseFloat(amount2) + parseFloat(amount3);
+	//alert(fee_tot);
+	var row_cat_tot1 = $('#catresult1'+category_id+'').val();
+	var row_cat_tot2 = $('#catresult2'+category_id+'').val();
+	var row_cat_tot4 = $('#catresult4'+category_id+'').val();
+	var row_cat_tot5 = $('#catresult5'+category_id+'').val();
+        
+           if(!row_cat_tot1)
+            row_cat_tot1=0;
+         if(!row_cat_tot2)
+             row_cat_tot2=0;
+              if(!row_cat_tot4)
+                  row_cat_tot4=0;
+                   if(!row_cat_tot5)
+                    row_cat_tot5=0;
+	
+	var cat = $('#cat_row_total'+category_id+'_'+i+'').val();
+	//alert(cat);
+	var total_cat_result1 = $('#catresult1'+category_id+'').val();
+	var total_cat_result2 = $('#catresult2'+category_id+'').val();
+	$('input.term3'+category_id+'').each(function() { 	
+		var value = parseFloat($(this).val());
+		if (!isNaN(value)){ 			
+			total_term3_amt += value;
+			//alert(total_tax_amt);
+		}				
+	});
+	
+$('#feeheads_total'+num+'').html(fee_tot);
+$('#feeheads_total_val'+num+'').val(fee_tot);
+$('#term3_total_'+category_id+'_'+i+'').html(total_term3_amt);
+var term3_total_cat = parseFloat(row_cat_tot1) + parseFloat(row_cat_tot2) + parseFloat(row_cat_tot4) + parseFloat(row_cat_tot5) + parseFloat(total_term3_amt);
+
+$('#catresult3'+category_id+'').val(total_term3_amt);
+$('#cat_total'+category_id+'_'+i+'').html(term3_total_cat);
+$('#cat_row_total'+category_id+'_'+i+'').val(term3_total_cat);
+
+$('span.term3').each(function() { 	
+		var value3 = parseFloat($(this).text());
+		//alert(value1);
+		if (!isNaN(value3)){ 			
+			total_term1_amt3 += value3;
+			//alert(total_tax_amt);
+		}				
+	});
+$('#term3_grandtotal_').html(total_term1_amt3);
+$('#grand_result3').val(total_term1_amt3);
+var grand1 = $('#grand_result1').val();
+var grand2 = $('#grand_result2').val();
+var grand4 = $('#grand_result4').val();
+var grand5 = $('#grand_result5').val();
+ if(!grand1)
+            grand1=0;
+         if(!grand2)
+             grand2=0;
+              if(!grand5)
+                  grand5=0;
+                   if(!grand4)
+                    grand4=0;
+var grand = parseFloat(grand1) + parseFloat(grand2) + parseFloat(grand4) + parseFloat(grand5) + parseFloat(total_term1_amt3);
+$('#grand_total').html(grand);
+$('#grandtotal_total').val(grand);
+ }
+ function select_term4_fees(val,num,i,category_id){
+	var total_term4_amt = 0;
+	var total_term1_amt4 = 0;	
+	var amount1 = $('#term'+num+'1').val();
+	var amount2 = $('#term'+num+'2').val();
+	var amount3 = $('#term'+num+'3').val();
+	var amount4 = $('#term'+num+'4').val();
+	var fee_tot = parseFloat(amount1) + parseFloat(amount2) + parseFloat(amount3) + parseFloat(amount4);
+	var total_cat_result1 = $('#catresult1'+category_id+'').val();
+	var total_cat_result2 = $('#catresult2'+category_id+'').val();
+	var total_cat_result3 = $('#catresult3'+category_id+'').val();
+	//alert(fee_tot);
+	var row_cat_tot1 = $('#catresult1'+category_id+'').val();
+	var row_cat_tot2 = $('#catresult2'+category_id+'').val();
+	var row_cat_tot3 = $('#catresult3'+category_id+'').val();
+	var row_cat_tot5 = $('#catresult5'+category_id+'').val();
+        
+        
+           if(!row_cat_tot3)
+            row_cat_tot3=0;
+         if(!row_cat_tot2)
+             row_cat_tot2=0;
+              if(!row_cat_tot1)
+                  row_cat_tot1=0;
+                   if(!row_cat_tot5)
+                    row_cat_tot5=0;
+	
+	var cat = $('#cat_row_total'+category_id+'_'+i+'').val();
+	$('input.term4'+category_id+'').each(function() { 	
+		var value = parseFloat($(this).val());
+		if (!isNaN(value)){ 			
+			total_term4_amt += value;
+			//alert(total_tax_amt);
+		}				
+	});
+$('#feeheads_total'+num+'').html(fee_tot);
+$('#feeheads_total_val'+num+'').val(fee_tot);
+$('#term4_total_'+category_id+'_'+i+'').html(total_term4_amt);
+var term4_total_cat = parseFloat(row_cat_tot1) + parseFloat(row_cat_tot2) + parseFloat(row_cat_tot3) + parseFloat(row_cat_tot5) + parseFloat(total_term4_amt);
+//alert(term4_total_cat);
+$('#catresult4'+category_id+'').val(total_term4_amt);
+$('#cat_total'+category_id+'_'+i+'').html(term4_total_cat);
+$('#cat_row_total'+category_id+'_'+i+'').val(term4_total_cat);
+$('span.term4').each(function() { 	
+		var value4 = parseFloat($(this).text());
+		//alert(value1);
+		if (!isNaN(value4)){ 			
+			total_term1_amt4 += value4;
+			//alert(total_tax_amt);
+		}				
+	});
+$('#term4_grandtotal_').html(total_term1_amt4);
+$('#grand_result4').val(total_term1_amt4);
+var grand1 = $('#grand_result1').val();
+var grand2 = $('#grand_result2').val();
+var grand3 = $('#grand_result3').val();
+var grand5 = $('#grand_result5').val();
+
+ if(!grand1)
+            grand1=0;
+         if(!grand2)
+             grand2=0;
+              if(!grand3)
+                  grand3=0;
+                   if(!grand5)
+                    grand5=0;
+
+
+var grand = parseFloat(grand1) + parseFloat(grand2) + parseFloat(grand3) + parseFloat(grand5) + parseFloat(total_term1_amt4);
+$('#grand_total').html(grand);
+$('#grandtotal_total').val(grand);
+ }
+ function select_term5_fees(val,num,i,category_id){
+	var total_term5_amt = 0;
+	var total_term1_amt5 = 0;	
+	var amount1 = $('#term'+num+'1').val();
+	var amount2 = $('#term'+num+'2').val();
+	var amount3 = $('#term'+num+'3').val();
+	var amount4 = $('#term'+num+'4').val();
+	var amount5 = $('#term'+num+'5').val();
+	var fee_tot = parseFloat(amount1) + parseFloat(amount2) + parseFloat(amount3) + parseFloat(amount4) + parseFloat(amount5);
+	//alert(fee_tot);
+	var total_cat_result1 = $('#catresult1'+category_id+'').val();
+	var total_cat_result2 = $('#catresult2'+category_id+'').val();
+	var total_cat_result3 = $('#catresult3'+category_id+'').val();
+	var total_cat_result4 = $('#catresult4'+category_id+'').val();
+	//alert(total_cat_result4);
+        
+        
+        
+           if(!row_cat_tot3)
+            row_cat_tot3=0;
+         if(!row_cat_tot2)
+             row_cat_tot2=0;
+              if(!row_cat_tot4)
+                  row_cat_tot4=0;
+                   if(!row_cat_tot1)
+                    row_cat_tot1=0;
+                
+	var row_cat_tot1 = $('#catresult1'+category_id+'').val();
+	var row_cat_tot2 = $('#catresult2'+category_id+'').val();
+	var row_cat_tot3 = $('#catresult3'+category_id+'').val();
+	var row_cat_tot4 = $('#catresult4'+category_id+'').val();
+	
+	
+	var cat = $('#cat_row_total'+category_id+'_'+i+'').val();
+	$('input.term5'+category_id+'').each(function() { 	
+		var value = parseFloat($(this).val());
+		if (!isNaN(value)){ 			
+			total_term5_amt += value;
+			//alert(total_tax_amt);
+		}				
+	});
+$('#feeheads_total'+num+'').html(fee_tot);
+$('#feeheads_total_val'+num+'').val(fee_tot);
+$('#term5_total_'+category_id+'_'+i+'').html(total_term5_amt);
+var term5_total_cat = parseFloat(row_cat_tot1) + parseFloat(row_cat_tot2) + parseFloat(row_cat_tot3) + parseFloat(row_cat_tot4) + parseFloat(total_term5_amt);
+//alert(term5_total_cat);
+$('#catresult5'+category_id+'').val(total_term5_amt);
+$('#cat_total'+category_id+'_'+i+'').html(term5_total_cat);
+$('#cat_row_total'+category_id+'_'+i+'').val(term5_total_cat);
+$('span.term5').each(function() { 	
+		var value5 = parseFloat($(this).text());
+		//alert(value1);
+		if (!isNaN(value5)){ 			
+			total_term1_amt5 += value5;
+			//alert(total_tax_amt);
+		}				
+	});
+$('#term5_grandtotal_').html(total_term1_amt5);
+$('#grand_result5').val(total_term1_amt5);
+var grand1 = $('#grand_result1').val();
+var grand2 = $('#grand_result2').val();
+var grand3 = $('#grand_result3').val();
+var grand4 = $('#grand_result4').val();
+
+ if(!grand1)
+            grand1=0;
+         if(!grand2)
+             grand2=0;
+              if(!grand3)
+                  grand3=0;
+                   if(!grand4)
+                    grand4=0;
+
+
+var grand = parseFloat(grand1) + parseFloat(grand2) + parseFloat(grand3) + parseFloat(grand4) + parseFloat(total_term1_amt5);
+
+$('#grand_total').html(grand);
+$('#grandtotal_total').val(grand);
+ }
+</script>

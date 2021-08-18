@@ -1,0 +1,280 @@
+<div class="workplace">
+  <?php
+	if ($this->type) {
+	?>
+   
+  <div class="row-fluid">
+		
+				<div class="span12 block-fluid">                 
+                    <div class="head clearfix">
+                     <!-- <div class="isw-cloud"></div> -->    
+                        <h3>Stock</h3>
+                    </div>
+				<div class="span6" style="width:43%;">
+                         <div class="row-form clearfix">
+                            <div class="span6">Project Name</div>
+                            <div class="span6">
+									<select name="select">
+											 <option value="0">Select Any Item</option>
+											 <option value="1">Arjun</option>
+											 <option value="0">Abdul</option>
+											 <option value="1">Arnold</option>
+									</select>
+
+							</div>
+                        </div>                         
+                        
+                        <div class="row-form clearfix">
+                            <div class="span6">Non Tender Name</div>
+                            <div class="span6"><input type="text" placeholder="Enter the Tender Name"/></div>
+                        </div>                                   
+
+                        <div class="row-form clearfix">
+                            <div class="span6">Non Tender Number</div>
+                            <div class="span6"><input type="text" placeholder="Enter the Tender Number"/> </div>
+                        </div> 
+						<div class="row-form clearfix">
+                            <div class="span6">Description</div>
+                            <div class="span6"><textarea></textarea> </div>
+                        </div> 
+
+							<div class="row-form clearfix">
+							   <strong>Status</strong><br />
+									
+										
+											<input type="checkbox" value=""/>Active
+														
+										
+										
+											<input type="checkbox" value=""/>Submitted
+										
+										
+											<input type="checkbox" value=""/>InActive
+										
+									
+										<div class="row-form clearfix">
+											<div class="span6">Remarks</div>
+											<div class="span6"><textarea>Enter the Remark</textarea></div>
+										</div>
+										<div class="row-form clearfix">
+											<div class="span6">Date</div>
+											<div class="span6"><input type="text" id="mask_ssn"/></div>
+										</div>
+										
+							 </div>
+                   
+                </div>         
+				<div class="span6" style="width:43%;">
+							<div class="row-form clearfix">
+								<div class="span6">Tender Number</div>
+								<div class="span6"><input type="text" disabled  placeholder="-1"/>
+								
+								</div>
+							</div> 
+
+							<div class="row-form clearfix">
+								<div class="span6">Client:</div>
+								<div class="span6"><input value=""  type="text" disabled  placeholder="All" /> </div>
+							</div>
+							<div class="row-form clearfix">
+								<div class="span6">Architect:</div>
+								<div class="span6"><input value=""  type="text" disabled  placeholder="All"/> </div>
+							</div>
+							<div class="row-form clearfix">
+								<div class="span6">Location:</div>
+								<div class="span6"><input value=""  type="text" disabled  placeholder="All"/>  </div>
+							</div>
+							
+
+			  </div>
+                                                    
+                </div>
+				
+				<div class="block-fluid" style="padding-top:1%;">
+							
+							<button type="submit" class="btn btn-default" style="margin-left:45%;">Save</button>
+							
+				</div>
+				
+		</div>
+					
+		
+		</div>
+					
+					
+                
+	<div class="dr"><span></span></div>
+  
+  <?php } else { ?>
+  <?php if (count($this->messages))   { 
+
+    foreach ($this->messages as $message) {?>
+  <div class="alert alert-success">
+    <a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+    <?php echo $this->escape($message); ?> </div>
+  <?php } } ?>             
+	
+	<div class="row-fluid">
+		
+		<div class="span12"> 
+				
+			
+			<div class="head clearfix">
+				<div class="isw-grid"></div>
+				<h1>Main Store - Stock</h1>
+				<ul class="buttons">
+					<!-- <li><a href="#" class="isw-download"></a></li>                                                        
+					<li><a href="#" class="isw-attachment"></a></li> -->
+					<li>
+						<a href="#" class="isw-settings"></a>
+						<ul class="dd-list">
+							<li><a href="<?php echo $this->mainconfig['host'];?>inventory/stockandledger/stock/type/index"><span class="isw-plus"></span>Add New </a></li>
+							<!-- <li><a href="#"><span class="isw-edit"></span> Edit</a></li>
+							<li><a href="#"><span class="isw-delete"></span> Delete</a></li> -->
+						</ul>
+					</li>
+				</ul>    
+			</div>
+			<div class="block-fluid" style="padding:1%;">
+				<a  href="<?php echo $this->mainconfig['host'];?>index"><u>Home</u></a>	> &nbsp >> &nbsp Inventory Management  &nbsp >> &nbsp Store Stock
+
+			</div>
+			<div class="block-fluid" style="padding-top:2%;">
+							<label class="checkbox inline span2">
+                                Type  
+                              </label>
+					
+							  <label class="checkbox inline span3">
+                                    <input type="radio" name="radio2"/> Main Store Stock
+                              </label>
+							  <label class="checkbox inline span3">
+                                    <input type="radio" name="radio2"/>Project Wise Stock
+                              </label>
+							   <label class="checkbox inline span3">
+                                    <input type="radio" name="radio2"/> Client Material Stock
+                              </label>
+							  <label class="checkbox inline span2">
+                                    
+                              </label>
+							   <label class="checkbox inline span3">
+                                    <input type="radio" name="radio2"/> Scrap Stock
+                              </label>
+							  <label class="checkbox inline span3">
+                                    <input type="radio" name="radio2"/>Over All Stock
+                              </label>
+							  <label class="checkbox inline span3">
+                                    <input type="radio" name="radio2"/>Damaged Material stock
+                              </label>
+							  <label class="checkbox inline span2">
+                                    
+                              </label>
+							   <label class="checkbox inline span3">
+                                    <input type="radio" name="radio2"/> Vehicle Spares Stock
+                              </label>
+							  <label class="checkbox inline span3">
+                                    <input type="radio" name="radio2"/>Machine Spares Stock
+                              </label>
+							  <label class="checkbox inline span3">
+                                    <input type="radio" name="radio2"/>Machine Spares Damaged Stock 
+                              </label>
+							  <label class="checkbox inline span2">
+                                    
+                              </label>
+							   <label class="checkbox inline span3">
+                                    <input type="radio" name="radio2"/>Vehicle Spares Damaged Stock
+                              </label>
+							  <label class="checkbox inline span4">
+                                    <input type="radio" name="radio2"/>Project Wise Stock Without Tools And Tackles
+                              </label>
+							  
+
+			<div class="row-fluid" style="padding-left:2%;">
+			 <div class="span12 ">                 
+                    
+				<div class="span12">
+                        
+                                             
+                        <div class="row-form clearfix">
+                            <div class="span2">Project Name</div>
+                            <div class="span2">
+									<select name="select">
+											 <option value="0">Select Any Item</option>
+											 <option value="1">Arjun</option>
+											 <option value="0">Abdul</option>
+											 <option value="1">Arnold</option>
+									</select>
+							</div>
+							 <div class="span2">Category</div>
+                            <div class="span2">
+									<select name="select">
+											 <option value="0">Select Any Item</option>
+											 <option value="1">Arjun</option>
+											 <option value="0">Abdul</option>
+											 <option value="1">Arnold</option>
+									</select>
+							</div>
+							<div class="span1">SubCategory</div>
+                            <div class="span2">
+									<select name="select">
+											 <option value="0">Select Any Item</option>
+											 <option value="1">Arjun</option>
+											 <option value="0">Abdul</option>
+											 <option value="1">Arnold</option>
+									</select>
+							</div>
+							</div>
+							 <div class="row-form clearfix">
+							<div class="span2">Material Name</div>
+                            <div class="span2">
+									<select name="select">
+											 <option value="0">Select Any Item</option>
+											 <option value="1">Arjun</option>
+											 <option value="0">Abdul</option>
+											 <option value="1">Arnold</option>
+									</select>
+							</div>
+							<div class="span1">As On</div>
+							<div class="span4">
+									<input type="date"/>
+							</div>
+							<div class="span2" >
+									<button class="btn link_navPopMessages" type="button" >Search</button>
+							</div>
+							
+                        </div>
+						 
+						
+                                                          
+
+                </div> 
+			
+			</div>
+			
+			</div>
+			<div class="block-fluid table-sorting clearfix">
+						<table cellpadding="0" cellspacing="0" width="100%" class="table">
+							<thead>
+								<tr>
+									<th>SNo</th>
+									<th>Tender No</th>
+									<th>Tender Name</th>
+									
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+								  <td>1</td>
+									<td>3256</td>
+									<td>Green Homes</td>
+							</tbody>
+						</table>
+		</div>
+				
+			
+		</div>                           
+						
+			</div>
+	
+	<div class="dr"><span></span></div> 	
+  <?php } ?>
+</div>

@@ -1,0 +1,132 @@
+<?php $item_result = $this->result;
+      $cl_no =  $this->no_of_classes;
+      //echo "<pre>";print_r($item_result);exit;
+?>
+<style>
+    li>select{
+        color:#a00;    
+    }
+</style>
+<div class=""></div>
+<?php if($item_result>0){?>
+<?php for($i=1; $i<=5; $i++){
+    $class_checker = 0;
+if($item_result[count($item_result)-1]['class_no'][$i]>0)
+    {
+    $class_checker+=1;
+    }
+}
+
+//=============================================================================================
+?>
+   <?php if(count($item_result[-1])==0){ ?>
+<table class="my table table-striped table-bordered mb30 jambo_table bulk_action" style="width:100%;" id="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:center;">SL No.</th>
+                                        <th style="text-align:center">Student Name</th>
+                                        <?php for($dcl=1; $dcl<=$cl_no; $dcl++){ ?>
+                                        <?php if($item_result[count($item_result)-1]['class_no'][$dcl]!=0): ?>
+                                        <th style="text-align:center;"> <table class="my table table-striped table-bordered mb30 jambo_table bulk_action">
+                                                <thead><tr><th  class="text-center" colspan='3' style='border-right: 0px solid #000'><ul class="list-unstyled list-inline"><li><?=$this->classrecords[$cl_no - $dcl];?></li><li><select  name="faculty_<?=$dcl;?>"   id="faculty_<?=$dcl;?>"><option value='<?=$_SESSION['admin_login']['admin_login']->empl_id;?>'><?=$_SESSION['admin_login']['admin_login']->real_name;?></option></select></li></ul></th></tr>
+                                                <tr>
+                                                    <th class="text-center">Present</th>
+                                                    <th class="text-center">Absent</th>
+                                                    <th class="text-center">Leave</th>
+                                                </tr>
+                                                </thead>
+                                            </table>
+                                        </th>
+                                        <?php endif;}?>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $j =0; ?>
+                                      <?php for($i=0; $i<count($item_result); $i++ ):?> 
+                                
+                                        <?php
+                                        for($dcl=1; $dcl<=$cl_no; $dcl++){ 
+                                        ${"class_".$dcl."_P"}=${"class_".$dcl."_A"}=${"class_".$dcl."_L"}='';
+                                        ?>
+                                    
+                                        <?php if(!empty($item_result[count($item_result)-1]['attendance_details']) && strpos($item_result[count($item_result)-1]['attendance_details'][$i]["class_$dcl"],'Absent')>-1){ ?>
+                                                        <?php ${"class_".$dcl."_A"} = 'checked'; ?>
+                                            <?php } else if(!empty($item_result[count($item_result)-1]['attendance_details']) && strpos($item_result[count($item_result)-1]['attendance_details'][$i]["class_$dcl"],'Leave')>-1){?>
+                                                        <?php ${"class_".$dcl."_L"} = 'checked'; ?>
+                                            <?php } else  {?>
+                                                    <?php ${"class_".$dcl."_P"} = 'checked'; ?>
+                                        <?php } 
+                                        
+                                            } ?>
+                                         
+                                    <tr>
+                                        <td class="text-center"><?=++$j; ?></td>
+                                        <input type='hidden'  value="<?=$item_result[$i]['mother_mobileno']?>" name='mother_no[]'/>
+                                        <input type='hidden' value="<?=$item_result[$i]['father_mobileno']?>" name='father_no[]'/>
+                                        <input name="name[]" style="display:none;" value="<?=$item_result[$i]['stu_fname']." ".$item_result[$i]['stu_lname'] ?>" />
+                                        <input name="student_id[]" type='hidden' style="display:none;" value="<?=$item_result[$i]['student_id'] ?>" />
+                                        <td><?=$item_result[$i]['stu_fname']." ".$item_result[$i]['stu_lname'] ?></td>
+                                         <?php for($dcl=1; $dcl<=$cl_no; $dcl++){
+                                             
+                                             if($item_result[count($item_result)-1]['class_no'][$dcl]!=0): ?>
+                                        <td><table class="my table table-striped table-bordered mb30 jambo_table bulk_action">
+                                             
+                                                <tbody>
+                                                <tr>
+                                                    
+                                                   <td style="text-align:center; "><input style="zoom:1.5" name="class<?=$dcl;?><?=$i;?>"  <?=${"class_".$dcl."_P"} ;?> type="radio" value="<?=$item_result[count($item_result)-1]['course_id'];?>"/></td>
+                                                    <td style="text-align:center; "><input style="zoom:1.5" <?=${"class_".$dcl."_A"} ;?> name="class<?=$dcl;?><?=$i;?>" type="radio" value="Absent"/></td>
+                                                    <td style="text-align:center; "><input style="zoom:1.5" <?=${"class_".$dcl."_L"} ;?>  name="class<?=$dcl;?><?=$i;?>" type="radio" value="Leave"/></td>
+                                            </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                         <?php endif; 
+                                         
+                                         }?>
+                                    </tr>
+                                   <?php endfor; ?>
+                                </tbody>
+</table>
+   <?php }else{ ?>
+
+<table class="my table table-striped table-bordered mb30 jambo_table bulk_action" style="width:100%;" id="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:center;">So No.</th>
+                                        <th style="text-align:center">Student Name</th>
+                                       <?php   for($dcl=1; $dcl<=$cl_no; $dcl++){ ?>
+                                        <th style="text-align:center;"> <table class="my table table-striped table-bordered mb30 jambo_table bulk_action">
+                                                <thead><tr><th  class="text-center" colspan='3'>Class <?=$dcl;?></th></tr>
+                                                <tr>
+                                                    <th class="text-center">Present</th>
+                                                    <th class="text-center">Absent</th>
+                                                    <th class="text-center">Leave</th>
+                                                </tr>
+                                                </thead>
+                                            </table>
+                                        </th>
+                                        
+                                       <?php } ?>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class='text-center' colspan="<?=$cl_no;?>">
+                                            No Student in this Academic Year
+                                        </td>
+                                    </tr>
+                                    
+                                </tbody></table>
+<!------ Include the above in your HEAD tag ---------->
+
+   <?php } ?>
+
+
+<?php } ?> 
+<script>
+$('#print').click(function(){
+    window.print('#grade_data');
+});
+</script>

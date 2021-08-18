@@ -1,0 +1,587 @@
+<?php
+//echo "<prE>";print_r($this->room);exit;
+?>
+
+
+<style>
+    .link:link,
+    .link:visited{
+        position: relative;
+        display: inline-block;
+        padding:.2em 2em;
+        border-radius:100px;
+        /*  background-color:#faa2b1;*/
+        -webkit-transition: all .2s;
+        transition: all .2s;
+    }
+
+
+    .link::after{
+        content: "";
+        position:absolute;
+        top:0px;
+        left:0px;
+        background-color:#faa2b1; 
+        width:100%;
+        height:100%;
+        z-index:-1;
+        border-radius:100px;
+        -webkit-transition: all .2s;
+        transition: all .2s;
+    }
+
+
+
+    .link:hover{
+        box-shadow:0px 5px 6px #000;
+    }
+
+    .link:hover::after{
+        transform:scale(2,3);
+
+    }
+
+    .link:active{
+        box-shadow:0px 5px 1px #000;
+    }
+
+    dt{
+        display:none;
+    }
+    th>span{
+        font-weight:800;
+    }
+
+    th>span.row_val{
+    }
+</style>
+
+<div class="right_col">
+    <?php if ($this->type) { ?>
+        <div class="padding-md">
+            <div class="row">
+                <div class="col-md-12 " >
+                    <h3 class="page-title txt-color-blueDark" >
+                        <div><i class="fa fa-eye">Seating Arrangement</i></div>
+                    </h3>
+                    <div class="panel panel-default">
+                        <form class="no-margin" id="formValidate1" action="<?php echo $this->form->getAction() ?>" method="post" data-validate="parsley" enctype="multipart/form-data" >
+
+                            <div class="panel-body">
+                                <div class="row">
+
+                                    <select style="display:none;" class='' multiple="true" name='hiddenroll[]' id='hiddenroll'>
+
+                                    </select>
+                                </div>
+
+
+                                <div class="panel panel-default">
+                                    <input type='text' name='academic_year_id' id = 'academic_year_id' style="display:none;"/>
+
+                                    <div class="panel-body">
+
+                                        <div class="row">
+                                            <div class="col-sm-3"><h4><span style="color:#777;">Seating Arrangement</span></h4></div>
+                                        </div>
+                                        <div class="row masterbox">
+                                            <div class='row'>
+                                                <div class="col-sm-3 employee_class">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Exam Date<span class="asterisk">*</span></label>
+                                                        <?php echo $this->form->booking_date; ?>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-sm-3 employee_class">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Timing<span class="asterisk">*</span></label>
+                                                        <?php echo $this->form->duration; ?>
+                                                    </div>
+                                                </div>
+
+                                                <div class='col-sm-3 employee_class'>
+
+                                                    <div class="form-group">
+                                                        <label class="control-label">Department<span class="asterisk">*</span></label>
+                                                        <?php echo $this->form->department; ?>
+                                                    </div>
+                                                </div>
+
+                                                <div class='row'>
+                                                    <div class="col-sm-3">	
+                                                        <div class="form-group">
+                                                            <label class="control-label">Select Term<span class="asterisk">*</span> </label>
+                                                            <?php echo $this->form->cmn_terms; ?>
+                                                        </div>										
+                                                    </div>   
+                                                </div>
+                                            </div> 
+                                            </div>
+                                            <div class='row'>
+                                                <div class="col-sm-3 employee_class">
+                                                    <div class="form-group">
+
+
+                                                        <label class="control-label">Course<span class="asterisk">*</span></label>
+                                                        <?php echo $this->form->course_id; ?>
+
+                                                    </div>
+                                                </div> 
+
+                                                <div class="col-sm-3 employee_class">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Exam Day.<span class="asterisk">*</span></label>
+                                                        <?php echo $this->form->batch; ?>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-3 employee_class">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Room no.<span class="asterisk"></span></label>
+                                                        <?php echo $this->form->room_no; ?> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class='row'>
+                                                <div class="col-sm-7 employee_class">
+                                                    <div class="form-group">
+
+                                                        <div class='col-sm-3'>
+                                                            <label class="control-label">Roll Range<span class="asterisk"></span></label>
+                                                            <?php echo $this->form->roll_start; ?>
+                                                        </div>
+                                                        <div class='col-sm-3'>
+                                                            <label class="control-label"><span class="asterisk" style='color:#fff;'>Roll Range</span></label>
+                                                            <?php echo $this->form->roll_end; ?>
+                                                        </div>
+                                                        <div class='col-md-3'>
+                                                            <label class="control-label"><span class="asterisk" style='color:#fff;'>/span></label>
+                                                            <input type ='text' id='disabled' disabled value ='0 student Selected' class="form-control"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+
+                                        </div>
+
+
+                                    </div>
+
+
+
+
+
+
+                                </div>
+
+
+                            </div>
+                            <div>
+                                <div class="panel-footer">									
+                                    <div class="row">
+                                        <div class="col-sm-7 col-sm-offset-5">
+                                            <?php if ($this->type == 'add') { ?> 
+                                                <div style="float:left;margin-right:2px;">
+                                                    <button class="btn btn-primary submit"><span class='glyphicon glyphicon-plus-sign'></span>&nbsp; Add</button>
+                                                </div>
+                                                <div style="float:left;padding:0px 10px;">
+                                                    <button type="reset" class="btn btn-danger btn-default">Reset</button>
+                                                </div>
+                                            <?php } else { ?>
+                                                <div style="float:left;">
+                                                    <button class="btn btn-primary submit">Update</button>
+                                                </div>
+                                                <div style="float:left;">
+                                                    <a class="btn btn-primary" href="<?php echo $this->mainconfig['host']; ?>plan/department/">Back</a>
+                                                </div>
+                                            <?php } ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div><!-- /panel -->
+                </div><!-- /.col-->				
+            </div><!-- /.row -->
+
+        </div><!-- /.padding-md -->	
+    <?php } else { ?>
+
+        <?php
+        if (count($this->messages)) {
+            foreach ($this->messages as $message) {
+                ?>
+                <div class="alert <?php echo $_SESSION['message_class']; ?> ">
+                    <a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+                    <?php echo $this->escape($message); ?>
+                </div>
+                <?php
+            }
+        }
+        ?>
+        <!-- widget grid -->
+        <div class="">
+            <div class="">
+                <div class="row">
+
+                    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+                        <h3 class="page-title txt-color-blueDark">
+                            <i class="fa fa-bars">Seating Plan</i>
+
+                        </h3>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">	 
+
+                        <a class="btn btn-primary pull-right" style="margin-top: 25px;" href="<?php echo $this->mainconfig['host']; ?>plan/operation/type/add">Add </a>
+                    </div>
+                </div>
+
+                <div class="x_panel">
+
+                    <div class="x_title">
+                        <h2>Seating Plan</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            </li>
+                            <li><a class=""><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+
+                        <div class="padding-md clearfix table-responsive">
+                            <table  class="table table-bordered mb30 jambo_table bulk_action bg-warning table-hover" id="dataTable">
+                                <tbody>
+                                    <?php $seating_result = $this->result; //echo "<pre>";print_r($seating_result); die;?>
+                                    <?php foreach ($seating_result as $dept => $dept_val) { ?>
+                                        <tr class='bg-warning'>
+                                            <th class="text-center"><span class='row_heading'><?= $dept; ?></span></th>
+                                        </tr>
+                                        <?php foreach ($dept_val as $duration => $dur_val) { ?>
+                                            <tr style ="background:#a1c2ff;color:#fff;">
+                                                <th class="text-center bg-primary"><span class='row_heading bg-primary'>Time : (<?= $duration; ?>)</span></th>
+                                            </tr>
+                                            <tr>
+                                                <th>
+
+                                                    <table class="table table-bordered mb30 jambo_table bulk_action table-hover" >
+
+                                                        <tr>
+                                                            <?php $extra_inc = 0; ?>
+                                                            <th colspan = 2 class='bg-info' ><span class='row_heading'>Date</span></th>
+                                                            <?php foreach ($dur_val as $date => $date_val) { ?> 
+                                                                <th>
+                                                                    <span class='row_val'>
+                                                                        <?= $date_val[count($date_val) - 1]['booking_date']; ?>
+                                                                    </span>  
+                                                                </th>
+                                                                <?php $extra_inc++; ?>
+                                                            <?php } ?>
+                                                        </tr>
+                                                        <tr>
+                                                            <th colspan = 2 class='bg-success' ><span class='row_heading'>Students Number</span></th>
+                                                            <?php foreach ($dur_val as $date => $date_val) { ?> 
+                                                                <th><?= $date_val[count($date_val) - 1]['total_student']; ?></th>
+
+                                                            <?php } ?>
+                                                        </tr>
+                                                        <tr>
+                                                            <th colspan = 2 class='bg-info' ><span class='row_heading'>Exam Day</span></th>
+                                                            <?php foreach ($dur_val as $date => $date_val) { ?> 
+                                                                <th><?= $date_val[count($date_val) - 1]['batch_name']; ?></th>
+
+                                                            <?php } ?>
+                                                        </tr>
+                                                        <tr class='bg-info' >
+                                                            <th>
+                                                                <span class='row_heading'> Room Number</span>
+                                                            </th>
+                                                            <th>
+                                                                <span class='row_heading'>   Seating Capacity</span>
+                                                            </th>
+                                                            <?php for ($i = 0; $i < $extra_inc; $i++) { ?>
+                                                                <th></th>
+                                                            <?php } ?>
+                                                        </tr>
+                                                        <?php $inc = 0; ?>
+                                                        <?php foreach ($dur_val as $date => $date_val) { ?> 
+                                                            <?php foreach ($date_val as $index => $item) { ?> 
+                                                                <tr>
+                                                                    <th><?= $item['room']; ?></th>
+                                                                    <th><?= $item['seating_capacity']; ?></th>
+                                                                    <?php for ($i = 0; $i < $inc; $i++) { ?>
+                                                                        <th></th>
+                                                                    <?php } ?>
+                                                                    <th><?= $item['roll_start']; ?> to <?= $item['roll_end']; ?></th>
+                                                                    <?php for ($j = 0; $j < ($extra_inc - $inc) - 1; $j++) { ?>
+                                                                        <th></th>
+                                                                    <?php } ?>
+                                                                </tr>
+                                                            <?php } ?>
+                                                            <?php $inc++; ?>
+                                                        <?php } ?>
+                                                    </table>
+
+                                                </th>
+                                            </tr>
+
+                                        <?php } ?>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                            <?php // echo "<pre>"; print_r($this->main_result);exit; ?>
+                        </div><!-- /.padding-md -->
+                    </div><!-- /panel -->
+                </div>
+            </div>
+        </div><!-- /.padding-md -->		
+    <?php } ?>
+</div>
+<script>
+
+
+    $('#booking_date').attr('autocomplete', 'off');
+    $(function () {
+        $('#booking_date').datepicker({dateFormat: 'dd/mm/yy'});
+    });
+
+
+
+
+    $('#department').change(function () {
+        var department = $(this).val();
+        if (department) {
+
+
+            $.ajax({
+                type: "POST",
+                url: '<?php echo $this->mainconfig['host'] . 'plan/ajax-get-batch-by-department-id'; ?>',
+                data: {department: department}
+            }).done(function (data) {
+
+                $('#academic_year_id').empty('');
+                $('#academic_year_id').val(data);
+                //$("#academic_year_id").trigger("chosen:updated");
+
+            });
+
+        }
+    });
+
+
+    $('#batch').change(function () {
+        var department = $('#department').val();
+        var booking_date = $('#booking_date').val();
+
+
+
+        var duration = $('#duration').val();
+        var course = $('#course_id').val();
+
+        var batch = $('#batch').val();
+        if (booking_date) {
+
+
+            $.ajax({
+                type: "POST",
+                url: '<?php echo $this->mainconfig['host'] . 'plan/ajax-get-updated-room'; ?>',
+                data: {date: booking_date, duration: duration, department: department, batch: batch, course: course}
+            }).done(function (data) {
+                $('#room_no').empty('');
+                $('#room_no').html(data);
+                $("#room_no").trigger("chosen:updated");
+
+            });
+
+
+
+            $.ajax({
+                type: "POST",
+                url: '<?php echo $this->mainconfig['host'] . 'plan/ajax-get-Dept'; ?>',
+                data: {date: booking_date, department: department, course_id: course, batch: batch, duration: duration}
+            }).done(function (data) {
+
+                $('#roll_start').empty('');
+$('#roll_end').empty();
+                $('#hiddenroll').empty();
+                $('#roll_start').html(data);
+                $('#roll_end').html(data);
+                $('#hiddenroll').html(data);
+                ;
+                $("#roll_start").trigger("chosen:updated");
+                $("#roll_end").trigger("chosen:updated");
+            });
+        }
+    });
+    $('#dataTable').DataTable();
+</script> 
+
+<script >
+    $(document).ready(function () {
+        $(".chosen").chosen();
+        var department = $('#department').val();
+        if (department) {
+            $.ajax({
+                type: "POST",
+                url: '<?php echo $this->mainconfig['host'] . 'plan/ajax-get-batch-left-students'; ?>',
+                data: {department: department, duration: duration}
+            }).done(function (data) {
+                $('#batch').empty('');
+                $('#batch').html(data);
+                $('#batch').val('<?php echo $_SESSION['plan']['batch']; ?>');
+                $("#batch").trigger("chosen:updated");
+            });
+        }
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+    $('#course_id').change(function () {
+
+
+        var course_id = $(this).val();
+        var department = $('#department').val();
+        var booking_date = $('#booking_date').val();
+
+
+        $('#room_no').empty('');
+        $("#room_no").trigger("chosen:updated");
+        var duration = $('#duration').val();
+
+        var batch = $('#batch').val();
+
+
+        $.ajax({
+            type: "POST",
+            url: '<?php echo $this->mainconfig['host'] . 'plan/ajax-get-batch-left-students'; ?>',
+            data: {date: booking_date, department: department, course_id: course_id, duration: duration}
+        }).done(function (data) {
+
+            $('#batch').empty('');
+            $('#batch').html(data);
+            $("#batch").trigger("chosen:updated");
+        });
+
+
+    });
+
+
+
+
+
+
+    $('#roll_end').change(function () {
+        var val = $(this).val();
+        var start = $("#roll_start").prop('selectedIndex');
+        var end = $('#roll_start>option[value="' + val + '"]').index();
+        $('#hiddenroll option').prop('selected', false);
+        var inc = 0;
+        for (i = start; i <= end; i++) {
+            $('#hiddenroll option:nth-child(' + (i + 1) + ')').prop('selected', true);
+            inc++;
+        }
+
+        $('#disabled').val(inc + ' Student Selected');
+
+    });
+
+
+</script>
+
+
+
+<script>
+//--------------------[Selected end roll after roll start]--------------------//
+    $('#roll_start').change(function () {
+        var start = $(this).find('option:selected').index();
+        $('#hiddenroll option:nth-child(' + (start + 1) + ')').prop('selected', true);
+         var len = $('#roll_start>option').length;
+        // alert(len);
+         if(len>2)
+        $('#roll_end').empty();
+        var check = true;
+        $('#roll_start>option').each(function(e){
+            var val = $(this).val();
+            var name = $(this).text();
+           
+            if (start < e && len > 2) {
+                $('#roll_end').append("<option value = " + val + ">" + name + "</option>");
+                if (check) {
+                    $('#hiddenroll option:nth-child(' + (e + 1) + ')').prop('selected', true);
+                    check = false;
+                }
+                $("#roll_end").trigger("chosen:updated");
+            }
+        });
+        $('#disabled').val('2 Student Selected');
+    });
+
+//---------------------------------------------[End]-----------------------------//
+
+
+
+    function ConfirmDelete()
+    {
+        var x = confirm("Are you sure you want to delete?");
+        if (x)
+            return true;
+        else
+            return false;
+    }
+
+
+    $("#academic_year_id").change(function () {
+        var academic_id = $('#academic_year_id').val();
+        if (academic_id) {
+            $.ajax({
+                type: "POST",
+                url: '<?php echo $this->mainconfig['host'] . 'master/ajax-get-terms'; ?>',
+                data: {academic_year_id: academic_id}
+            }).done(function (data) {
+                //alert(data);
+                $('#term_id').empty('');
+                $('#term_id').html(data);
+            })
+        }
+    });
+
+
+
+    $("#cmn_terms").change(function () {
+        var term_id = $('#cmn_terms').val();
+        var academic_id = $('#academic_year_id').val();
+        // alert(academic_id);
+        $.ajax({
+            type: "POST",
+            url: '<?php echo $this->mainconfig['host'] . 'plan/ajax-get-course'; ?>',
+            data: {academic_year_id: academic_id, term_id: term_id}
+        }).done(function (data) {
+            //alert(data);
+            $('#course_id').empty('');
+            $('#course_id').html(data);
+            $("#course_id").trigger("chosen:updated");
+        })
+
+    });
+
+</script>

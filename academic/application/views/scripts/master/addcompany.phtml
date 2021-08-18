@@ -1,0 +1,278 @@
+<style>
+input[type=radio] {
+    opacity: 2; 
+    width: 15px;
+    height: 15px;
+    z-index: 1;
+    cursor: pointer;
+	 margin-left: -15px;
+}
+</style>
+<?php if ($this->type) { ?>
+<div class="padding-md right_col">
+	<div class="row">
+		<div class="col-md-12">
+		<h3 class="page-title txt-color-blueDark" >
+			<div><i class="fa fa-eye"> Add Company</i></div>
+		</h3>
+			<div class="panel panel-default">
+				<form class="no-margin" id="formValidate1" action="<?php echo $this->form->getAction() ?>" method="post" enctype="multipart/form-data" data-validate="parsley" novalidate>
+					
+					<div class="panel-body">
+<div class="row">							
+							<div class="col-md-2" style="margin-top:30px; margin-left:26px;">
+												<label class="control-label">Upload</label>		
+												<input type="file"  class="form-control " name="upload_company_names" />
+												
+						</div>
+						</div>
+							<div class="row">
+							<?php
+							if(!empty($this->results)){
+											  $i=0; ?>
+									<input type="hidden" name="company_name1" id="company_name" value="<?php echo (count($this->results) +1 ); ?>" class="company_name">
+									<?php
+									foreach($this->results as $val){
+									//print_r($val);die;
+									$i++;
+									?>
+										<div  class="row appended_row " style="margin-left:28px;">
+											<div class="col-md-2">
+												<label class="control-label">Company Name</label>		
+												<input type="text"  class="form-control " label="company_name_<?php echo $i; ?>" 
+												name="editcompany_name" value="<?php echo $val['company_name']; ?>"  />
+											</div><br><br><br><br>
+								<a id="AddButton6" class="btn btn-primary" style="margin:10px 15px 2px; padding: 7px 19px!important;">+</a> 
+										</div> 
+									<?php		} 
+											?>
+										
+									<?php } else { ?>
+									<div  class="row appended_row " style="margin-left:23px;">
+									<input type="hidden" name="company_name" id="company_name" value="1" class="company_name">
+									<br><br>
+											<div class="col-md-2">
+											<label class="control-label">Company Names</label>			
+											<input type="text"  class="form-control" name="company_name[]"label="company_name_0"/>
+											</div><br><br><br><br>
+											<div class="col-md-2">
+														
+											<input type="text"  class="form-control" name="company_name[]"label="company_name_0"/>
+											</div><br><br><br>
+											<div class="col-md-2">
+													
+												<input type="text"  class="form-control" name="company_name[]"label="company_name_1"/>
+											</div><br><br><br>
+											<div class="col-md-2">
+														
+												<input type="text"  class="form-control" name="company_name[]"label="company_name_2"/>
+											</div><br><br><br>
+											<div class="col-md-2">
+														
+												<input type="text"  class="form-control" name="company_name[]"label="company_name_3"/>
+											</div><br><br><br>
+										<a id="AddButton6" class="btn btn-primary" style="margin:22px 15px 2px; padding: 7px 19px!important;">+</a> 
+									</div>
+										<?php } ?>
+									
+									<div  id="fields7">
+										<div class="padding-top"></div>
+									</div>
+						<div class="panel-footer ">									
+							<div class="row">
+								<div class="col-sm-7 col-sm-offset-5">
+									<?php if ($this->type == 'add') { ?> 
+										<div style="float:left;margin-right:2px;">
+										<button class="btn btn-primary submit">Submit</button>
+										</div>
+										<div style="float:left;padding:0px 10px;">
+										<button type="reset" class="btn btn-danger btn-default">Reset</button>
+										</div>
+									<?php } else { ?>
+										<div >
+										<button class="btn btn-primary submit">Update</button>
+										</div>
+									<?php } ?>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div><!-- /panel -->
+		</div><!-- /.col-->				
+	</div><!-- /.row -->
+</div><!-- /.padding-md -->	
+<?php } else { ?>
+  
+<?php if (count($this->messages))   { 
+    foreach ($this->messages as $message) {?>
+     <div class="alert alert-success ">
+<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+<?php echo $this->escape($message); ?>
+</div>
+ <?php } } ?>
+ <!-- widget grid -->
+<div class="right_col">
+<div class="row">
+	<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+		<h3 class="page-title txt-color-blueDark">
+			<i class="fa fa-bars"> Add Company</i>
+				
+		</h3>
+	</div>
+	<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
+		<a class="btn btn-primary pull-right" style="margin-top:25px;" href="<?php echo $this->mainconfig['host'];?>master/addcompany/type/add">Add </a>
+			
+	</div>
+</div>
+<form class="no-margin" action="<?php echo $this->mainconfig['host']; ?>master/addcompany/type/search" method="post" data-validate="parsley" novalidate>
+			<div class="row" style="margin: 10px 5px 0px 5px;;">
+				<div class="col-sm-3">	
+					<div class="form-group">
+						<label class="control-label">Tie Up Status</label>
+						<?php echo $this->form->tie_up_status; ?>
+					</div>										
+				</div>			
+					<div style="float:left;margin-right:2px;margin-top:20px;">
+				<button class="btn btn-primary submit">Submit</button>
+				</div>
+			</div>		
+							
+			
+		</form>	
+	<div class="x_panel">
+               
+                    <div class="x_title">
+                    <h2> Add Company</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                       </li>
+                      <li><a class=""><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+<div class="x_content">
+	
+		<div class="padding-md clearfix">
+			<table class="table table-striped table-bordered jambo_table bulk_action" id="dataTable">
+				<thead>
+					<tr>
+						<th>S.No.</th>	
+						<th>Country</th>
+						<th>State</th>
+						<th>City</th>
+						<th>Branch</th>	
+						<th>Company Name</th>
+						<th>From Date</th>
+						<th>To Date</th>
+						<th>Tie Up Status</th>
+						<th>Action</th>   
+					</tr>
+				</thead>
+				<?php if(!empty($this->searchResult)) { ?>
+				<tbody>
+					<?php
+
+						$i = 1;
+						$pagination_tr = '';
+						if (count($this->searchResult) != 0) {
+
+						foreach ($this->searchResult as $result) { //echo '<pre>'; print_r($result);die;
+
+					?>
+					<tr>
+								<td><?php echo $i; $i++;?></td>
+								<td><?php echo $result['countries_name'];?></td>
+								<td><?php echo $result['state_name'];?></td>
+								<td><?php echo $result['city_name'];?></td>
+								<td><?php echo $result['branch_name']; ?></td>
+								<td><?php echo $result['company_name']; ?></td>
+								<td><?php echo $result['from_date'];?></td>
+								<td><?php echo $result['to_date']; ?></td>
+									<td><?php if($result['tie_up_status'] == '0') { echo 'Active';} else if($result['tie_up_status'] == '1' ) {  echo 'Inactive'; } else { echo '';}?></td>
+								
+							<td><a href="<?php echo $this->mainconfig['host']; ?>master/addcompany/type/edit/id/<?php echo $result['company_id']; ?>" class="edit" title="Edit"><span class="fa fa-edit fa-lg"></span></a>&nbsp; | &nbsp;  <a href="<?php echo $this->mainconfig['host']; ?>master/addcompany/type/delete/id/<?php echo $result['company_id']; ?>" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a></td>
+					 </tr>           
+					
+								<?php }
+								//$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+								} ?>
+
+				</tbody>
+				
+				<?php } else { ?>
+				
+				<tbody>
+					<?php
+
+						$i = 1;
+						$pagination_tr = '';
+						
+						if (count($this->paginator) != 0) {
+							
+
+						foreach ($this->paginator as $results) { 
+
+					?>
+					<tr>
+						<td><?php echo $i;
+
+							$i++; ?>
+						</td>
+						<td><?php echo $results['countries_name']; ?></td>
+						<td><?php echo $results['state_name']; ?></td>
+						<td><?php echo $results['city_name']; ?></td>
+						<td><?php echo $results['branch_name']; ?></td>
+						<td><?php echo $results['company_name']; ?></td>
+						<td><?php echo $results['from_date']; ?></td>
+						<td><?php echo $results['to_date']; ?></td>
+						<td><?php if($results['tie_up_status'] == '0') { echo 'Active';} else if($results['tie_up_status'] == '1' ) {  echo 'Inactive'; } else { echo '';}?></td>
+						<td><a href="<?php echo $this->mainconfig['host']; ?>master/addcompany/type/edit/id/<?php echo $results['company_id']; ?>" class="edit" title="Edit"><span class="fa fa-edit fa-lg"></span></a>&nbsp; | &nbsp;  <a href="<?php echo $this->mainconfig['host']; ?>master/addcompany/type/delete/id/<?php echo    $results['company_id']; ?>" title="Delete" class="delete"> <span class="fa fa-trash-o fa-lg"></span> </a></td>
+
+					</tr>            
+
+								<?php }
+								$pagination_tr = $this->paginationControl($this->paginator, 'Sliding', 'pagination.phtml');
+								} ?>
+
+				</tbody>
+				<?php } ?>
+			</table>
+			 <?php echo $pagination_tr; ?>
+		</div><!-- /.padding-md -->
+	</div><!-- /panel -->
+</div><!-- /.padding-md -->		
+<?php } ?>
+</div>
+<script type="text/javascript">
+var count7 = $('#company_name').val();
+		$("body").on("click","#AddButton6",function(event){
+		var value1 = count7++;
+			append_html = '<div class="row" style="margin-left:26px;"><br>';
+			append_html += '<div class="col-md-2"><input type="text"  class="form-control" label="company_name_'+value1+'" name="company_name[]"  style=" background:#FFFFFF;"/></div><br><br><br>';
+			append_html += '<div class="col-md-2"><input type="text"  class="form-control" label="company_name_'+value1+'" name="company_name[]"  style=" background:#FFFFFF;"/></div><br><br><br>';	
+			append_html += '<div class="col-md-2"><input type="text"  class="form-control" label="company_name_'+value1+'" name="company_name[]"  style=" background:#FFFFFF;"/></div><br><br><br>';
+			append_html += '<div class="col-md-2"><input type="text"  class="form-control" label="company_name_'+value1+'" name="company_name[]"  style=" background:#FFFFFF;"/></div><br><br><br>';
+			append_html += '<div class="col-md-2"><input type="text"  class="form-control" label="company_name_'+value1+'" name="company_name[]"  style=" background:#FFFFFF;"/></div><br><br><br>';
+			append_html += '<div class="col-md-2"><input type="text"  class="form-control" label="company_name_'+value1+'" name="company_name[]"  style=" background:#FFFFFF;"/></div><br><br><br>';
+			append_html += '<div class="col-md-2"><input type="text"  class="form-control" label="company_name_'+value1+'" name="company_name[]"  style=" background:#FFFFFF;"/></div><br><br><br>';
+			append_html += '<div class="col-md-2"><input type="text"  class="form-control" label="company_name_'+value1+'" name="company_name[]"  style=" background:#FFFFFF;"/></div><br><br><br>';
+			append_html += '<div class="col-md-2"><input type="text"  class="form-control" label="company_name_'+value1+'" name="company_name[]"  style=" background:#FFFFFF;"/></div><br><br><br>';
+			append_html += '<div class="col-md-2"><input type="text"  class="form-control" label="company_name_'+value1+'" name="company_name[]"  style=" background:#FFFFFF;"/></div><br><br><br>';
+			append_html += '<a href="#" class="removeclass6 btn btn-primary remove_class6 " style="margin:22px 15px 2px; padding: 7px 19px!important;">-</a>';
+			append_html += '</div>';													
+		$('#fields7').append(append_html);
+	});
+	$("body").on("click",".removeclass6", function(e){
+		//alert('sdsd');
+
+                $(this).parent('div').remove(); 				
+				
+        return false;
+
+    });
+</script>

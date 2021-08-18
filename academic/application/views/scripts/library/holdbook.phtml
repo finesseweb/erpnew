@@ -1,0 +1,130 @@
+<style>
+    .link:link,
+    .link:visited{
+        position: relative;
+        display: inline-block;
+        padding:.2em 2em;
+        border-radius:100px;
+        /*  background-color:#faa2b1;*/
+        -webkit-transition: all .2s;
+        transition: all .2s;
+    }
+
+
+    .link::after{
+        content: "";
+        position:absolute;
+        top:0px;
+        left:0px;
+        background-color:#faa2b1; 
+        width:100%;
+        height:100%;
+        z-index:-1;
+        border-radius:100px;
+        -webkit-transition: all .2s;
+        transition: all .2s;
+    }
+
+
+
+    .link:hover{
+        box-shadow:0px 5px 6px #000;
+    }
+
+    .link:hover::after{
+        transform:scale(2,3);
+
+    }
+
+    .link:active{
+        box-shadow:0px 5px 1px #000;
+    }
+    input[type='checkbox']{display:none;}
+    .checkbox{
+        position:relative;
+        width:1.3em;
+        height:1.3em;
+        border:.1em solid #3C87F9;
+        color: #00c2c2;
+        border-radius: 3px;
+    }
+
+    .checkbox>i{
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform: translate(-50%, -50%);
+    }
+
+
+
+
+</style>
+<?php 
+$result = $this->result;
+ ?>
+<div class="right_col">
+    <div class="x_panel">
+        <div class="x_title">
+			<h2>Hold Books Management</h2>
+			<ul class="nav navbar-right panel_toolbox">
+				<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+				</li>
+
+			</ul>
+			<div class="clearfix"></div>
+		</div>
+                <div class="x_content">
+                            <div class="padding-md clearfix">
+                                <table class="table table-striped table-bordered mb30 jambo_table bulk_action" id="dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align:center;">Sl. No.</th>
+                                            <th style="text-align:center;">ISBN</th>
+                                            <th class='text-center'>Book Title</th>
+                                            <th style="text-align:center;">Author</th>
+                                            <th style="text-align:center;">Publisher</th>
+                                            <th style="text-align:center">Edition</th>
+                                            <th style="text-align:center">Book Issue Id</th>
+                                            <th style="text-align:center;">Hold Request Date</th>
+                                            <th style="text-align:center;">Status</th>
+                                        </tr>
+                                    </thead>
+									<tbody style="text-align:center;">
+                           
+											 <?php $i = 0;
+													$j=1;
+									while ($i < count($result)) { ?>
+											 <?php  $date = $result[$i]['start'];
+											$cd1='';
+										   ?>
+											<tr>
+												<td><?=$j++;?></td>
+												<td><?= $result[$i]['ISBN']; ?></td>
+												<td><?= $result[$i]['book_title']; ?></td>
+												<td><?= $result[$i]['author']; ?></td>
+												<td><?= $result[$i]['publisher']; ?></td>
+												<td><?= $result[$i]['edition']; ?></td>
+												<td><?= $result[$i]['issueReqId']; ?></td>
+												<td><?= date('d-m-Y',strtotime($result[$i]['hold_date'])); ?></td>
+												<?php if($result[$i]['status']==0){ ?>
+												<td><span class="label label-danger">Pending</span></td>
+												<?php }else{ ?>
+												<td><span class="label label-success">Issue</span</td>
+												<?php } ?>
+											</tr>
+											
+									<?php $i++;} ?>
+									</tbody>
+                                </table>
+<?php echo $pagination_tr; ?>
+                            </div><!-- /.padding-md -->
+                        </div><!-- /panel -->
+        </div><!-- /.padding-md -->		
+
+    </div>
+
+ 
+
+
+

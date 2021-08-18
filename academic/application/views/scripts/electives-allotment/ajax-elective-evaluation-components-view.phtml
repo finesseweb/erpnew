@@ -1,0 +1,99 @@
+<tr class="sub">
+<td colspan="5">
+
+         <div class="col-sm-2" style="float:right;"><button class="close_tr btn btn-primary">Close</button></div>
+<br></br>
+<?php
+$cr_result = $this->cr_result; 
+ for($i=0;$i<count($cr_result);$i++) {   
+if($cr_result[$i]['term_id'] != ''){ ?>
+	<h2 style="background-color:#bc973c;padding:8px 8px;color:white;">Courses</h2><br>
+ <div class="box-body">
+	<h4 style="background-color:#3c8dbc;padding:8px 8px;color:white;"><?php echo $cr_result[$i]['term_name'].'-'.$cr_result[$i]['course_name']; ?></h4>
+	
+	
+	<?php $el_cmp_name = explode(',',$cr_result[$i]['name']); 
+	      $el_cmp_weighs = explode(',',$cr_result[$i]['weighs']);
+		  $el_cmp_remn_weighs = explode(',',$cr_result[$i]['remain_weighs']);
+		  foreach($el_cmp_name as $k => $val) {  ?>
+	<div class="row">
+	<div class="col-sm-3">
+	<div class="form-group">
+	<label class="control-label">Component Name</label>
+	<input type="text" name="components[component_name_<?php echo $cr_result[$i]['term_id'];?>_<?php echo $cr_result[$i]['course_id'];?>][]" id="component_name" class="form-control" value="<?php echo $val;?>" readonly  />
+	</div>
+	</div>
+	
+	<div class="col-sm-3">
+	<div class="form-group">
+	<label class="control-label">Weightage</label>
+	<input type="text" name="components[weightage_<?php echo $cr_result[$i]['term_id'];?>_<?php echo $cr_result[$i]['course_id'];?>][]" id="weightage"  class="form-control weightage<?php echo $cr_result[$i]['term_id'];?>_<?php echo $cr_result[$i]['course_id'];?>" onchange="getWeightage(this.value,0,<?php echo $cr_result[$i]['term_id'];?>,<?php echo $cr_results[$i]['course_id'];?>);" value="<?php echo $el_cmp_weighs[$k]; ?>" readonly />
+	</div>
+	</div>
+	<div class="col-sm-3" style="">
+	<div class="form-group">
+				<label class="control-label">Remaining Weightage</label>
+				<input type="text" name="components[remaining_weightage_<?php echo $cr_result[$i]['term_id'];?>_<?php echo $cr_result[$i]['course_id'];?>][]" id="re_weightage_0_<?php echo $cr_result[$i]['term_id'];?>_<?php echo $cr_result[$i]['course_id'];?>" class="form-control" value="<?php echo $el_cmp_remn_weighs[$k]; ?>" readonly />
+				</div>
+				</div>
+				</div>
+		  <?php } ?>			
+	  
+	
+	</div>
+				   
+		
+			
+<?php  } } 
+
+?>
+
+<?php
+
+$el_result = $this->el_result;
+ 
+for($j=0;$j<count($el_result);$j++) {  
+if($el_result[$j]['term_id'] != '') { ?>
+<h2 style="background-color:#bc973c;padding:8px 8px;color:white;">Electives</h2><br>
+ <div class="box-body">
+	<h4 style="background-color:#3c8dbc;padding:8px 8px;color:white;"><?php echo $el_result[$j]['term_name'].'-'.$el_result[$j]['course_name']; ?></h4>
+	
+	<?php $eles_cmp_name = explode(',',$el_result[$j]['ele_name']);
+		$eles_weighs = explode(',',$el_result[$j]['ele_weighs']);
+        $eles_remn_weighs = explode(',',$el_result[$j]['ele_remain_weighs']);?>
+	
+	<?php foreach($eles_cmp_name as $l => $vals) { ?>
+	<div class="row">
+	<div class="col-sm-3">
+	<div class="form-group">
+	<label class="control-label">Component Name</label>
+	<input type="text" name="electives[component_name_<?php echo $el_result[$j]['term_id'];?>_<?php echo $el_result[$j]['elective_id']; ?>][]" id="elective_component_name" class="form-control"  value="<?php echo $vals; ?>" readonly />
+	</div>
+	</div>
+	
+	<div class="col-sm-3">
+	<div class="form-group">
+	<label class="control-label">Weightage</label>
+	<input type="text" name="electives[weightage_<?php echo $el_result[$j]['term_id'];?>_<?php echo $el_result[$j]['elective_id']; ?>][]" id="elective_weightage"  class="form-control elective_weightage<?php echo $el_result[$j]['term_id'];?>_<?php echo $el_result[$j]['elective_id'];?>" onchange="getElectiveWeightage(this.value,0,<?php echo $el_result[$j]['term_id'];?>,<?php echo $el_result[$j]['elective_id'];?>);" value="<?php echo $eles_weighs[$l];?>" readonly />
+	</div>
+	</div>
+	<div class="col-sm-3" style="">
+				<label class="control-label">Remaining Weightage</label>
+				<input type="text" name="electives[remaining_weightage_<?php echo $el_result[$j]['term_id'];?>_<?php echo $el_result[$j]['elective_id']; ?>][]" id="re_weightage_remain_0_<?php echo $el_result[$j]['term_id'];?>_<?php echo $el_result[$j]['elective_id'];?>" class="form-control" readonly value="<?php echo $eles_remn_weighs[$l];?>"/>
+				</div>
+	
+	</div>
+	<?php } ?>
+	</div>
+	
+	
+															
+				<br>
+<?php } }  ?>
+</td>
+</tr>
+<script>
+    $(".close_tr").click(function() {
+            $( ".sub" ).hide();
+     });
+</script>

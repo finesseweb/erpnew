@@ -1,0 +1,195 @@
+<div id="content">
+<?php
+if (count($this->messages)) {
+	foreach ($this->messages as $message) {
+		?>
+		<div class="alert alert-success">
+			<a type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+			<?php echo $this->escape($message); ?></div>
+		<?php
+	}
+}
+?>
+<div class="row">
+	<div class="col-xs-12">
+		<form id="basicForm" action="<?php echo $this->mainconfig['host']; ?>finance/assests/index/type/search<?php //echo $this->form->getAction() ?>" method="post" class="form">		
+		   <div class="panel">
+				<div class="row" style="margin:0px;">
+					<div class="col-sm-3">
+						<div class="form-group">
+							<label class="control-label">Start Date</label>
+							<?php echo $this->assests->start_date; ?>							
+						</div>
+					</div>
+					<div class="col-sm-3" >
+						<div class="form-group" style=" padding-right:0px;">
+							<label class="control-label">End Date </label>
+							<?php echo $this->assests->end_date; ?>							
+						</div>
+					</div>
+					<div class="col-sm-2" style="float:left;width:100px;">
+						<div class="form-group">
+							<div style="float:left">
+								<br/>							
+								<input type="submit" style="margin-top:5px;" class="btn btn-primary" name="submit" value="Submit" id="submit_val">
+							</div>											
+						</div>
+					</div>
+					<div class="col-sm-2" style="float:left;width:100px;">
+						<div class="form-group">							
+							<br />							
+							 <input type="submit" style="margin-top:5px;" class="btn btn-primary" name="print" value="print" onclick="this.form.target='_blank';return true;"> 
+			
+						</div>											
+					</div>
+				</div>
+								
+			</div>
+		</form>
+	</div>
+</div>
+<!-- widget grid -->
+<!-- widget grid -->
+<section id="widget-grid" class="">	
+	<!-- row -->
+	<div class="row">
+		
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2></h2>
+
+				</header>
+
+				<!-- widget div-->
+				<div>		
+					<!-- widget content -->
+						<div class="widget-body">
+							<div class="table-responsive">								
+								<table style="margin-bottom:0px !important;" class="table table-bordered ">
+									<thead>										
+										
+										<tr>
+											<th style="text-align:center;">S.No.</th>
+											<th style="text-align:center;">Account Name</th>
+											<th style="text-align:center;">Opening Balance</th>
+											<th style="text-align:center;">Before <?php echo date("d-m-Y ", strtotime((date('Y')+1).'-09-15')); ?></th>	
+											<th style="text-align:center;">After <?php echo date("d-m-Y ", strtotime((date('Y')+1).'-09-15')); ?></th>
+											<th style="text-align:center;">Sales Transfer</th>
+											<th style="text-align:center;">Total</th>
+											<th style="text-align:center;">Depreciation</th>
+											<th style="text-align:center;">Balance As <?php echo date("d-m-Y ", strtotime((date('Y')+1).'-03-31')); ?></th>											
+										</tr>
+									</thead>
+									<tbody>
+										<?php 
+										$opening_balance = 0;
+										$additions_before = 0;
+										$additions_after = 0;
+										$sales_transfer = 0;
+										$total_amount = 0;
+										$total_depreciation = 0;
+										$total_balance_amt = 0;
+										$i = 0;																				
+										?>
+										
+										<?php 
+											$account_statement = $this->account_statement;
+											if ( count($account_statement) > 0 ) {
+											
+											foreach ($account_statement as $account) {
+												
+												//$amount = $account['debit_amount'] + $account['payment_amount'] + $account['receipt_amount'] + $account['credit_amount'] + $account['purchase_amount'];
+												//$amount1 = $account['debit_amount1'] + $account['receipt_amount1'] + $account['credit_amount1'] + $account['purchase_amount1'];
+												$amount =  ($account['payment_amount']  + $account['debit_amount']) + ($account['receipt_amount'] + $account['credit_amount']);
+												$amount1 =  ($account['payment_amount1']  + $account['debit_amount1']) + ($account['receipt_amount1'] + $account['credit_amount1']);
+												$total = ($account['opening_balance'] + $amount + $amount1) - $account['purchase_amount']; 
+												$total_amt = $total * $account['percentage'] / 100;
+												$balance = ($total - $total_amt);
+												$opening_balance += $account['opening_balance'];
+												$additions_before += $amount;
+												$additions_after += $amount1;
+												$sales_transfer += ($account['purchase_amount']);
+												$total_amount += $total;
+												$total_depreciation += $total_amt;
+												$total_balance_amt += $balance;
+												$i++;												
+												?>
+												<tr>
+													<td><?php echo $i; ?></td>
+													<td>
+													<?php echo $account['name']; ?>
+													</td>
+													<td>
+														<?php echo $account['opening_balance']; ?>
+													</td>													
+													<td style="text-align:right;width:15%;">
+													<?php
+															echo $amount;														
+														?>
+													</td>
+													<td><?php
+															echo $amount1;														
+														?></td>
+													<td><?php echo ($account['purchase_amount']); ?></td>
+													<td><?php 													
+														echo $total;
+													?>
+													</td>
+													<td><?php 
+														echo $total_amt;												
+													?></td>
+													<td style="text-align:right;width:15%;">
+													<?php echo $balance;?>
+													</td>													
+												</tr>
+												<?php												
+												}	
+											}										
+											?>									
+										<tr>
+											<td><b>Total<b/></td>
+											<td style="text-align:right;"><?php echo $i; ?><b/></td>
+											<td style="text-align:right;"><?php echo number_format(round($opening_balance), 2); ?></td>
+											<td style="text-align:right;"><?php echo number_format(round($additions_before), 2); ?></td>	
+											<td style="text-align:right;"><?php echo number_format(round($additions_after), 2); ?></td>
+											<td style="text-align:right;"><?php echo number_format(round($sales_transfer), 2); ?></td>
+											<td style="text-align:right;"><?php echo number_format(round($total_amount), 2); ?></td>
+											<td style="text-align:right;"><?php echo number_format(round($total_depreciation), 2); ?></td>
+											<td style="text-align:right;"><?php echo number_format(round($total_balance_amt), 2); ?></td>
+										</tr>
+										
+									</tbody>
+								</table>
+							</div>
+						</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- WIDGET END -->
+	</div>
+	
+	<!-- end row -->
+</section>
+<!-- end widget grid -->
+</div>
+<script type="text/javascript">
+	$("#start_date").datepicker({ 
+		dateFormat: 'yy-mm-dd',
+		prevText: '<i class="fa fa-chevron-left"></i>',
+		nextText: '<i class="fa fa-chevron-right"></i>'
+	});
+	$("#end_date").datepicker({ 
+		dateFormat: 'yy-mm-dd',
+		prevText: '<i class="fa fa-chevron-left"></i>',
+		nextText: '<i class="fa fa-chevron-right"></i>'
+	});
+</script>

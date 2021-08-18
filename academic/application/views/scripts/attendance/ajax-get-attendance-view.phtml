@@ -1,0 +1,27 @@
+   
+
+<?php
+$result = $this->result;
+                            $i = 1;
+                            $pagination_tr = '';
+                            if (count($result) != 0) {
+                                foreach ($result as $results) {
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $i;
+                            $i++;
+                            ?> </td>	<td><?php echo $results['stu_name']; ?></td>	
+                                        <td><?php echo $results['total_class']; ?></td>
+                                        <td><?php echo ((int)$results['p']+(int)$results['A']+(int)$results['L']); ?></td>
+                                        <td><?php echo $results['p']; ?></td>
+                                        <td><?php echo $results['A']; ?></td>
+                                        <td><?php echo $results['L']; ?></td>
+                                         <td><?php if($results['updated_date'])echo $results['updated_date'];else echo "0000-00-00"; ?></td>
+                                    </tr> 
+    <?php
+    }
+}
+else{ return false;?>
+    
+<?php }
+?>  

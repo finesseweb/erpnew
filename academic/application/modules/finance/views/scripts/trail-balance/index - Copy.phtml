@@ -1,0 +1,120 @@
+<style>
+table.table-bordered td:last-child, table.table-bordered th:last-child{ border:1px solid #ddd;}
+table>thead>tr>th {
+	text-align:center;
+}
+</style>
+<div id="content">
+ <div class="row">
+	<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+		<h1 class="page-title txt-color-blueDark">
+			<i class="fa fa-bars"> Trail Balance</i> 
+				
+		</h1>
+	</div>	
+</div>
+	<!-- widget grid -->
+	<section id="widget-grid" class="">
+
+		<!-- row -->
+		<div class="row">
+
+			<!-- NEW WIDGET START -->
+			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+				<!-- Widget ID (each widget will need unique ID)-->
+				<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+					<!-- widget options:
+					usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+					data-widget-colorbutton="false"
+					data-widget-editbutton="false"
+					data-widget-togglebutton="false"
+					data-widget-deletebutton="false"
+					data-widget-fullscreenbutton="false"
+					data-widget-custombutton="false"
+					data-widget-collapsed="true"
+					data-widget-sortable="false"
+
+					-->
+					<header>
+						<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+						<h2></h2>
+
+					</header>
+
+					<!-- widget div-->
+					<div>		
+
+						<!-- widget content -->
+						<div class="widget-body">
+							
+							
+							<div class="table-responsive">
+							
+								<table class="table table-bordered">
+									<thead>
+									<tr>
+										<th>S. No</th>										
+										<th>Account Name</th>
+										<th>Debit</th>
+										<th>Credit</th>																			
+									</tr>
+								</thead>
+								<tbody>
+
+									<?php
+									$i = 1;
+									$total_debit_amount = 0;
+									$total_credit_amount = 0;
+									if (count($this->paginator) != 0) {
+										foreach ($this->paginator as $results) {
+											$total_debit_amount += $results['debit_amount'];
+											$total_credit_amount += $results['credit_amount'];
+											?>
+											<tr class="row_id<?php echo $results['receipt_voucher_id'];?>">
+												<td><?php
+													echo $i;													
+													?></td>	
+												<td>
+												<?php 
+												echo $results['account_name'];
+												?>
+												</td>									
+												<td style="text-align:right;"><?php echo number_format($results['debit_amount'], 2); ?></td>
+												<td style="text-align:right;"><?php echo number_format($results['credit_amount'], 2); ?></td>			
+											</tr>
+										<?php
+										$i++;
+										} ?>
+									<tr>
+										<td colspan="2" align="right"> <strong>Total Balance</strong></td>										
+										<td align="right"><strong><?php echo number_format($total_debit_amount, 2); ?></strong></td>
+										<td align="right"><strong><?php echo number_format($total_credit_amount, 2); ?></strong></td>
+									</tr>
+									<?php 
+									} else { ?>
+										<tr class="odd gradeX">
+											<td colspan="4" align="center">No Results Found</td>
+										</tr>
+									<?php } ?>
+								</tbody>
+								</table>
+								
+							</div>
+						</div>
+						<!-- end widget content -->
+
+					</div>
+					<!-- end widget div -->
+
+				</div>
+				<!-- end widget -->
+			</article>
+			<!-- WIDGET END -->
+		</div>
+
+		<!-- end row -->
+	</section>
+	<!-- end widget grid -->       
+</div>

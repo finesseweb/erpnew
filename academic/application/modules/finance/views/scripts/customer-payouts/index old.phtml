@@ -1,0 +1,218 @@
+<?php if ($this->type) { ?>
+
+    <div class="">
+        <form id="basicForm" action="<?php echo $this->ErpFinanceCustomerPayouts_form->getAction() ?>" method="post" class="form">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Customer Payouts</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-5 employee_class">
+                            <div class="form-group">
+                                <label class="control-label">Invoice ID<span class="asterisk">*</span></label>
+                                <?php echo $this->ErpFinanceCustomerPayouts_form->tyre_invoice_id; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row invoice-data">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5 employee_class">
+                            <div class="form-group">
+                                <label class="control-label">Payment By <span class="asterisk">*</span></label>
+                                <?php echo $this->ErpFinanceCustomerPayouts_form->payment_by; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row payment-mode">
+                        <div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                                <label class="control-label">Bank Name <span class="asterisk">*</span></label>
+                                <?php echo $this->ErpFinanceCustomerPayouts_form->bank_name; ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                                <div class="bank-paymentby-check">
+                                    <label class="control-label">Cheque Number <span class="asterisk">*</span></label>
+
+                                    <?php echo $this->ErpFinanceCustomerPayouts_form->check_no; ?>
+                                </div>
+                                <div class="bank-paymentby-dd">
+                                    <label class="control-label">DD Number <span class="asterisk">*</span></label>
+                                    <?php echo $this->ErpFinanceCustomerPayouts_form->dd_no; ?>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                                <label class="control-label">Transaction Amount <span class="asterisk">*</span></label>
+                                <?php echo $this->ErpFinanceCustomerPayouts_form->transaction_amount; ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 employee_class">
+                            <div class="form-group">
+                                <label class="control-label">Adjustment Amount <span class="asterisk">*</span></label>
+                                <?php echo $this->ErpFinanceCustomerPayouts_form->adjust_amount; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5 employee_class">
+                            <div class="form-group">
+                                <label class="control-label">Approved By <span class="asterisk">*</span></label>
+                                <?php echo $this->ErpFinanceCustomerPayouts_form->approved_by; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-9 col-sm-offset-3">
+                            <button class="btn btn-primary">Submit</button>
+                            <button type="reset" class="btn btn-default">Reset</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+
+<?php } else { ?>
+    <?php
+    if (count($this->messages)) {
+        foreach ($this->messages as $message) {
+            ?>
+            <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <?php echo $this->escape($message); ?></div>
+            <?php
+        }
+    }
+    ?>
+    <div class="pageheader">
+        <h2><i class="fa fa-bars"></i>Customer Payouts</h2>
+        <div  style="float: right; margin-top: -32px;">
+            <a class="btn btn-warning" href="<?php echo $this->mainconfig['host']; ?>finance/customer-payouts/index/type/add">Add Payout </a></div>
+    </div>
+
+    <div class="table-responsive">
+
+        <table class="table table-striped mb30" id="table2">
+            <thead>
+                <tr>
+                    <th>S. No</th>
+                    <th>Invoice ID</th>
+                    <th>Payment By</th>
+                    <th>Transaction Amount</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <?php
+                $i = 1;
+                if (count($this->paginator) != 0) {
+                    foreach ($this->paginator as $results) {
+                        ?>
+                        <tr>
+                            <td><?php
+                                echo $i;
+                                $i++;
+                                ?></td>
+                            <td><?php
+                                if (strlen($results['tyre_invoice_id']) == 1) {
+                                    echo @(SALE_INVOICE) . "000" . $results['tyre_invoice_id'];
+                                } else if (strlen($results['tyre_invoice_id']) == 2) {
+                                    echo @(SALE_INVOICE) . "00" . $results['tyre_invoice_id'];
+                                } else if (strlen($results['tyre_invoice_id']) == 3) {
+                                    echo @(SALE_INVOICE) . "0" . $results['tyre_invoice_id'];
+                                } else {
+                                    echo @(SALE_INVOICE) . "" . $results['tyre_invoice_id'];
+                                }
+                                ?>
+                            </td>
+                            <td><?php
+                                if ($results['payment_by'] == 1)
+                                    echo "Cash";
+                                else if ($results['payment_by'] == 2)
+                                    echo 'Cheque';
+                                else
+                                    echo 'DD';
+                                ?></td>
+                            <td align="right"><?php echo $results['transaction_amount']; ?></td>
+
+                            <td>
+                                <a href="<?php echo $this->mainconfig['host']; ?>finance/customer-payouts/index/type/edit/id/<?php echo $results['cp_id']; ?>">Edit</a>
+                                &nbsp; | &nbsp;
+                                <a href="<?php echo $this->mainconfig['host']; ?>finance/customer-payouts/index/type/delete/id/<?php echo $results['cp_id']; ?>"> Delete </a></td>
+                        </tr>
+                    <?php } ?>
+                    <tr class="odd gradeX">
+                        <td colspan="6" align="center"> <?php echo $this->paginationControl($this->paginator, 'Sliding', array('pagination.phtml', 'default')); ?>
+                        </td></tr>
+                <?php } else { ?>
+                    <tr class="odd gradeX">
+                        <td colspan="6" align="center">No Results Found</td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
+
+<?php } ?>
+<script>
+    $("document").ready(function() {
+        checkPaymentInputs();
+        $("input:radio[name='payment_by']").change(function() {
+            checkPaymentInputs();
+        });
+    });
+
+    function checkPaymentInputs() {
+        var payment_by = $("input:radio[name ='payment_by']:checked").val();
+        if (payment_by == 1) {
+            $(".bank-paymentby-check,.payment-mode,.bank-paymentby-dd").hide();
+        }
+        if (payment_by == 2) {
+            $(".bank-paymentby-check,.payment-mode").show();
+            $(".bank-paymentby-dd").hide();
+        }
+        if (payment_by == 3) {
+            $(".payment-mode,.bank-paymentby-dd").show();
+            $(".bank-paymentby-check").hide();
+        }
+
+    }
+    $(document).ready(function() {
+        $("body").on("change", "#tyre_invoice_id", function(event) {
+            var id = $(this).val();
+            if (id) {
+                $(".pop-loading").show();
+                $.ajax({type: "POST", url: "<?php echo $this->mainconfig['host'] . 'sales/get-invoice-details'; ?>",
+                    data: {id: id}}).done(function(data) {
+                    $(".invoice-data").html(data);
+                    setTimeout(function() {
+                        $(".pop-loading").hide();
+                    }, 300);
+
+                });
+            }
+        });
+    });
+    $.tyre_invoice_id = $("#tyre_invoice_id").val();
+    if ($.tyre_invoice_id) {
+        var id = $.tyre_invoice_id;
+        $.ajax({type: "POST", url: "<?php echo $this->mainconfig['host'] . 'sales/get-invoice-details'; ?>", data: {id: id}}).done(function(data) {
+            $(".invoice-data").html(data);
+        });
+    }
+
+</script>

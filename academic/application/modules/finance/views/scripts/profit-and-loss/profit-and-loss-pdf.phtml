@@ -1,0 +1,217 @@
+<style type="text/css">
+* {
+	margin: 0px;
+	padding: 0px;
+	font-family: Arial, sans-serif;
+	font-weight: 200;
+	
+}
+.credit table {
+	border-collapse: collapse;
+	width: 100%;
+}
+.credit table, th {
+	border: 1px solid black;
+	padding: 1px;
+	
+	
+}
+.credit {
+	width: 100%;
+	height: auto;
+	margin: 0px auto;
+	float: left;
+	border: 1px solid #000;
+}
+table {
+	border-collapse: collapse;
+	width: 100%;
+	border: 1px solid #000;
+}
+table, th, td {
+	border: 1px solid black;
+	padding: 3px;
+	font-size: 15px !important;
+	
+}
+</style>
+<!-- widget grid -->
+<!-- widget grid -->
+<section id="widget-grid" class="">	
+	<!-- row -->
+	<div class="row">
+		
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2></h2>
+
+				</header>
+
+				<!-- widget div-->
+				<div>		
+					<!-- widget content -->
+						<div class="widget-body">
+							<div class="table-responsive">
+								<table style="margin-bottom:0px !important;" class="table table-bordered ">
+									<thead>										
+										
+										<!-- <tr>
+											<th style="text-align:center;">S.No.</th> 
+											<th style="text-align:center;">Account Name</th>
+											<th style="text-align:center;">Balance</th>
+												
+										</tr> -->
+									</thead>
+									<tr>
+										<td style="width:50%;">
+											<table class="table table-bordered">
+												<?php 													
+												$total_amount_debit = 0;
+												$account_statement_left = $this->account_statement_left;
+												if ( count($account_statement_left) > 0 ) {
+													?>											  
+													<?php
+													$total_items = count($account_statement_left);												
+													foreach ($account_statement_left as $left_val) {
+														?>
+														<tr>
+															<td>
+															<?php echo $left_val['name']; ?>
+															</td>															
+															<td style="text-align:right;width:15%;">
+															<?php
+																	//$amount = $left_val['payment_amount']  + $left_val['receipt_amount'] + $left_val['debit_amount'] + $left_val['credit_amount'] + $left_val['opening_balance'];
+																	$debit_amount = 0;
+																	$credit_amount = 0;
+																	if($left_val['operator'] == 2){	
+																		$debit_amount = ($left_val['payment_amount']  + $left_val['debit_amount']);
+																		$credit_amount = $left_val['receipt_amount'] + $left_val['credit_amount'] + $left_val['opening_balance'];
+																	}else{
+																		$debit_amount = ($left_val['payment_amount']  + $left_val['debit_amount'] + $left_val['opening_balance']);
+																		$credit_amount = $left_val['receipt_amount'] + $left_val['credit_amount'];
+																	}
+																	
+																	$total_account_amt	= 0;
+																	if( $debit_amount > $credit_amount){								
+																		$total_account_amt = $debit_amount - $credit_amount;
+																	}
+																	
+																	if( $credit_amount > $debit_amount){
+																		$total_account_amt = $credit_amount - $debit_amount;
+																	}
+																	
+																	echo number_format($total_account_amt, 2);
+																	$total_amount_debit += $total_account_amt;
+																?>
+															</td>													
+														</tr>
+														<?php
+													}											
+												}											
+												?>
+											</table>
+										</td>
+										<td style="width:50%;">
+											<table class="table table-bordered">
+												<tr>
+													<td>
+													Gross Profit
+													</td>													
+													<td style="text-align:right;width:15%;">
+													<?php
+														$total_amount_credit = 0;
+														$gross_profit =0;
+														if( !empty($this->gross_profit) ){
+															$gross_profit = $this->gross_profit;
+															$total_amount_credit += $this->gross_profit;														
+														}
+														echo number_format($gross_profit, 2);
+													?>
+													</td>													
+												</tr>
+												<?php 
+												$account_statement_right = $this->account_statement_right;
+												if ( count($account_statement_right) > 0 ) {
+													?>											  
+													<?php
+													$total_items = count($account_statement_right);
+													$k = 0;
+													foreach ($account_statement_right as $val) {
+																										
+														?>
+														<tr>
+															<td>
+															<?php echo $val['name']; ?>
+															</td>															
+															<td style="text-align:right;width:15%;">
+															<?php
+																	//$amount = $val['payment_amount']  + $val['receipt_amount'] + $val['debit_amount'] + $val['credit_amount'] + $val['opening_balance'];
+																	$debit_amount = 0;
+																	$credit_amount = 0;
+																	if($val['operator'] == 2){	
+																		$debit_amount = ($val['payment_amount']  + $val['debit_amount']);
+																		$credit_amount = $val['receipt_amount'] + $val['credit_amount'] + $val['opening_balance'];
+																	}else{
+																		$debit_amount = ($val['payment_amount']  + $val['debit_amount'] + $val['opening_balance']);
+																		$credit_amount = $val['receipt_amount'] + $val['credit_amount'];
+																	}
+																	
+																	$total_account_amt	= 0;
+																	if( $debit_amount > $credit_amount){								
+																		$total_account_amt = $debit_amount - $credit_amount;
+																	}
+																	
+																	if( $credit_amount > $debit_amount){
+																		$total_account_amt = $credit_amount - $debit_amount;
+																	}
+																	echo number_format($total_account_amt, 2);
+																	$total_amount_credit += $total_account_amt;
+																?>
+															</td>													
+														</tr>
+														<?php
+													}											
+												}											
+												?>
+											</table>
+										</td>
+									</tr>
+									<tr>
+										<td style="width:50%;">
+											Net Profit <span style="float:right;"><?php echo number_format($total_amount_credit - $total_amount_debit, 2); 
+											$total_amount_debit += $total_amount_credit - $total_amount_debit;
+											?> </span>
+										</td>
+										<td style="width:50%;" align="right">
+											
+										</td>
+									</tr>
+									<tr>
+										<td style="width:50%;" align="right">
+											 <?php echo number_format(round($total_amount_debit), 2); ?>
+										</td>
+										<td style="width:50%;" align="right">
+											<?php echo number_format(round($total_amount_credit), 2); ?>
+										</td>
+									</tr>									
+								</table>
+							</div>
+						</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- WIDGET END -->
+	</div>
+	
+	<!-- end row -->
+</section>
+<!-- end widget grid -->
