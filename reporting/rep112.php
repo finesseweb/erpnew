@@ -55,7 +55,7 @@ function print_receipts()
 {
 	global $path_to_root, $systypes_array;
 
-	include_once($path_to_root . "/reporting/includes/pdf_report.inc");
+	include_once($path_to_root . "/reporting/includes/pdf_report2.inc");
 
 	$from = $_POST['PARAM_0'];
 	$to = $_POST['PARAM_1'];
@@ -125,9 +125,10 @@ function print_receipts()
 			$doctype = ST_CUSTPAYMENT;
 
 			$total_allocated = 0;
-			$rep->TextCol(0, 4,	_("As advance / full / part / payment towards:"), -2);
+			//$rep->TextCol(0, 4,	_("As advance / full / part / payment towards:"), -2);
 			$rep->NewLine(2);
-
+                         $oldrow = $rep->row;
+                         $rep->row = $oldrow+50;
 			while ($myrow2=db_fetch($result))
 			{
 				$rep->TextCol(0, 1,	$systypes_array[$myrow2['type']], -2);
@@ -151,8 +152,14 @@ function print_receipts()
 				$rep->TextColLines(1, 5, $memo, -2);
 			}
 
-			$rep->row = $rep->bottomMargin + (16 * $rep->lineHeight);
-
+			$rep->row = $rep->bottomMargin + (16 * $rep->lineHeight-50);
+                             $words = price_in_words($myrow['Total'], ST_CUSTPAYMENT);
+			if ($words != "")
+			{
+				$rep->NewLine(1);
+				$rep->TextCol(0, 7,$words, - 2);
+			}
+                        $rep->row = $rep->bottomMargin + (16 * $rep->lineHeight-70);
 			$rep->TextCol(3, 6, _("Total Allocated"), -2);
 			$rep->AmountCol(6, 7, $total_allocated, $dec, -2);
 			$rep->NewLine();
@@ -169,16 +176,12 @@ function print_receipts()
 			$rep->TextCol(3, 6, _("TOTAL RECEIPT"), - 2);
 			$rep->AmountCol(6, 7, $myrow['Total'], $dec, -2);
 
-			$words = price_in_words($myrow['Total'], ST_CUSTPAYMENT);
-			if ($words != "")
-			{
-				$rep->NewLine(1);
-				$rep->TextCol(0, 7, $myrow['curr_code'] . ": " . $words, - 2);
-			}
+			 $rep->row = $rep->bottomMargin + (16 * $rep->lineHeight-110);
 			$rep->Font();
 			$rep->NewLine();
 			$rep->TextCol(6, 7, _("Received / Sign"), - 2);
 			$rep->NewLine();
+                         $rep->row = $rep->bottomMargin + (16 * $rep->lineHeight-140);
 			$rep->TextCol(0, 2, _("By Cash / Cheque* / Draft No."), - 2);
 			$rep->TextCol(2, 4, "______________________________", - 2);
 			$rep->TextCol(4, 5, _("Dated"), - 2);

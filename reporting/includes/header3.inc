@@ -93,8 +93,8 @@
                 $this->LineTo($this->cols[$cols-10]+1 , $iline6+50 ,$this->cols[$cols-10]+1 , $iline7);
                 $this->LineTo($this->cols[$cols-9]+20 , $iline6+50 ,$this->cols[$cols-9]+20 , $iline7);
                 $this->LineTo($this->cols[$cols-8]+50 , $iline6+50 ,$this->cols[$cols-7]-5 , $iline7);
-                $this->LineTo($this->cols[$cols-7]+80 , $iline6+50 ,$this->cols[$cols-6]+50, $iline7);
-                $this->LineTo($this->cols[$cols-5]+75 , $iline6+50 ,$this->cols[$cols-4]+50 , $iline7);
+                $this->LineTo($this->cols[$cols-7]+80 , $iline6+50 ,$this->cols[$cols-6]+45, $iline7);
+                $this->LineTo($this->cols[$cols-5]+75 , $iline6+50 ,$this->cols[$cols-4]+40 , $iline7);
               //  $this->LineTo($this->cols[$cols-3]+45 , $iline6 ,$this->cols[$cols-2]-2 , $iline7);
                 $this->LineTo($this->cols[$cols-1]-11 , $iline6+50 ,$this->cols[$cols-1]-11 , $iline7);
                 
@@ -239,12 +239,12 @@
 			$this->Text(510, $tot_info['2']);
                         $this->row = $iline7+5;
 			$this->Text(600, $tot_info['3'].'.00');
+                        $this->row = $iline7+5;
+			$this->Text(690, $tot_info['4'].'.00');
+                        $this->row = $iline7+5;
+                        //$this->Text(690, $tot_info['5'].'.00');
                         //$this->row = $iline7+5;
-			//$this->Text(650, $tot_info['4']);
-                        $this->row = $iline7+5;
-                        $this->Text(690, $tot_info['5'].'.00');
-                        $this->row = $iline7+5;
-			$this->Text(750, $tot_info['6'].'.00');
+			$this->Text(750, $tot_info['5'].'.00');
 			$col += $width;
 //                       $this->Text(150, $info_content);
 //                       $this->Text(200, $info_content);

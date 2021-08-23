@@ -52,7 +52,7 @@ function print_invoices()
 	
 	$show_this_payment = true; // include payments invoiced here in summary
 
-	include_once($path_to_root . "/reporting/includes/pdf_report.inc");
+	include_once($path_to_root . "/reporting/includes/pdf_report1.inc");
 
 	$from = $_POST['PARAM_0'];
 	$to = $_POST['PARAM_1'];
@@ -147,9 +147,11 @@ function print_invoices()
 			}
 
    			$result = get_customer_trans_details(ST_SALESINVOICE, $row['trans_no']);
+                       
 			$SubTotal = 0;
 			while ($myrow2=db_fetch($result))
 			{
+                            
 				if ($myrow2["quantity"] == 0)
 					continue;
 
@@ -160,33 +162,35 @@ function print_invoices()
 	    		$DisplayQty = number_format2($sign*$myrow2["quantity"],get_qty_dec($myrow2['stock_id']));
 	    		$DisplayNet = number_format2($Net,$dec);
 	    		if ($myrow2["discount_percent"]==0)
-		  			$DisplayDiscount ="";
+		  			$DisplayDiscount ="0";
 	    		else
 		  			$DisplayDiscount = number_format2($myrow2["discount_percent"]*100,user_percent_dec()) . "%";
 				$c=0;
-				$rep->TextCol($c++, $c,	$myrow2['stock_id'], -2);
+				
 				$oldrow = $rep->row;
-				$rep->TextColLines($c++, $c, $myrow2['StockDescription'], -2);
+				
 				$newrow = $rep->row;
-				$rep->row = $oldrow;
+				$rep->row = $oldrow+40;
+                                $rep->TextCol($c++, $c,	$myrow2['stock_id'], -2);
+                                $rep->TextColLines($c++, $c, $myrow2['StockDescription'], -2);
 				if ($Net != 0.0 || !is_service($myrow2['mb_flag']) || !$SysPrefs->no_zero_lines_amount())
 				{
-				        $rep->TextCol($c++, $c,$myrow2['hsn_no']-2);	
+				        $rep->TextCol($c++, $c,$myrow2['hsn_no'],-15);	
                                         $rep->TextCol($c++, $c,	$DisplayQty, -2);
-                                        $rep->TextCol($c++, $c,	$myrow2['units'], -2);
+                                        $rep->TextCol($c++, $c,	$myrow2['units'], -10);
 					$rep->TextCol($c++, $c,	$DisplayPrice, -2);
-                                        $rep->TextCol($c++, $c,	$myrow2['gst'], -2);
+                                        $rep->TextCol($c++, $c,	$myrow2['gst'], -15);
                                         $rep->TextCol($c++, $c,	$myrow2['gst_amt'], -2);
                                         $rep->TextCol($c++, $c,	$myrow2['cst'], -2);
                                         $rep->TextCol($c++, $c,	$myrow2['cst_amt'], -2);
                                         $rep->TextCol($c++, $c,	$myrow2['ist'], -2);
-                                        $rep->TextCol($c++, $c,	$myrow2['ist_amt'], -2);
+                                        $rep->TextCol($c++, $c,	$myrow2['ist_amt'].'.00', -2);
 					$rep->TextCol($c++, $c,	$DisplayDiscount, -2);
-                                        $rep->TextCol($c++, $c,	$DisplayPrice*$DisplayDiscount/100, -2);
+                                        $rep->TextCol($c++, $c,	($DisplayPrice*$DisplayDiscount/100).'.00', -2);
 					$rep->TextCol($c++, $c,	$DisplayNet, -2);
 				}
-				$rep->row = $newrow;
-				//$rep->NewLine(1);
+				$rep->row = $newrow-20;
+				$rep->NewLine(1);
 				if ($rep->row < $summary_start_row)
 					$rep->NewPage();
 			}
@@ -238,8 +242,9 @@ function print_invoices()
                      
     		$rep->row = $summary_start_row2;
                 $rep->Font('bold');
-              
-                   $wordamt =  _number_to_words($DisplaySubTot).' only';
+             
+                   $wordamt =  _number_to_words($SubTotal).' only';
+                   
                    $rep->TextCol(1, 1, $wordamt, -2);
                    $rep->NewLine();
                      $rep->Font('');
@@ -300,10 +305,18 @@ function print_invoices()
     		$rep->NewLine();
 			//$DisplayTotal = number_format2($sign*($myrow2["ov_freight"] + $myrow["ov_gst"] +
 			//	$myrow["ov_amount"]+$myrow["ov_freight_tax"]),$dec);
+                if($myrow['currency']==1){
+                    $curr='INR';
+                }else {
+                     $curr='USD';
+                }
+                
+                
 			$rep->Font('bold');
+                        
 			if (!$myrow['prepaid']) $rep->Font('bold');
 				$rep->TextCol(12, 6, $rep->formData['prepaid'] ? _("TOTAL ORDER VAT INCL.") : _("TOTAL INVOICE"), - 2);
-			$rep->TextCol(14, 7, $DisplaySubTot, -2);
+			$rep->TextCol(14, 7, $DisplaySubTot.' '. $curr, -2);
 			if ($rep->formData['prepaid'])
 			{
 				$rep->NewLine();

@@ -58,6 +58,9 @@ function write_customer_trans($trans_type, $trans_no, $debtor_no, $BranchNo,
 	$sales_type=0, $order_no=0, $ship_via=0, $due_date="",
 	$AllocAmt=0, $rate=0, $dimension_id=0, $dimension2_id=0, $payment_terms=null, $tax_included=0, $prep_amount=0,$gst=null,$gst_amt=null,$cst=null,$cst_amt=null,$ist=null,$ist_amt=null,$hsn_no=null,$currency=null)
 {
+     $f_year = get_company_pref('f_year');
+    // display_error($f_year);
+    // die();
    
 	$new = $trans_no==0;
 	$curr = get_customer_currency($debtor_no);
@@ -95,8 +98,10 @@ function write_customer_trans($trans_type, $trans_no, $debtor_no, $BranchNo,
 		$FreightTax, $rate, ".db_escape($ship_via).", $AllocAmt,
 		".db_escape($dimension_id).", ".db_escape($dimension2_id).", "
 		.db_escape($payment_terms, true).", "
-		.db_escape($tax_included).", ".db_escape($prep_amount).",".db_escape($gst).",".db_escape($gst_amt).",".db_escape($cst).",".db_escape($cst_amt).",".db_escape($ist).",".db_escape($ist_amt).",".db_escape($hsn_no).",".db_escape($currency).",".db_escape($currency).")";
-	} else {	// may be optional argument should stay unchanged ?
+		.db_escape($tax_included).", ".db_escape($prep_amount).",".db_escape($gst).",".db_escape($gst_amt).",".db_escape($cst).",".db_escape($cst_amt).",".db_escape($ist).",".db_escape($ist_amt).",".db_escape($hsn_no).",".db_escape($currency).",".db_escape($f_year).")";
+	
+       
+    } else {	// may be optional argument should stay unchanged ?
 	$sql = "UPDATE ".TB_PREF."debtor_trans SET
 		debtor_no=".db_escape($debtor_no)." , branch_code=".db_escape($BranchNo).",
 		tran_date='$SQLDate', due_date='$SQLDueDate',
