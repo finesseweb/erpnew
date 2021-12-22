@@ -269,7 +269,7 @@ function check_page_security($page_security)
 	{
 
 		echo "<center><br><br><br><b>";
-		echo _("The security settings on your account do not permit you to access this function");
+		echo display_error( _("The security settings on your account do not permit you to access this function"));
 		echo "</b>";
 		echo "<br><br><br><br></center>";
 		end_page(@$_REQUEST['popup']);

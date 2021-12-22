@@ -65,8 +65,7 @@ if ($Mode == 'RESET') {
 //===[Working]=====//
 
 start_form(true);
-$sql = get_hours_list($status);
-
+$sql = get_hours_list(1);
 $_SESSION['fun']['id'] = 0;
 $cols = array(
             _("#") => array('align' => 'center','fun' => 'id'),

@@ -442,6 +442,7 @@ table.tablestyle {
 table.tablestyle td {
 	border-collapse: collapse;
 	border: 1px solid #8899aa;
+        padding:2px;
 }
 table.tablestyle2 {
 	border-collapse: collapse;

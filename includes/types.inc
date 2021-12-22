@@ -54,6 +54,7 @@ define('ST_PURCHENQUIRY', 60);
 define('ST_PURCHQUOTE', 70);
 define('ST_PURCHINDENT',90);
 define('ST_INVENTORYISSUE',100);
+define('AT_ASSETINDENT',110);
 // Don't include these defines in the $systypes_array.
 // They are used for documents only.
 define ('ST_STATEMENT', 91);

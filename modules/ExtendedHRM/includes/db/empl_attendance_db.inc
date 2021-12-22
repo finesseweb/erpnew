@@ -14,9 +14,9 @@ function db_has_day_attendancee($empl_id, $month, $year){
 
 
 function add_employee_attendance($empl_attend, $empl_id, $month, $year, $day,$dept_id){
-	 $dayy = (int)$day;
+	$dayy = (int)$day;
 	$sql = "INSERT INTO ".TB_PREF."kv_empl_attendancee (empl_id, month, year, `{$dayy}`,dept_id,cal_year) VALUES (".db_escape($empl_id).", ".db_escape($month).", ".db_escape($year).", ".db_escape($empl_attend).",".db_escape($dept_id).",'".date("Y")."')";
-	db_query($sql, "The employee could not be added");
+        db_query($sql, "The employee could not be added");
 }
 
 

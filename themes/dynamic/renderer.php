@@ -72,7 +72,19 @@
 		function menu_header($title, $no_menu, $is_index)
 		{
 			global $path_to_root, $SysPrefs, $version, $db_connections, $installed_extensions;
-
+                        
+        //=======for get recent updated picture=========//
+         $dirpath = company_path()."/images/";
+        // set file pattern
+        $dirpath .= "*.*";
+        // copy filenames to array
+        $files = array();
+        $files = glob($dirpath);
+        // sort files by last modified date
+        usort($files, function($x, $y) {
+            return filemtime($x) < filemtime($y);
+        });
+        //==============[END]===================//
 			$sel_app = $_SESSION['sel_app'];
 			echo "<div class='fa-main'>\n";
 			if (!$no_menu)
@@ -92,15 +104,14 @@
 				echo "  <li><a href='$path_to_root/access/logout.php?'>$img" . _("Logout") . "</a></li>";
 				echo "</ul>\n";
 				$indicator = "$path_to_root/themes/".user_theme(). "/images/ajax-loader.gif";
-				echo "<h1><img style='width: 100px;' class='inner-logo' src='".company_path() . "/images/logo.png'   onload='fixPNG(this)' /><span style='padding-left:300px;padding-bottom:10px;'><img id='ajaxmark' src='$indicator' align='center' style='visibility:hidden;'></span></h1>\n";
+				echo "<h1><img style='width: 100px;' class='inner-logo' src='".$files[0]."'   onload='fixPNG(this)' /><span style='padding-left:300px;padding-bottom:10px;'><img id='ajaxmark' src='$indicator' align='center' style='visibility:hidden;'></span></h1>\n";
 				echo "</div>\n"; // header
 				
 				
 				echo "<div id='ddtopmenubar' class='mattblackmenu'>";
 				echo "<ul>\n";
 				$i = 0;
-				$account = $this->wa_get_apps($title, $applications, $sel_app);
-                  echo '<li><a href="'.$path_to_root.'/academic/"  accesskey="A"><b><u>A</u>cademic</b></a></li>'."\n";              
+				$account = $this->wa_get_apps($title, $applications, $sel_app);           
 				foreach($applications as $app)
 				{
                     if ($this->check_application_access($app))

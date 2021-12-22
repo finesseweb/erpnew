@@ -39,6 +39,17 @@ function get_sub_category($sub_cat_name)
 
 	return db_fetch($result);
 }
+function get_category($cat_id)
+{
+
+	$sql = "SELECT category_id, description, inactive FROM ".TB_PREF."stock_category where category_id =".db_escape($cat_id);
+
+	$result = db_query($sql,"category could not be retrieved");
+
+	return db_fetch($result);
+}
+
+
 function get_sub_code($sub_cat_name)
 {
 

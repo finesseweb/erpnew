@@ -7,6 +7,8 @@ class attendance_app extends application
 		parent::__construct("Attendance", _($this->help_context = "&Attendance"));
 		$this->add_module(_("Transection"));
 		$this->add_lapp_function(0, _("Attendance "),"attendance/attendance.php", 'SA_ATTENDANCE', MENU_TRANSACTION);
+                 $this->add_lapp_function(0, _('Attendance Inquiry'), 'modules/ExtendedHRM/inquires/attendance_inquiry.php', 'SA_ATTENDANCEUSER', MENU_INQUIRY);
+                 
 		$this->add_lapp_function(0, _("Attendance List"),"attendance/attendanceList.php", 'SA_ATTENDANCELIST', MENU_TRANSACTION);
 		
 		$this->add_module(_("Maintance Reports"));

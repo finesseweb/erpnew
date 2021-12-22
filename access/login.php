@@ -74,12 +74,25 @@ function defaultCompany()
 	
 	div_start('_page_body');
 	br();br();
+       
 	start_form(false, false, $_SESSION['timeout']['uri'], "loginform");
 	start_table(false, "class='login'");
 	start_row();
+        //=======for get recent updated picture=========//
+        $dirpath = $SysPrefs->comp_path."/0/images/";
+        // set file pattern
+        $dirpath .= "*.*";
+        // copy filenames to array
+        $files = array();
+        $files = glob($dirpath);
+        // sort files by last modified date
+        usort($files, function($x, $y) {
+            return filemtime($x) < filemtime($y);
+        });
+        //==============[END]===================//
 	echo "<td align='center' colspan=2>";
 	if (!$login_timeout) { // FA logo
-    	echo "<a target='_blank' href='".$SysPrefs->power_url."'><img src='$path_to_root/themes/$def_theme/images/logo_frontaccounting.png' alt='FrontAccounting' height='50' onload='fixPNG(this)' border='0' ></a>";
+    	echo "<a target='_blank' href='".$SysPrefs->power_url."'><img src='".$files[0]."' alt='FrontAccounting' height='50' onload='fixPNG(this)' border='0' ></a>";
 	} else { 
 		echo "<font size=5>"._('Authorization timeout')."</font>";
 	} 

@@ -58,7 +58,7 @@ $name = $_GET["client_id"];
 $result = get_items_search(get_post("description"), @$_GET['type']);
 
 while ($myrow = db_fetch_assoc($result))
-{
+{    //display_error($myrow['item_code']);
 	alt_table_row_color($k);
 	$value = $myrow['item_code'];
 	if ($mode != 0) {

@@ -8,7 +8,7 @@
 
 //---------------------------------------------------------------------------------------------------
 
-function employee_list($name, $selected_id=null, $all_option=false, $submit_on_change=false, $show_inactive=false, $editkey = false){
+function employee_list($name, $selected_id=null, $all_option=false, $submit_on_change=false, $show_inactive=false, $editkey = false,$type = "employees"){
 	global $all_items;
 
 	$sql = "SELECT empl.empl_id, empl.empl_firstname, dept.description FROM ".TB_PREF."kv_empl_info empl,".TB_PREF."kv_empl_job job, ".TB_PREF."kv_departments dept WHERE empl.empl_id=job.empl_id AND job.department=dept.id";
@@ -33,7 +33,7 @@ function employee_list($name, $selected_id=null, $all_option=false, $submit_on_c
 		'order' => array('job.department','empl.empl_id'), array('dept.description','empl.empl_firstname'),
 		'sel_hint' => $mode ? _('Press Space tab to filter by name fragment; F2 - entry new employee') :	_('Select employee'),
 		'show_inactive' => $show_inactive
-	  )) );
+	  )), $type) ;
 	if ($editkey)
 		$ret .= add_edit_combo('item');		
 	return $ret;

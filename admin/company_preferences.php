@@ -75,11 +75,12 @@ if (isset($_POST['update']) && $_POST['update'] != "")
     }
 		$result = $_FILES['pic']['error'];
 		$filename = company_path()."/images";
-                display_error(company_path()) ;
+                
 		if (!file_exists($filename))
 		{
 			mkdir($filename);
 		}
+                
 		$filename .= "/".clean_file_name($_FILES['pic']['name']);
 
 		 //But check for the worst
@@ -109,7 +110,7 @@ if (isset($_POST['update']) && $_POST['update'] != "")
 		}
 
 		if ($input_error != 1)
-		{
+		{//display_error($filename) ;
 			$result  =  move_uploaded_file($_FILES['pic']['tmp_name'], $filename);
 			$_POST['coy_logo'] = clean_file_name($_FILES['pic']['name']);
 			if(!$result) 
@@ -153,15 +154,15 @@ if (isset($_POST['update']) && $_POST['update'] != "")
 		$Ajax->activate('_page_body');
 	}
 } /* end of if submit */
- if (isset($_POST['country'])) {
+
+if (isset($_POST['country'])) {
            
    $Ajax->activate('state');
         }
 
-
 start_form(true);
-
 $myrow = get_company_prefs();
+if(count($_POST)==0){
 
 $_POST['coy_name'] = $myrow["coy_name"];
 $_POST['gst_no'] = $myrow["gst_no"];
@@ -170,7 +171,7 @@ $_POST['tax_last'] = $myrow["tax_last"];
 $_POST['coy_no']  = $myrow["coy_no"];
 $_POST['postal_address']  = $myrow["postal_address"];
 $_POST['state']  = $myrow["state"];
-if($_POST['country']  == $myrow["country"])
+
 $_POST['country']  = $myrow["country"];
 $_POST['phone']  = $myrow["phone"];
 $_POST['fax']  = $myrow["fax"];
@@ -179,6 +180,7 @@ $_POST['coy_logo']  = $myrow["coy_logo"];
 $_POST['domicile']  = $myrow["domicile"];
 $_POST['use_dimension']  = $myrow["use_dimension"];
 $_POST['base_sales']  = $myrow["base_sales"];
+}
 if (!isset($myrow["shortname_name_in_list"]))
 {
 	set_company_pref("shortname_name_in_list", "setup.company", "tinyint", 1, '0');

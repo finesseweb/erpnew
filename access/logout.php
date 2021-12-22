@@ -19,10 +19,21 @@ add_js_file('login.js');
 
 include($path_to_root . "/includes/page/header.inc");
 page_header(_("Logout"), true, false, '');
-
+  //=======for get recent updated picture=========//
+        $dirpath = $SysPrefs->comp_path."/0/images/";
+        // set file pattern
+        $dirpath .= "*.*";
+        // copy filenames to array
+        $files = array();
+        $files = glob($dirpath);
+        // sort files by last modified date
+        usort($files, function($x, $y) {
+            return filemtime($x) < filemtime($y);
+        });
+        //==============[END]===================//
 echo "<table width='100%' border='0'>
   <tr>
-	<td align='center'><img src='$path_to_root/themes/default/images/logo_frontaccounting.png' alt='FrontAccounting' width='250' height='50' onload='fixPNG(this)' ></td>
+	<td align='center'><img src='".$files[0]."' alt='FrontAccounting' width='250' height='50' onload='fixPNG(this)' ></td>
   </tr>
   <tr>
     <td>&nbsp;</td>

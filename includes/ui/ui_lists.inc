@@ -312,7 +312,7 @@ $opts = array(		// default options
 	default_focus(($search_box && $by_id) ? $search_box : $name);
 
 	$img = "";
-	if ($SysPrefs->use_popup_search && (!isset($opts['fixed_asset']) || !$opts['fixed_asset']))
+	if ($SysPrefs->use_popup_search  && $SysPrefs->prefs['no_item_list'] && (!isset($opts['fixed_asset']) || !$opts['fixed_asset']))
 	{
 		$img_title = "";
 		$link = "";
@@ -366,6 +366,10 @@ $opts = array(		// default options
         			$link = $path_to_root . "/gl/inquiry/accounts_list.php?popup=1&skip=".$skip."&client_id=" . $id;
         			$img_title = _("Search GL accounts");
         			break;
+                       case "employees":
+                            $link = $path_to_root . "/modules/ExtendedHRM/inquires/employees_list.php?popup=1&type=all&client_id=" . $id;
+        			$img_title = _("Search items");
+                            break;
     		}
   		}
 
@@ -3321,6 +3325,20 @@ function sub_category_list($name, $selected_id=null, $none_option=false, $submit
 	) );
 }
 
+function item_name_list($name, $selected_id=null, $none_option=false, $submit_on_change=false, $category_id)
+{
+	$sql ="SELECT stock_id,concat(stock_id,'-',description) FROM ".TB_PREF."stock_master WHERE ".TB_PREF."stock_master.sub_cat_name = ".db_escape($category_id)." ";
+
+	return combo_input($name, $selected_id, $sql, 'stock_id', 'description',
+	array(
+			'order'=>'stock_id',
+		'spec_option' => '--select--',
+		'spec_id' => ALL_NUMERIC,
+		'select_submit'=> $submit_on_change,
+		'async' => false,
+	) );
+}
+
 function sub_category_list_cells($label, $name, $selected_id=null, $none_option=false,
 	$submit_on_change=false, $category_id)
 {
@@ -3328,6 +3346,15 @@ function sub_category_list_cells($label, $name, $selected_id=null, $none_option=
 		echo "<td>$label</td>\n";
 	echo "<td>";
 	echo sub_category_list($name, $selected_id, $none_option, $submit_on_change, $category_id);
+	echo "</td>\n";
+}
+function item_name_list_cells($label, $name, $selected_id=null, $none_option=false,
+	$submit_on_change=false, $category_id)
+{
+	if ($label != null)
+		echo "<td>$label</td>\n";
+	echo "<td>";
+	echo item_name_list($name, $selected_id, $none_option, $submit_on_change, $category_id);
 	echo "</td>\n";
 }
 

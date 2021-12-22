@@ -177,8 +177,8 @@ function get_all_statutory_main_by_id($id) {//display_error($id);
     return db_query($sql, "could not get all Statutory");
 }
 
-function get_all_statutory_upload_by_id($id) {//display_error($id);
-    $sql = "SELECT * FROM " . TB_PREF . "statutory_uploads where statutory_main_id = " . db_escape($id);
+function get_all_product_master($id) {//display_error($id);
+    $sql = "SELECT * FROM " . TB_PREF . "product_master where id = " . db_escape($id);
 
     return db_query($sql, "could not get all Statutory");
 }

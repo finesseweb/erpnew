@@ -124,7 +124,7 @@ function department_list($name, $selected_id=null, $spec_option=false, $submit_o
 
 
 function getDepartment($empl_id){
-    $sql = "SELECT dep.id, dep.description,desig.id,desig.name FROM ".TB_PREF."kv_departments as dep join ".TB_PREF."kv_empl_job as job on dep.id = job.department join ".TB_PREF."kv_desig_group as desig on desig.id = job.desig_group where job.empl_id ='".$empl_id."'";
+    $sql = "SELECT dep.id as department_id , dep.description,desig.id,desig.name FROM ".TB_PREF."kv_departments as dep join ".TB_PREF."kv_empl_job as job on dep.id = job.department join ".TB_PREF."kv_desig_group as desig on desig.id = job.desig_group where job.empl_id ='".$empl_id."'";
     $result = db_query($sql,"could not delete sales department");
     return $result;
     
@@ -688,7 +688,7 @@ function desig_list_row($label, $name, $selected_id=null,$spec_opt=false, $submi
 }
 
 function get_weekly_off(){
-    $sql ="SELECT * FROM ".TB_PREF."kv_empl_option limit 70";
+    $sql ="SELECT * FROM ".TB_PREF."kv_empl_option limit 25";
     return db_query($sql,"unable to get_data!");
 }
 
@@ -1432,10 +1432,11 @@ function leavetype_list_row2($label, $name, $selected_id=null,$spec_opt=false, $
 	return db_query($sql,"could not get Holidays");
 }
 
-function get_calendar($show_inactive){
+function get_calendar($fisc,$show_inactive){
     //set_global_connection(1);
-	$sql="SELECT * from ic_events where category=38 AND deleted is NULL ";
-         $sql .= " ORDER BY start";
+	$sql = "SELECT * FROM ".TB_PREF."kv_holiday_master WHERE fisc_year=".db_escape($fisc['id']);
+        if($show_inactive)
+            $sql.=" inactive = $show_inactive";
 	return db_query($sql,"could not get Calendar");
 }
 function update_holiday($selected_id, $fisc_year, $name,$descpt,$from_date,$to_date){
@@ -1536,7 +1537,7 @@ function designt_list_row($label, $name, $selected_id=null,$spec_opt=false, $sub
 function get_leave_wekeend_status($empl_id, $leave_type, $cal_year)
 {
     $sql = "select leaves.weekend_status from fa_kv_leave_days as leaves, fa_kv_empl_job as job where leaves.employee_type = job.employee_type And job.empl_id=".db_escape($empl_id)." And leaves.leave_type = ".db_escape($leave_type)." And leaves.cal_year = ".db_escape($cal_year);
-//  display_error($sql);
+ // display_error($sql);
     $result = db_query($sql,"unable to get value.");
     return db_fetch($result);           
 }

@@ -30,11 +30,42 @@ function add_allocation($dept_id, $desig_group_id, $desig_id, $employees_id, $ty
     // commit_transaction();
     return $ret;
 }
+function add_allocation_comp($dept_id, $desig_group_id, $desig_id, $employees_id, $type_leave, $reason, $today_date, $from_date, $to_date, $no_of_days, $upload_file, $filesize, $filetype, $unique_name, $request_date,$db_val,$wrk_time) {
+    //display_error($unique_name);die;
+    $sql = "INSERT INTO " . TB_PREF . "kv_comp_request (dept_id, desig_group_id, desig_id, employees_id, type_leave,reason,today_date,from_date,to_date,no_of_days,upload_file,filesize,filetype,unique_name,request_date,cal_year,working_hours)
+		VALUES (" . db_escape($dept_id) . ", "
+            . db_escape($desig_group_id) . ", "
+            . db_escape($desig_id) . ", "
+            . db_escape($employees_id) . ", "
+            . db_escape($type_leave) . ", "
+            . db_escape($reason) . ","
+            . db_escape($today_date) . ","
+            . db_escape($from_date) . ","
+            . db_escape($to_date) . ",
+          " . db_escape($no_of_days) . "," . db_escape($upload_file) . "," . db_escape($filesize) .
+        "," . db_escape($filetype) .
+        "," . db_escape($unique_name) . ",'" . date("Y-m-d") . "',".date("Y").","
+            .db_escape($wrk_time).")";
+    // begin_transaction();
+    $ret = db_query($sql, "Can't insert empl leave request");
 
+    // commit_transaction();
+    return $ret;
+}
 function update_allocation($selected_id, $dept_id, $desig_group_id, $desig_id, $employees_id, $type_leave, $reason, $today_date, $from_date, $to_date, $no_of_days, $upload_file, $filesize, $filetype, $unique_name, $request_date) {
     //display_error($second_to_date);die;
     // $yr = date2sql($year);
     $sql = "UPDATE " . TB_PREF . "kv_allocation_request SET dept_id=" . db_escape($dept_id) . ", desig_id=" . db_escape($desig_id) . ",employees_id=" . db_escape($employees_id) . ", type_leave=" . db_escape($type_leave) . ",reason=" . db_escape($reason) . ",today_date=" . db_escape($today_date) . ", from_date=" . db_escape($from_date) . ",to_date=" . db_escape($to_date) . ",no_of_days=" . db_escape($no_of_days) . ",upload_file=" . db_escape($upload_file) . ",filesize=" . db_escape($filesize) . ",filetype=" . db_escape($filetype) . ",unique_name=" . db_escape($unique_name) . ",request_date='" .date("Y-m-d") ."'
+	WHERE allocate_id = " . db_escape($selected_id);
+
+    db_query($sql, "Can't update empl leave request");
+}
+
+function update_allocation_comp($selected_id, $dept_id, $desig_group_id, $desig_id, $employees_id, $type_leave, $reason, $today_date, $from_date, $to_date, $no_of_days, $upload_file, $filesize, $filetype, $unique_name, $request_date,$wrk_time) {
+    //display_error($second_to_date);die;
+    // $yr = date2sql($year);
+    $sql = "UPDATE " . TB_PREF . "kv_comp_request SET dept_id=" . db_escape($dept_id) . ", desig_id=" . db_escape($desig_id) . ",employees_id=" . db_escape($employees_id) . ", type_leave=" . db_escape($type_leave) . ",reason=" . db_escape($reason) . ",today_date=" . db_escape($today_date) . ", from_date=" . db_escape($from_date) . ",to_date=" . db_escape($to_date) . ",no_of_days=" . db_escape($no_of_days) . ",upload_file=" . db_escape($upload_file) . ",filesize=" . db_escape($filesize) . ",filetype=" . db_escape($filetype) . ",unique_name=" . db_escape($unique_name) .
+            ",request_date='" .date("Y-m-d") ."' ,working_hours=".db_escape($wrk_time)."
 	WHERE allocate_id = " . db_escape($selected_id);
 
     db_query($sql, "Can't update empl leave request");
@@ -47,8 +78,17 @@ function update_leave_request($selected_id, $leave_status_type, $no_of_days_appr
     db_query($sql, "Can't update empl leave request");
 }
 
+function update_leave_request_comp($selected_id, $leave_status_type, $no_of_days_approved, $approved_from_date, $approved_to_date, $comments) {
 
+    $sql = "UPDATE " . TB_PREF . "kv_comp_request SET status=" . db_escape($leave_status_type) . ",no_of_days_approved=" . db_escape($no_of_days_approved) . ",approved_from_date=" . db_escape($approved_from_date) . ",approved_to_date=" . db_escape($approved_to_date) . ",comments=" . db_escape($comments) . "WHERE allocate_id = " . db_escape($selected_id);
 
+    db_query($sql, "Can't update empl leave request");
+}
+function add_employee_leave_in_atendance($empl_attend, $empl_id, $month, $year,$dept_id,$no_of_days){
+	$dayy = (int)$day;
+	$sql = "INSERT INTO ".TB_PREF."kv_empl_attendancee (empl_id, month, year, `{$dayy}`,dept_id,cal_year) VALUES (".db_escape($empl_id).", ".db_escape($month).", ".db_escape($year).", ".db_escape($empl_attend).",".db_escape($dept_id).",'".date("Y")."')";
+        db_query($sql, "The employee could not be added");
+}
 
 function delete_empl_alloc($selected_id) { // $sql = "DELETE FROM ".TB_PREF."kv_allocation_request WHERE allocate_id=".db_escape($selected_id); 
    $sql = "DELETE FROM " . TB_PREF . "kv_allocation_request WHERE allocate_id=" . db_escape($selected_id);
@@ -90,6 +130,14 @@ function get_empl_alloc_single($selected_id) {
     $result = db_query($sql, "could not get empl leave request");
     return db_fetch($result);
 }
+
+function get_empl_alloc_single_comp($selected_id) {
+    
+    $sql = "SELECT * FROM " . TB_PREF . "kv_comp_request WHERE allocate_id=" . db_escape($selected_id);
+    // display_error($sql);
+    $result = db_query($sql, "could not get empl leave request");
+    return db_fetch($result);
+}
 function get_empl_encash_single($selected_id) {
     
     $sql = "SELECT * FROM " . TB_PREF . "kv_encashment_request WHERE id=" . db_escape($selected_id);
@@ -112,6 +160,12 @@ function get_employee_leave_records_By_emp_id($employee_id) {
     $sql = "SELECT * FROM " . TB_PREF . "kv_allocation_request WHERE employees_id='" .$employee_id. "'";
     return db_query($sql, "Can't get employee leave records");
 }
+
+function get_employee_leave_records_By_emp_id_comp($employee_id) { 
+    $sql = "SELECT * FROM " . TB_PREF . "kv_comp_request WHERE employees_id='" .$employee_id. "'";
+    return db_query($sql, "Can't get employee leave records");
+}
+
 function get_employee_leave_records_By_emp_id_carry_for($employee_id) { 
     $sql = "SELECT * FROM " . TB_PREF . "carry_forward_leave WHERE empl_id='" .$employee_id. "' AND no_of_el != 0 order by id DESC Limit 1";
   // display_error($sql);
@@ -166,6 +220,35 @@ function get_employee_leave_status_records($leave_status, $department_id, $emplo
 
     return db_query($sql, "Can't get employee leave status records");
 }
+
+function get_employee_leave_status_records_comp($leave_status, $department_id, $employee_id, $access_id, $from_date, $to_date) {
+    $f_date = date2sql($from_date);
+    $t_date = date2sql($to_date);
+    $sql = "SELECT ar.* FROM " . TB_PREF . "kv_comp_request ar JOIN fa_kv_empl_job ej ON ar.employees_id = ej.empl_id WHERE ar.status = 4 or ar.status = ".$leave_status." AND ar.request_date  >= '" . $f_date . "' AND ar.request_date <= '" . $t_date . "'";
+   // print($sql);
+    if (!empty($department_id)) {
+
+        $sql .= " AND ar.dept_id = " . $department_id;
+    }
+
+    if (!empty($employee_id)) {
+        $sql .= " AND employees_id = '" . $employee_id . "' ";
+    }
+
+//Restrict Leave data based on user access id
+    global $role_names;
+    if (!empty($access_id) && strtolower($access_id) == $role_names['dean']) {//Dean can see only staff leaves
+        $sql .= " AND ej.employee_type = 2 ";
+    }
+
+//Restrict Leave data based on user access id
+    if (!empty($access_id) && strtolower($access_id) == $role_names['director']) {//Directory can see only faculty leaves
+        $sql .= " AND ej.employee_type = 1 ";
+    }
+
+    return db_query($sql, "Can't get employee leave status records");
+}
+
 function get_employee_leave_encashment_status_records($leave_status, $department_id, $employee_id, $access_id, $from_date, $to_date) {
     
     $f_date = date2sql($from_date);
@@ -198,7 +281,7 @@ function get_employee_leave_encashment_status_records($leave_status, $department
 
 function get_leave_type($type_id) {
 
-    $sql = "SELECT leave_type FROM " . TB_PREF . "kv_type_leave_master WHERE type_id = '" . $type_id . "'";
+    $sql = "SELECT leave_type,code FROM " . TB_PREF . "kv_type_leave_master WHERE type_id = '" . $type_id . "'";
 
     $res = db_query($sql, "Get Leave Type");
 
@@ -216,6 +299,25 @@ function get_employee_record($empl_id) {
     $result = db_fetch($res);
 
     return $result;
+}
+
+function get_employees($empl_id="",$dept_desc="") {
+
+   $sql = "SELECT empl.empl_id, empl.empl_firstname, dept.description FROM ".TB_PREF."kv_empl_info empl,".TB_PREF."kv_empl_job job, ".TB_PREF."kv_departments dept WHERE ";
+   if(!$empl_id && !$dept_desc)
+   $sql.="empl.empl_id=job.empl_id AND job.department=dept.id";
+   else if($empl_id && $dept_desc)
+       $sql.="empl.empl_id like '%$empl_id%' and  job.empl_id like '%$empl_id%' AND job.department=dept.id AND dept.description like"."'%$dept_desc%'";
+   else if($empl_id)
+        $sql.="empl.empl_id like '%$empl_id%' and  job.empl_id like '%$empl_id%' AND job.department=dept.id";
+   else if($dept_desc)
+       $sql.="empl.empl_id=job.empl_id AND dept.description like"."'%$dept_desc%' AND job.department=dept.id"; 
+   
+   $sql.=" group by empl.empl_id,job.department";
+   
+
+    return  db_query($sql, "fail to retrieve employees record");
+
 }
 function get_occasion_master_by_id($id,$field = 'yes_no'){
     
@@ -262,8 +364,6 @@ function get_empl_same_tdates($from_date, $to_date, $empl_id, $request_date) {
 
 function get_holiday_check($lfrom_date, $lto_date, $fiscal_year) {
     $sql = "SELECT * FROM " . TB_PREF . "kv_holiday_master WHERE fisc_year = " . db_escape($fiscal_year) . " AND inactive = 0 AND (from_date >=" . db_escape($lfrom_date) . " AND to_date <=" . db_escape($lto_date) . " OR '$lfrom_date' BETWEEN from_date AND to_date OR '$lto_date' BETWEEN from_date AND to_date)";
-
-    //display_error($sql);die;
     $result = db_query($sql, "could not get empl leave request");
     return db_num_rows($result);
 }

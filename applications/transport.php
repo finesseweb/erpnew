@@ -27,6 +27,7 @@ class transport_app extends application
 		$this->add_lapp_function(3, _("Attendance "),"attendance/attendance.php", 'SA_ATTENDANCE', MENU_TRANSACTION);
 		$this->add_lapp_function(3, _("Attendance List"),"attendance/attendanceList.php", 'SA_ATTENDANCELIST', MENU_TRANSACTION);
        // $this->add_lapp_function(3, _("Add Attendance "),"attendance/mannual-attendance.php", 'SA_ATTENDANCE2', MENU_TRANSACTION);
+                  $this->add_lapp_function(3, _('Attendance Inquiry'), 'modules/ExtendedHRM/inquires/attendance_inquiry_user.php', 'SA_ATTENDANCEUSER', MENU_INQUIRY);
 		$this->add_lapp_function(3, _("User Attendance List "),"attendance/attendanceListing.php", 'SA_ATTENDANCELISTING', MENU_TRANSACTION);
 		$this->add_lapp_function(3, _("LogIn / LogOut "),"attendance/update_attendance.php", 'SA_UPDATEATTENDANCE', MENU_TRANSACTION);
                 $this->add_lapp_function(3, _("Attendance Chart"),"attendance/user_attend.php", 'SA_UPDATEATTENDANCEUSER', MENU_TRANSACTION);

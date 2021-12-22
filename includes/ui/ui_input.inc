@@ -302,7 +302,7 @@ function button($name, $value, $title=false, $icon=false,  $aspect='')
 	}
 	if (user_graphic_links() && $icon)
 	{
-		if ($value == _("Delete")) // Helper during implementation
+		if ($value == _("Delete") && !$icon) // Helper during implementation
 			$icon = ICON_DELETE;
 		return "<button type='submit' class='editbutton' name='"
 			.html_specials_encode(strtr($name, array('.'=>'=2E', '='=>'=3D',// ' '=>'=20','['=>'=5B'
@@ -1116,6 +1116,16 @@ function inactive_control_column(&$th) {
 	
 	if (check_value('show_inactive')) 
 		array_insert($th, count($th)-2 , _("Inactive"));
+	if (get_post('_show_inactive_update')) {
+		$Ajax->activate('_page_body');
+	}
+}
+
+function inactive_control_column_with_edit_only(&$th) {
+	global $Ajax;
+	
+	if (check_value('show_inactive')) 
+		array_insert($th, count($th)-1 , _("Inactive"));
 	if (get_post('_show_inactive_update')) {
 		$Ajax->activate('_page_body');
 	}

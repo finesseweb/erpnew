@@ -401,7 +401,7 @@ function div_start($id='', $trigger=null, $non_ajax=false)
    		echo "<div style='display:none' class='js_only' ".($id !='' ? "id='$id'" : '').">";
 	} else { // ajax ready div
    		array_push($ajax_divs, array($id, $trigger===null ? $id : $trigger));
-   		echo "<div ". ($id !='' ? "id='$id'" : '').">";
+   		echo "<div ". ($id !='' ? "id='$id'" : '')." style='overflow-x:auto'>";
    		ob_start();
 	}
 }

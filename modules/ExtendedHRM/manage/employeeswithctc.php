@@ -1835,7 +1835,7 @@ if (db_has_employees()) {
         $new_item = get_post('selected_id') == '';
     }
 
-    //check_cells(_("Show inactive:"), 'show_inactive', null, true);
+    check_cells(_("Show inactive:"), 'show_inactive', null, true);
     //display_error($new_item); 
     end_row();
     end_table();

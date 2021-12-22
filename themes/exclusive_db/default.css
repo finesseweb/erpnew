@@ -446,6 +446,7 @@ table.tablestyle {
 table.tablestyle td {
 	border-collapse: collapse;
 	border: 1px solid #e1e1e1;
+        padding:2px;
 }
 table.tablestyle2 {
 	border-collapse: collapse;

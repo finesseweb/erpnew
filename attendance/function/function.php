@@ -214,10 +214,10 @@ function getAttendanceList($username){
     return $sql ;db_query($sql, "could not get designation_master");
 }
 function get_hours_list($status) {
-    $status=1;
-    $sql = "SELECT * FROM " . TB_PREF . "user_workinghours where status=1";
-    return $sql ;db_query($sql, "could not get designation_master");
+    $sql = "SELECT * FROM " . TB_PREF . "user_workinghours where status=$status";
     
+    //$result = db_query($sql, "could not get designation_master");
+    return $sql;
 }
 function get_hours_list_Id($selected_id) {
     $sql = "SELECT * FROM " . TB_PREF . "user_workinghours WHERE id=" . db_escape($selected_id);
@@ -325,6 +325,18 @@ function submit_add_or_update_center_attendance2($add = true, $title = false, $a
     echo "<center>";
     submit_add_or_update_attendance2($add, $title, $async, $clone);
     echo "</center>";
+}
+
+function get_in_out_time_by_date($empl_id,$date){
+    
+    if ($empl_id && $date) {
+        $sql = "SELECT date_format(min(a_in_time),'%H:%i:%s') as login,date_format(max(a_out_time),'%H:%i:%s') as logout,sum(working_hours) as totalworktime FROM ".TB_PREF."users JOIN ".TB_PREF."user_attendance ON ".TB_PREF."users.empl_id=".TB_PREF."user_attendance.empl_id";
+		$sql .= " WHERE fa_user_attendance.empl_id = ". db_escape($empl_id);
+                $sql .= " AND fa_user_attendance.a_in_time LIKE ". db_escape("%$date%");
+	}
+        
+        $sql_query = db_query($sql);
+       return db_fetch_row($sql_query);
 }
 
 function kv_get_attendance_list($empl_id,$in_time,$out_time,$working_hours, $monthly){
@@ -579,5 +591,18 @@ function button_cell2($name, $value, $title = false, $icon = false, $aspect = ''
 function edit2_button_cell($name, $value, $title = false) {
     button_cell2($name, $value, $title, ICON_EDIT);
 }
-
+function decimal_to_time($decimal) {
+    $hours = (int)($decimal);
+    $formin = $decimal-$hours;
+    $minutes = (int)($formin * 60);
+    $forsec = ($formin * 60) - $minutes;
+    $seconds = round($forsec * 60);
+ 
+    return str_pad($hours, 2, "0", STR_PAD_LEFT) . ":" . str_pad($minutes, 2, "0", STR_PAD_LEFT) . ":" . str_pad($seconds, 2, "0", STR_PAD_LEFT);
+}
+function time_to_seconds($timestr) {
+$parts = explode(':', $timestr);
+$seconds = ($parts[0] * 60 * 60) + ($parts[1] * 60) + $parts[2];
+return $seconds;
+}
 ?>

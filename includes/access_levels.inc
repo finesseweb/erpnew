@@ -88,6 +88,7 @@ define('SS_TRANS_C',	122<<8);
 define('SS_TDS_C',	123<<8);
 define('SS_ATTENDANCE_C',124<<8);
 define('SS_TMS_C',	125<<8);
+define('SS_MANAGE_C', 126<<8);
 
 //define('SS_ACAD_T', 305 << 8);
 //define('SS_ACAD_M', 306 << 8);
@@ -138,6 +139,7 @@ $security_sections = array(
         SS_DIS => _("Dispatch transactions"),
         SS_DIS_A=> _("Dispatch analytics"),
         SS_MAINT_C=> _("Maintenance"),
+        SS_MANAGE_C=>_('Managements'),
     
        //========TDS=====================/
         SS_TDS_C => _("Vendor configuration"), 
@@ -370,6 +372,10 @@ $security_areas =array(
 	'SA_GLREP' => array(SS_GL_A|4, _("GL reports and inquiries")),
     
     
+    //Managements
+    'SA_ASSEMBLE'=>array(SS_MANAGE_C|1, _("Assemble Assets")),
+    'SA_CREATE_ASSETS'=>array(SS_MANAGE_C|2, _("Create Assets")),
+    
     
     
     
@@ -405,6 +411,7 @@ $security_areas =array(
 	'SA_UPDATEATTENDANCE' => array(SS_ATTENDANCE_C|5, _("Add Attendance")),
 	'SA_UPDATEATTENDANCEUSER' => array(SS_ATTENDANCE_C|6, _("Attendance chart")),
 	'SA_ATTENDANCE2' => array(SS_ATTENDANCE_C|7, _("Attendance Entry")),
+        'SA_ATTENDANCEUSER' => array(SS_ATTENDANCE_C|10, _("Attendance Inquiry")),
     
     //Transport
 	'SA_BOOKVEHICAL' => array(SS_TRANS_C|1, _("Book Your Vehical")),

@@ -64,21 +64,22 @@ $empl_id=$session_empl_id;
  
 //getting holiday list from the main website dmi database
 $calendar_leave_list = array();
-$start_date_end_date = array('start', 'end');
-set_global_connection(1);
-$result = get_calendar($show_inactive);
+$start_date_end_date = array('from_date', 'to_date');
+//set_global_connection(1);
+$fisical = get_current_fiscalyear();
+$result =  get_calendar($fisical,$show_inactive);
 $k = 0;
 $nos = db_num_rows($result);
 $i = 0;
 if ($nos != 0) {
     $cd1 = "";
     while ($myrow = db_fetch($result)) {
-        $date = $myrow["start"];
-        $end_date = $myrow["end"];
+        $date = $myrow["from_date"];
+        $end_date = $myrow["to_date"];
         $cd1 = "";
         for ($j = 0; $j < count($start_date_end_date); $j++) {
-            $calendar_leave_list_for_diff[$i][$start_date_end_date[$j]] = date('m/d/Y', strtotime($myrow[$start_date_end_date[$j]]));
-            $calendar_leave_inc_by_1_to_calculate_week_days[$i]['end'] = date('Y-m-d', strtotime(date('m/d/Y', strtotime($myrow[end]))." +1 days"));
+            $calendar_leave_list_for_diff[$i][$start_date_end_date[$j]] = $myrow[$start_date_end_date[$j]];
+            $calendar_leave_inc_by_1_to_calculate_week_days[$i]['to_date'] = date('Y-m-d', strtotime($myrow['to_date'])." +1 days");
             $calendar_leave_list_for_calculation[$i][$start_date_end_date[$j]] = date('Y-m-d', strtotime($myrow[$start_date_end_date[$j]]));
         }
         $i++;
@@ -130,7 +131,7 @@ if (get_post('_from_date_changed')) {
         }
     }
 
-    if (date2sql($_POST['from_date']) > date2sql($_POST['to_date'])) {
+    if (date2sql($_POST['from_date']) > date2sql($_POST['to_date'])){
         display_error("Selected To Date or From Date is Invalid!");
         set_focus('no_of_days');
         return false;
@@ -138,58 +139,57 @@ if (get_post('_from_date_changed')) {
         $result = get_weekly_off();
         $arr = array();
         $counter = array();
-        $last_id_leave=0;
         $weekly_off_days = 0;
         $start_date = date2sql($_POST["from_date"]);
-        $end_date = sql2date($_POST["to_date"]);
+        $end_date = date2sql($_POST["to_date"]);
+        //=====getting leave days weekend status
         $bool = get_leave_wekeend_status($_POST['employees_id'], $_POST["type_leave"], Date("Y"))[0];
-        if ($bool == 1) {
+         
+        //======if weekend status is 1 then do nothing and exicute else part
+       // if ($bool == 1) {
+            //fettcihing value form kv_empl_option and aligning in array
             while ($weekly_off = db_fetch($result)) {
-                array_push($arr, $arr[$weekly_off['option_name']] = $weekly_off['option_value']);
+                 $arr[$weekly_off['option_name']] = $weekly_off['option_value'];
             }
-            //taking first value of week off
-
-            $k = 0;
-            //calculation of holiday list form main dmi website 
+           
+            //calculation of holiday list by using main website dmi
              for ($i = 0; $i < (int) $nos; $i++) {
-              $diff_mon = date_diff2($calendar_leave_list_for_diff[$i]['start'], $calendar_leave_list_for_diff[$i]['end'], 'd');
-              $diff_between_start_end_dates = (1 + (-$diff_mon));
+              $diff_mon = date_diff2($calendar_leave_list_for_diff[$i]['from_date'], $calendar_leave_list_for_diff[$i]['to_date'], 'd');
+              
+              $diff_between_start_end_dates = (1 + ($diff_mon));
               $count_leave=0;
               for ($j = 0; $j <(int)$diff_between_start_end_dates; $j++) {
-              $date = $calendar_leave_list_for_diff[$i]['start'];
-              if(strtotime($date. ' + '.$j.' days') >= strtotime($_POST['from_date'])
-              AND strtotime($date. ' + '.$j.' days') <= strtotime($calendar_leave_list_for_diff[$i]['end'])
-              AND strtotime($date. ' + '.$j.' days') <=  strtotime($_POST['to_date'])) {  
-                 $check_week_days = date('D',strtotime($date. ' + '.$j.' days'));
-                 
-                 if(in_array($check_week_days, array('Sun','Sat'))){
+              $date = $calendar_leave_list_for_diff[$i]['from_date'];
+              if(strtotime($date. ' + '.$j.' days') >=  strtotime($_POST["from_date"])
+              && strtotime($date. ' + '.$j.' days') <= strtotime($calendar_leave_list_for_diff[$i]['to_date'])
+              && strtotime($date. ' + '.$j.' days') <=  strtotime($_POST["to_date"])){
+                
+                  $check_week_days = date('l',strtotime($date. ' + '.$j.' days'));
+                 if(!in_array($check_week_days, explode(',',$arr['weekly_off']))){
               $counter[$i] = ++$count_leave;
-              $last_id_leave=$i;
                  }
               }
-             }
+              }
 
               }
-              $total_count = calculate_holiday_leave($counter,$last_id_leave);
-             
-           // echo '<p>' . $total_count . '</p>';
-//calculation of weekend if there is holiday
-
-             $minu_weekly_off_days_from_dmi_main_site = array();
+              $total_count = calculate_holiday_leave($counter); 
+            //calculation of weekend 
+            //=========calculating weeks days by calling this function  
+              $minu_weekly_off_days_from_dmi_main_site = array();
+              
+                  
             $weekly_off_days = calculate_weekly_off($start_date, $end_date, $arr['weekly_off'], $_POST["type_leave"]);
-           /*  for ($i = 0; $i < (int) $nos; $i++) {
-                 $date = $calendar_leave_list_for_diff[$i]['start'];
-                if(strtotime($date. ' + '.$j.' days') >=  strtotime($_POST["from_date"])){
-            $minu_weekly_off_days_from_dmi_main_site[$i] = calculate_weekly_off($calendar_leave_list_for_calculation[$i]['start'], $calendar_leave_inc_by_1_to_calculate_week_days[$i]['end'], $arr['weekly_off'], $_POST["type_leave"]);
-                }
-             }   
-             $total_weekly_off_in_calendar = calculate_holiday_leave($minu_weekly_off_days_from_dmi_main_site); */
-            $diff_mon = date_diff2($_POST["from_date"], $_POST["to_date"], 'd');
-            $_POST['no_of_days'] =((1 + (-$diff_mon))) - (($weekly_off_days + $total_count));
-        } else {
-            $diff_mon = date_diff2($_POST["from_date"], $_POST["to_date"], 'd');
-            $_POST['no_of_days'] = (1 + (-$diff_mon)) - $weekly_off_days;
-        }
+            $postDiff = date_diff2(date2sql($_POST["from_date"]), date2sql($_POST["to_date"]), 'd');
+           
+             $_POST['no_of_days'] =(1 + $postDiff) -(($weekly_off_days+$total_count));
+              
+//        } else {
+//            //====simply calculate if weekend status is 1
+//       //  display_error($diff_mon); 
+//            $diff_mon = date_diff2(date2sql($_POST["from_date"]), date2sql($_POST["to_date"]), 'd');
+//              
+//            $_POST['no_of_days'] = (($diff_mon)-1) - $weekly_off_days;
+//        }
     }
     $Ajax->activate('no_of_days');
 
@@ -199,13 +199,13 @@ if (get_post('_from_date_changed')) {
     //	$holiday_res = db_query($holiday_sql);
     //	while($holiday_result = db_fetch($holiday_res)){
 
-    $holiday_date = get_holiday_check(date2sql($_POST['from_date']), date2sql($_POST['to_date']), $fiscal_year['0']);
-    if ($holiday_date != 0) {
-        display_error('Selected from date and to date range contains holidays  please change your schedule as per your holiday calendar');
-        return false;
-    } else {
-        // return true;
-    }
+//    $holiday_date = get_holiday_check(date2sql($_POST['from_date']), date2sql($_POST['to_date']), $fiscal_year['0']);
+//    if ($holiday_date != 0) {
+//        display_error('Selected from date and to date range contains holidays  please change your schedule as per your holiday calendar');
+//        return false;
+//    } else {
+//        // return true;
+//    }
     // }
     $samedts_data = get_empl_same_tdates($f1, $t1, $_POST['employees_id'], $req_date);
 
@@ -263,17 +263,18 @@ if (get_post('_to_date_changed')) {
 
     $company_year = get_company_pref('f_year');
     $fiscal_year = get_fiscalyear($company_year);
-    //$holiday_sql = "SELECT * FROM ".TB_PREF."kv_holiday_master WHERE fisc_year = '".$fiscal_year['0']."' AND inactive = 0";
+    
+//$holiday_sql = "SELECT * FROM ".TB_PREF."kv_holiday_master WHERE fisc_year = '".$fiscal_year['0']."' AND inactive = 0";
     //		$holiday_res = db_query($holiday_sql);
     //while($holiday_result = db_fetch($holiday_res)){
 
-    $holiday_date = get_holiday_check(date2sql($_POST['from_date']), date2sql($_POST['to_date']), $fiscal_year['0']);
-    if ($holiday_date != 0) {
-        display_error('Selected from date and to date range contains holidays  please change your schedule as per your holiday calendar');
-        return false;
-    } else {
-        // return true;
-    }
+//    $holiday_date = get_holiday_check(date2sql($_POST['from_date']), date2sql($_POST['to_date']), $fiscal_year['0']);
+//    if ($holiday_date != 0) {
+//        display_error('Selected from date and to date range contains holidays  please change your schedule as per your holiday calendar');
+//        return false;
+//    } else {
+//        // return true;
+//    }
     //}
 
     if (date2sql($_POST['from_date']) > date2sql($_POST['to_date'])) {
@@ -285,62 +286,57 @@ if (get_post('_to_date_changed')) {
         $arr = array();
         $counter = array();
         $weekly_off_days = 0;
-        $start_date_arr = explode("/", $_POST["from_date"]);
-        $end_date_arr = explode("/", $_POST["to_date"]);
-        $start_date = $start_date_arr[2] . "-" . $start_date_arr[0] . "-" . $start_date_arr[1];
-        $end_date = $end_date_arr[2] . "-" . $end_date_arr [0] . "-" . $end_date_arr[1];
+        $start_date = date2sql($_POST["from_date"]);
+        $end_date = date2sql($_POST["to_date"]);
         //=====getting leave days weekend status
         $bool = get_leave_wekeend_status($_POST['employees_id'], $_POST["type_leave"], Date("Y"))[0];
+         
         //======if weekend status is 1 then do nothing and exicute else part
         if ($bool == 1) {
             //fettcihing value form kv_empl_option and aligning in array
             while ($weekly_off = db_fetch($result)) {
-                array_push($arr, $arr[$weekly_off['option_name']] = $weekly_off['option_value']);
+                 $arr[$weekly_off['option_name']] = $weekly_off['option_value'];
             }
            
             //calculation of holiday list by using main website dmi
              for ($i = 0; $i < (int) $nos; $i++) {
-              $diff_mon = date_diff2($calendar_leave_list_for_diff[$i]['start'], $calendar_leave_list_for_diff[$i]['end'], 'd');
-              $diff_between_start_end_dates = (1 + (-$diff_mon));
+              $diff_mon = date_diff2($calendar_leave_list_for_diff[$i]['from_date'], $calendar_leave_list_for_diff[$i]['to_date'], 'd');
+              
+              $diff_between_start_end_dates = (1 + ($diff_mon));
               $count_leave=0;
               for ($j = 0; $j <(int)$diff_between_start_end_dates; $j++) {
-              $date = $calendar_leave_list_for_diff[$i]['start'];
+              $date = $calendar_leave_list_for_diff[$i]['from_date'];
               if(strtotime($date. ' + '.$j.' days') >=  strtotime($_POST["from_date"])
-              && strtotime($date. ' + '.$j.' days') <= strtotime($calendar_leave_list_for_diff[$i]['end'])
+              && strtotime($date. ' + '.$j.' days') <= strtotime($calendar_leave_list_for_diff[$i]['to_date'])
               && strtotime($date. ' + '.$j.' days') <=  strtotime($_POST["to_date"])){
                 
                   $check_week_days = date('l',strtotime($date. ' + '.$j.' days'));
-                 if($check_week_days != 'Sunday'){
-              $counter[$i] = ++$count_leave;
+                 if(!in_array($check_week_days, explode(',',$arr['weekly_off']))){
+                    $counter[$i] = ++$count_leave;
                  }
               }
               }
 
               }
               $total_count = calculate_holiday_leave($counter); 
+              
             //calculation of weekend 
             //=========calculating weeks days by calling this function  
               $minu_weekly_off_days_from_dmi_main_site = array();
               
                   
             $weekly_off_days = calculate_weekly_off($start_date, $end_date, $arr['weekly_off'], $_POST["type_leave"]);
-            
-            for ($i = 0; $i < (int) $nos; $i++) {
-                 $date = $calendar_leave_list_for_diff[$i]['start'];
-               if(strtotime($date. '+'.$j.'days') >=  strtotime($_POST["from_date"]) || strtotime($date. '+'.$j.'days') >=  strtotime($_POST["from_date"]) ){
-            $minu_weekly_off_days_from_dmi_main_site[$i] = calculate_weekly_off($calendar_leave_list_for_calculation[$i]['start'], $calendar_leave_inc_by_1_to_calculate_week_days[$i]['end'], $arr['weekly_off'], $_POST["type_leave"]);
-                }
-             }   
-             $total_weekly_off_in_calendar = calculate_holiday_leave($minu_weekly_off_days_from_dmi_main_site); 
-            $diff_mon = date_diff2($_POST["from_date"], $_POST["to_date"], 'd');
+            $postDiff = date_diff2(date2sql($_POST["from_date"]), date2sql($_POST["to_date"]), 'd');
            
-             $_POST['no_of_days'] =((1 + (-$diff_mon)))-(($weekly_off_days+$total_count));
+             $_POST['no_of_days'] =(1 + $postDiff) -(($weekly_off_days+$total_count));
+              
         } else {
             //====simply calculate if weekend status is 1
-       //  display_error($diff_mon); 
-            $diff_mon = date_diff2($_POST["from_date"], $_POST["to_date"], 'd');
-              
-            $_POST['no_of_days'] = (1 + (-$diff_mon)) - $weekly_off_days;
+           // display_error("hi".$total_count);
+          
+            $diff_mon = date_diff2(date2sql($_POST["from_date"]), date2sql($_POST["to_date"]), 'd');
+             // display_error($diff_mon);
+            $_POST['no_of_days'] = (($diff_mon)-1) - $weekly_off_days;
         }
     }
  //display_error($_POST['no_of_days']);
@@ -415,11 +411,10 @@ function empl_leave_data($empl_id) {
         }
         end_table(1);
         echo '-->';
-  // } else
+   if($total_days<=0)
         display_notification(_("No data Exist for the selected Employee."));
 
     start_table(TABLESTYLE);
-     display_error($empl_id);
      
       
     $employee_data = get_employee_desig($empl_id);
@@ -438,6 +433,8 @@ function empl_leave_data($empl_id) {
     $empl_paternity_leaves_count_yearly = 0;
     $empl_Compensatory_leaves = 0;
     $empl_Compensatory_leaves_present = 0;
+    $empl_holiday = 0;
+    $empl_holiday_present = 0;
     
     while ($empl_leave_count_yearly = db_fetch($em_lv_count_yrly)) {
         for ($k = 1; $k <= $total_days; $k++) {
@@ -472,6 +469,12 @@ function empl_leave_data($empl_id) {
             if($empl_leave_count_yearly[$k] == 'WO'){
                 $empl_Compensatory_leaves ++;
             }
+            if($empl_leave_count_yearly[$k] == 'H'){
+                $empl_Compensatory_leaves ++;
+            }
+             if($empl_leave_count_yearly[$k] == 'HP'){
+                $empl_holiday_present ++;
+            }
             if($empl_leave_count_yearly[$k] == 'WOP'){
                 $empl_Compensatory_leaves_present ++;
             }
@@ -487,7 +490,8 @@ function empl_leave_data($empl_id) {
     $tot_utilized_scl_leaves = $leaves['no_of_spl_cls'] - $empl_special_casual_leaves_count_yearly;
     $tot_utilized_mtl_leaves = $leaves['no_of_mat_ls'] - $empl_maternity_leaves_count_yearly;
     $tot_utilized_ptl_leaves = $leaves['no_of_patern_ls'] - $empl_paternity_leaves_count_yearly;
-    $tot_utilized_compensatory_leaves = $empl_Compensatory_leaves_present - $empl_Compensatory_leaves;
+    $tot_utilized_compensatory_leaves = ($empl_Compensatory_leaves_present + $empl_holiday_present) - $empl_Compensatory_leaves;
+    
     echo "<tr><td>" . _("No. of Casual Leaves") . "</td><td>" . $empl_casual_leaves_count_yearly . "</td><td>" . $tot_utilized_casual_leaves . "</td><td>" . (float)$leaves['no_of_cls'] . "</td></tr>";
     echo "<tr><td>" . _("No. of Vacation Leaves") . "</td><td>" . $empl_vacation_leaves_count_yearly . "</td><td>" . $tot_utilized_vacation_leaves . "</td><td>" . (float)$leaves['no_of_pls'] . "</td></tr>";
     echo "<tr><td>" . _("No. of Medical Leaves") . "</td><td>" . $empl_medical_leaves_count_yearly . "</td><td>" . $tot_utilized_medical_leaves . "</td><td>" . (float)$leaves['no_of_medical_ls'] . "</td></tr>";
@@ -499,7 +503,7 @@ function empl_leave_data($empl_id) {
     }
     echo "<tr><td>" . _("No. of Maternity Leaves") . "</td><td>" . $empl_paternity_leaves_count_yearly . "</td><td>" . $tot_utilized_mtl_leaves . "</td><td>" . (float)$leaves['no_of_mat_ls'] . "</td></tr>";
     echo "<tr><td>" . _("No. of Paternity Leaves") . "</td><td>" . $empl_paternity_leaves_count_yearly . "</td><td>" . $tot_utilized_ptl_leaves . "</td><td>" . (float)$leaves['no_of_patern_ls'] . "</td></tr>";
-    echo "<tr><td>" . _("No. of Compensatory Leaves") . "</td><td>" . $empl_Compensatory_leaves . "</td><td>" . $tot_utilized_compensatory_leaves . "</td><td>" . $empl_Compensatory_leaves_present . "</td></tr>";
+    echo "<tr><td>" . _("No. of Compensatory Leaves") . "</td><td>" . $empl_Compensatory_leaves . "</td><td>" . $tot_utilized_compensatory_leaves . "</td><td>" . (float)($empl_Compensatory_leaves_present + $empl_holiday_present) . "</td></tr>";
     end_table(2);
     div_end();
 
@@ -521,11 +525,11 @@ function display_employee_leave_records($selected_parent, $dept_id, $desig_group
 
             alt_table_row_color($k);
             $leave_name = get_leave_type($myrow["type_leave"]);
-            label_cell(date("d-m-Y",strtotime($myrow["request_date"])));
+            label_cell(sql2date($myrow["request_date"]));
             label_cell($leave_name["leave_type"]);
             label_cell($myrow["reason"]);
-            label_cell(date("d-m-Y",strtotime($myrow["from_date"])));
-            label_cell(date("d-m-Y",strtotime($myrow["to_date"])));
+            label_cell(sql2date($myrow["from_date"]));
+            label_cell(sql2date($myrow["to_date"]));
             label_cell($myrow["no_of_days"]);
             global $leave_approval_status;
             label_cell($leave_approval_status[$myrow["status"]]);
@@ -917,7 +921,7 @@ if ($selected_parent != '') {
     textarea_row(_("Reason:"), 'reason', null, 30, 4);
     date_row(_("From Date") . ":", 'from_date', 20, null, '', '', '', null, true, "from_date");
     date_row(_("To Date") . ":", 'to_date', 20, null, '', '', '', null, true, "to_date");
-    text_row_ex(_("No. of Days :"), 'no_of_days', 10, null, null, 1, null, null, false, true, 'num_day');
+    text_row_ex(_("No. of Days :"), 'no_of_days', 10, $_POST['no_of_days'], null, 1, null, null, false, true, 'num_day');
     file_row(_("Attached File") . ":", 'upload_file', 'upload_file');
     
    table_section(2,'width=33%');

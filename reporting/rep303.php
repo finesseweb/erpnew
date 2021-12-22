@@ -278,7 +278,7 @@ function print_stock_check()
 		$demandqty += get_demand_asm_qty($trans['stock_id'], $loc_code);
 		$onorder = get_on_porder_qty($trans['stock_id'], $loc_code);
 		$onorder += get_on_worder_qty($trans['stock_id'], $loc_code);
-		if ($no_zeros && $trans['QtyOnHand'] == 0 && $demandqty == 0 && $onorder == 0)
+		if ($no_zeros && $trans['QtyOnHand'] <= 0 && $demandqty <= 0 && $onorder <= 0)
 			continue;
 		if ($shortage && $trans['QtyOnHand'] - $demandqty >= 0)
 			continue;

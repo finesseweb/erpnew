@@ -12,22 +12,29 @@
 
 $page_security = 'SA_OPEN';
 $path_to_root="../../..";
-
+include_once($path_to_root . "/includes/date_functions.inc");
+include_once($path_to_root . "/includes/ui.inc");
 include($path_to_root . "/includes/session.inc"); 
 $js = '';
-if($version_id['version_id'] == '2.4.1'){
-	if ($SysPrefs->use_popup_windows) 
-		$js .= get_js_open_window(900, 500);	
+///display_error($version_id['version_id']);
+if ($version_id['version_id'] == '2.4.1') {
+     
+    if ($SysPrefs->use_popup_windows)
+        $js .= get_js_open_window(900, 500);
 
-	if (user_use_date_picker()) 
-		$js .= get_js_date_picker();
-	
-}else{
-	if ($use_popup_windows)
-		$js .= get_js_open_window(900, 500);
-	if ($use_date_picker)
-		$js .= get_js_date_picker();
+   if (user_use_date_picker()) 
+      
+     $js .= get_js_date_picker();
+}else {
+     
+    if ($SysPrefs->use_popup_windows)
+        $js .= get_js_open_window(900, 500);
+
+   if (user_use_date_picker()) 
+      
+     $js .= get_js_date_picker();
 }
+
 
 
 //page(_($help_context = "Holiday Master")); 
@@ -223,8 +230,8 @@ kv_fiscalyears_list_cells(_("Fiscal Year:"), 'fisc_year', null, true);
 text_row_ex(_("Name :*"), 'name', 30,null,null,null,null,null,true);
 //text_row_ex(_("Name :*"), 'leave_type', 30,null,null,null,null,null,true);
 textarea_row(_("Description:"), 'descpt',null, 27,4);
-date_row(_("From Date") . ":", 'from_date',20);
-date_row(_("To Date") . ":", 'to_date',20);
+date_row(_("From Date") . ":", 'from_date', 20, null, '', '', '', null, true, "from_date");
+date_row(_("To Date") . ":", 'to_date', 20, null, '', '', '', null, true, "to_date");
 end_table(1);
 
 submit_add_or_update_center($selected_id == -1, '', 'both');

@@ -40,7 +40,8 @@ class ExtendedHRM_app extends application{
         
      //  $this->add_rapp_function(0, _('Attendance Entry'), 'modules/ExtendedHRM/empl_attend.php', 'HR_ATTENDANCE', MENU_TRANSACTION); 
 
-		//$this->add_rapp_function(0, _('Leave Request'), 'modules/ExtendedHRM/manage/leave_request.php', 'HR_EMPL_INFO', //MENU_TRANSACTION);		
+		//$this->add_rapp_function(0, _('Leave Request'), 'modules/ExtendedHRM/manage/leave_request.php', 'HR_EMPL_INFO', //MENU_TRANSACTION);	
+        	$this->add_rapp_function(0, _('Componsentory Request'), 'modules/ExtendedHRM/manage/componsentory_request.php', 'HR_CMPFORM', MENU_TRANSACTION);
 	$this->add_rapp_function(0, _('Leave Request'), 'modules/ExtendedHRM/manage/bom_edit.php', 'HR_LEAVEFORM', MENU_TRANSACTION);	
                 
         $this->add_rapp_function(0, _('Tour Request'), 'modules/ExtendedHRM/manage/tour_request.php', 'HR_TOURFORM', MENU_TRANSACTION);
@@ -60,7 +61,7 @@ class ExtendedHRM_app extends application{
 
         $this->add_lapp_function(1, _('Attendance Inquiry'), 'modules/ExtendedHRM/inquires/attendance_inquiry.php', 'HR_SELATTENDANCE', MENU_INQUIRY);
         
-        $this->add_lapp_function(1, _('Attendance Inquiry'), 'modules/ExtendedHRM/inquires/attendance_inquiry_user.php', 'SA_SELATTENDANCE', MENU_INQUIRY);
+       
         
         $this->add_lapp_function(1, _('PF Inquirty'), 'modules/ExtendedHRM/inquires/pf_report.php', 'SA_PF_REPORT', MENU_INQUIRY);
         
@@ -73,7 +74,9 @@ class ExtendedHRM_app extends application{
         $this->add_lapp_function(1, _('Contract Inquiry'), 'modules/ExtendedHRM/inquires/contract_inquiry.php', 'HR_EMPLOYEE_INQ', MENU_INQUIRY);
         
 		//$this->add_lapp_function(1, _('Leaves Request Report'), 'modules/ExtendedHRM/inquires/leaves_request_report.php', //'HR_EMPLOYEE_INQ', MENU_INQUIRY);
-	$this->add_lapp_function(1,_('Leave Approval'),
+	$this->add_lapp_function(1,_('Componsentory Approval'),
+		'modules/ExtendedHRM/inquires/componsentory_aproval.php','HR_CMPFORM_APROVAL', MENU_INQUIRY);
+        $this->add_lapp_function(1,_('Leave Approval'),
 		'modules/ExtendedHRM/inquires/leaves_request_report_new.php','HR_EMPLOYEE_INQ', MENU_INQUIRY);
         
 	$this->add_lapp_function(1,_('Leave Encashment Approval'),
@@ -115,16 +118,17 @@ class ExtendedHRM_app extends application{
           
           $this->add_lapp_function(2, _('Leave Encashment'), 'modules/ExtendedHRM/manage/leave_encashment.php', 'HR_LEAVENCASHBASED', MENU_MAINTENANCE);
           
-          $this->add_lapp_function(2, _("Holiday List"), 'modules/ExtendedHRM/manage/calendar_master.php', 'HR_DMIHOLIDAY', MENU_MAINTENANCE);
+         // $this->add_lapp_function(2, _("Holiday List"), 'modules/ExtendedHRM/manage/calendar_master.php', 'HR_DMIHOLIDAY', MENU_MAINTENANCE);
 	  
 	   $this->add_lapp_function(2, _('Type of Leave'), 'modules/ExtendedHRM/manage/type_of_leave_master.php', 'HR_TYPELEAVE', MENU_MAINTENANCE);
 	   
-	   //$this->add_lapp_function(2, _('Holiday Master'), 'modules/ExtendedHRM/manage/holiday_master.php', 'HR_EMPL_INFO', MENU_MAINTENANCE);
+	   $this->add_lapp_function(2, _('Holiday Master'), 'modules/ExtendedHRM/manage/holiday_master.php', 'HR_EMPL_INFO', MENU_MAINTENANCE);
 	   
 
         $this->add_lapp_function(2, _('Allowance Setup'), 'modules/ExtendedHRM/manage/pay_items_setup.php', 'HR_ALLOWANCE', MENU_MAINTENANCE);
         
         $this->add_lapp_function(2, _('Salary Finance Setup'), 'modules/ExtendedHRM/manage/hrm_finance_setup.php', 'HR_FINANCE', MENU_MAINTENANCE);
+         $this->add_lapp_function(2, _('Settings'), 'modules/ExtendedHRM/manage/hrm_settings.php', 'HR_EMPLOYEE_SETUP', MENU_MAINTENANCE);
 
      //   $this->add_rapp_function(2, _('Taxes'), 'modules/ExtendedHRM/tax/', 'HR_EMPL_TAX', MENU_MAINTENANCE);
 
@@ -135,7 +139,7 @@ class ExtendedHRM_app extends application{
     //   $this->add_rapp_function(2, _('Contact Me'), 'http://www.kvcodes.com/contact-me/', 'SA_OPEN', MENU_MAINTENANCE);
 
 
-       $this->add_rapp_function(2, _('Settings'), 'modules/ExtendedHRM/manage/hrm_settings.php', 'HR_EMPLOYEE_SETUP', MENU_MAINTENANCE);
+      
        
        //  $this->add_rapp_function(2, _('Gazetted Off Days'), 'modules/ExtendedHRM/manage/off_days.php', 'SA_EMPLOYEE', MENU_MAINTENANCE); 
 
@@ -231,21 +235,23 @@ class hooks_ExtendedHRM extends hooks {
          $security_areas['SA_ESI_REPORT'] = array(SS_EXHRM|100, _("ESI Inquiry"));
          
          $security_areas['HR_SELATTENDANCE'] = array(SS_EXHRM|5, _("Selective Attendance List Show"));
-       
-         
+      
          $security_areas['HR_LOANIN'] = array(SS_EXHRM|6, _("Loan Approve Inquiry"));
-
+       
          $security_areas['HR_LEAVEFORM'] = array(SS_EXHRM|7, _("Leave Application Form"));
          
          $security_areas['HR_ENCASHMENT_REQUEST'] = array(SS_EXHRM|9, _("Leave Encashment Application Form"));
          
          $security_areas['HR_TOURFORM'] = array(SS_EXHRM|8, _("Tour Application Form"));
-
+        $security_areas['HR_CMPFORM_APROVAL'] = array(SS_EXHRM|200, _("Compensatory Aproval Form"));
+        $security_areas['HR_CMPFORM'] = array(SS_EXHRM|300, _("Compensatory Request Form"));
+         
          $security_areas['HR_LOANTYPE'] = array(SS_EXHRM_SETTINGS|3, _("Loan Type Setup"));
 		 
          $security_areas['HR_EMPLOYEE_SETUP'] = array(SS_EXHRM_SETTINGS|3, _("Setup"));
 
          $security_areas['SA_SELATTENDANCE'] = array(SS_EXHRM_EMPLOYEE|1, _("Attendance Inquiry"));
+         
            
          $security_areas['HR_PAYSLIP_USER'] = array(SS_EXHRM_EMPLOYEE|2, _("Payroll Inquiry"));
          

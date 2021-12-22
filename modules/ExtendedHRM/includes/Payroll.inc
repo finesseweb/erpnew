@@ -255,15 +255,15 @@ function kv_get_employees_list_based_on_dept1($dept_id, $rep=false) {
 
     if($dept_id == 0){
         //get_all_employees();
-        $sql = "SELECT empl_id, empl_firstname FROM ".TB_PREF."kv_empl_info";
+        $sql = "SELECT empl_id, empl_firstname FROM ".TB_PREF."kv_empl_info where status = 1";
   
         return db_query($sql, "The employee table is inaccessible");
 
     } else{
 	if($rep == true){
-		$sql="SELECT info.*, job.* FROM ".TB_PREF."kv_empl_job job JOIN ".TB_PREF."kv_empl_info info ON info.empl_id = job.empl_id WHERE job.department=".db_escape($dept_id) ;
+		$sql="SELECT info.*, job.* FROM ".TB_PREF."kv_empl_job job JOIN ".TB_PREF."kv_empl_info info ON info.empl_id = job.empl_id WHERE info.status =1 and  job.department=".db_escape($dept_id) ;
 	}else{	
-		$sql="SELECT info.empl_firstname, job.empl_id FROM ".TB_PREF."kv_empl_job job JOIN ".TB_PREF."kv_empl_info info ON info.empl_id = job.empl_id WHERE  job.department=".db_escape($dept_id);
+		$sql="SELECT info.empl_firstname, job.empl_id FROM ".TB_PREF."kv_empl_job job JOIN ".TB_PREF."kv_empl_info info ON info.empl_id = job.empl_id WHERE info.status = 1 and  job.department=".db_escape($dept_id);
         }
         return db_query($sql, "could not get the selected Employees");
     }
@@ -273,7 +273,6 @@ function kv_get_employees_list_based_on_dept2($dept_id, $rep=false, $empl_id='')
     if($dept_id == 0){
         //get_all_employees();
         $sql = "SELECT empl_id, empl_firstname FROM ".TB_PREF."kv_empl_info where empl_id=".db_escape($empl_id);
-  
         return db_query($sql, "The employee table is inaccessible");
 
     } else{

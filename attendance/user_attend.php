@@ -51,8 +51,13 @@ simple_page_mode(true);
         $compare_date =date('Y-m-d');
         if (isset($_POST['attendance_date'])){
             $compare_date = $_POST['attendance_date'];
+           
         }
-        
+        $result = get_weekly_off();
+        $woarr = array();
+         while ($weekly_off = db_fetch_assoc($result)) {
+                $woarr[$weekly_off['option_name']] = $weekly_off['option_value'];
+            }
         $emp_id = '';
         $leave_result_type = '';
         $from_date = '';
@@ -153,7 +158,7 @@ simple_page_mode(true);
             if (isset($_POST['selected_id']) && $_POST['selected_id'] > 0) {
                 $_POST['selected_id'] = input_num('selected_id');
             }
-            start_table(TABLESTYLE2,attend);
+            start_table(TABLESTYLE2);
             start_row();
             date_cells(_("Date") . ":", 'attendance_date', null, null, 0, 0, 0, null,true);
             department_list_cells(_("Select a Department: "), 'selected_id', null, _('No Department'), true, check_value('show_inactive'));
@@ -171,7 +176,7 @@ simple_page_mode(true);
             }
             if (list_updated('attendance_date')) {
                 $attendance_date = get_post('attendance_date');
-                $Ajax->activate('totals_tbl');
+               // $Ajax->activate('totals_tbl');
             }
 
 
@@ -220,52 +225,30 @@ simple_page_mode(true);
                         <!-- 	<marquee style="color:red;font-size:20px;">Mr/Ms.<?php echo '   ' . $row3['empl_firstname'] . ' ( ' . $row3['empl_id'] . ' ) ' . ' of ' . $dept_result[0] . '  department has applied a ' . $type_leave_result[0] . ' for today'; ?></marquee>  -->
                 <?php
             }
-            /* while($emp_result = db_fetch($leaves_res1)) {
-
-              display_error('dsds');
-
-              //for($i=$emp_result['from_date'];$i<=$_POST['attendance_date'];$i++){
-              //display_error($emp_result['from_date']);
-              $f_date=$emp_result['approved_from_date'];
-              $t_date=$emp_result['approved_to_date'];
-
-              //while($f_date<=$t_date){
-              //if($emp_result['to_date'] <= $_POST['attendance_date'] )
-              //{
-              //display_error($f_date);
-              //if($f_date == $_POST['attendance_date']){
-              $sql3 = "SELECT empl_firstname,empl_id FROM ".TB_PREF."kv_empl_info WHERE empl_id=".db_escape($emp_result['employees_id'])."LIMIT 1";
-              $result3 = db_query($sql3, "could not get sales type");
-
-              $row3 = db_fetch_row($result3);
-
-              $emp_name= $row3[0];
-              if($emp_result['type_leave'] == 1){
-              $leave = 'Casual Leave';
-              }
-              else if($emp_result['type_leave'] == 2){
-              $leave = 'Medical Leave';
-              }
-              else if($emp_result['type_leave'] == 3){
-              $leave = 'Vacation Leave';
-              }
-              else {
-              $leave = '';
-              }
-              ?>
-
-              <!--  <marquee style="color:red;font-size:20px;">Mr/Ms.<?php echo '   '.$emp_name.' ( '.$row3[1].' ) '.' of '.$emp_result['department'].'  department has applyed a '.$leave.' for today';?></marquee>  -->
-              <?php
-              //}
-              $f_date = date ("m/d/Y", strtotime ($f_date ."+1 days"));
-              //}
-              } */
-          
-            start_table(TABLESTYLE,attend);
+            start_table(TABLESTYLE);
 
             //table_section_title(_("Employees List"));
             //echo '<tr> <th class="tableheader"> Empl ID</th> <th class="tableheader"> Employee Name </th> <th class="tableheader"> Present</th> <th class="tableheader"> Absent </th> <th class="tableheader"> On Duty</th> <th class="tableheader"> Half Day</th> </tr>' ;
-            echo '<tr> <th class="tableheader">Empl ID</th><th class="tableheader"> Employee Name </th><th class="tableheader"> Present</th> <th class="tableheader"> Absent </th><th class="tableheader">Half Day</th> <th class="tableheader">CL</th><th class="tableheader">HCL</th><th class="tableheader">VL</th> <th class="tableheader">OD</th> <th class="tableheader">ML</th> <th class="tableheader">EL</th> <th class="tableheader">SCL</th> <th class="tableheader">H</th> <th class="tableheader">HP</th> <th class="tableheader">CO</th> <th class="tableheader">COP</th> <th class="tableheader">MTL</th><th class="tableheader">PTL</th><th class="tableheader">OTP</th></tr>';
+            echo '<tr> <th class="tableheader">Empl ID</th>'
+            . '<th class="tableheader"> Employee Name </th>'
+                    . '<th class="tableheader"> Present</th> '
+                    . '<th class="tableheader"> Absent </th>'
+                    . '<th class="tableheader">Half Day</th>'
+                    . ' <th class="tableheader">CL</th>'
+                    . '<th class="tableheader">HCL</th>'
+                    . '<th class="tableheader">VL</th> '
+                    . '<th class="tableheader">OD</th>'
+                    . ' <th class="tableheader">ML</th> '
+                    . '<th class="tableheader">EL</th>'
+                    . '<th class="tableheader">SCL</th> '
+                    . '<th class="tableheader">H</th> '
+                    . '<th class="tableheader">HP</th> '
+                    . '<th class="tableheader">CO</th>'
+                    . '<th class="tableheader">WOP</th> '
+                    . '<th class="tableheader">MTL</th>'
+                    . '<th class="tableheader">PTL</th>'
+                    . '<th class="tableheader">OTP</th>'
+                    . '</tr>';
             if ($selected_id == 0){
                 label_cell('select department to note the attendence');
             }
@@ -280,12 +263,12 @@ simple_page_mode(true);
 
                 $i = 1;
                 //display_notification(json_encode($day_absentees));
-
+                          // "SELECT * FROM " . TB_PREF . "kv_holiday_master WHERE fisc_year = '" . $fiscal_year['0'] . "' AND inactive = 0"             
+                    $holiday_res = get_holidays(true);
                 while ($row = db_fetch_assoc($selected_empl)) {
 
                    
-                    $holiday_sql = "SELECT * FROM " . TB_PREF . "kv_holiday_master WHERE fisc_year = '" . $fiscal_year['0'] . "' AND inactive = 0";
-                    $holiday_res = db_query($holiday_sql);
+                    
                     
                     $empl_data_result = get_employee_data($row['empl_id'], $selected_id);
                     
@@ -368,7 +351,7 @@ simple_page_mode(true);
 
                     $tot_utilized_maternity_leaves = $leaves['no_of_mat_ls'] - $empl_maternity_leaves_count_yearly;
                     $tot_utilized_paternity_leaves = $leaves['no_of_patern_ls'] - $empl_paternity_leaves_count_yearly;
-                    $show_leave .= $row['empl_id'] . ",";
+                   // $show_leave .= $row['empl_id'] . ",";
                     //Monthly count of leaves
                     echo '<input type="hidden" name="employee_gender" id="employee_gender' . $row['empl_id'] . '"  value="' . $employee_gender['0'] . '"/>';
                     echo '<input type="hidden" name="empl_tot_cl_count" id="empl_tot_cl_count' . $row['empl_id'] . '" value="' . $tot_utilized_casual_leaves . '" />';
@@ -434,23 +417,22 @@ simple_page_mode(true);
                     
                         $date = date('Y-m-d',strtotime($compare_date));
                         $curdatte = date('Y-m-d');
-                        if($date==$curdatte) {
-                         $leave_query = array(
-                            'employees_id = ' => db_escape($row['empl_id'])." AND ",
-                            'approved_from_date >=' => db_escape($date)." AND ", 
-                           
-                            'status = ' => '2'.' AND ',
-                        );
-                        
-                        }
-                        else {
+//                        if($date==$curdatte) {
+//                         $leave_query = array(
+//                            'employees_id = ' => db_escape($row['empl_id'])." AND ",
+//                            'approved_from_date >=' => db_escape($date)." AND ", 
+//                            'status = ' => '2'.' AND ',
+//                        );
+//                        
+//                        }
+//                        else {
                         $leave_query = array(
                             'employees_id = ' => db_escape($row['empl_id'])." AND ",
                             'approved_from_date <=' => db_escape($date)." AND ", 
                             'approved_to_date >=' => db_escape($date)." AND ",
                             'status = ' => '2'.' AND ',
                         );
-                        }
+//                        }
                     /*if (array_key_exists($row['empl_id'], $day_absentees) && $day_absentees[$row['empl_id']] == "P") {
 
                         echo kv_radio(" ", 'Empl_' . $row['empl_id'], "P", "selected", false, $disabled);
@@ -472,11 +454,13 @@ simple_page_mode(true);
                     }*/
                     $flag = 0;
                     $date=date('Y-m-d',strtotime($_POST['attendance_date']));
+                    $day = date('D',strtotime($_POST['attendance_date']));
                     $mdate=date('m',strtotime($_POST['attendance_date']));
                     $ddate=date('d',strtotime($_POST['attendance_date']));
                     $ydate=date('Y',strtotime($_POST['attendance_date']));
                     $mdate1=intval($mdate);
                     $ddate1=intval($ddate);
+                    
                     if(get_post('manually_val')) {
                      
                         $holiday_sql = "SELECT * FROM fa_kv_empl_attendancee WHERE month LIKE ".db_escape("$mdate1")." AND cal_year LIKE ".db_escape("%$ydate%")." AND `$ddate1`!='' AND `$ddate1`!='A' AND empl_id = ".db_escape($row['empl_id']);
@@ -490,9 +474,11 @@ simple_page_mode(true);
                     $attendance_result23 = db_fetch($attendance_res);
                                      
 
-                    if (!empty($attendance_result23)) {
-                            // print_r($attendance_result23);
+                    if (!empty($attendance_result23)){
+                        if(!in_array($day, explode(',',$woarr['weekly_off'])))
                             echo kv_radio(" ", 'Empl_' . $row['empl_id'], "P", "selected", false, $disabled);
+                        else
+                            echo kv_radio(" ", 'Empl_' . $row['empl_id'], "P", "", false, $disabled);
                     }else {
                             echo kv_radio(" ", 'Empl_' . $row['empl_id'], "P", "", false, $disabled);
                     }
@@ -542,7 +528,10 @@ simple_page_mode(true);
                     if (!empty($attendance_result23)) {
                             echo kv_radio(" ", 'Empl_' . $row['empl_id'], "A", "", false, $disabled);
                     }else {
+                        if(!in_array($day, explode(',',$woarr['weekly_off'])))
                             echo kv_radio(" ", 'Empl_' . $row['empl_id'], "A", "selected", false, $disabled);
+                        else
+                          echo kv_radio(" ", 'Empl_' . $row['empl_id'], "A", "", false, $disabled);  
                     }
                     
                     echo '</td><td>';
@@ -580,10 +569,7 @@ simple_page_mode(true);
                         echo kv_radio(" ", 'Empl_' . $row['empl_id'], "CL", "selected", false, $disabled);
                     else
                         $flag = 0;
-                    $holiday_sql = "SELECT * FROM " . TB_PREF . "kv_holiday_master WHERE fisc_year = '" . $fiscal_year['0'] . "' AND inactive = 0";
-                    $holiday_res = db_query($holiday_sql);
                     while ($holiday_result = db_fetch($holiday_res)) {
-
                         if ((date2sql($_POST['attendance_date']) >= $holiday_result['from_date']) && (date2sql($_POST['attendance_date']) <= $holiday_result['to_date'])) {
                             $flag = 1;
                             if ($flag == 1) {
@@ -611,16 +597,13 @@ simple_page_mode(true);
                            echo kv_radio(" ", 'Empl_' . $row['empl_id'], "CL",'', false, $disabled, 'Empl_' . $row['empl_id'] . '_CL', 'onchange="select_value(this.value,' . $row['empl_id'] . ')"');
                        }        
                     }
-                    
-                    
-
                     echo '</td><td>';
+                    
+                    
                     if (array_key_exists($row['empl_id'], $day_absentees) && $day_absentees[$row['empl_id']] == "HCL")
                         echo kv_radio(" ", 'Empl_' . $row['empl_id'], "HCL", "selected", false, $disabled);
                     else
                         $flag = 0;
-                    $holiday_sql = "SELECT * FROM " . TB_PREF . "kv_holiday_master WHERE fisc_year = '" . $fiscal_year['0'] . "' AND inactive = 0";
-                    $holiday_res = db_query($holiday_sql);
                     while ($holiday_result = db_fetch($holiday_res)) {
 
                         if ((date2sql($_POST['attendance_date']) >= $holiday_result['from_date']) && (date2sql($_POST['attendance_date']) <= $holiday_result['to_date'])) {
@@ -634,17 +617,15 @@ simple_page_mode(true);
                         $leave_query['type_leave = '] = 9;//=====9 is HALF DAY CL IN DATABASE ====//
                         $is_approved = get_empl_approved_leaves($leave_query, 'kv_allocation_request');
                         $selected = $is_approved?'selected':null;
-                        
-                        
                         echo kv_radio(" ", 'Empl_' . $row['empl_id'], "HCL", $selected, false, $disabled, 'Empl_' . $row['empl_id'] . '_HCL', 'onchange="select_value(this.value,' . $row['empl_id'] . ')"');
                     }
                     echo '</td><td>';
+                    
+                    
                     if (array_key_exists($row['empl_id'], $day_absentees) && $day_absentees[$row['empl_id']] == "VL")
                         echo kv_radio(" ", 'Empl_' . $row['empl_id'], "VL", "selected", false, $disabled);
                     else
                         $flag = 0;
-                    $holiday_sql = "SELECT * FROM " . TB_PREF . "kv_holiday_master WHERE fisc_year = '" . $fiscal_year['0'] . "' AND inactive = 0";
-                    $holiday_res = db_query($holiday_sql);
                     while ($holiday_result = db_fetch($holiday_res)) {
 
                         if ((date2sql($_POST['attendance_date']) >= $holiday_result['from_date']) && (date2sql($_POST['attendance_date']) <= $holiday_result['to_date'])) {
@@ -654,22 +635,19 @@ simple_page_mode(true);
                             }
                         }
                     }if ($flag == 0) {
-                                                unset($leave_query['type_leave = ']);
+                        unset($leave_query['type_leave = ']);
                         $leave_query['type_leave = '] = 3;//=====3 is Vacational leave IN DATABASE ====//
                         $is_approved = get_empl_approved_leaves($leave_query, 'kv_allocation_request');
                         $selected = $is_approved?'selected':null;
-                        
                         echo kv_radio(" ", 'Empl_' . $row['empl_id'], "VL", $selected, false, $disabled, 'Empl_' . $row['empl_id'] . '_VL', 'onchange="select_value(this.value,' . $row['empl_id'] . ')"');
                     }
-
                     echo '</td><td>';
+                    
 
                     if (array_key_exists($row['empl_id'], $day_absentees) && $day_absentees[$row['empl_id']] == "OD")
-                        echo kv_radio(" ", 'Empl_' . $row['empl_id'], "OD", "selected", false, $disabled);
+                        echo kv_radio(" ", 'Empl_' . $row['empl_id'], "OD", "selected", false, $disabled, 'Empl_' . $row['empl_id'], 'onchange="select_value(this.value,' . $row['empl_id'] . ')"');
                     else
                         $flag = 0;
-                    $holiday_sql = "SELECT * FROM " . TB_PREF . "kv_holiday_master WHERE fisc_year = '" . $fiscal_year['0'] . "' AND inactive = 0";
-                    $holiday_res = db_query($holiday_sql);
                     while ($holiday_result = db_fetch($holiday_res)) {
 
                         if ((date2sql($_POST['attendance_date']) >= $holiday_result['from_date']) && (date2sql($_POST['attendance_date']) <= $holiday_result['to_date'])) {
@@ -682,13 +660,13 @@ simple_page_mode(true);
                         echo kv_radio(" ", 'Empl_' . $row['empl_id'], "OD", null, false, $disabled, 'Empl_' . $row['empl_id'], 'onchange="select_value(this.value,' . $row['empl_id'] . ')"');
                     }
                     echo '</td><td>';
+                    
 //===========option button for medical leaves 
                     if (array_key_exists($row['empl_id'], $day_absentees) && $day_absentees[$row['empl_id']] == "ML")
-                        echo kv_radio(" ", 'Empl_' . $row['empl_id'], "ML", "selected", false, $disabled);
+                        echo kv_radio(" ", 'Empl_' . $row['empl_id'], "ML", "selected", false, $disabled, 'Empl_' . $row['empl_id'], 'onchange="select_value(this.value,' . $row['empl_id'] . ')"');
                     else
                         $flag = 0;
-                    $holiday_sql = "SELECT * FROM " . TB_PREF . "kv_holiday_master WHERE fisc_year = '" . $fiscal_year['0'] . "' AND inactive = 0";
-                    $holiday_res = db_query($holiday_sql);
+               
                     while ($holiday_result = db_fetch($holiday_res)) {
 
                         if ((date2sql($_POST['attendance_date']) >= $holiday_result['from_date']) && (date2sql($_POST['attendance_date']) <= $holiday_result['to_date'])) {
@@ -707,13 +685,13 @@ simple_page_mode(true);
                         echo kv_radio(" ", 'Empl_' . $row['empl_id'], "ML", $selected, false, $disabled, 'Empl_' . $row['empl_id'] . '_ML', 'onchange="select_value(this.value,' . $row['empl_id'] . ')"');
                     }
                     echo '</td><td>';
-//=======option button of newly added earned leaves                    
+//=======option button of newly added earned leaves    
+                    
                        if (array_key_exists($row['empl_id'], $day_absentees) && $day_absentees[$row['empl_id']] == "EL")
-                        echo kv_radio(" ", 'Empl_' . $row['empl_id'], "EL", "selected", false, $disabled);
+                        echo kv_radio(" ", 'Empl_' . $row['empl_id'], "EL", "selected", false, $disabled, 'Empl_' . $row['empl_id'], 'onchange="select_value(this.value,' . $row['empl_id'] . ')"');
                     else
                         $flag = 0;
-                    $holiday_sql = "SELECT * FROM " . TB_PREF . "kv_holiday_master WHERE fisc_year = '" . $fiscal_year['0'] . "' AND inactive = 0";
-                    $holiday_res = db_query($holiday_sql);
+               
                     while ($holiday_result = db_fetch($holiday_res)) {
 
                         if ((date2sql($_POST['attendance_date']) >= $holiday_result['from_date']) && (date2sql($_POST['attendance_date']) <= $holiday_result['to_date'])) {
@@ -735,11 +713,10 @@ simple_page_mode(true);
 //========option button for special cause leaves                     
                     
                     if (array_key_exists($row['empl_id'], $day_absentees) && $day_absentees[$row['empl_id']] == "SCL")
-                        echo kv_radio(" ", 'Empl_' . $row['empl_id'], "SCL", "selected", false, $disabled);
+                        echo kv_radio(" ", 'Empl_' . $row['empl_id'], "SCL", "selected", false, $disabled, 'Empl_' . $row['empl_id'], 'onchange="select_value(this.value,' . $row['empl_id'] . ')"');
                     else
                         $flag = 0;
-                    $holiday_sql = "SELECT * FROM " . TB_PREF . "kv_holiday_master WHERE fisc_year = '" . $fiscal_year['0'] . "' AND inactive = 0";
-                    $holiday_res = db_query($holiday_sql);
+                 
                     while ($holiday_result = db_fetch($holiday_res)) {
 
                         if ((date2sql($_POST['attendance_date']) >= $holiday_result['from_date']) && (date2sql($_POST['attendance_date']) <= $holiday_result['to_date'])) {
@@ -749,19 +726,17 @@ simple_page_mode(true);
                             }
                         }
                     }if ($flag == 0) {
-
-                                               unset($leave_query['type_leave = ']);
+                        unset($leave_query['type_leave = ']);
                         $leave_query['type_leave = '] = 4;//=====4 is Special Cause Leave IN DATABASE ====//
                         $is_approved = get_empl_approved_leaves($leave_query, 'kv_allocation_request');
                         $selected = $is_approved?'selected':null;
 
                         echo kv_radio(" ", 'Empl_' . $row['empl_id'], "SCL", $selected, false, $disabled, 'Empl_' . $row['empl_id'] . '_SCL', 'onchange="select_value(this.value,' . $row['empl_id'] . ')"');
                     }
-
                     echo '</td><td>';
 
                     if (array_key_exists($row['empl_id'], $day_absentees) && $day_absentees[$row['empl_id']] == "H")
-                        echo kv_radio(" ", 'Empl_' . $row['empl_id'], "H", "selected", false, $disabled);
+                        echo kv_radio(" ", 'Empl_' . $row['empl_id'], "H", "selected", false, $disabled, 'Empl_' . $row['empl_id'], 'onchange="select_value(this.value,' . $row['empl_id'] . ')"');
                     else
                         $flag = 0;
                     $holiday_sql = "SELECT * FROM " . TB_PREF . "kv_holiday_master WHERE fisc_year = '" . $fiscal_year['0'] . "' AND inactive = 0";
@@ -782,62 +757,64 @@ simple_page_mode(true);
 
                     echo '</td><td>';
 
-                    if (array_key_exists($row['empl_id'], $day_absentees) && $day_absentees[$row['empl_id']] == "HP")
-                        echo kv_radio(" ", 'Empl_' . $row['empl_id'], "HP", "selected", false, $disabled);
+                    if (array_key_exists($row['empl_id'], $day_absentees) && $day_absentees[$row['empl_id']] == "HP"){
+                        display_error("hii");
+                    echo kv_radio(" ", 'Empl_' . $row['empl_id'], "HP", "selected", false, $disabled, 'Empl_' . $row['empl_id'], 'onchange="select_value(this.value,' . $row['empl_id'] . ')"');}
                     else
-                        echo kv_radio(" ", 'Empl_' . $row['empl_id'], "HP", null, false, $disabled);
+                        echo kv_radio(" ", 'Empl_' . $row['empl_id'], "HP", null, false, $disabled, 'Empl_' . $row['empl_id'], 'onchange="select_value(this.value,' . $row['empl_id'] . ')"');
                     echo '</td><td>';
 
-                    if (array_key_exists($row['empl_id'], $day_absentees) && $day_absentees[$row['empl_id']] == "WO")
+                    
+                     if (array_key_exists($row['empl_id'], $day_absentees) && $day_absentees[$row['empl_id']] == "WO" )
                         echo kv_radio(" ", 'Empl_' . $row['empl_id'], "WO", "selected", false, $disabled, 'Empl_' . $row['empl_id'], 'onchange="select_value(this.value,' . $row['empl_id'] . ')"');
                     else
                         $flag = 0;
-                    $holiday_sql = "SELECT * FROM " . TB_PREF . "kv_holiday_master WHERE fisc_year = '" . $fiscal_year['0'] . "' AND inactive = 0";
-                    $holiday_res = db_query($holiday_sql);
                     while ($holiday_result = db_fetch($holiday_res)) {
-
                         if ((date2sql($_POST['attendance_date']) >= $holiday_result['from_date']) && (date2sql($_POST['attendance_date']) <= $holiday_result['to_date'])) {
                             $flag = 1;
                             if ($flag == 1) {
-
-                                echo kv_radio(" ", 'Empl_' . $row['empl_id']."WO", "WO", null, false, "disabled='disabled'",'Empl_' . $row['empl_id'] . '_WO');
+                                echo kv_radio(" ", 'Empl_' . $row['empl_id'], "WO", null, false, "disabled='disabled'", 'Empl_' . $row['empl_id'].'_WO', 'onchange="select_value(this.value,' . $row['empl_id'] . ')"');
                             }
                         }
-                    } if ($flag == 0) {
-
-                        echo kv_radio(" ", 'Empl_' . $row['empl_id'], "WO", null, false, $disabled,'Empl_' . $row['empl_id'] . '_WO');
-                    }
-                    echo '</td><td>';
-
-                    if (array_key_exists($row['empl_id'], $day_absentees) && $day_absentees[$row['empl_id']] == "WOP")
-                        echo kv_radio(" ", 'Empl_' . $row['empl_id'], "WOP", "selected", false, $disabled);
-                    else
-                        $flag = 0;
-                    $holiday_sql = "SELECT * FROM " . TB_PREF . "kv_holiday_master WHERE fisc_year = '" . $fiscal_year['0'] . "' AND inactive = 0";
-                    $holiday_res = db_query($holiday_sql);
-                    while ($holiday_result = db_fetch($holiday_res)) {
-
-                        if ((date2sql($_POST['attendance_date']) >= $holiday_result['from_date']) && (date2sql($_POST['attendance_date']) <= $holiday_result['to_date'])) {
-                            $flag = 1;
-                            if ($flag == 1) {
-                                echo kv_radio(" ", 'Empl_' . $row['empl_id'], "WOP", null, false, "disabled='disabled'", 'Empl_' . $row['empl_id'].'_WOP', 'onchange="select_value(this.value,' . $row['empl_id'] . ')"');
-                            }
-                        }
-                    }if ($flag == 0) {
+                    }if ($flag == 0 && !$attendance_result23) {
                          unset($leave_query['type_leave = ']);
                         $leave_query['type_leave = '] = 7;//=====6 is Weekly of Leave IN DATABASE ====//
                         $is_approved = get_empl_approved_leaves($leave_query, 'kv_allocation_request');
                         $selected = $is_approved?'selected':null;
-                        echo kv_radio(" ", 'Empl_' . $row['empl_id'], "WOP", $selected, false, $disabled, 'Empl_' . $row['empl_id'].'_WOP', 'onchange="select_value(this.value,' . $row['empl_id'] . ')"');
+                        echo kv_radio(" ", 'Empl_' . $row['empl_id'], "WO", $selected, false, $disabled, 'Empl_' . $row['empl_id'].'_WO', 'onchange="select_value(this.value,' . $row['empl_id'] . ')"');
+                    }
+                    else
+                        echo kv_radio(" ", 'Empl_' . $row['empl_id'], "WO", NULL, false, $disabled, 'Empl_' . $row['empl_id'].'_WO', 'onchange="select_value(this.value,' . $row['empl_id'] . ')"');
+                    echo '</td><td>';
+                    
+                    
+                    if ((array_key_exists($row['empl_id'], $day_absentees) && $day_absentees[$row['empl_id']] == "WOP"))
+                        echo kv_radio(" ", 'Empl_' . $row['empl_id'], "WOP", "selected", false, $disabled, 'Empl_' . $row['empl_id'], 'onchange="select_value(this.value,' . $row['empl_id'] . ')"');
+                    else
+                        $flag = 0;
+                    while ($holiday_result = db_fetch($holiday_res)) {
+                        if ((date2sql($_POST['attendance_date']) >= $holiday_result['from_date']) && (date2sql($_POST['attendance_date']) <= $holiday_result['to_date'])) {
+                            $flag = 1;
+                            if ($flag == 1) {
+                                echo kv_radio(" ", 'Empl_' . $row['empl_id']."WOP", "WOP", null, false, "disabled='disabled'",'Empl_' . $row['empl_id'] . '_WOP');
+                            }
+                        }
+                    } if ($flag == 0) {
+                         if(in_array($day, explode(',',$woarr['weekly_off'])) && $attendance_result23){
+                        echo kv_radio(" ", 'Empl_' . $row['empl_id'], "WOP", 'selected', false, $disabled,'Empl_' . $row['empl_id'] . '_WOP');  
+                         }
+                         else
+                             echo kv_radio(" ", 'Empl_' . $row['empl_id'], "WOP", null, false, $disabled,'Empl_' . $row['empl_id'] . '_WOP');
                     }
                     echo '</td><td>';
+
+                   
 
                     if (array_key_exists($row['empl_id'], $day_absentees) && $day_absentees[$row['empl_id']] == "MTL")
                         echo kv_radio(" ", 'Empl_' . $row['empl_id'], "MTL", "selected", false, $disabled);
                     else
                         $flag = 0;
-                    $holiday_sql = "SELECT * FROM " . TB_PREF . "kv_holiday_master WHERE fisc_year = '" . $fiscal_year['0'] . "' AND inactive = 0";
-                    $holiday_res = db_query($holiday_sql);
+                
                     while ($holiday_result = db_fetch($holiday_res)) {
 
                         if ((date2sql($_POST['attendance_date']) >= $holiday_result['from_date']) && (date2sql($_POST['attendance_date']) <= $holiday_result['to_date'])) {
@@ -861,8 +838,7 @@ simple_page_mode(true);
                         echo kv_radio(" ", 'Empl_' . $row['empl_id'], "PTL", "selected", false, $disabled);
                     else
                         $flag = 0;
-                    $holiday_sql = "SELECT * FROM " . TB_PREF . "kv_holiday_master WHERE fisc_year = '" . $fiscal_year['0'] . "' AND inactive = 0";
-                    $holiday_res = db_query($holiday_sql);
+                
                     while ($holiday_result = db_fetch($holiday_res)) {
 
                         if ((date2sql($_POST['attendance_date']) >= $holiday_result['from_date']) && (date2sql($_POST['attendance_date']) <= $holiday_result['to_date'])) {
@@ -885,8 +861,7 @@ simple_page_mode(true);
                         echo kv_radio(" ", 'Empl_' . $row['empl_id'], "OTP", "selected", false, $disabled);
                     else
                         $flag = 0;
-                    $holiday_sql = "SELECT * FROM " . TB_PREF . "kv_holiday_master WHERE fisc_year = '" . $fiscal_year['0'] . "' AND inactive = 0";
-                    $holiday_res = db_query($holiday_sql);
+                
                     while ($holiday_result = db_fetch($holiday_res)) {
 
                         if ((date2sql($_POST['attendance_date']) >= $holiday_result['from_date']) && (date2sql($_POST['attendance_date']) <= $holiday_result['to_date'])) {
@@ -902,6 +877,7 @@ simple_page_mode(true);
                 }
             }
             end_table();
+            
             ?>
             <script type='text/javascript'>
                 //alert('hello');

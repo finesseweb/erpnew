@@ -8,7 +8,7 @@
 *****************************************/
 
 
-$page_security = 'SA_SELATTENDANCE';
+$page_security = 'SA_ATTENDANCEUSER';
 $path_to_root="../../..";
 include_once($path_to_root . "/includes/session.inc");
 include($path_to_root . "/includes/ui.inc");
@@ -17,6 +17,8 @@ include_once($path_to_root . "/includes/date_functions.inc");
 include_once($path_to_root . "/admin/db/fiscalyears_db.inc");
 include_once($path_to_root . "/includes/db_pager.inc");
 include_once($path_to_root . "/modules/ExtendedHRM/includes/Payroll.inc");
+
+include_once($path_to_root . "/attendance/function/function.php");
 add_access_extensions();
 $js = '';
 if($version_id['version_id'] == '2.4.1'){
@@ -67,7 +69,9 @@ page(_("Attendance Inquiry"));
 
 //$month = date("m");
 //----------------------------------------------------------------------------------------
-
+  $queryres = db_query(get_hours_list(1));
+                                    $dayhr = db_fetch_assoc($queryres);
+                                    $perdaytotaltimeinseconds = time_to_seconds(decimal_to_time($dayhr['full_day']));
 	start_form(true);
 		start_table(TABLESTYLE_NOBORDER);
 			echo '<tr>';
@@ -104,9 +108,11 @@ page(_("Attendance Inquiry"));
 				
 				echo  "<tr>
 					<td rowspan=2 class='tableheader'>" . _("Empl ID") . "</td>
-					<td rowspan=2 class='tableheader'>" . _("Empl Name") . "</td>					
+					<td rowspan=2 class='tableheader'>" . _("Empl Name") . "</td>	
+                                            <td rowspan=2 class='tableheader'>" . _("#") . "</td>
 					<td colspan=".$total_days." class='tableheader'>" . _(date("Y - F", strtotime($ext_year."-".$month."-01"))) . "</td>
-					<td rowspan=2 class='tableheader'>" . _("Working Days") . "</td>
+					  <td rowspan=2 class='tableheader'>" . _("#") . "</td>
+                                        <td rowspan=2 class='tableheader'>" . _("Wrk<br/>Days") . "</td>
 					<td rowspan=2 class='tableheader'>" . _("P") . "</td>
 					<td rowspan=2 class='tableheader'>" . _("HD") . "</td>
 					<td rowspan=2 class='tableheader'>" . _("CL") . "</td>
@@ -120,22 +126,30 @@ page(_("Attendance Inquiry"));
 					<td rowspan=2 class='tableheader'>" . _("MTL") . "</td>
 					<td rowspan=2 class='tableheader'>" . _("PTL") . "</td>
 					<td rowspan=2 class='tableheader'>" . _("OTP") . "</td>
-					<td rowspan=2 class='tableheader'>" . _("LOP Days") . "</td>
-                                        <td rowspan=2 class='tableheader'>" . _(" Late/Short Attendance") . "</td>
-					<td rowspan=2 class='tableheader'>" . _("Payable Days") . "</td>
+					<td rowspan=2 class='tableheader'>" . _("LOP") . "</td>
+                                            <td rowspan=2 class='tableheader'>" . _("Srt<br/>Attendance") . "</td>
+					<td rowspan=2 class='tableheader'>" . _("Pay<br/>Days") . "</td>
 					</tr><tr>";
 					$weekly_off = GetSingleValue('kv_empl_option','option_value', array('option_name'=>'weekly_off'));
 					$weekly_offdate= 0 ; 
                                         $weekly_off_arr = explode(',',$weekly_off);
+                                        $company_year = get_company_pref('f_year');
+                                        $fiscal_year = get_fiscalyear($company_year);
 					for($kv=1; $kv<=$total_days; $kv++){
-						if(in_array(date("D", strtotime($ext_year."-".$month."-".$kv)), $weekly_off_arr)){
-							echo "<td style='background-color:#e0db98' class='tableheader'>". _(date("D d", strtotime($ext_year."-".$month."-".$kv))) . "</td>";
+                                            $attendance_date = strtotime($ext_year."-".$month."-".$kv);
+                                             $holiday_date =  get_holiday_check(date("Y-m-d",$attendance_date), date("Y-m-d",$attendance_date), $fiscal_year[0]);
+						////[COMENTED TO MAKE SAT SUN WEEKLY OF BY ASHUTOSH 15-01-2019]if(date("D", strtotime($ext_year."-".$month."-".$kv))  == $weekly_off){
+                                            if(in_array(date("D", strtotime($ext_year."-".$month."-".$kv)), $weekly_off_arr)){
+							echo "<td style='background-color:#e0db98' class='tableheader'>"._(date("d", strtotime($ext_year."-".$month."-".$kv)))."<br/>". _(date("D", strtotime($ext_year."-".$month."-".$kv))) . "</td>";
 							if($weekly_offdate==0)
 								$weekly_offdate=$kv;
-						}else{
-							echo "<td class='tableheader'>". _(date("D d", strtotime($ext_year."-".$month."-".$kv))) . "</td>";
 						}
-						
+                                                else if($holiday_date){
+                                                    echo "<td style='background-color:#aadeaa' class='tableheader'>"._(date("d", strtotime($ext_year."-".$month."-".$kv)))."<br/>". _(date("D", strtotime($ext_year."-".$month."-".$kv))) . "</td>";
+                                                }
+                                                else{
+							echo "<td class='tableheader'>"._(date("d", strtotime($ext_year."-".$month."-".$kv)))."<br/>". _(date("D", strtotime($ext_year."-".$month."-".$kv))) . "</td>";
+						}
 					}
 					
 					echo "</tr>";
@@ -149,7 +163,13 @@ page(_("Attendance Inquiry"));
 					
 						$details_single_empl = GetRow('kv_empl_attendancee', array('month' => $month, 'year' => $year, 'empl_id' => $row['empl_id'])); 
 							
-						echo '<tr style="text-align:center"><td>'.$row['empl_id'].'</td><td>'.$row['empl_firstname'].'</td>';
+						echo '<tr style="text-align:center"><td>'.$row['empl_id'].'</td>'
+                                                        . '<td>'.$row['empl_firstname'].'</td>';
+                                                echo '<td><table class="tablestyle" width="100%">'
+                                                . '<tr style="text-align:center"><td>In</td></tr>'
+                                                . '<tr style="text-align:center"><td>Out</td></tr>'
+                                                . '<tr style="text-align:center"><td>wrk&nbsp;hrs.</td></tr>'
+                                                . '</table></td>';
 						$leave_Day = 0 ;
 						$present_days = 0;
 						$casual_leaves = 0;
@@ -167,33 +187,56 @@ page(_("Attendance Inquiry"));
 						$official_tour_present = 0;
 						$week_end=1;
 						$weekly_offdat = $weekly_offdate;
+                                                $working_days = $total_days;
+                                                $totalworkinghrs = 0;
 						for($kv=5; $kv<=$total_days+4; $kv++){
 							
-							/*if($weekly_offdat == $week_end){
-								$style="style='background-color: #fda8a8;'"; 
-								$week_end=1;
-								$weekly_offdat = 7;
-							}else{
-								$style=""; 
-								$week_end++;
-							}*/
-							$vj = $kv-4; 
-                                                        
-                                                          if(in_array(date("D", strtotime($ext_year."-".$month."-".$vj)),$weekly_off_arr)){
-								$style="style='background-color: #fda8a8;'"; 
+							//if($weekly_offdat == $week_end || $weekly_offdat2 == $week_end2){
+                                                    $vj = $kv-4; 
+                                                     $attendance_date = strtotime($ext_year."-".$month."-".$vj);
+                                                     $holiday_date =  get_holiday_check(date("Y-m-d",$attendance_date), date("Y-m-d",$attendance_date), $fiscal_year[0]);
+                                                  $logindetails = get_in_out_time_by_date($row['empl_id'], date("Y-m-d",$attendance_date));
+                                                 
+                                                  
+                                                   if(in_array(date("D", strtotime($ext_year."-".$month."-".$vj)),$weekly_off_arr)){
+								$style="style='background-color: #fda8a8; text-align:center; font-size:10px;font-weight:bolder;border-color:white;'"; 
                                                                 $week_end2 = 0;
 								$week_end=1;
 								$weekly_offdat = 7;
                                                                 $weekly_offdat2 = 7;
-							}else{
-								$style=""; 
+                                                                $working_days--;
+                                                                $str = 'WO';
+							}
+                                                        else if($holiday_date){
+                                                            $style="style='background-color: #cddeaa; text-align:center;font-size:10px;font-weight:bolder;border-color:white;'"; 
+                                                            $working_days--;
+                                                            $str = 'H';
+                                                        }
+                                                        else{
+								$style="style='text-align:center;font-size:10px;font-weight:bolder;border-color:white;'"; 
 								$week_end++;
                                                                 $week_end2+2;
+                                                                $str = '00:00:00';
 							}
-							$details_single_empl[$vj] = $details_single_empl[$vj]=='WOP'?'COP':$details_single_empl[$vj];
+							$details_single_empl[$vj] = $details_single_empl[$vj]=='WOP'?'WOP':$details_single_empl[$vj];
 							$details_single_empl[$vj] = $details_single_empl[$vj]=='WO'?'CO':$details_single_empl[$vj];
-							
-							echo '<td '.$style.' >'. ($details_single_empl[$vj]? $details_single_empl[$vj]: '-').'</td>';
+							$logindetail['a_in_time'] = $logindetails[0]?$logindetails[0]:0;
+                                                        $logindetail['a_out_time'] = $logindetails[1]?$logindetails[1]:0;
+                                                        $workingsec =  $logindetails[2]?$logindetails[2]:0;
+                                                        $timestr = decimal_to_time($workingsec/3600);
+							if(in_array($details_single_empl[$vj],array("P","HD","HP","WOP"))){
+							echo '<td><table class="tablestyle" width="100%"><tr style="text-align:center"><td '.$style.' >'. _($logindetails[0]?$logindetails[0]:$str).'</td></tr>';
+                                                        echo '<tr><td '.$style.' >'._($logindetails[1]?$logindetails[1]:$str).'</td></tr>';
+                                                       echo '<tr><td '.$style.' >'.$timestr.'</td>'
+                                                                . '</tr></table></td>';
+                                                        }
+                                                        else{
+                                                            echo '<td><table class="tablestyle" width="100%"><tr style="text-align:center"><td '.$style.' >'. _($details_single_empl[$vj]?$details_single_empl[$vj]:$str).'</td></tr>';
+                                                            echo '<tr><td '.$style.' >'._($details_single_empl[$vj]?$details_single_empl[$vj]:$str).'</td></tr>';
+                                                            echo '<tr><td '.$style.' >'._($details_single_empl[$vj]?$details_single_empl[$vj]:$str).'</td>'
+                                                                . '</tr></table></td>';
+                                                        }
+                                                       $totalworkinghrs+=time_to_seconds($timestr);
 							if($details_single_empl[$vj] == 'A')
 								$leave_Day += 1;
 							if($details_single_empl[$vj] == 'HD')
@@ -230,13 +273,51 @@ page(_("Attendance Inquiry"));
 						}
 						$Payable_days=$total_days-$leave_Day;
 						$tot_cls = $casual_leaves+$half_casual_leaves;
-						echo '<td>'.$total_days.' </td> <td>'.$present_days.'</td><td>'.$half_leaves_count.'</td> <td>'.$tot_cls.'</td> <td>'.$vacation_leaves.'</td> <td>'.$on_duty.'</td>  <td>'.$medical_leaves.'</td> <td>'.$spl_casual_leaves.'</td> <td>'.$holidays.'</td> <td>'.$holidays_present.'</td> <td>'.$week_off_present.'</td>  <td>'.$maternity_leaves_present.'</td> <td>'.$paternity_leaves_present.'</td> <td>'.$official_tour_present.'</td><td>'. $leave_Day .'</td> <td>'.(float)$man_sal_row['days_deducted'].'</td><td>'.($Payable_days - (float)$man_sal_row['days_deducted']).' </td>';
+                                                $totalhours = decimal_to_time(($perdaytotaltimeinseconds*$working_days)/3600);
+                                                $otpHours = decimal_to_time(($totalworkinghrs - ($perdaytotaltimeinseconds*$working_days))/3600);
+                                                
+                                                  echo '<td><table class="tablestyle" width="100%">'
+                                                . '<tr style="text-align:center;"><td style="font-size:10px;font-weight:bolder;">'.$totalhours.'</td></tr>'
+                                                . '<tr style="text-align:center;"><td style="font-size:10px;font-weight:bolder;">'.$otpHours.'</td></tr>'
+                                                . '<tr style="text-align:center;"><td style="font-size:10px;font-weight:bolder;">'. decimal_to_time($totalworkinghrs/3600).'</td></tr>'
+                                                . '</table></td>';
+						echo '<td>'.$working_days.' </td>'
+                                                        . '<td >'.$present_days.'</td>'
+                                                        . '<td >'.$half_leaves_count.'</td>'
+                                                        . '<td >'.$tot_cls.'</td>'
+                                                        . '<td >'.$vacation_leaves.'</td> '
+                                                        . '<td >'.$on_duty.'</td>  '
+                                                        . '<td >'.$medical_leaves.'</td> '
+                                                        . '<td >'.$spl_casual_leaves.'</td> '
+                                                        . '<td >'.$holidays.'</td> '
+                                                        . '<td >'.$holidays_present.'</td> '
+                                                        . '<td >'.$week_off_present.'</td>  '
+                                                        . '<td >'.$maternity_leaves_present.'</td> '
+                                                        . '<td >'.$paternity_leaves_present.'</td> '
+                                                        . '<td >'.$official_tour_present.'</td>'
+                                                        . '<td >'. $leave_Day .'</td> '
+                                                        . '<td >'. (float)$man_sal_row['days_deducted'] .'</td> '
+                                                        . '<td >'.($Payable_days - (float)$man_sal_row['days_deducted']).' </td>';
 						echo '<tr>';
 					}
 					echo '</table>';
 					echo '</div>';
 		//	end_table(1);
-		
+		function working_hours($row) {
+    $logout = strtotime($row['a_out_time']);
+    $login = strtotime($row['a_in_time']);
+   
+    $diff = $logout - $login;
+    $h_v =  explode(':', timeDiffrence($row['a_out_time'], $row['a_in_time']));
+  
+    if ($logout) {
+        $working_hours = $h_v[0] . ":" . $h_v[1] . ":" . $h_v[2];
+    } else {
+        $working_hours = '-';
+    }
+    return $working_hours;
+   
+}
 		div_end();
 	end_form();
  

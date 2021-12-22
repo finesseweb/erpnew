@@ -98,7 +98,7 @@ css:function(el, targetclass, action){
 addshimmy:function(target){
 	var shim=(!window.opera)? document.createElement("iframe") : document.createElement("div") //Opera 9.24 doesnt seem to support transparent IFRAMEs
 	shim.className="ddiframeshim"
-	shim.setAttribute("src", location.protocol=="https:"? this.httpsiframesrc : "about:blank")
+	shim.setAttribute("src", location.protocol=="http:"? this.httpsiframesrc : "about:blank")
 	shim.setAttribute("frameborder", "0")
 	target.appendChild(shim)
 	try{

@@ -645,8 +645,7 @@ function date_diff2($date1, $date2, $period) {
       months are assumed to be 30 days and years 365.25 days This only works
       provided that both dates are after 1970. Also only works for dates up to the year 2035 ish */
  // display_error($date2);
-    $date1 = date2sql($date1);
-    $date2 = date2sql($date2);
+    
    // $date1 = date('Y-m-d',strtotime($date1));
    // $date2 = date('Y-m-d',strtotime($date2));
     
@@ -656,7 +655,7 @@ function date_diff2($date1, $date2, $period) {
 
     $stamp1 = mktime(0, 0, 0, (int) $month1, (int) $day1, (int) $year1);
     $stamp2 = mktime(0, 0, 0, (int) $month2, (int) $day2, (int) $year2);
-    $difference = $stamp1 - $stamp2;
+    $difference =  $stamp2 - $stamp1;
 
     /* difference is the number of seconds between each date negative if date_ 2 > date_ 1 */
 
@@ -684,15 +683,15 @@ function calculate_holiday_leave($counter){
     return $total_count;
     
 }
-
+//===== new working function to calculate weekly of 30-0802021====[Ashu]//
 function calculate_weekly_off($date1, $date2, $day, $leave_type='', $trigger='', $calendar_year='') {
     $no = 0;
-    $start = new DateTime($date1);
-    $end = new DateTime($date2);
-    $interval = DateInterval::createFromDateString('1 day');
-    $period = new DatePeriod($start, $interval, $end);
-    
-    $days = strpos($day,",")>0?explode(',',$day):$day;
+    $start = strtotime($date1);
+    $end = strtotime($date2);
+$datediff = $end - $start;
+$datediffno = round($datediff / (60 * 60 * 24));
+$days = strpos($day,",")>0?explode(',',$day):$day;
+display_error($days);
     $week_days_no = array();
     if(is_array($days)){
         foreach($days as $day)
@@ -700,25 +699,29 @@ function calculate_weekly_off($date1, $date2, $day, $leave_type='', $trigger='',
     }
     else
     $week_days_no = days_in_no($days);
+    
     if ( !is_array($week_days_no) && $week_days_no == 0  ) {
         return 0;
     } else {
-        foreach ($period as $dt) {
+        for ($i=0;$i<=$datediffno; $i++) {
             if(is_array($week_days_no)){
             foreach($week_days_no as $day_no){
-            if ($dt->format('N') == $day_no) {
+                $incDate = date("Y-m-d",strtotime($date1."+$i day"));
+                $weekDayNo = date('N', strtotime($incDate));
+            if ($weekDayNo == $day_no) {
                 $no++;
             }
             }
             }
             else
             {
-                if ($dt->format('N') == $week_days_no) {
+                if ($weekDayNo == $week_days_no) {
                 $no++;
             }
             }
         } 
     }  
+    
     return $no;
 }
 

@@ -74,6 +74,13 @@ page(_($help_context = "Leave Request"), @$_REQUEST['popup'], false, "", $js);
 </html>  
 <?php
 simple_page_mode(true);
+$fisical = get_current_fiscalyear();
+
+$result = get_weekly_off();
+                $woarr = array();
+                    while ($weekly_off = db_fetch_assoc($result)) {
+                    $woarr[$weekly_off['option_name']] = $weekly_off['option_value'];
+                    }
 $selected_component = $selected_id;
 function download_link($row) {
 
@@ -89,6 +96,7 @@ if (isset($_GET['leave_status'])) {
 function display_employee_leave_status_records($selected_parent, $dept_id, $employee_id, $access_id, $from_date, $to_date) {
     
     $result = get_employee_leave_status_records($selected_parent, $dept_id, $employee_id, $access_id, $from_date, $to_date);
+   
     div_start('bom');
     start_table(TABLESTYLE, "width='60%'");
     $th = array(_("Employee Name"), _("Leave Type"), _("Reason"),
@@ -158,8 +166,27 @@ function on_edit($selected_parent, $selected_component = -1) {
     $approved_from_date = date2sql($_POST['approved_from_date']);
     $approved_to_date = date2sql($_POST['approved_to_date']);
     $today_date = date('Y-m-d');
-    update_leave_request($selected_component, $_POST['leave_status_type'], $_POST['no_of_days_approved'], $approved_from_date, $approved_to_date, $_POST['comments']);
+  update_leave_request($selected_component, $_POST['leave_status_type'], $_POST['no_of_days_approved'], $approved_from_date, $approved_to_date, $_POST['comments']);
     //update_allocation($selected_component,$_POST['dept_id'],$_POST['desig_group_id'],$_POST['desig_id'],$selected_parent,$_POST['type_leave'],$_POST['reason'],$today_date,$from_date,$to_date,$_POST['no_of_days'],$_POST['upload_file'],$_POST['filesize'],$_POST['filetype'],$_POST['unique_name'],$request_date);
+                                          
+  if($_POST['leave_status_type'] == 2){ //=======[if Leave is approved]
+                            for($i=0;$i<(int)$_POST['no_of_days_approved']; $i++){
+                                              $empl_id = $_POST['empl_id'];
+                                              $attendance_date = strtotime($approved_from_date."+$i day");
+                                              $month = date("m", $attendance_date);
+                                               $day = date("d", $attendance_date);
+                                               $year = get_fiscal_year_id_from_date(date("Y-m-d",$attendance_date));
+                                                $holiday_date =  get_holiday_check(date("Y-m-d",$attendance_date), date("Y-m-d",$attendance_date), $fisical['id']);
+                                            if (!db_has_day_attendancee($empl_id, $month, $year)) {
+                                                    add_employee_attendance($_POST['leave_code'], $empl_id, $month, $year, $day, $emplDetails['department_id']);
+                                                }
+                                                else {
+                                                        update_employee_attendance($_POST['leave_code'], $empl_id, $month, $year, $day);
+                                                    
+                                                }
+                                            }
+  }
+                                             
     $Mode = 'RESET';
     display_notification(_('Leave Request has been updated'));
 }
@@ -317,6 +344,8 @@ if (get_post('leave_status') != '') {
         }
         hidden('employee_name', $_POST['employee_name']);
         hidden('type_leave', $_POST['type_leave']);
+        hidden('leave_code', $leave_name['code']);
+        hidden('empl_id', $myrow["employees_id"]);
         hidden('reason', $_POST['reason']);
         hidden('no_of_days', $_POST['no_of_days']);
         hidden('from_date1', $_POST["from_date1"]);

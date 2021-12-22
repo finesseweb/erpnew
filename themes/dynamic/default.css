@@ -305,7 +305,7 @@ table.tablestyle tr td:empty {
 
 table.tablestyle td {
 	border-collapse: collapse;
-	/*border: 1px solid #e1e1e1;*/
+	padding:2px;
 	border: 1px solid #aaaaaa;
 	
 }

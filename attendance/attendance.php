@@ -21,8 +21,7 @@ if (!@$_GET['popup'])
 simple_page_mode(true);
 ?>
 <body oncontextmenu="return false">
-<?php
-
+<?php      
 function can_process() {
     if (strlen($_POST['password']) == 0) {
 		display_error(_("password can not be empty."));
@@ -41,8 +40,16 @@ function can_process() {
 date_default_timezone_set('Asia/Kolkata');
 if ($Mode == 'ADD_ITEM' || $Mode == 'UPDATE_ITEM') {
     $empl_id=$_SESSION['wa_current_user']->empl_id;
+      $emplDetails = db_fetch_assoc(getDepartment($empl_id));
+       $company_year = get_company_pref('f_year');
+       $fiscal_year = get_fiscalyear($company_year);
 	if(can_process()){
 		$update_pager = false;
+                $result = get_weekly_off();
+                $woarr = array();
+                    while ($weekly_off = db_fetch_assoc($result)) {
+                    $woarr[$weekly_off['option_name']] = $weekly_off['option_value'];
+                    }
 		if ($Mode == 'ADD_ITEM') {
 			$result = '';
                         $password= md5($_POST['password']);
@@ -56,26 +63,51 @@ if ($Mode == 'ADD_ITEM' || $Mode == 'UPDATE_ITEM') {
                                     $attendanceResult123 = db_fetch_row($val_attlist123);
                                     
                                     if($attendanceResult123[0]){
-                                        
                                         add_userAttendance($current_date1,$empl_id );
-                                        display_notification(_('Your attendance has been added'));
+                                        $attendance_date = strtotime($current_date1);
+                                              $month = date("m", $attendance_date);
+                                               $day = date("d", $attendance_date);
+                                               $weekday = date('D',$attendance_date);
+                                               $year = get_fiscal_year_id_from_date(date("Y-m-d",$attendance_date));
+                                           $holiday_date =  get_holiday_check(date("Y-m-d",$attendance_date), date("Y-m-d",$attendance_date), $fisical['id']);
+                                             
+                                             if (!db_has_day_attendancee($empl_id, $month, $year)) {
+                                            if(in_array($weekday, explode(',',$woarr['weekly_off']))){
+                                                 add_employee_attendance('WO', $empl_id, $month, $year, $day, $emplDetails['department_id']);
+                                            }
+                                            else if($holiday_date){
+                                                add_employee_attendance('H', $empl_id, $month, $year, $day, $emplDetails['department_id']);
+                                            }
+                                            else {
+                                                add_employee_attendance('P', $empl_id, $month, $year, $day, $emplDetails['department_id']);
+                                                 }
+                                             }else {
+                                                  if(in_array($weekday, explode(',',$woarr['weekly_off']))){
+                                                 update_employee_attendance('WO', $empl_id, $month, $year, $day); 
+                                            }
+                                            else if($holiday_date){
+                                               update_employee_attendance('H', $empl_id, $month, $year, $day); 
+                                            }
+                                            else {
+                                                update_employee_attendance('P', $empl_id, $month, $year, $day); 
+                                                 }
+                                                }
+                                            display_notification(_('Your attendance has been added'));
                                         $_SESSION['login_attendance']='TRUE';
-                                      
                                     }else {
                                         display_error(_('Please check your password '));
                                     }
-                                    
-                               /* }else {
-                                    display_notification(_('Some error please check once again'));
-                                }*/
-                                
 				$Mode = 'RESET';
 				$update_pager = true;
 		} 
-                
                 if ($Mode == 'UPDATE_ITEM') {
 			$result = '';
 			$current_Outdate=date('Y-m-d H:i:s');
+                        $attendance_date = strtotime($current_Outdate);
+                                              $month = date("m", $attendance_date);
+                                               $day = date("d", $attendance_date);
+                                               $weekday = date('D',$attendance_date);
+                                               $year = get_fiscal_year_id_from_date(date("Y-m-d",$attendance_date));
                         $att_sql=fetchInTime($empl_id); 
                         $val_attlist = db_query($att_sql);
                         $attendanceResult = db_fetch_row($val_attlist);
@@ -83,18 +115,23 @@ if ($Mode == 'ADD_ITEM' || $Mode == 'UPDATE_ITEM') {
                         $d2=strtotime($current_Outdate);
                         $password= md5($_POST['password']);
 				logout_attendance($empl_id, $password, $current_Outdate);
-                                $working_hours=$d2-$d1;
+                                $working_seconds=$d2-$d1;
                                 $att_sql123=fetchInTimeUserTableOut($empl_id); 
                                 $val_attlist123 = db_query($att_sql123);
                                 $attendanceResult123 = db_fetch_row($val_attlist123);
                                 if($attendanceResult123[0]){
-                                    update_Userattendance($current_Outdate,$empl_id,$working_hours);
+                                    $queryres = db_query(get_hours_list(1));
+                                    $rows = db_fetch_assoc($queryres);
+                                    update_Userattendance($current_Outdate,$empl_id,$working_seconds);
+                                     if (db_has_day_attendancee($empl_id, $month, $year)) {
+                                    $working_hours = $working_seconds/3600;
+                                    $code = $rows['full_day']<=$working_hours?"OTP":
+                                            $rows['half_day']>=$working_hours?"HD":"P";
+                                    update_employee_attendance($code, $empl_id, $month, $year, $day);
+                                     }
                                     display_notification(_('You are successfully logout'));
                                     unset($_SESSION['login_attendance']);
-                                }/*else {
-                                    display_error(_('Please check your password '));
-                                }*/
-                                
+                                }
 				$Mode = 'RESET';
 				$update_pager = true;
 		} 
@@ -130,9 +167,7 @@ if ($Mode == 'RESET') {
 
 start_form(true);
 
-$sql = getAttendanceList($_SESSION['wa_current_user']->loginname);
-$val_attendance = db_query($sql);
-$attendance_result = db_fetch_row($val_attendance);
+$attendance_result = get_in_out_time_by_date($_SESSION['wa_current_user']->empl_id, date("Y-m-d"));
 $inTimeVal=$attendance_result[0];
 $outTimeVal=$attendance_result[1];
 
@@ -140,7 +175,8 @@ $logout = strtotime($outTimeVal);
 $login = strtotime($inTimeVal);
 $diff=$logout-$login;
 if($logout)
-$working_hours= round($diff/60)." minutes ".($diff%60)." seconds";
+$working_hours = decimal_to_time($attendance_result[2]/3600);
+
 
 $inTimeVal1=explode(' ', $inTimeVal);
 $outTimeVal1=explode(' ', $outTimeVal);
@@ -177,7 +213,7 @@ $stock_img_link = "";
                         <ul style='list-style:none;'>
                             <li>In Time: $inTimeVal<li>
                             <li>Out Time: $outTimeVal<li>
-                            <li>Working Hours:<li>
+                            <li>Working Hours: $working_hours<li>
                         </ul>
                     </span>";
     }
